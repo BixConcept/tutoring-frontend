@@ -1,21 +1,29 @@
-.App {
-  text-align: center;
-}
+@import "_vars.scss";
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+header {
+  background-color: white;
+  width: 100vw;
+  height: 70px;
+
   display: flex;
-  flex-direction: column;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+  padding: 1px 20%;
+
+  *:nth-of-type(*) {
+  }
 }
 
-.App-link {
-  color: #61dafb;
+header * {
+  margin-right: 0 20px;
+}
+
+#logo {
+  height: 100%;
+  width: 70%;
 }
 
 body {
+  background-color: $background_color;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -27,4 +35,8 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.App {
+  width: 100%;
 }
