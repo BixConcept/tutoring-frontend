@@ -10,9 +10,8 @@ function Home() {
       <section id="main-thingy">
         <div id="title">
           <h1>Nachhilfe&shy;plattform oder so</h1>
-          <p>Wir haben keinen Inhalt aber hier steht ein Titel. </p>
         </div>
-        <div id="home-choices" style={{ margin: "0 10rem" }}>
+        <div id="home-choices">
           <div className="home-choice">
             <h1>Ich brauche Nachhilfe</h1>
             <i className="fas fa-user-graduate"></i>
@@ -29,7 +28,7 @@ function Home() {
           </div>
         </div>
       </section>
-      <section id="stats-section">
+      {/* <section id="stats-section">
         <h2 id="stat-title">Statistiken</h2>
         <div id="stats">
           <div className="stat">
@@ -45,7 +44,7 @@ function Home() {
             <h4>Nachhilfelehrer:innen</h4>
           </div>
         </div>
-      </section>
+      </section>*/}
     </main>
   );
 }
