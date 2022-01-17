@@ -1,0 +1,58 @@
+@import "./vars";
+
+nav {
+  width: 100vw;
+  height: 3rem;
+
+  background-color: white;
+
+  color: $not_quite_black;
+
+  ul {
+    list-style: none;
+    display: flex;
+
+    height: 100%;
+
+    align-items: center;
+    justify-content: space-between;
+
+    font-weight: bold;
+
+    padding: 0 20rem;
+
+    #navbar-logo img {
+      max-height: 2rem;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+
+      text-decoration: none;
+
+      color: $not_quite_black;
+
+      transition: color 0.2s;
+    }
+
+    a:hover {
+      color: lighten($not_quite_black, 20%);
+    }
+
+    #register {
+      background-color: #2ea44f;
+      * {
+        color: white;
+      }
+      border-radius: 5px;
+    }
+
+    #login-register {
+      display: flex;
+      * {
+        margin: 0.5rem;
+      }
+    }
+  }
+}

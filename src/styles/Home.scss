@@ -1,16 +1,104 @@
+@import "_vars.scss";
+
 main {
   width: 100%;
   min-height: 60vh;
 
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
   flex-direction: column;
 
-  background-color: white;
+  color: white;
 }
 
-#logo {
-  width: 400px;
+#main-thingy {
+  margin: 2rem 10rem;
+
+  display: flex;
+  #title {
+    flex: 1;
+    h1 {
+      margin: 0;
+      font-size: 100pt;
+      font-weight: bold;
+    }
+  }
+}
+
+#home-choices {
+  flex: 2;
+
+  display: flex;
+
+  flex-direction: column;
+
+  color: $not_quite_black;
+
+  .home-choice {
+    background-color: white;
+    border-radius: 0.5rem;
+
+    text-align: left;
+
+    margin: 1rem;
+    padding: 1rem;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: stretch;
+
+    * {
+      flex: 1; // to make the icon reach the bottom
+    }
+
+    i {
+      text-align: center;
+      width: 100%;
+      font-size: 6rem;
+    }
+  }
+}
+
+p {
+  font-size: 16pt;
+}
+
+#stats-section {
+  background-color: darken($background_color, 5%);
+  width: 100%;
+  padding: 1rem 10rem;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 1rem 0;
+    margin-bottom: 2rem;
+  }
+
+  #stats {
+    width: 50%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 4rem;
+  }
+
+  .stat h3 {
+    text-align: center;
+    font-size: 6rem;
+    margin: 0;
+  }
+
+  .stat h4 {
+    text-align: center;
+    margin: 0;
+    font-size: 20pt;
+  }
 }

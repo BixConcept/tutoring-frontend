@@ -1,12 +1,16 @@
-import "../styles/";
+import "../styles/Navbar.scss";
 
 function Navbar() {
   return (
-    <header className="App-header">
+    <nav>
       <ul>
-        <li></li>
+        <li id="navbar-logo"><a href="/"><img src="/images/gymhaan_logo_neu.png" alt="" /> Home</a></li>
+        <div id="login-register">
+          <li id="register"><a href="/register">Register</a></li>
+          <li><a href="/login">Login</a></li>
+        </div>
       </ul>
-    </header>
+    </nav>
   );
 }
 
