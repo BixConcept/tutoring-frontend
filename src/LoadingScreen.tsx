@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Logo from "./logo.svg";
+import Logo from "./assets/images/logo.svg";
 import "./styles/LoadingScreen.scss";
 
 function LoadingScreen() {
