@@ -20,7 +20,7 @@ function Home() {
             <p>
               Unsere Schule sieht sich als Europa-Schule mit Europa sehr stark
               verbunden. Außerdem hat unsere Schule 1000 verschiedene Siegel,
-              einfach nur weil wir es können. Unter Anderem sind wir äußerst
+              einfach nur weil wir es können. Unter anderem sind wir äußerst
               stolz auf unser Fair-Trade Siegel und unser Berufswahl Siegel. Wir
               sehen uns als Schule von Morgen und als ein Raum der
               Lernentwicklung des einzelnen Individuums. Daher haben wir auf
