@@ -1,6 +1,7 @@
 import "./styles/Home.scss";
 
 function Home() {
+  document.title = "Nachhilfe GymHaan"
   // TODO: actual data
   const requestsPerMonth = 12;
   const numTutors = 12;
