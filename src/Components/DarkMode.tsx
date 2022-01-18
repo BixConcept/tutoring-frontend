@@ -1,29 +1,32 @@
-import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import "../styles/darkModeButton.scss";
 
 const DarkMode = () => {
   const body = document.body;
-  let theme: string = "light";
+  const [theme, setTheme] = useState("light");
 
-  if (localStorage) {
-    let value = localStorage.getItem("theme");
-    if (value === "light" || value === "dark") {
-      body.classList.add(value);
-      theme = value;
-    } else {
-      body.classList.add("light");
+  useEffect(() => {
+    if (localStorage) {
+      let value = localStorage.getItem("theme");
+      if (value === "light" || value === "dark") {
+        body.classList.add(value);
+        setTheme(value);
+      } else {
+        body.classList.add("light");
+      }
     }
-  }
+  }, []);
 
   const toggleDarkMode = () => {
     if (theme === "dark") {
       body.classList.replace("dark", "light");
       localStorage.setItem("theme", "light");
-      theme = "light";
+      setTheme("light");
     } else {
       body.classList.replace("light", "dark");
       localStorage.setItem("theme", "dark");
-      theme = "dark";
+      setTheme("dark");
     }
   };
 
