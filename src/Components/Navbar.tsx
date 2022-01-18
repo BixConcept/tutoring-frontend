@@ -1,17 +1,18 @@
 import "../styles/Navbar.scss";
+import {Link} from "react-router-dom";
 
 function Navbar() {
   return (
     <nav>
       <ul>
         <li id="navbar-logo">
-          <a href="/">
+          <Link to="/">
             <img src="/images/gymhaan_logo_neu.png" alt="" />
-          </a>
+          </Link>
         </li>
         <div id="login-register">
           <li>
-            <a href="/login">Login</a>
+            <Link to="/login">Login</Link>
           </li>
         </div>
       </ul>
