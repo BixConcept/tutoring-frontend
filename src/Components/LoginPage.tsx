@@ -22,36 +22,47 @@ function LoginPage() {
   return (
     <div id="login">
       <h1>Login</h1>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          login();
-        }}
-      >
-        <input
-          type="username"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Name"
-          required
-        />
-        <input
-          type={pwType}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Passwort"
-          required
-        />
-        <button
-          onClick={(e) => {
+      <div className="input-fields">
+        <form
+          onSubmit={(e) => {
             e.preventDefault();
-            changePwType();
+            login();
           }}
         >
-          <FontAwesomeIcon icon={pwType === "password" ? faEye : faEyeSlash} />
-        </button>
-        <input type="submit" value="Login" />
-      </form>
+          <div className="input-field">
+            <input
+              type="username"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Name"
+              required
+            />
+          </div>
+
+          <div className="password-field">
+            <input
+              type={pwType}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Passwort"
+              required
+            />
+          </div>
+
+          <button
+            className="password-eye"
+            onClick={(e) => {
+              e.preventDefault();
+              changePwType();
+            }}
+          >
+            <FontAwesomeIcon
+              icon={pwType === "password" ? faEye : faEyeSlash}
+            />
+          </button>
+          <input type="submit" value="Login" id="submit" />
+        </form>
+      </div>
     </div>
   );
 }
