@@ -18,15 +18,15 @@ function Home() {
             <p>
               Unsere Schule sieht sich als Europa-Schule mit Europa sehr stark
               verbunden. Außerdem hat unsere Schule 1000 verschiedene Siegel,
-              einfach nur weil wir es können. Unter Anderem sind wir äußerst
+              einfach nur weil wir es können. Unter anderem sind wir äußerst
               stolz auf unser Fair-Trade Siegel und unser Berufswahl Siegel. Wir
               sehen uns als Schule von Morgen und als ein Raum der
               Lernentwicklung des einzelnen Individuums. Daher haben wir auf
-              Nachfrage der SV ein Ort geschaffen, wo Schülern Schülern helfen.
-              Wir haben eine Nachhilfeplattform geschaffen, wo jeder mitmachen
-              kann. Brauchst du Nachhilfe? Wir finden einen netten Schüler der
-              dir Nachhilfe gibt. Bist so besagter netter Schüler? Wir brauchen
-              dich! Trage dich als Nachhilfe gebender ein und besser dir dein
+              Nachfrage der SV einen Ort geschaffen, an dem Schüler Schülern helfen.
+              Wir haben eine Nachhilfeplattform geschaffen, an der jeder mitmachen
+              kann. Brauchst du Nachhilfe? Wir finden einen netten Schüler, der
+              dir Nachhilfe gibt. Bist ein so besagter netter Schüler? Wir brauchen
+              dich! Trage dich als Nachhilfe Gebender ein und besser dir dein
               Taschengeld auf, mit dem du noch mehr konsumieren und den Zerfall
               der westlichen Zivilisation vorantreiben kannst.
             </p>
