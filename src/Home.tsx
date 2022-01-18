@@ -9,7 +9,9 @@ function Home() {
     <main>
       <section id="main-thingy">
         <div id="title">
-          <h1>Nachhilfe&shy;plattform oder so</h1>
+          <h1>
+            <span>Nachhilfe&shy;plattform oder so</span>
+          </h1>
         </div>
       </section>
       <section id="apply-section">
@@ -22,21 +24,27 @@ function Home() {
               stolz auf unser Fair-Trade Siegel und unser Berufswahl Siegel. Wir
               sehen uns als Schule von Morgen und als ein Raum der
               Lernentwicklung des einzelnen Individuums. Daher haben wir auf
-              Nachfrage der SV einen Ort geschaffen, an dem Schüler Schülern helfen.
-              Wir haben eine Nachhilfeplattform geschaffen, an der jeder mitmachen
-              kann. Brauchst du Nachhilfe? Wir finden einen netten Schüler, der
-              dir Nachhilfe gibt. Bist ein so besagter netter Schüler? Wir brauchen
-              dich! Trage dich als Nachhilfe Gebender ein und besser dir dein
+              Nachfrage der SV ein Ort geschaffen, wo Schüler Schülern helfen.
+              Wir haben eine Nachhilfeplattform geschaffen, wo jeder mitmachen
+              kann. Brauchst du Nachhilfe? Wir finden einen netten Schüler der
+              dir Nachhilfe gibt. Bist du ein netter Schüler? Wir brauchen dich!
+              Trage dich als Nachhilfe gebender ein und besser dir dein
               Taschengeld auf, mit dem du noch mehr konsumieren und den Zerfall
               der westlichen Zivilisation vorantreiben kannst.
             </p>
           </div>
           <div id="home-choices">
             <div className="home-choice">
-              <h1>Ich brauche Nachhilfe</h1>
+              <a href="/register">
+                <h1>Ich brauche Nachhilfe</h1>
+              </a>
             </div>
             <div className="home-choice">
-              <h1>Ich möchte Nachhilfe geben</h1>
+              <h1>
+                <a href="/register">
+                  Ich möchte <span>Nachhilfe geben</span>
+                </a>
+              </h1>
             </div>
           </div>
         </div>

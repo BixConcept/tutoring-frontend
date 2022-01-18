@@ -12,7 +12,7 @@ main {
 }
 
 #main-thingy {
-  background-image: url("../assets/images/background.jpg");
+  background-image: url("../assets/images/background.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -29,7 +29,7 @@ main {
       margin: 0;
       font-size: 100pt;
       font-weight: bold;
-      color: white;
+      color: black;
     }
   }
 }
@@ -42,6 +42,8 @@ main {
   flex: 2;
   display: flex;
   flex-direction: row;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .information-text {
@@ -59,6 +61,20 @@ main {
   }
 }
 
+span {
+  /*replace px*/
+  padding-left: 5px;
+  padding-right: 5px;
+  background: linear-gradient(
+      transparent,
+      transparent 42%,
+      $background_color 0,
+      $background_color 90%,
+      transparent 0
+    )
+    no-repeat;
+}
+
 #home-choices {
   flex: 2;
 
@@ -71,6 +87,7 @@ main {
   color: $not_quite_black;
 
   .home-choice {
+    cursor: pointer;
     background-color: #faf9f6;
     border-radius: 0.5rem;
     -moz-box-shadow: inset 0 0 5px #c9c9c9;
@@ -91,6 +108,7 @@ main {
 
     display: flex;
     flex-direction: column;
+    max-width: 35em;
 
     align-items: stretch;
 
@@ -103,11 +121,23 @@ main {
       width: 100%;
       font-size: 6rem;
     }
+
+    span {
+      padding-left: 2px;
+    }
   }
 }
 
 p {
   font-size: 16pt;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: $not_quite_black;
 }
 
 #stats-section {
@@ -168,7 +198,7 @@ p {
   }
 
   #home-choices {
-    flex-direction: row;
+    flex-direction: column;
   }
 }
 
