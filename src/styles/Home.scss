@@ -17,14 +17,16 @@ main {
   background-size: cover;
   background-position: center;
 
-  height: 300px;
+  height: 400px;
   width: 100%;
 
   color: $not_quite_black;
 
   display: flex;
+  justify-content: center;
+  align-items: center;
+
   #title {
-    flex: 1;
     h1 {
       margin: 0;
       font-size: 100pt;
@@ -39,22 +41,16 @@ main {
 }
 
 .apply-flex-container {
-  flex: 2;
   display: flex;
   flex-direction: row;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding: 0 2rem;
 }
 
 .information-text {
   flex: 2;
   display: flex;
 
-  margin: 1rem;
-  padding: 1rem;
-
   flex-direction: column;
-  align-items: stretch;
 
   p {
     color: black;
@@ -63,8 +59,7 @@ main {
 
 span {
   /*replace px*/
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 0 5px;
   background: linear-gradient(
       transparent,
       transparent 42%,
@@ -138,42 +133,6 @@ a {
 
 a:visited {
   color: $not_quite_black;
-}
-
-#stats-section {
-  background-color: darken($background_color, 5%);
-  width: 100%;
-  padding: 1rem 10rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin: 1rem 0;
-    margin-bottom: 2rem;
-  }
-
-  #stats {
-    width: 50%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 4rem;
-  }
-
-  .stat h3 {
-    text-align: center;
-    font-size: 6rem;
-    margin: 0;
-  }
-
-  .stat h4 {
-    text-align: center;
-    margin: 0;
-    font-size: 20pt;
-  }
 }
 
 @media screen and (min-width: 2101px) {
