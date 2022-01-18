@@ -43,11 +43,10 @@ main {
 .apply-flex-container {
   display: flex;
   flex-direction: row;
-  padding: 0 2rem;
 }
 
 .information-text {
-  flex: 2;
+  flex: 3;
   display: flex;
 
   flex-direction: column;
@@ -57,7 +56,7 @@ main {
   }
 }
 
-span {
+.backdrop {
   /*replace px*/
   padding: 0 5px;
   background: linear-gradient(
@@ -74,10 +73,7 @@ span {
   flex: 2;
 
   display: flex;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
   flex-direction: column;
-  width: 50%;
 
   color: $not_quite_black;
 
@@ -99,11 +95,12 @@ span {
     margin: 1rem;
     padding: 1rem;
 
+    margin-left: 3rem;
+
     flex: 1;
 
     display: flex;
     flex-direction: column;
-    max-width: 35em;
 
     align-items: stretch;
 
@@ -119,6 +116,10 @@ span {
 
     span {
       padding-left: 2px;
+    }
+
+    a {
+      color: $not_quite_black;
     }
   }
 }
@@ -136,14 +137,26 @@ a:visited {
 }
 
 @media screen and (min-width: 2101px) {
-  #main-thingy {
-    padding: 10rem 25rem;
+  #apply-section {
+    padding: 5rem 20rem;
+
+    .apply-flex-container {
+      align-items: space-between;
+    }
+  }
+
+  #home-choices {
+    flex-direction: row;
   }
 }
 
 @media screen and (max-width: 2100px) and (min-width: 1801px) {
   #home-choices {
     flex-direction: column;
+  }
+
+  #apply-section {
+    padding: 5rem 10rem;
   }
 }
 
@@ -159,6 +172,10 @@ a:visited {
   #home-choices {
     flex-direction: column;
   }
+
+  #apply-section {
+    padding: 5rem 10rem;
+  }
 }
 
 @media screen and (max-width: 1300px) {
@@ -168,12 +185,35 @@ a:visited {
     #title h1 {
       font-size: 50pt;
     }
+  }
+  .apply-flex-container {
+    flex-direction: column-reverse;
+  }
 
-    #home-choices {
-      flex: 1;
+  #home-choices {
+    flex: 1;
+    margin: 0;
+
+    padding: 0;
+
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 1rem;
+
+    .home-choice {
       margin: 0;
-
-      flex-direction: column;
+      width: 100%;
     }
+
+    flex-direction: row;
+  }
+  #apply-section {
+    padding: 5rem 10rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  #apply-section {
+    padding: 5rem;
   }
 }
