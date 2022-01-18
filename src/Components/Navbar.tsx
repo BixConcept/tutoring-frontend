@@ -1,6 +1,7 @@
 import "../styles/Navbar.scss";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import DarkMode from "./DarkMode";
 
 function Navbar() {
   const [switchState, setSwitchState] = useState(false);
@@ -13,16 +14,7 @@ function Navbar() {
           </Link>
         </li>
         <li>
-          <div id="dark-mode-switch">
-            <label className="toggle">
-              <input
-                type="checkbox"
-                onChange={(e) => setSwitchState(e.target.checked)}
-              />
-              <span className="slider"></span>
-              <span className="labels"></span>
-            </label>
-          </div>
+          <DarkMode />
         </li>
         <li>
           <div id="login-register">

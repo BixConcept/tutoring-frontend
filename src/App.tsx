@@ -1,6 +1,6 @@
-import Home from "./Home";
+import Home from "./pages/Home";
 import Navbar from "./Components/Navbar";
-import LoginPage from "./Components/LoginPage";
+import LoginPage from "./pages/LoginPage";
 import "./styles/App.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 

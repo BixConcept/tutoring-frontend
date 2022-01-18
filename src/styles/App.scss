@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: $background_color;
+  background-color: var(--background_color);
 
   margin: 0 !important;
   padding: 0 !important;
@@ -17,7 +17,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body.light {
+  --background_color: $fff;
+  --text_color: #23272a; // stolen from the discord landing page. better readability than pure black.
+}
+
+body.dark {
+  --background_color: #222;
+  --text_color: #fff;
+}
+
 * {
   box-sizing: border-box;
 }
-

@@ -7,8 +7,6 @@ main {
   display: flex;
   align-items: center;
   flex-direction: column;
-
-  color: white;
 }
 
 #main-thingy {
@@ -20,7 +18,7 @@ main {
   height: 400px;
   width: 100%;
 
-  color: $not_quite_black;
+  color: var(--text_color);
 
   display: flex;
   justify-content: center;
@@ -31,13 +29,14 @@ main {
       margin: 0;
       font-size: 100pt;
       font-weight: bold;
-      color: black;
+      color: $not_quite_black;
     }
   }
 }
 
 #apply-section {
-  background-color: white;
+  background-color: var(--background_color);
+  color: var(--text_color);
 }
 
 .apply-flex-container {
@@ -52,7 +51,7 @@ main {
   flex-direction: column;
 
   p {
-    color: black;
+    color: var(--text_color);
   }
 }
 
@@ -62,8 +61,8 @@ main {
   background: linear-gradient(
       transparent,
       transparent 42%,
-      $background_color 0,
-      $background_color 90%,
+      $primary_color 0,
+      $primary_color 90%,
       transparent 0
     )
     no-repeat;
@@ -119,7 +118,7 @@ main {
     }
 
     a {
-      color: $not_quite_black;
+      color: var(--text_color);
     }
   }
 }
