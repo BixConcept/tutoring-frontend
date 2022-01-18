@@ -11,20 +11,33 @@ function Home() {
         <div id="title">
           <h1>Nachhilfe&shy;plattform oder so</h1>
         </div>
-        <div id="home-choices">
-          <div className="home-choice">
-            <h1>Ich brauche Nachhilfe</h1>
-            <i className="fas fa-user-graduate"></i>
-          </div>
-          <div className="home-choice">
-            <h1>Ich möchte Nachhilfe geben</h1>
-            <i className="fas fa-chalkboard-teacher"></i>
+      </section>
+      <section id="apply-section">
+        <div className="apply-flex-container">
+          <div className="information-text">
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque
-              beatae, porro nesciunt cupiditate atque numquam cum iure, officia
-              labore ipsum maiores tempora aliquam eum! Quod nobis corporis
-              itaque ut perferendis.
+              Unsere Schule sieht sich als Europa-Schule mit Europa sehr stark
+              verbunden. Außerdem hat unsere Schule 1000 verschiedene Siegel,
+              einfach nur weil wir es können. Unter Anderem sind wir äußerst
+              stolz auf unser Fair-Trade Siegel und unser Berufswahl Siegel. Wir
+              sehen uns als Schule von Morgen und als ein Raum der
+              Lernentwicklung des einzelnen Individuums. Daher haben wir auf
+              Nachfrage der SV ein Ort geschaffen, wo Schülern Schülern helfen.
+              Wir haben eine Nachhilfeplattform geschaffen, wo jeder mitmachen
+              kann. Brauchst du Nachhilfe? Wir finden einen netten Schüler der
+              dir Nachhilfe gibt. Bist so besagter netter Schüler? Wir brauchen
+              dich! Trage dich als Nachhilfe gebender ein und besser dir dein
+              Taschengeld auf, mit dem du noch mehr konsumieren und den Zerfall
+              der westlichen Zivilisation vorantreiben kannst.
             </p>
+          </div>
+          <div id="home-choices">
+            <div className="home-choice">
+              <h1>Ich brauche Nachhilfe</h1>
+            </div>
+            <div className="home-choice">
+              <h1>Ich möchte Nachhilfe geben</h1>
+            </div>
           </div>
         </div>
       </section>

@@ -12,11 +12,13 @@ main {
 }
 
 #main-thingy {
-  background-image: url("../../public/images/classroom.webp");
+  background-image: url("../assets/images/background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
 
-  padding: 10rem;
+  height: 300px;
+  width: 100%;
 
   color: $not_quite_black;
 
@@ -27,7 +29,33 @@ main {
       margin: 0;
       font-size: 100pt;
       font-weight: bold;
+      color: white;
     }
+  }
+}
+
+#apply-section {
+  background-color: white;
+}
+
+.apply-flex-container {
+  flex: 2;
+  display: flex;
+  flex-direction: row;
+}
+
+.information-text {
+  flex: 2;
+  display: flex;
+
+  margin: 1rem;
+  padding: 1rem;
+
+  flex-direction: column;
+  align-items: stretch;
+
+  p {
+    color: black;
   }
 }
 
@@ -35,14 +63,24 @@ main {
   flex: 2;
 
   display: flex;
-
-  flex-direction: row;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  flex-direction: column;
+  width: 50%;
 
   color: $not_quite_black;
 
   .home-choice {
-    background-color: white;
+    background-color: #faf9f6;
     border-radius: 0.5rem;
+    -moz-box-shadow: inset 0 0 5px #c9c9c9;
+    -webkit-box-shadow: inset 0 0 5px #c9c9c9;
+    box-shadow: inset 0 0 5px #c9c9c9;
+
+    background-image: url("../assets/images/logo-black.png");
+    background-repeat: no-repeat;
+    background-blend-mode: overlay;
+    background-position: right;
 
     text-align: left;
 
