@@ -1,4 +1,4 @@
-import "../styles/loginPage.scss";
+import css from "../styles/loginPage.module.scss";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -20,16 +20,16 @@ function LoginPage() {
   };
 
   return (
-    <div id="login">
+    <div id={css.login}>
       <h1>Login</h1>
-      <div className="input-fields">
+      <div className={css["inputFields"]}>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             login();
           }}
         >
-          <div className="input-field">
+          <div className={css.inputField}>
             <input
               type="username"
               value={name}
@@ -39,7 +39,7 @@ function LoginPage() {
             />
           </div>
 
-          <div className="password-field">
+          <div className={css.passwordField}>
             <input
               type={pwType}
               value={password}
@@ -50,7 +50,7 @@ function LoginPage() {
             />
 
             <button
-              className="password-eye"
+              className={css.passwordEye}
               onClick={(e) => {
                 e.preventDefault();
                 changePwType();
@@ -61,7 +61,7 @@ function LoginPage() {
               />
             </button>
           </div>
-          <input type="submit" value="Login" id="submit" />
+          <input type="submit" value="Login" id={css.submit} />
         </form>
       </div>
     </div>

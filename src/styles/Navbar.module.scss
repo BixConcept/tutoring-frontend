@@ -22,7 +22,7 @@ nav {
     padding: 0 3rem;
     margin: 0;
 
-    #navbar-logo img {
+    #logo img {
       max-height: 3.7rem;
     }
 
@@ -41,15 +41,7 @@ nav {
       color: lighten($not_quite_black, 20%);
     }
 
-    #register {
-      background-color: #2ea44f;
-      * {
-        color: white;
-      }
-      border-radius: 5px;
-    }
-
-    #login-register {
+    #loginRegister {
       display: flex;
       * {
         margin: 0.5rem;

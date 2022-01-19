@@ -9,7 +9,7 @@ main {
   flex-direction: column;
 }
 
-#main-thingy {
+#mainThingy {
   background-image: url("../assets/images/background.png");
   background-repeat: no-repeat;
   background-size: cover;
@@ -34,17 +34,17 @@ main {
   }
 }
 
-#apply-section {
+#applySection {
   background-color: var(--background_color);
   color: var(--text_color);
 }
 
-.apply-flex-container {
+.applyFlexContainer {
   display: flex;
   flex-direction: row;
 }
 
-.information-text {
+.informationText {
   flex: 3;
   display: flex;
 
@@ -68,7 +68,7 @@ main {
     no-repeat;
 }
 
-#home-choices {
+#choices {
   flex: 2;
 
   display: flex;
@@ -76,7 +76,7 @@ main {
 
   color: $not_quite_black;
 
-  .home-choice {
+  .choice {
     cursor: pointer;
     background-color: var(--contrast_bg_color);
     border-radius: 0.5rem;
@@ -135,21 +135,21 @@ a:visited {
 }
 
 @media screen and (min-width: 2101px) {
-  #apply-section {
+  #applySection {
     padding: 5rem 20rem;
 
-    .apply-flex-container {
+    .applyFlexContainer {
       align-items: space-between;
     }
   }
 
-  #home-choices {
+  #choices {
     flex-direction: row;
   }
 }
 
 @media screen and (max-width: 2100px) and (min-width: 1801px) {
-  #home-choices {
+  #choices {
     flex-direction: column;
   }
 
@@ -159,7 +159,7 @@ a:visited {
 }
 
 @media screen and (max-width: 1800px) and (min-width: 1301px) {
-  #main-thingy {
+  #mainThingy {
     flex-direction: column;
     padding: 3rem;
     #title h1 {
@@ -167,28 +167,28 @@ a:visited {
     }
   }
 
-  #home-choices {
+  #choices {
     flex-direction: column;
   }
 
-  #apply-section {
+  #applySection {
     padding: 5rem 10rem;
   }
 }
 
 @media screen and (max-width: 1300px) {
-  #main-thingy {
+  #mainThingy {
     flex-direction: column;
     padding: 2rem;
     #title h1 {
       font-size: 50pt;
     }
   }
-  .apply-flex-container {
+  .applyFlexContainer {
     flex-direction: column-reverse;
   }
 
-  #home-choices {
+  #choices {
     flex: 1;
     margin: 0;
 
@@ -198,20 +198,20 @@ a:visited {
     grid-template-rows: 1fr 1fr;
     row-gap: 1rem;
 
-    .home-choice {
+    .choice {
       margin: 0;
       width: 100%;
     }
 
     flex-direction: row;
   }
-  #apply-section {
+  #applySection {
     padding: 5rem 10rem;
   }
 }
 
 @media screen and (max-width: 800px) {
-  #apply-section {
+  #applySection {
     padding: 5rem;
   }
 }

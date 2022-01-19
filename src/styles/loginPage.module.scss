@@ -18,7 +18,7 @@
   box-shadow: inset 0 0 5px #c9c9c9;
 }
 
-.input-fields {
+.inputFields {
   width: 60%;
   form {
     display: flex;
@@ -45,7 +45,7 @@
   cursor: pointer;
 }
 
-.input-field {
+.inputField {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   width: 100%;
@@ -61,7 +61,7 @@
   }
 }
 
-.password-field {
+.passwordField {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 
@@ -83,7 +83,7 @@
   }
 }
 
-.password-eye {
+.passwordEye {
   width: 10%;
   align-self: flex-end;
 }

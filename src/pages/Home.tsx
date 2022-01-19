@@ -1,4 +1,4 @@
-import "../styles/Home.scss";
+import css from "../styles/Home.module.scss";
 
 function Home() {
   document.title = "Nachhilfe GymHaan";
@@ -8,16 +8,16 @@ function Home() {
 
   return (
     <main>
-      <section id="main-thingy">
-        <div id="title">
+      <section id={css.mainThingy}>
+        <div id={css.title}>
           <h1>
-            <span className="backdrop">Nachhilfeplattform</span>
+            <span className={css.backdrop}>Nachhilfeplattform</span>
           </h1>
         </div>
       </section>
-      <section id="apply-section">
-        <div className="apply-flex-container">
-          <div className="information-text">
+      <section id={css.applySection}>
+        <div className={css.applyFlexContainer}>
+          <div className={css.informationText}>
             <p>
               Unsere Schule sieht sich als Europa-Schule mit Europa sehr stark
               verbunden. Außerdem hat unsere Schule 1000 verschiedene Siegel,
@@ -42,13 +42,13 @@ function Home() {
               Zivilisation vorantreiben kannst.
             </p>
           </div>
-          <div id="home-choices">
-            <div className="home-choice">
+          <div id={css.choices}>
+            <div className={css.choice}>
               <a href="/find">
                 <h1>Ich brauche Nachhilfe</h1>
               </a>
             </div>
-            <div className="home-choice">
+            <div className={css.choice}>
               <h1>
                 <a href="/register">
                   Ich möchte <span>Nachhilfe geben</span>

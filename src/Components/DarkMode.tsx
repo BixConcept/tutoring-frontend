@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import "../styles/darkModeButton.scss";
+import css from "../styles/darkModeButton.module.scss";
 
 const DarkMode = () => {
   const body = document.body;
@@ -31,15 +31,15 @@ const DarkMode = () => {
   };
 
   return (
-    <div id="dark-mode-switch">
-      <label className="toggle">
+    <div id={css.switch}>
+      <label className={css.toggle}>
         <input
           type="checkbox"
           onChange={() => toggleDarkMode()}
           checked={theme === "dark"}
         />
-        <span className="slider"></span>
-        <span className="labels"></span>
+        <span className={css.slider}></span>
+        <span className={css.labels}></span>
       </label>
     </div>
   );

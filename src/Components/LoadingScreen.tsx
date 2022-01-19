@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Logo from "./assets/images/logo.svg";
-import "./styles/LoadingScreen.scss";
+import css from "./styles/LoadingScreen.module.scss";
 
 function LoadingScreen() {
   const [loaded, setLoaded] = useState(false);

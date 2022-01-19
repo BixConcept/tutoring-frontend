@@ -1,25 +1,21 @@
-import "../styles/Navbar.scss";
+import css from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import DarkMode from "./DarkMode";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar() {
-
   return (
     <nav>
       <ul>
-        <li id="navbar-logo">
+        <li id={css.logo}>
           <Link to="/">
             <img src="/images/gymhaan_logo_neu.png" alt="" />
           </Link>
         </li>
         <li>
-          <DarkMode/>
+          <DarkMode />
         </li>
         <li>
-          <div id="login-register">
+          <div id={css.loginRegister}>
             <Link to="/login">
               <span>Login</span>
             </Link>
