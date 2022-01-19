@@ -33,7 +33,7 @@ function Home() {
             <p>
               Wir haben eine Nachhilfeplattform geschaffen, wo jede:r mitmachen
               kann. Brauchst du Nachhilfe? Wir finden jemanden von der
-              Schüler:inenschaft der:die dir Nachhilfe gibt.
+              Schüler:innenschaft der:die dir Nachhilfe gibt.
             </p>
             <p>
               Bist du nett??? Wir brauchen dich! Trage dich als

@@ -1,5 +1,10 @@
 @import "_vars.scss";
 
+@font-face {
+  font-family: "Computer Modern Serif";
+  src: url("/assets/fonts/cmunrm.ttf");
+}
+
 #logo {
   height: 100%;
   width: 70%;
@@ -10,9 +15,10 @@ body {
 
   margin: 0 !important;
   padding: 0 !important;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Computer Modern Serif" !important;
+  // font-family: "Computer Modern", "Inter", -apple-system, BlinkMacSystemFont,
+  //   "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+  //   "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
