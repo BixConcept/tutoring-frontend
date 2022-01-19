@@ -1,4 +1,4 @@
-import "../styles/Loginpage.scss";
+import "../styles/loginPage.scss";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -47,19 +47,19 @@ function LoginPage() {
               placeholder="Passwort"
               required
             />
-          </div>
 
-          <button
-            className="password-eye"
-            onClick={(e) => {
-              e.preventDefault();
-              changePwType();
-            }}
-          >
-            <FontAwesomeIcon
-              icon={pwType === "password" ? faEye : faEyeSlash}
-            />
-          </button>
+            <button
+              className="password-eye"
+              onClick={(e) => {
+                e.preventDefault();
+                changePwType();
+              }}
+            >
+              <FontAwesomeIcon
+                icon={pwType === "password" ? faEye : faEyeSlash}
+              />
+            </button>
+          </div>
           <input type="submit" value="Login" id="submit" />
         </form>
       </div>

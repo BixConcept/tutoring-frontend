@@ -18,13 +18,15 @@ body {
 }
 
 body.light {
-  --background_color: $fff;
+  --background_color: #fff;
   --text_color: #23272a; // stolen from the discord landing page. better readability than pure black.
+  --contrast_bg_color: rgb(235, 235, 235);
 }
 
 body.dark {
   --background_color: #222;
   --text_color: #fff;
+  --contrast_bg_color: rgb(41, 41, 41);
 }
 
 * {
