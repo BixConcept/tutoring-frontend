@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar() {
+
   return (
     <nav>
       <ul>
@@ -15,7 +16,7 @@ function Navbar() {
           </Link>
         </li>
         <li>
-          <DarkMode />
+          <DarkMode/>
         </li>
         <li>
           <div id="login-register">
