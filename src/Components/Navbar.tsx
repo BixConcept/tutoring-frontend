@@ -1,6 +1,7 @@
 import css from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
 import DarkMode from "./DarkMode";
+import logo from "../assets/images/gymhaan_logo_neu.png"
 
 function Navbar() {
   return (
@@ -8,7 +9,7 @@ function Navbar() {
       <ul>
         <li id={css.logo}>
           <Link to="/">
-            <img src="/images/gymhaan_logo_neu.png" alt="" />
+            <img src={logo} alt="gymhaan logo (offiziell)" />
           </Link>
         </li>
         <li>
