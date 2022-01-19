@@ -19,9 +19,9 @@ function License() {
       });
   }, []);
   return (
-    <div id={css.licenseText}>
+    <div>
       <Page title="Lizenz" center={true}>
-        <pre>{content}</pre>
+        <pre id={css.licenseText}>{content}</pre>
       </Page>
     </div>
   );

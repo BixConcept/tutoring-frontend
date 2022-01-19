@@ -1,5 +1,11 @@
-#licenseText {
-  display: flex;
+@media screen and (max-width: 1000px) and (min-width: 601px) {
+  #licenseText {
+    font-size: 10pt;
+  }
+}
 
-  justify-content: center;
+@media screen and (max-width: 600px) {
+  #licenseText {
+    font-size: 4pt;
+  }
 }
