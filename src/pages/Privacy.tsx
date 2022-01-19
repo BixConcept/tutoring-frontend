@@ -1,7 +1,7 @@
 import Page from "../Components/Page";
 function Privacy() {
   const emojis =
-    "👴 🔆 💔 🔽 🕕 🐑 ⏯ 🍷 🔛 📍 🗼 🐾 🍭 🛂 🙀 🕹 🍇 🤗 🚰 ◼️™️ 🐡 🌁 🌋 🌷 🎱 🚯 👞 ♏ 🔘 🏡 🌇 ️ 🖊 🕖 9️⃣ 🙎 🎐 📞 💠 😿 ⏲ 📀 😾  🌷 📛 ☁ 🏪 🐽 🔹 ↔️ 👨 🍆 🏨 🏈 📱 🌆 🌑 🚜 💳 🍳 🐗 💏 🍦 🚻 🚔 🐑 🅾️ 📐".split(
+    "👴 🔆 💔 🔽 🕕 🐑 ⏯ 🍷 🔛 📍 🗼 🐾 🍭 🛂 🙀 🕹 🍇 🤗 🚰 ◼️™️ 🐡 🌁 🌋 🌷 🎱 🚯 👞  🔘 🏡 🌇 ️ 🖊 🕖 9️⃣ 🙎 🎐 📞 💠 😿 ⏲ 📀 😾  🌷 📛 ☁ 🏪 🐽 🔹 ↔️ 👨 🍆 🏨 🏈 📱 🌆 🌑 🚜 💳 🍳 🐗 💏 🍦 🚻 🚔 🐑 🅾️ 📐".split(
       " "
     );
 
@@ -40,7 +40,7 @@ function Privacy() {
       </p>
       <p>Wir bitten um Ihr Verständnis!</p>
       <p>
-        Sollte der Weltkonzern AIX-Kozept gehackt und alle ihre Daten öffentlich
+        Sollte der Weltkonzern AixConcept gehackt und alle ihre Daten öffentlich
         würden, so wären wir not der Schuld zu belangen. GaLiGrü
       </p>
     </Page>
