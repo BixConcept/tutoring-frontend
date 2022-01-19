@@ -2,9 +2,10 @@ import "../styles/Navbar.scss";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import DarkMode from "./DarkMode";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoon } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar() {
-  const [switchState, setSwitchState] = useState(false);
   return (
     <nav>
       <ul>
