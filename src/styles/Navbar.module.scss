@@ -4,9 +4,7 @@ nav {
   width: 100vw;
   height: 5rem;
 
-  background-color: white;
-
-  color: $not_quite_black;
+  background-color: var(--contrast_bg_color);
 
   ul {
     list-style: none;
@@ -24,6 +22,12 @@ nav {
 
     #logo img {
       max-height: 3.7rem;
+      .dark {
+        content: url("../assets/images/gymhaan_logo_neu_dark.png");
+      }
+      .light {
+        content: url("../assets/images/gymhaan_logo_neu.png");
+      }
     }
 
     a {
@@ -32,7 +36,7 @@ nav {
 
       text-decoration: none;
 
-      color: $not_quite_black;
+      color: var(--text_color);
 
       transition: color 0.2s;
     }
