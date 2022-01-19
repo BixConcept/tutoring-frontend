@@ -40,8 +40,7 @@ function Privacy() {
       </p>
       <p>Wir bitten um Ihr Verständnis!</p>
       <p>
-        Sollte der Weltkonzern AixConcept gehackt und alle ihre Daten öffentlich
-        würden, so wären wir not der Schuld zu belangen. GaLiGrü
+        Sollte der Weltkonzern AixConcept gehackt werden und alle ihre Daten von ganz bösen Rabauekn veröffentlicht werden, so wären wir not der Schuld zu belangen. GaLiGrü🤗
       </p>
     </Page>
   );
