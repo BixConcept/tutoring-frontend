@@ -31,12 +31,15 @@ function Home() {
               Schüler Schülern helfen.
             </p>
             <p>
-              Wir haben eine Nachhilfeplattform geschaffen, wo jeder mitmachen
-              kann. Brauchst du Nachhilfe? Wir finden einen netten Schüler der
-              dir Nachhilfe gibt. Bist du ein netter Schüler? Wir brauchen dich!
-              Trage dich als Nachhilfe gebender ein und besser dir dein
-              Taschengeld auf, mit dem du noch mehr konsumieren und den Zerfall
-              der westlichen Zivilisation vorantreiben kannst.
+              Wir haben eine Nachhilfeplattform geschaffen, wo jede:r mitmachen
+              kann. Brauchst du Nachhilfe? Wir finden jemanden von der
+              Schüler:inenschaft der:die dir Nachhilfe gibt.
+            </p>
+            <p>
+              Bist du nett??? Wir brauchen dich! Trage dich als
+              Nachhilfelehrenden ein und bessere dir dein Taschengeld auf, mit
+              dem du noch mehr konsumieren und den Zerfall der westlichen
+              Zivilisation vorantreiben kannst.
             </p>
           </div>
           <div id="home-choices">

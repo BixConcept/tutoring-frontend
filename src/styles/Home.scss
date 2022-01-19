@@ -78,7 +78,7 @@ main {
 
   .home-choice {
     cursor: pointer;
-    background-color: #faf9f6;
+    background-color: var(--background_color);
     border-radius: 0.5rem;
     -moz-box-shadow: inset 0 0 5px #c9c9c9;
     -webkit-box-shadow: inset 0 0 5px #c9c9c9;
