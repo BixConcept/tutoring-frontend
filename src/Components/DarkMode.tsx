@@ -4,7 +4,7 @@ import "../styles/darkModeButton.scss";
 
 const DarkMode = () => {
   const body = document.body;
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
     if (localStorage) {

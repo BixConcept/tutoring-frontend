@@ -44,6 +44,7 @@ function LoginPage() {
               type={pwType}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete="off"
               placeholder="Passwort"
               required
             />

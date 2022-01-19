@@ -3,15 +3,15 @@ import "../styles/Home.scss";
 function Home() {
   document.title = "Nachhilfe GymHaan";
   // TODO: actual data
-  const requestsPerMonth = 12;
-  const numTutors = 12;
+  // const requestsPerMonth = 12;
+  // const numTutors = 12;
 
   return (
     <main>
       <section id="main-thingy">
         <div id="title">
           <h1>
-            <span className="backdrop">Nachhilfe&shy;plattform oder so</span>
+            <span className="backdrop">Nachhilfeplattform</span>
           </h1>
         </div>
       </section>
