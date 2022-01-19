@@ -1,5 +1,30 @@
+import Page from "../Components/Page";
+import { useState, useEffect } from "react";
+import css from "../styles/license.module.scss";
+
 function License() {
-  return <p>Pushing P</p>;
+  const [content, setContent] = useState("");
+  useEffect(() => {
+    document.title = "Lizenz";
+    fetch(
+      "https://raw.githubusercontent.com/HaanerBarbaren/tutoring-frontend/main/LICENSE"
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.text();
+        }
+      })
+      .then((e: any) => {
+        setContent(e.replace("\n", "\n\n"));
+      });
+  }, []);
+  return (
+    <div id={css.licenseText}>
+      <Page title="Lizenz" center={true}>
+        <pre>{content}</pre>
+      </Page>
+    </div>
+  );
 }
 
 export default License;

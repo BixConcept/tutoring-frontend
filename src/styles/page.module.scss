@@ -1,0 +1,29 @@
+@import "./vars";
+
+.page {
+  width: 100%;
+
+  #title {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    color: white;
+    height: 14rem;
+    width: 100%;
+    background-color: $primary_color;
+  }
+
+  #content {
+    padding: 2rem 30rem;
+    color: var(--text_color);
+
+    font-size: 11pt !important;
+  }
+
+  #content.nocenter {
+    width: 100%;
+  }
+}

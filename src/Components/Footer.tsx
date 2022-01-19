@@ -1,9 +1,9 @@
-import css from "../styles/Footer.module.module.scss";
+import css from "../styles/Footer.module.scss";
 import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer>
+    <footer className={css.footer}>
       <a href="https://github.com/HaanerBarbaren/tutoring-frontend">
         Source Code
       </a>

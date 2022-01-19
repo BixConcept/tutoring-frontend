@@ -13,13 +13,15 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/license" element={<License />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/imprint" element={<Imprint />} />
-        </Routes>
+        <div id="wrapper">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/license" element={<License />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/imprint" element={<Imprint />} />
+          </Routes>
+        </div>
         <Footer />
       </BrowserRouter>
     </div>

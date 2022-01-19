@@ -38,3 +38,7 @@ body.dark {
 * {
   box-sizing: border-box;
 }
+
+#wrapper {
+  min-height: calc(100vh - 10em);
+}
