@@ -19,16 +19,16 @@ function Navbar() {
             </ThemeContext.Consumer>
           </Link>
         </li>
-        <li>
-          <DarkMode />
-        </li>
-        <li>
-          <div id={css.loginRegister}>
+        <div id={css.loginRegister}>
+          <li>
+            <DarkMode />
+          </li>
+          <li>
             <Link to="/login">
               <span>Login</span>
             </Link>
-          </div>
-        </li>
+          </li>
+        </div>
       </ul>
     </nav>
   );
