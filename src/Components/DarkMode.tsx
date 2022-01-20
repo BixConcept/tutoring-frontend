@@ -5,7 +5,7 @@ import { ThemeContext } from "../ThemeContext";
 
 const DarkMode = () => {
   const body = document.body;
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     if (localStorage) {
@@ -15,6 +15,7 @@ const DarkMode = () => {
         setTheme(value);
       } else {
         body.classList.add("light");
+        console.log(theme);
       }
     }
   }, []);
