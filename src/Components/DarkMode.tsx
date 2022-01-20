@@ -7,7 +7,7 @@ const DarkMode = () => {
   const body = document.body;
   const [theme, setTheme] = useState("light");
   const [checkedS, setCheckedS] = useState(false);
-  
+
   useEffect(() => {
     if (localStorage) {
       let value = localStorage.getItem("theme");
@@ -17,7 +17,7 @@ const DarkMode = () => {
       } else {
         body.classList.add("light");
       }
-	  if (value === "dark") setCheckedS(true);
+      if (value === "dark") setCheckedS(true);
     }
   }, []);
 
@@ -27,13 +27,13 @@ const DarkMode = () => {
       localStorage.setItem("theme", "light");
       setTheme("light");
       callback("light");
-	  setCheckedS(false);
+      setCheckedS(false);
     } else {
       body.classList.replace("light", "dark");
       localStorage.setItem("theme", "dark");
       setTheme("dark");
       callback("dark");
-	  setCheckedS(true);
+      setCheckedS(true);
     }
   };
 
