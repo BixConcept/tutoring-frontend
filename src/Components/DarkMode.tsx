@@ -15,7 +15,6 @@ const DarkMode = () => {
         setTheme(value);
       } else {
         body.classList.add("light");
-        console.log(theme);
       }
     }
   }, []);
