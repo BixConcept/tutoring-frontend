@@ -1,4 +1,5 @@
 import Page from "../Components/Page";
+
 function Privacy() {
   const emojis =
     "👴 🔆 💔 🔽 🕕 🐑 ⏯ 🍷 🔛 📍 🗼 🐾 🍭 🛂 🙀 🕹 🍇 🤗 🚰 ◼️™️ 🐡 🌁 🌋 🌷 🎱 🚯 👞  🔘 🏡 🌇 ️ 🖊 🕖 9️⃣ 🙎 🎐 📞 💠 😿 ⏲ 📀 😾  🌷 📛 ☁ 🏪 🐽 🔹 ↔️ 👨 🍆 🏨 🏈 📱 🌆 🌑 🚜 💳 🍳 🐗 💏 🍦 🚻 🚔 🐑 🅾️ 📐".split(
@@ -15,8 +16,6 @@ function Privacy() {
   }
 
   const title = `${nEmojis(4)} Datenschutz ${nEmojis(4)}`;
-  document.title = title;
-
   return (
     <Page title={title}>
       <p>

@@ -1,6 +1,7 @@
 import css from "../styles/page.module.scss";
 
 function Page(props: { children: any; title: string; center?: boolean }) {
+   document.title = props.title;
   return (
     <main className={`${css.page} ${props.center ? "center" : "nocenter"}`}>
       <div id={css.title}>

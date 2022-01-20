@@ -13,7 +13,8 @@ function Navbar() {
           <Link to="/">
             <ThemeContext.Consumer>
               {({ theme }) => {
-                let src = theme === "dark" ? logoDark : logo;
+				let a = localStorage.getItem("theme");
+                let src = a === "dark" ? logoDark : logo;
                 return <img src={src} alt="gymhaan logo" />;
               }}
             </ThemeContext.Consumer>

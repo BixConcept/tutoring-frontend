@@ -2,9 +2,6 @@ import css from "../styles/Home.module.scss";
 
 function Home() {
   document.title = "Nachhilfe GymHaan";
-  // TODO: actual data
-  // const requestsPerMonth = 12;
-  // const numTutors = 12;
 
   return (
     <main>

@@ -4,8 +4,8 @@ import css from "../styles/license.module.scss";
 
 function License() {
   const [content, setContent] = useState("");
+
   useEffect(() => {
-    document.title = "Lizenz";
     fetch(
       "https://raw.githubusercontent.com/HaanerBarbaren/tutoring-frontend/main/LICENSE"
     )
