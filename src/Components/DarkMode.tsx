@@ -5,20 +5,25 @@ import { ThemeContext } from "../ThemeContext";
 
 const DarkMode = () => {
   const body = document.body;
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
   const [checkedS, setCheckedS] = useState(false);
 
   useEffect(() => {
     if (localStorage) {
       let value = localStorage.getItem("theme");
+      console.log(`value: ${value}`);
       if (value === "light" || value === "dark") {
         body.classList.add(value);
         setTheme(value);
       } else {
-        body.classList.add("light");
+        body.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+        setTheme("dark");
       }
       if (value === "dark") setCheckedS(true);
     }
+
+    console.log(theme);
   }, []);
 
   const toggleDarkMode = (callback: (newTheme: string) => void) => {
@@ -33,7 +38,7 @@ const DarkMode = () => {
       localStorage.setItem("theme", "dark");
       setTheme("dark");
       callback("dark");
-      setCheckedS(true);
+      // setCheckedS(true);
     }
   };
 
@@ -47,7 +52,7 @@ const DarkMode = () => {
               onChange={() => {
                 toggleDarkMode(setTheme);
               }}
-              checked={checkedS}
+              checked={theme === "dark"}
             />
           )}
         </ThemeContext.Consumer>

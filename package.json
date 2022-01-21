@@ -14,6 +14,7 @@
     "@types/node": "^16.11.19",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
+    "lottie-web": "^5.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-lorem-ipsum": "^1.4.9",
@@ -27,7 +28,7 @@
     "web-vitals": "^2.1.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "env BROWSER=firefox-developer-edition react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
