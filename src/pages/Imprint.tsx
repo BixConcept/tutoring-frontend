@@ -6,6 +6,7 @@ function Imprint() {
   const container = useRef(null);
 
   useEffect(() => {
+    document.title = "Impressum";
     if (container.current)
       lottie.loadAnimation({
         container: container.current,
