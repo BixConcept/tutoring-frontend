@@ -9,6 +9,7 @@ import Privacy from "./pages/Privacy";
 import Imprint from "./pages/Imprint";
 import { ThemeContext } from "./ThemeContext";
 import { useState } from "react";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -22,6 +23,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
               <Route path="/license" element={<License />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/imprint" element={<Imprint />} />
