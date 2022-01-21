@@ -11,7 +11,7 @@ import { ThemeContext } from "./ThemeContext";
 import { useState } from "react";
 
 function App() {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
 
   return (
     <div className="App">
