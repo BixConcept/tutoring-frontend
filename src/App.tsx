@@ -9,6 +9,7 @@ import Privacy from "./pages/Privacy";
 import Imprint from "./pages/Imprint";
 import { ThemeContext } from "./ThemeContext";
 import { useState } from "react";
+import FourOFourPage from "./pages/404";
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -20,6 +21,7 @@ function App() {
           <Navbar />
           <div id="wrapper">
             <Routes>
+              <Route path="*" element={<FourOFourPage />} />
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/license" element={<License />} />

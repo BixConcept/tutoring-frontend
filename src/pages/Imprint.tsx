@@ -1,7 +1,6 @@
 import css from "../styles/Imprint.module.scss";
 import lottie from "lottie-web";
 import { useEffect, useRef } from "react";
-import Page from "../Components/Page";
 
 function Imprint() {
   const container = useRef(null);

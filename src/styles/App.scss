@@ -5,11 +5,6 @@
   src: url("/assets/fonts/cmunrm.ttf");
 }
 
-#logo {
-  height: 100%;
-  width: 70%;
-}
-
 body {
   background-color: var(--background_color);
 
@@ -41,4 +36,5 @@ body.dark {
 
 #wrapper {
   min-height: calc(100vh - 10em);
+  width: 100%;
 }

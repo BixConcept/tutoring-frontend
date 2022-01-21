@@ -1,0 +1,58 @@
+@import "_vars";
+
+#wrapper {
+  width: 100%;
+  flex: 1;
+  min-height: 80vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--text_color);
+
+  text-align: center;
+  flex-direction: column;
+
+  #centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    * {
+      margin: 0;
+    }
+
+    p {
+      font-size: 2rem;
+    }
+
+    a {
+      margin-top: 1rem;
+
+      font-size: 1.5rem;
+      text-decoration: none;
+      color: white;
+      background-color: $primary_color;
+
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+
+    .animationContainer {
+      max-width: 60rem;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  p {
+    margin-top: 3rem;
+    font-size: 1.5rem !important;
+  }
+
+  a {
+    font-size: 1rem !important;
+  }
+}
