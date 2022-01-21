@@ -5,6 +5,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast, Theme } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeContext } from "../ThemeContext";
+import { useContext } from "react";
 
 function LoginPage() {
   document.title = "Login";
@@ -16,16 +17,19 @@ function LoginPage() {
     else setPwType("text");
   };
 
-  function checkTheme(): Theme {
-    // Irgendwie das Theme bekommen
-    return "dark";
-  }
-
+  const context = useContext(ThemeContext);
   const toastId: any = useRef(null);
 
-  const login = () => {
-    // E-Mail überprüfen
+  function checkTheme(): "dark" | "light" {
+    // to have type safety
+    if (context.theme === "dark" || context.theme === "light") {
+      return context.theme;
+    } else {
+      return "dark";
+    }
+  }
 
+  const login = () => {
     if (name) {
       if (name.includes("@") && name.split("@")[1] !== "gymhaan.de") {
         toast.error("Es sind nur gymhaan-E-Mails zugelassen", {

@@ -26,7 +26,7 @@ function Navbar() {
           </li>
           <li>
             <Link to="/login">
-              <span>Login</span>
+              <span className={css.backdrop}>Login</span>
             </Link>
           </li>
         </div>
