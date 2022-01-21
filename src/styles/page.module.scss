@@ -1,0 +1,51 @@
+@import "./vars";
+
+.page {
+  width: 100%;
+
+  #title {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    color: white;
+    height: 14rem;
+    width: 100%;
+    background-color: $primary_color;
+  }
+
+  #content {
+    color: var(--text_color);
+
+    font-size: 11pt !important;
+  }
+
+  #content.nocenter {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 2101px) {
+  #content {
+    padding: 2rem 20rem;
+  }
+}
+
+@media screen and (max-width: 2100px) and (min-width: 1001px) {
+  #content {
+    padding: 2rem 10rem;
+  }
+}
+@media screen and (max-width: 1000px) and (min-width: 601px) {
+  #content {
+    padding: 2rem 5rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #content {
+    padding: 2rem 2rem;
+  }
+}

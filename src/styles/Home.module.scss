@@ -7,6 +7,18 @@ main {
   display: flex;
   align-items: center;
   flex-direction: column;
+
+  p {
+    font-size: 16pt;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:visited {
+    color: $not_quite_black;
+  }
 }
 
 #mainThingy {
@@ -120,18 +132,6 @@ main {
       color: var(--text_color);
     }
   }
-}
-
-p {
-  font-size: 16pt;
-}
-
-a {
-  text-decoration: none;
-}
-
-a:visited {
-  color: $not_quite_black;
 }
 
 @media screen and (min-width: 2101px) {

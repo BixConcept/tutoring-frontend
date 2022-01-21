@@ -8,6 +8,7 @@
     display: inline-block;
     width: var(--width);
     height: var(--height);
+    margin: 0;
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
     border-radius: var(--height);
     cursor: pointer;
@@ -20,6 +21,7 @@
 
   /* Creating slider */
   .toggle .slider {
+    margin: 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -31,6 +33,7 @@
   }
   .toggle .slider::before {
     content: "";
+    margin: 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -51,6 +54,7 @@
   }
 
   .toggle .labels {
+    margin: 0;
     position: absolute;
     top: 4px;
     left: 0;

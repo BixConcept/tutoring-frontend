@@ -5,7 +5,7 @@ import css from "./styles/LoadingScreen.module.scss";
 function LoadingScreen() {
   const [loaded, setLoaded] = useState(false);
 
-  fetch("https://google.com", {
+  fetch("https://google.com/", {
     method: "GET",
     mode: "no-cors",
   }).then(() => {
