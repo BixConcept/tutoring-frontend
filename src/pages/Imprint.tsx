@@ -1,3 +1,4 @@
+import css from "../styles/Imprint.module.scss";
 import lottie from "lottie-web";
 import { useEffect, useRef } from "react";
 import Page from "../Components/Page";
@@ -12,15 +13,11 @@ function Imprint() {
         renderer: "svg",
         loop: true,
         autoplay: true,
-        animationData: require("./office.json"),
+        animationData: require("../assets/animations/maintenance.json"),
       });
   }, []);
 
-  return (
-    <Page title="Impressum">
-      <div className="container" ref={container}></div>
-    </Page>
-  );
+  return <div className={css.animation_container} ref={container}></div>;
 }
 
 export default Imprint;

@@ -17,13 +17,12 @@ function LoginPage() {
     else setPwType("text");
   };
 
-
   const context = useContext(ThemeContext);
   const toastId: any = useRef(null);
 
   function checkTheme(): "dark" | "light" {
     // to have type safety
-    if (context.theme === "dark" || context.theme === "light") { 
+    if (context.theme === "dark" || context.theme === "light") {
       return context.theme;
     } else {
       return "dark";
@@ -31,7 +30,6 @@ function LoginPage() {
   }
 
   const login = () => {
-
     if (name) {
       if (name.includes("@") && name.split("@")[1] !== "gymhaan.de") {
         toast.error("Es sind nur gymhaan-E-Mails zugelassen", {
