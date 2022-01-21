@@ -31,9 +31,9 @@ function Home() {
               Schüler Schülern helfen.
             </p>
             <p>
-              Wir haben eine Nachhilfeplattform geschaffen, wo jede:r mitmachen
+              Wir haben eine Nachhilfeplattform geschaffen, wo jeder mitmachen
               kann. Brauchst du Nachhilfe? Wir finden jemanden von der
-              Schüler:innenschaft der:die dir Nachhilfe gibt.
+              Schülerschaft der dir Nachhilfe gibt.
             </p>
             <p>
               Bist du nett??? Wir brauchen dich! Trage dich als
