@@ -1,4 +1,5 @@
 import css from "../styles/Home.module.scss";
+import { Link } from "react-router-dom";
 
 function Home() {
   document.title = "Nachhilfe GymHaan";
@@ -41,16 +42,16 @@ function Home() {
           </div>
           <div id={css.choices}>
             <div className={css.choice}>
-              <a href="/find">
+              <Link to="/find">
                 <h1>Ich brauche Nachhilfe</h1>
-              </a>
+              </Link>
             </div>
             <div className={css.choice}>
-              <h1>
-                <a href="/register">
+              <Link to="/register">
+                <h1>
                   Ich möchte <span>Nachhilfe geben</span>
-                </a>
-              </h1>
+                </h1>
+              </Link>
             </div>
           </div>
         </div>
