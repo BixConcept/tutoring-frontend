@@ -6,23 +6,25 @@ import { ToastContainer, toast, Theme } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeContext } from "../ThemeContext";
 import { useContext } from "react";
+import { log } from "console";
 
 function RegisterPage() {
-  const grades = ["5", "6", "7", "8", "9", "EF", "Q1", "Q2"];
+  document.title = "Registrieren";
+  const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
   const subjects = [
     "Deutsch",
     "Englisch",
-    "katholische Religion",
-    "evangelische Religion",
+    "Katholische Religion",
+    "Evangelische Religion",
     "Mathematik",
     "Philosophie",
     "Latein",
     "Altgriechisch",
+    "Hebräisch",
     "Physik",
     "Biologie",
     "Chemie",
-    "Spanisch",
     "Französisch",
     "Spanisch",
     "Pädagogik",
@@ -31,48 +33,60 @@ function RegisterPage() {
     "Informatik",
   ];
 
+  const [auswahl, setAuswahl] = useState([{}]);
+  const [fach, setFach] = useState("");
+  const [stufe, setStufe] = useState("");
+
+  function addSubject() {
+    setAuswahl([...auswahl, { subject: fach, grade: stufe }]);
+    console.log(auswahl);
+  }
+
   return (
     <div id={css.wrapper}>
       <div id={css.formContainer}>
-        <h1>Regristrieren als Nachhilfelehrer:in</h1>
-        <form>
-          <div className={css.row}>
-            <input
-              type="text"
-              name="firstName"
-              id={css.firstName}
-              placeholder="Vorname"
-            />
-            <input
-              type="text"
-              name="lastName"
-              id={css.lastName}
-              placeholder="Nachname"
-            />
-          </div>
-          <select name="grade" id="grade">
-            <option value="">--- Bitte auswählen ---</option>
-            {grades.map((grade) => {
-              return <option value={grade}>{grade}</option>;
+        <h1>Registrieren als Nachhilfelehrer:in</h1>
+        <div className={css.row}>
+          <input type="text" name="id" id={css.id} placeholder="Schüler-ID" />
+        </div>
+        <form
+          className={css.subjects}
+          onSubmit={(e) => {
+            addSubject();
+            e.preventDefault();
+          }}
+        >
+          <select
+            name=""
+            id=""
+            onChange={(e) => {
+              setFach(e.target.value);
+            }}
+          >
+            <option value={""}>--- Fach hinzufügen ---</option>
+            {subjects.sort().map((subject) => {
+              return <option key={subject}>{subject}</option>;
             })}
           </select>
-          <div className={css.subjectOptions}>
-            {subjects.map((subject) => {
-              return (
-                <div>
-                  <input type="checkbox" name="" id="" />
-                  <p>{subject}</p>
-                  <select name="" id="">
-                    <option value="">--- Bitte auswählen ---</option>
-                    {grades.map((grade) => {
-                      return <option value={grade}>{grade}</option>;
-                    })}
-                  </select>
-                </div>
-              );
+          <select
+            name=""
+            id=""
+            onChange={(e) => {
+              setStufe(e.target.value);
+            }}
+          >
+            <option value="">--- Stufe auswählen ---</option>
+            {grades.map((grade) => {
+              return <option key={grade}>{grade}</option>;
             })}
-          </div>
+          </select>
+          <input type="submit" value={"Hinzufügen"} />
         </form>
+        <div className={css.auswahl}>
+          {auswahl.map((f) => {
+            return <p>{Object.values(f)}</p>;
+          })}
+        </div>
       </div>
     </div>
   );
