@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import css from "../styles/loginPage.module.scss";
 import { useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -100,6 +101,75 @@ function RegisterPage() {
 
           <input type="submit" value="Registrieren" id={css.submit} />
           <ToastContainer />
+=======
+import css from "../styles/registerPage.module.scss";
+
+function RegisterPage() {
+  const grades = ["5", "6", "7", "8", "9", "EF", "Q1", "Q2"];
+
+  const subjects = [
+    "Deutsch",
+    "Englisch",
+    "katholische Religion",
+    "evangelische Religion",
+    "Mathematik",
+    "Philosophie",
+    "Latein",
+    "Altgriechisch",
+    "Physik",
+    "Biologie",
+    "Chemie",
+    "Spanisch",
+    "Französisch",
+    "Spanisch",
+    "Pädagogik",
+    "Sozialwissenschaften",
+    "Politik/Wirtschaft",
+    "Informatik",
+  ];
+
+  return (
+    <div id={css.wrapper}>
+      <div id={css.formContainer}>
+        <h1>Regristrieren als Nachhilfelehrer:in</h1>
+        <form>
+          <div className={css.row}>
+          <input
+            type="text"
+            name="firstName"
+            id={css.firstName}
+            placeholder="Vorname"
+          />
+          <input
+            type="text"
+            name="lastName"
+            id={css.lastName}
+            placeholder="Nachname"
+          />
+          </div>
+          <select name="grade" id="grade">
+            <option value="">--- Bitte auswählen ---</option>
+            {grades.map((grade) => {
+              return <option value={grade}>{grade}</option>;
+            })}
+          </select>
+          <div className={css.subjectOptions}>
+            {subjects.map((subject) => {
+              return (
+                <div>
+                  <input type="checkbox" name="" id="" />
+                  <p>{subject}</p>
+                  <select name="" id="">
+                    <option value="">--- Bitte auswählen ---</option>
+                    {grades.map((grade) => {
+                      return <option value={grade}>{grade}</option>;
+                    })}
+                  </select>
+                </div>
+              );
+            })}
+          </div>
+>>>>>>> 9497aa5e483e83f48a41396cf7f8be43dfac190d
         </form>
       </div>
     </div>

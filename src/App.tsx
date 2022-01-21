@@ -10,6 +10,7 @@ import Privacy from "./pages/Privacy";
 import Imprint from "./pages/Imprint";
 import { ThemeContext } from "./ThemeContext";
 import { useState } from "react";
+import RegisterPage from "./pages/RegisterPage";
 import FourOFourPage from "./pages/404";
 
 function App() {
