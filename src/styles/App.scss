@@ -30,6 +30,11 @@ body.dark {
   --contrast_bg_color: rgb(41, 41, 41);
 }
 
+.App {
+  height: 100%;
+  width: 100%;
+}
+
 * {
   box-sizing: border-box;
 }
