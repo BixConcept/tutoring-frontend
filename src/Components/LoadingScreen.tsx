@@ -1,30 +1,21 @@
-import { useState } from "react";
-import Logo from "./assets/images/logo.svg";
-import css from "./styles/LoadingScreen.module.scss";
+import Logo from "../assets/images/logo.svg";
+import css from "../styles/LoadingScreen.module.scss";
 
-function LoadingScreen() {
-  const [loaded, setLoaded] = useState(false);
-
-  fetch("https://google.com/", {
-    method: "GET",
-    mode: "no-cors",
-  }).then(() => {
-    setLoaded(true);
-  });
-
-  return (
-    <div className="LoadingScreen">
-      {loaded ? <p>Loaded</p> : null}
-      <div className="spinner">
-        <img
-          src={Logo}
-          className="LoadingSpin"
-          alt="spin"
-          style={{ opacity: loaded ? 0 : 1 }}
-        />
+function LoadingScreen(props: { s: boolean }) {
+  if (!props.s) {
+    return (
+      <div className={css.LoadingScreen}>
+        <div className={css.spinner}>
+          <img
+            src={Logo}
+            className={css.LoadingSpin}
+            alt="spin"
+            style={{ opacity: props.s ? 0 : 1 }}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else return null;
 }
 
 export default LoadingScreen;
