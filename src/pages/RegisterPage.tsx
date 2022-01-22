@@ -31,16 +31,19 @@ function RegisterPage() {
     "Informatik",
   ];
 
+  /*
   const [auswahl, setAuswahl] = useState([{}]);
   const [fach, setFach] = useState("");
   const [stufe, setStufe] = useState("");
+  */
 
   const [id, setId] = useState("");
+  const [chosen, setChosen] = useState([]);
 
+  /*
   function addSubject() {
     setAuswahl([...auswahl, { subject: fach, grade: stufe }]);
-  }
-
+  } */
   const context = useContext(ThemeContext);
 
   function checkTheme(): "dark" | "light" {
@@ -54,9 +57,9 @@ function RegisterPage() {
 
   function register() {
     // todo
-    console.log(id, auswahl);
+    console.log(id, chosen);
 
-    if (/^-?[\d.]+(?:e-?\d+)?$/.test(id) && auswahl.length > 1) {
+    if (/^-?[\d.]+(?:e-?\d+)?$/.test(id) && chosen.length > 1) {
       toast.success("User wird erstellt...", {
         position: "bottom-right",
         autoClose: false,
@@ -79,6 +82,17 @@ function RegisterPage() {
     }
   }
 
+  function ChooseStufe() {
+    return (
+      <select name="" id="">
+        <option value="">--- Stufe auswählen ---</option>
+        {grades.map((grade, index) => {
+          return <option key={index}>{grade}</option>;
+        })}
+      </select>
+    );
+  }
+
   return (
     <div id={css.wrapper}>
       <div id={css.formContainer}>
@@ -93,44 +107,30 @@ function RegisterPage() {
             onChange={(e) => setId(e.target.value)}
           />
         </div>
-        <form
-          className={css.subjects}
-          onSubmit={(e) => {
-            addSubject();
-            e.preventDefault();
-          }}
-        >
-          <select
-            name=""
-            id=""
-            onChange={(e) => {
-              setFach(e.target.value);
-            }}
-          >
-            <option value={""}>--- Fach hinzufügen ---</option>
-            {subjects.sort().map((subject, index) => {
-              return <option key={index}>{subject}</option>;
+        <table>
+          <thead>
+            <tr>
+              <th>Fach</th>
+              <th>Stufe</th>
+              <th>Chechbox</th>
+            </tr>
+          </thead>
+          <tbody>
+            {subjects.map((subject, index) => {
+              return (
+                <tr key={index}>
+                  <td>{subject}</td>
+                  <td>
+                    <ChooseStufe />
+                  </td>
+                  <td>
+                    <input type="checkbox" placeholder="" />
+                  </td>
+                </tr>
+              );
             })}
-          </select>
-          <select
-            name=""
-            id=""
-            onChange={(e) => {
-              setStufe(e.target.value);
-            }}
-          >
-            <option value="">--- Stufe auswählen ---</option>
-            {grades.map((grade, index) => {
-              return <option key={index}>{grade}</option>;
-            })}
-          </select>
-          <input type="submit" value={"Hinzufügen"} />
-        </form>
-        <div className={css.auswahl}>
-          {auswahl.map((f, index) => {
-            return <p key={index}>{JSON.stringify(f)}</p>;
-          })}
-        </div>
+          </tbody>
+        </table>
         <button
           type="submit"
           onClick={(e) => {
