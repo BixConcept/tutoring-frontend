@@ -11,7 +11,7 @@ const DarkMode = () => {
   useEffect(() => {
     if (localStorage) {
       let value = localStorage.getItem("theme");
-      console.log(`value: ${value}`);
+      // console.log(`value: ${value}`);
       if (value === "light" || value === "dark") {
         body.classList.add(value);
         setTheme(value);
@@ -23,7 +23,7 @@ const DarkMode = () => {
       if (value === "dark") setCheckedS(true);
     }
 
-    console.log(theme);
+    // console.log(theme);
   }, []);
 
   const toggleDarkMode = (callback: (newTheme: string) => void) => {

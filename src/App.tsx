@@ -1,6 +1,7 @@
 import Home from "./pages/Home";
 import Navbar from "./Components/Navbar";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import Footer from "./Components/Footer";
 import "./styles/App.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -24,6 +25,7 @@ function App() {
               <Route path="*" element={<FourOFourPage />} />
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
               <Route path="/license" element={<License />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/imprint" element={<Imprint />} />

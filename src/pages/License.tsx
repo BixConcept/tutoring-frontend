@@ -1,9 +1,11 @@
 import Page from "../Components/Page";
 import { useState, useEffect } from "react";
 import css from "../styles/license.module.scss";
+import LoadingScreen from "../Components/LoadingScreen";
 
 function License() {
   const [content, setContent] = useState("");
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     fetch(
@@ -15,12 +17,16 @@ function License() {
         }
       })
       .then((e: any) => {
-        setContent(e.replace("\n", "\n\n"));
+        setTimeout(() => {
+          setLoaded(true);
+          setContent(e.replace("\n", "\n\n"));
+        }, 1000);
       });
   }, []);
   return (
     <div>
       <Page title="Lizenz" center={true}>
+        <LoadingScreen s={loaded} />
         <pre id={css.licenseText}>{content}</pre>
       </Page>
     </div>
