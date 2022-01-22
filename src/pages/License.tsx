@@ -20,7 +20,7 @@ function License() {
         setTimeout(() => {
           setLoaded(true);
           setContent(e.replace("\n", "\n\n"));
-        }, 1000);
+        }, 350);
       });
   }, []);
   return (

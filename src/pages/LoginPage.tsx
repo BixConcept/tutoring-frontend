@@ -7,10 +7,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { ThemeContext } from "../ThemeContext";
 import { useContext } from "react";
 
+import { API_HOST } from "../index";
+
 function LoginPage() {
   document.title = "Login";
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+
   const [pwType, setPwType] = useState("password");
   const changePwType = () => {
     if (pwType !== "password") setPwType("password");
@@ -74,8 +77,17 @@ function LoginPage() {
       progress: undefined,
     });
 
+    fetch(API_HOST + "/user/login", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, password }),
+    }).then((res) => console.log(res));
+
     // Erstmal zum Testen
-    let a = Math.floor(Math.random() * 10);
+    /* let a = Math.floor(Math.random() * 10);
     if (a <= 5) {
       toast.update(toastId.current, {
         type: toast.TYPE.ERROR,
@@ -88,7 +100,7 @@ function LoginPage() {
         autoClose: 3000,
         render: "Erfolgreich angemeldet",
       });
-    }
+    } */
   };
 
   return (
