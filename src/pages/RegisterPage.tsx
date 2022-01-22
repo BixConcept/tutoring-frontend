@@ -1,12 +1,10 @@
 import css from "../styles/registerPage.module.scss";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast, Theme } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeContext } from "../ThemeContext";
-import { useContext } from "react";
-import { log } from "console";
 
 function RegisterPage() {
   document.title = "Registrieren";
@@ -37,8 +35,48 @@ function RegisterPage() {
   const [fach, setFach] = useState("");
   const [stufe, setStufe] = useState("");
 
+  const [id, setId] = useState("");
+
   function addSubject() {
     setAuswahl([...auswahl, { subject: fach, grade: stufe }]);
+  }
+
+  const context = useContext(ThemeContext);
+
+  function checkTheme(): "dark" | "light" {
+    // to have type safety
+    if (context.theme === "dark" || context.theme === "light") {
+      return context.theme;
+    } else {
+      return "dark";
+    }
+  }
+
+  function register() {
+    // todo
+    console.log(id, auswahl);
+
+    if (/^-?[\d.]+(?:e-?\d+)?$/.test(id) && auswahl.length > 1) {
+      toast.success("User wird erstellt...", {
+        position: "bottom-right",
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        theme: checkTheme(),
+        progress: undefined,
+      });
+    } else {
+      toast.error("Ungültige Daten", {
+        position: "bottom-right",
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        theme: checkTheme(),
+        progress: undefined,
+      });
+    }
   }
 
   return (
@@ -46,7 +84,14 @@ function RegisterPage() {
       <div id={css.formContainer}>
         <h1>Registrieren als Nachhilfelehrer:in</h1>
         <div className={css.row}>
-          <input type="text" name="id" id={css.id} placeholder="Schüler-ID" />
+          <input
+            type="text"
+            name="id"
+            id={css.id}
+            placeholder="Schüler-ID"
+            autoComplete="off"
+            onChange={(e) => setId(e.target.value)}
+          />
         </div>
         <form
           className={css.subjects}
@@ -86,7 +131,17 @@ function RegisterPage() {
             return <p key={index}>{JSON.stringify(f)}</p>;
           })}
         </div>
+        <button
+          type="submit"
+          onClick={(e) => {
+            register();
+            e.preventDefault();
+          }}
+        >
+          User erstellen
+        </button>
       </div>
+      <ToastContainer />
     </div>
   );
 }
