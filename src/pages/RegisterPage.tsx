@@ -39,7 +39,6 @@ function RegisterPage() {
 
   function addSubject() {
     setAuswahl([...auswahl, { subject: fach, grade: stufe }]);
-    console.log(auswahl);
   }
 
   return (
@@ -64,8 +63,8 @@ function RegisterPage() {
             }}
           >
             <option value={""}>--- Fach hinzufügen ---</option>
-            {subjects.sort().map((subject) => {
-              return <option key={subject}>{subject}</option>;
+            {subjects.sort().map((subject, index) => {
+              return <option key={index}>{subject}</option>;
             })}
           </select>
           <select
@@ -76,15 +75,15 @@ function RegisterPage() {
             }}
           >
             <option value="">--- Stufe auswählen ---</option>
-            {grades.map((grade) => {
-              return <option key={grade}>{grade}</option>;
+            {grades.map((grade, index) => {
+              return <option key={index}>{grade}</option>;
             })}
           </select>
           <input type="submit" value={"Hinzufügen"} />
         </form>
         <div className={css.auswahl}>
-          {auswahl.map((f) => {
-            return <p>{Object.values(f)}</p>;
+          {auswahl.map((f, index) => {
+            return <p key={index}>{JSON.stringify(f)}</p>;
           })}
         </div>
       </div>
