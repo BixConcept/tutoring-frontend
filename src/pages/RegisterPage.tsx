@@ -144,6 +144,7 @@ function RegisterPage() {
               <td>
                 <input type="chechbox" />
               </td>
+	      </tr>
           </tbody>
         </table>
         <button
