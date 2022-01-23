@@ -142,7 +142,7 @@ function RegisterPage() {
                 </select> 
               </td>
               <td>
-                <input type="chechbox" />
+                <input type="checkbox" />
               </td>
 	      </tr>
           </tbody>
