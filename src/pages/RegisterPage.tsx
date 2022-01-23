@@ -29,7 +29,6 @@ function RegisterPage() {
     "Sozialwissenschaften",
     "Politik/Wirtschaft",
     "Informatik",
-    "Fortnite"
   ];
 
   /*
@@ -125,11 +124,26 @@ function RegisterPage() {
                     <ChooseStufe />
                   </td>
                   <td>
-                    <input type="checkbox" placeholder="" />
+                    <input type="checkbox" />
                   </td>
                 </tr>
               );
             })}
+            <tr>
+              <td>Fortnite</td>
+              <td>
+                <select name="" id="">
+        <option value="">--- Stufe auswählen ---</option>
+                <option>Bauen</option>
+                <option>Editieren</option>
+                <option>Aim</option>
+                <option>Skin Contest</option>
+        
+                </select> 
+              </td>
+              <td>
+                <input type="chechbox" />
+              </td>
           </tbody>
         </table>
         <button
