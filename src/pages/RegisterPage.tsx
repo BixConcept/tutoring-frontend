@@ -29,6 +29,7 @@ function RegisterPage() {
     "Sozialwissenschaften",
     "Politik/Wirtschaft",
     "Informatik",
+    "Fortnite"
   ];
 
   /*
