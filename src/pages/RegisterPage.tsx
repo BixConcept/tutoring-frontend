@@ -1,8 +1,9 @@
 import css from "../styles/registerPage.module.scss";
-import { useState, useRef, useContext } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { ToastContainer, toast, Theme } from "react-toastify";
+
+import { useState, useContext } from "react";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeContext } from "../ThemeContext";
 
@@ -31,19 +32,12 @@ function RegisterPage() {
     "Informatik",
   ];
 
-  /*
-  const [auswahl, setAuswahl] = useState([{}]);
-  const [fach, setFach] = useState("");
-  const [stufe, setStufe] = useState("");
-  */
-
   const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
   const [chosen, setChosen] = useState([]);
 
-  /*
-  function addSubject() {
-    setAuswahl([...auswahl, { subject: fach, grade: stufe }]);
-  } */
+  const [step, setStep] = useState(1);
+
   const context = useContext(ThemeContext);
 
   function checkTheme(): "dark" | "light" {
@@ -93,73 +87,96 @@ function RegisterPage() {
     );
   }
 
-  return (
-    <div id={css.wrapper}>
-      <div id={css.formContainer}>
-        <h1>Registrieren als Nachhilfelehrer:in</h1>
-        <div className={css.row}>
-          <input
-            type="text"
-            name="id"
-            id={css.id}
-            placeholder="Schüler-ID"
-            autoComplete="off"
-            onChange={(e) => setId(e.target.value)}
-          />
+  if (step === 1) {
+    return (
+      <div className={css.container}>
+        <h1>Anmelden</h1>
+        <p>
+          Gebe deine E-Mail-Adresse an, welche du von der Schule bekommen hast.
+        </p>
+        <div className={css.inputfields}>
+          <form
+            onSubmit={(e) => {
+              setStep(2);
+              e.preventDefault();
+            }}
+          >
+            <div className={css.inputfield}>
+              <input
+                type="text"
+                required
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+              <p id={css.gymhaanplacehodler}>@gymhaan.de</p>
+            </div>
+            <input type="submit" value="weiter" id={css.submit} />
+          </form>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Fach</th>
-              <th>Stufe</th>
-              <th>Chechbox</th>
-            </tr>
-          </thead>
-          <tbody>
-            {subjects.map((subject, index) => {
-              return (
-                <tr key={index}>
-                  <td>{subject}</td>
-                  <td>
-                    <ChooseStufe />
-                  </td>
-                  <td>
-                    <input type="checkbox" />
-                  </td>
-                </tr>
-              );
-            })}
-            <tr>
-              <td>Fortnite</td>
-              <td>
-                <select name="" id="">
-        <option value="">--- Stufe auswählen ---</option>
-                <option>Bauen</option>
-                <option>Editieren</option>
-                <option>Aim</option>
-                <option>Skin Contest</option>
-        
-                </select> 
-              </td>
-              <td>
-                <input type="checkbox" />
-              </td>
-	      </tr>
-          </tbody>
-        </table>
-        <button
-          type="submit"
-          onClick={(e) => {
-            register();
-            e.preventDefault();
-          }}
-        >
-          User erstellen
-        </button>
+        <div className={css.placeholder}></div>
+        <p className={css.step}>schritt 1 / 3</p>
       </div>
-      <ToastContainer />
-    </div>
-  );
+    );
+  } else if (step === 2) {
+    return (
+      <div id={css.wrapper}>
+        <div id={css.formContainer}>
+          <h1>Fächer auswählen</h1>
+          <h4>Deine E-Mail: {email}</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Fach</th>
+                <th>Stufe</th>
+                <th>Chechbox</th>
+              </tr>
+            </thead>
+            <tbody>
+              {subjects.map((subject, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{subject}</td>
+                    <td>
+                      <ChooseStufe />
+                    </td>
+                    <td>
+                      <input type="checkbox" />
+                    </td>
+                  </tr>
+                );
+              })}
+              <tr>
+                <td>Fortnite</td>
+                <td>
+                  <select name="" id="">
+                    <option value="">--- Bereich auswählen ---</option>
+                    <option>Bauen</option>
+                    <option>Editieren</option>
+                    <option>Aim</option>
+                    <option>Skin Contest</option>
+                  </select>
+                </td>
+                <td>
+                  <input type="checkbox" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button
+            type="submit"
+            onClick={(e) => {
+              register();
+              e.preventDefault();
+            }}
+          >
+            User erstellen
+          </button>
+        </div>
+        <ToastContainer />
+      </div>
+    );
+  } else return null;
 }
 
 export default RegisterPage;

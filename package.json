@@ -55,6 +55,7 @@
     "mini-css-extract-plugin": "2.4.5"
   },
   "devDependencies": {
-    "mini-css-extract-plugin": "2.4.5"
+    "mini-css-extract-plugin": "2.4.5",
+    "typescript-plugin-css-modules": "^3.4.0"
   }
 }
