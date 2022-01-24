@@ -50,9 +50,6 @@ function RegisterPage() {
   }
 
   function register() {
-    // todo
-    console.log(id, chosen);
-
     if (/^-?[\d.]+(?:e-?\d+)?$/.test(id) && chosen.length > 1) {
       toast.success("User wird erstellt...", {
         position: "bottom-right",
@@ -87,7 +84,7 @@ function RegisterPage() {
     );
   }
 
-  if (step === 1) {
+  if (step === 1)
     return (
       <div className={css.container}>
         <h1>Anmelden</h1>
@@ -115,15 +112,16 @@ function RegisterPage() {
           </form>
         </div>
         <div className={css.placeholder}></div>
-        <p className={css.step}>schritt 1 / 3</p>
+        <p className={css.step}>Schritt {step} / 3</p>
+        <ToastContainer />
       </div>
     );
-  } else if (step === 2) {
+  else
     return (
-      <div id={css.wrapper}>
+      <div className={css.container}>
         <div id={css.formContainer}>
           <h1>Fächer auswählen</h1>
-          <h4>Deine E-Mail: {email}</h4>
+          <h4>Deine E-Mail: {email}@gymhaan.de</h4>
           <table>
             <thead>
               <tr>
@@ -163,20 +161,20 @@ function RegisterPage() {
               </tr>
             </tbody>
           </table>
-          <button
+          <input
             type="submit"
+            value="weiter"
+            id={css.submit}
             onClick={(e) => {
-              register();
+              setStep(3);
               e.preventDefault();
             }}
-          >
-            User erstellen
-          </button>
+          />
         </div>
+        <p className={css.step}>Schritt {step} / 3</p>
         <ToastContainer />
       </div>
     );
-  } else return null;
 }
 
 export default RegisterPage;
