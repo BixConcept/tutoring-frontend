@@ -1,11 +1,9 @@
-import css from "../styles/registerPage.module.scss";
-
-import { useState, useContext } from "react";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useState, useContext, useRef, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { ThemeContext } from "../ThemeContext";
+import lottie from "lottie-web";
+import css from "../styles/registerPage.module.scss";
+import "react-toastify/dist/ReactToastify.css";
 
 function RegisterPage() {
   document.title = "Registrieren";
@@ -84,7 +82,22 @@ function RegisterPage() {
     );
   }
 
-  if (step === 1)
+  // Smile Animation
+  const smile = useRef(null);
+  useEffect(() => {
+    if (smile.current) {
+      lottie.loadAnimation({
+        container: smile.current,
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        animationData: require("../assets/animations/smile.json"),
+      });
+    }
+  });
+
+  // Render
+  if (step === 1) {
     return (
       <div className={css.container}>
         <h1>Anmelden</h1>
@@ -116,7 +129,7 @@ function RegisterPage() {
         <ToastContainer />
       </div>
     );
-  else
+  } else if (step === 2) {
     return (
       <div className={css.container}>
         <div id={css.formContainer}>
@@ -131,7 +144,7 @@ function RegisterPage() {
               </tr>
             </thead>
             <tbody>
-              {subjects.map((subject, index) => {
+              {subjects.sort().map((subject, index) => {
                 return (
                   <tr key={index}>
                     <td>{subject}</td>
@@ -175,6 +188,20 @@ function RegisterPage() {
         <ToastContainer />
       </div>
     );
+  } else if (step === 3) {
+    return (
+      <div className={css.container}>
+        <h1>Bestätigen</h1>
+        <p>
+          Gebe deine E-Mail-Adresse an, welche du von der Schule bekommen hast.
+        </p>
+        <div ref={smile}></div>
+        <div className={css.placeholder}></div>
+        <p className={css.step}>Schritt {step} / 3</p>
+        <ToastContainer />
+      </div>
+    );
+  } else return null;
 }
 
 export default RegisterPage;
