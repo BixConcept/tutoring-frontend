@@ -1,9 +1,7 @@
 import css from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
 import DarkMode from "./DarkMode";
-import logo from "../assets/images/gymhaan_logo_neu.png";
-import logoDark from "../assets/images/gymhaan_logo_neu_dark.png";
-import { ThemeContext } from "../ThemeContext";
+import logo from "../assets/images/logo.svg";
 
 function Navbar() {
   return (
@@ -11,13 +9,7 @@ function Navbar() {
       <ul>
         <li id={css.logo}>
           <Link to="/">
-            <ThemeContext.Consumer>
-              {({ theme }) => {
-				let a = localStorage.getItem("theme");
-                let src = a === "dark" ? logoDark : logo;
-                return <img src={src} alt="gymhaan logo" />;
-              }}
-            </ThemeContext.Consumer>
+            <img src={logo} alt="gymhaan logo" />
           </Link>
         </li>
         <div id={css.loginRegister}>

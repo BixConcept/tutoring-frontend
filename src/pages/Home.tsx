@@ -26,7 +26,7 @@ function Home() {
               und unser Berufswahl Siegel. Wir sehen uns als Schule von Morgen
               und als ein Raum der Lernentwicklung des einzelnen Individuums.
               Daher haben wir auf Nachfrage der SV ein Ort geschaffen, wo
-              Schüler Schülern helfen.
+              Schüler:innen Schüler:innen helfen.
             </p>
             <p>
               Wir haben eine Nachhilfeplattform geschaffen, wo jeder mitmachen
