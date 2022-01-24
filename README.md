@@ -1,3 +1,3 @@
 # tutoring frontend
 
-Frontend für die SV Nachhilfe...
+Front-End für die Nachhilfe
