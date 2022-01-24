@@ -192,7 +192,7 @@ function RegisterPage() {
     return (
       <div className={css.container}>
         <h1>Bestätigen</h1>
-        <p>Wir haben eine Bestätigungs-E-Mail an {email} geschickt.</p>
+        <p>Wir haben eine Bestätigungs-E-Mail an {email}@gymhaan.de geschickt.</p>
         <div ref={smile}></div>
         <div className={css.placeholder}></div>
         <p className={css.step}>Schritt {step} / 3</p>
