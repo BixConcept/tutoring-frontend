@@ -52,7 +52,7 @@ const DarkMode = () => {
               onChange={() => {
                 toggleDarkMode(setTheme);
               }}
-              checked={localStorage.getItem("theme") === "dark"}
+              checked={localStorage.getItem("theme") === "dark" || localStorage.getItem("theme") === null}
             />
           )}
         </ThemeContext.Consumer>
