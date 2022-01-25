@@ -113,18 +113,32 @@ function RegisterPage() {
     }
   });
 
+  function newStep(theStep: number) {
+    setStep(theStep);
+    navigate(`/register/${theStep}`);
+  }
+
   // Render
   if (step === 1) {
     return (
       <div className={css.container}>
         <h1>Anmelden</h1>
+        <p>Gib die E-Mail-Adresse an, die du von der Schule bekommen hast.</p>
         <p>
-          Gebe deine E-Mail-Adresse an, welche du von der Schule bekommen hast.
+          Das sollte die selbe sein, die auch für Login bei Teams/Office 365
+          benutzt wird.
         </p>
         <div className={css.inputfields}>
           <form
             onSubmit={(e) => {
-              setStep(2);
+              const schoolMailRegex = /(.*)\.(.*)(@gymhaan\.de)?/;
+              if (email.match(schoolMailRegex)) {
+                newStep(2);
+              } else {
+                toast.error(
+                  "Die angegeben E-Mail Addresse ist leider nicht valide."
+                );
+              }
               e.preventDefault();
             }}
           >
@@ -209,7 +223,9 @@ function RegisterPage() {
     return (
       <div className={css.container}>
         <h1>Bestätigen</h1>
-        <p>Wir haben eine Bestätigungs-E-Mail an {email}@gymhaan.de geschickt.</p>
+        <p>
+          Wir haben eine Bestätigungs-E-Mail an {email}@gymhaan.de geschickt.
+        </p>
         <div ref={smile}></div>
         <div className={css.placeholder}></div>
         <p className={css.step}>Schritt {step} / 3</p>
