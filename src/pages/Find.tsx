@@ -53,21 +53,35 @@ function Find() {
           }}
         >
           <div id={css.inputRow}>
-            <div className={css.inputField}>
-              <select name="" id="" onChange={(e) => setFach(e.target.value)}>
-                <option value="">--- Fach wählen ---</option>
-                {subjects.sort().map((subject, index) => {
-                  return <option key={index}>{subject}</option>;
-                })}
-              </select>
+            <div>
+              <label htmlFor="subject">Fach auswählen</label>
+              <div className={css.inputField}>
+                <select
+                  name="subject"
+                  id=""
+                  onChange={(e) => setFach(e.target.value)}
+                >
+                  <option value="">--- Fach wählen ---</option>
+                  {subjects.sort().map((subject, index) => {
+                    return <option key={index}>{subject}</option>;
+                  })}
+                </select>
+              </div>
             </div>
-            <div className={css.inputField}>
-              <select name="" id="" onChange={(e) => setStufe(e.target.value)}>
-                <option value="">--- Stufe wählen ---</option>
-                {grades.map((grade, index) => {
-                  return <option key={index}>{grade}</option>;
-                })}
-              </select>
+            <div>
+              <label htmlFor="subject">Deine Stufe</label>
+              <div className={css.inputField}>
+                <select
+                  name=""
+                  id=""
+                  onChange={(e) => setStufe(e.target.value)}
+                >
+                  <option value="">--- Stufe wählen ---</option>
+                  {grades.map((grade, index) => {
+                    return <option key={index}>{grade}</option>;
+                  })}
+                </select>
+              </div>
             </div>
           </div>
           <input type="submit" value="weiter" id={css.submit} />
