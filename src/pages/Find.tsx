@@ -3,7 +3,7 @@ import css from "../styles/findPage.module.scss";
 import { ThemeContext } from "../ThemeContext";
 import { toast, ToastContainer } from "react-toastify";
 import { Teacher, TutoringOffer } from "../Models";
-import Alert from "../Components/Alert";
+import alert from "../Components/Alert";
 
 function Find() {
   document.title = "Nachhilfe finden";
@@ -37,18 +37,18 @@ function Find() {
   const [results, setResults] = useState<TutoringOffer[]>([]);
 
   function validate() {
-    if (grade === "") {
-      Alert(
-        "Du musst eine Stufe auswählen",
+    if (subject === "") {
+      alert(
+        "Du musst ein Fach auswählen",
         "error",
         context.theme === "dark" || context.theme === "light"
           ? context.theme
           : "dark"
       );
     }
-    if (subject === "") {
-      Alert(
-        "Du musst ein Fach auswählen",
+    if (grade === "") {
+      alert(
+        "Du musst eine Stufe auswählen",
         "error",
         context.theme === "dark" || context.theme === "light"
           ? context.theme
@@ -121,6 +121,22 @@ function Find() {
           offer.subject === subject && toAbsGrade(offer) >= parseInt(grade)
       )
     );
+
+    results.length > 0
+      ? alert(
+          `Insgesamt ${results.length} Lehrer gefunden 😊`,
+          "success",
+          context.theme === "dark" || context.theme === "light"
+            ? context.theme
+            : "dark"
+        )
+      : alert(
+          "Es wurde kein Lehrer gefunden 🙁",
+          "info",
+          context.theme === "dark" || context.theme === "light"
+            ? context.theme
+            : "dark"
+        );
   }
 
   return (
@@ -132,6 +148,13 @@ function Find() {
             onSubmit={(e) => {
               validate();
 
+              alert(
+                "Suche wird gestartet 🦄",
+                "info",
+                context.theme === "dark" || context.theme === "light"
+                  ? context.theme
+                  : "dark"
+              );
               // Suche
               search();
 
