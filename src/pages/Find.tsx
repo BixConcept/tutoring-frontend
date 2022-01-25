@@ -1,8 +1,9 @@
-import { useContext, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import css from "../styles/findPage.module.scss";
 import { ThemeContext } from "../ThemeContext";
 import { toast, ToastContainer } from "react-toastify";
 import { Teacher, TutoringOffer } from "../Models";
+import Alert from "../Components/Alert";
 
 function Find() {
   document.title = "Nachhilfe finden";
@@ -37,22 +38,22 @@ function Find() {
 
   function validate() {
     if (grade === "") {
-      toast.error("Du musst eine Stufe auswählen", {
-        position: "bottom-right",
-        theme:
-          context.theme === "dark" || context.theme === "light"
-            ? context.theme
-            : "dark",
-      });
+      Alert(
+        "Du musst eine Stufe auswählen",
+        "error",
+        context.theme === "dark" || context.theme === "light"
+          ? context.theme
+          : "dark"
+      );
     }
     if (subject === "") {
-      toast.error("Du musst ein Fach auswählen", {
-        position: "bottom-right",
-        theme:
-          context.theme === "dark" || context.theme === "light"
-            ? context.theme
-            : "dark",
-      });
+      Alert(
+        "Du musst ein Fach auswählen",
+        "error",
+        context.theme === "dark" || context.theme === "light"
+          ? context.theme
+          : "dark"
+      );
     }
   }
 
@@ -86,6 +87,7 @@ function Find() {
         name: "Niels Schlegel",
         email: "niels.schlegel@gymhaan.de",
         grade: 11,
+        misc: "Coole Socke",
       },
       subject: "Englisch",
       maxGrade: -1,
@@ -172,18 +174,39 @@ function Find() {
             </div>
             <input type="submit" value="suchen 🚀" id={css.submit} />
           </form>
-          <ToastContainer />
         </div>
       </div>
       <div id={css.resultsContainer}>
+        <span>
+          <strong>Name</strong>
+        </span>
+        <span>
+          <strong>Stufe</strong>
+        </span>
+        <span>
+          <strong>E-Mail</strong>
+        </span>
+        <span>
+          <strong>Telefonnummer</strong>
+        </span>
+        <span>
+          <strong>Sonstiges</strong>
+        </span>
         {results.length > 0 ? (
           results.map((result) => (
-            <div id={css.offer}>{result.teacher.name}</div>
+            <Fragment>
+              <span>{result.teacher.name}</span>
+              <span>{result.teacher.grade}</span>
+              <span>{result.teacher.email}</span>
+              <span>{result.teacher.phoneNumber}</span>
+              <span>{result.teacher.misc}</span>
+            </Fragment>
           ))
         ) : (
           <h3>Leider gibt es gerade niemand passenden.</h3>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 }
