@@ -1,6 +1,10 @@
 // kopiert von Find.module.scss
 
 .container {
+  padding: 1rem;
+}
+
+.formContainer {
   margin: auto;
   margin-top: 7rem;
   padding: 2rem;
@@ -69,7 +73,6 @@
       background-color: var(--background_color);
     }
     option:nth-child(odd) {
-      border-radius: 0.3rem;
       background-color: var(--contrast_bg_color);
     }
   }
