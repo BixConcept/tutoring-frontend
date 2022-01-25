@@ -1,12 +1,12 @@
 // kopiert von Find.module.scss
 
 .container {
-  margin-top: 7rem !important;
+  margin: auto;
+  margin-top: 7rem;
   padding: 2rem;
   background-color: var(--background_color);
   border: 5px;
-  width: 30rem;
-  margin: auto;
+  max-width: 35rem;
   h1 {
     text-align: center;
   }
@@ -29,29 +29,10 @@
   text-align: center;
 }
 
-.inputFields {
-  width: 60%;
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  margin: auto;
-
-  input {
-    height: 2.5rem;
-    color: var(--text_color);
-
-    &:focus {
-      outline: none;
-    }
-  }
-}
-
 #submit {
   width: 60%;
   height: 2rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
   border-radius: 0.3rem;
   border-style: none;
   background-color: #98c222;
@@ -59,15 +40,8 @@
   font-weight: bold;
   font-size: 1rem;
   cursor: pointer;
-}
 
-#gymhaanPlacehodler {
-  align-self: flex-end;
-  font-size: 12px;
-  margin: auto;
-  margin-right: 10px;
-  margin-left: 3px;
-  text-align: right;
+  align-self: center;
 }
 
 .inputField {
@@ -81,10 +55,40 @@
   border-radius: 0.3rem;
   box-shadow: 0 0 0 2px var(--text_color);
 
-  input {
-    width: 80%;
+  background-color: var(--background_color);
+
+  select {
     border: none;
     background-color: transparent;
     padding: 0.5rem;
+    width: 100%;
+
+    color: var(--text_color);
+
+    option:nth-child(even) {
+      background-color: var(--background_color);
+    }
+    option:nth-child(odd) {
+      border-radius: 0.3rem;
+      background-color: var(--contrast_bg_color);
+    }
   }
+}
+
+#inputRow {
+  display: flex;
+
+  flex-direction: row;
+  gap: 1rem;
+}
+
+@media screen and (max-width: 600px) {
+  #inputRow {
+    flex-direction: column !important;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
 }
