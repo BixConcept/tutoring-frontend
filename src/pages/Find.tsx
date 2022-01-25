@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import css from "../styles/findPage.module.scss";
 import { ThemeContext } from "../ThemeContext";
-import grades from "../pages/RegisterPage";
 import { toast, ToastContainer } from "react-toastify";
+import { Teacher, TutoringOffer } from "../Models";
 
 function Find() {
   document.title = "Nachhilfe finden";
@@ -31,17 +31,9 @@ function Find() {
 
   const context = useContext(ThemeContext);
 
-  function checkTheme(): "dark" | "light" {
-    // to have type safety
-    if (context.theme === "dark" || context.theme === "light") {
-      return context.theme;
-    } else {
-      return "dark";
-    }
-  }
-
   const [grade, setGrade] = useState("");
   const [subject, setSubject] = useState("");
+  const [results, setResults] = useState<TutoringOffer[]>([]);
 
   function validate() {
     if (grade === "") {
@@ -64,6 +56,71 @@ function Find() {
     }
   }
 
+  const mockupData: TutoringOffer[] = [
+    {
+      id: 1,
+      teacher: {
+        id: 1,
+        name: "Niels Schlegel",
+        email: "niels.schlegel@gymhaan.de",
+        grade: 11,
+      },
+      subject: "Mathematik",
+      maxGrade: -1,
+    },
+    {
+      id: 2,
+      teacher: {
+        id: 1,
+        name: "Niels Schlegel",
+        email: "niels.schlegel@gymhaan.de",
+        grade: 11,
+      },
+      subject: "Informatik",
+      maxGrade: -1,
+    },
+    {
+      id: 3,
+      teacher: {
+        id: 1,
+        name: "Niels Schlegel",
+        email: "niels.schlegel@gymhaan.de",
+        grade: 11,
+      },
+      subject: "Englisch",
+      maxGrade: -1,
+    },
+    {
+      id: 4,
+      teacher: {
+        id: 2,
+        name: "Jemand Anderes",
+        email: "jemand.anderes@gymhaan.de",
+        grade: 9,
+      },
+      subject: "Latein",
+      maxGrade: 8,
+    },
+  ];
+
+  function toAbsGrade(offer: TutoringOffer): number {
+    if (offer.maxGrade >= 5) {
+      return offer.maxGrade;
+    }
+    return offer.teacher.grade + offer.maxGrade;
+  }
+
+  function search() {
+    // TODO: API request
+
+    setResults(
+      mockupData.filter(
+        (offer) =>
+          offer.subject === subject && toAbsGrade(offer) >= parseInt(grade)
+      )
+    );
+  }
+
   return (
     <div className={css.container}>
       <div className={css.formContainer}>
@@ -74,6 +131,10 @@ function Find() {
               validate();
 
               // Suche
+              search();
+
+              // TODO: add parameters to url so you can copy it
+
               e.preventDefault();
             }}
           >
@@ -113,6 +174,15 @@ function Find() {
           </form>
           <ToastContainer />
         </div>
+      </div>
+      <div id={css.resultsContainer}>
+        {results.length > 0 ? (
+          results.map((result) => (
+            <div id={css.offer}>{result.teacher.name}</div>
+          ))
+        ) : (
+          <h3>Leider gibt es gerade niemand passenden.</h3>
+        )}
       </div>
     </div>
   );
