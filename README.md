@@ -1,6 +1,7 @@
 # tutoring frontend
 
-![example workflow](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+![lint status](https://github.com/HaanerBarbaren/tutoring-frontend/actions/workflows/super-linter.yml/badge.svg)
+
 
 
 Front-End für die Nachhilfe
