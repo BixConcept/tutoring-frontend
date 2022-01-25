@@ -136,7 +136,7 @@ function RegisterPage() {
                 newStep(2);
               } else {
                 toast.error(
-                  "Die angegeben E-Mail Addresse ist leider nicht valide."
+                  "Die angegebene E-Mail Addresse ist leider nicht valide."
                 );
               }
               e.preventDefault();
