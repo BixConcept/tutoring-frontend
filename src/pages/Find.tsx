@@ -45,6 +45,7 @@ function Find() {
           ? context.theme
           : "dark"
       );
+      return -1;
     }
     if (grade === "") {
       alert(
@@ -54,6 +55,7 @@ function Find() {
           ? context.theme
           : "dark"
       );
+      return -1;
     }
   }
 
@@ -121,22 +123,6 @@ function Find() {
           offer.subject === subject && toAbsGrade(offer) >= parseInt(grade)
       )
     );
-
-    results.length > 0
-      ? alert(
-          `Insgesamt ${results.length} Lehrer gefunden 😊`,
-          "success",
-          context.theme === "dark" || context.theme === "light"
-            ? context.theme
-            : "dark"
-        )
-      : alert(
-          "Es wurde kein Lehrer gefunden 🙁",
-          "info",
-          context.theme === "dark" || context.theme === "light"
-            ? context.theme
-            : "dark"
-        );
   }
 
   return (
@@ -146,20 +132,21 @@ function Find() {
         <div className={css.inputfields}>
           <form
             onSubmit={(e) => {
-              validate();
+              if (validate() !== -1) {
 
-              alert(
-                "Suche wird gestartet 🦄",
-                "info",
-                context.theme === "dark" || context.theme === "light"
-                  ? context.theme
-                  : "dark"
-              );
-              // Suche
-              search();
+                // Spaeter den Text der Meldung nach dem empfangen der Daten aendern...
+                alert(
+                  "Suche wird gestartet 🦄",
+                  "info",
+                  context.theme === "dark" || context.theme === "light"
+                    ? context.theme
+                    : "dark"
+                );
+                // Suche
+                search();
 
-              // TODO: add parameters to url so you can copy it
-
+                // TODO: add parameters to url so you can copy it
+              }
               e.preventDefault();
             }}
           >
@@ -199,36 +186,34 @@ function Find() {
           </form>
         </div>
       </div>
-      <div id={css.resultsContainer}>
-        <span>
-          <strong>Name</strong>
-        </span>
-        <span>
-          <strong>Stufe</strong>
-        </span>
-        <span>
-          <strong>E-Mail</strong>
-        </span>
-        <span>
-          <strong>Telefonnummer</strong>
-        </span>
-        <span>
-          <strong>Sonstiges</strong>
-        </span>
-        {results.length > 0 ? (
-          results.map((result) => (
-            <Fragment>
+      {results.length > 0 ? (
+        <div id={css.resultsContainer}>
+          <span>
+            <strong>Name</strong>
+          </span>
+          <span>
+            <strong>Stufe</strong>
+          </span>
+          <span>
+            <strong>E-Mail</strong>
+          </span>
+          <span>
+            <strong>Telefonnummer</strong>
+          </span>
+          <span>
+            <strong>Sonstiges</strong>
+          </span>
+          {results.map((result, index) => (
+            <Fragment key={index}>
               <span>{result.teacher.name}</span>
               <span>{result.teacher.grade}</span>
               <span>{result.teacher.email}</span>
               <span>{result.teacher.phoneNumber}</span>
               <span>{result.teacher.misc}</span>
             </Fragment>
-          ))
-        ) : (
-          <h3>Leider gibt es gerade niemand passenden.</h3>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : null}
       <ToastContainer />
     </div>
   );
