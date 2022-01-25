@@ -26,7 +26,7 @@ function Find() {
     "Sozialwissenschaften",
     "Politik/Wirtschaft",
     "Informatik",
-  ];
+  ].sort();
 
   const context = useContext(ThemeContext);
 
@@ -44,7 +44,7 @@ function Find() {
 
   return (
     <div className={css.container}>
-      <h1>Finde eine:*_n Helfer:*_in</h1>
+      <h1>Nachhilfe finden</h1>
       <div className={css.inputfields}>
         <form
           onSubmit={(e) => {
@@ -52,21 +52,23 @@ function Find() {
             e.preventDefault();
           }}
         >
-          <div className={css.inputfield}>
-            <select name="" id="" onChange={(e) => setFach(e.target.value)}>
-              <option value="">--- Fach wählen ---</option>
-              {subjects.sort().map((subject, index) => {
-                return <option key={index}>{subject}</option>;
-              })}
-            </select>
-          </div>
-          <div className={css.inputfield}>
-          <select name="" id="" onChange={(e) => setStufe(e.target.value)}>
-              <option value="">--- Stufe wählen ---</option>
-              {grades.map((grade, index) => {
-                return <option key={index}>{grade}</option>;
-              })}
-            </select>
+          <div id={css.inputRow}>
+            <div className={css.inputField}>
+              <select name="" id="" onChange={(e) => setFach(e.target.value)}>
+                <option value="">--- Fach wählen ---</option>
+                {subjects.sort().map((subject, index) => {
+                  return <option key={index}>{subject}</option>;
+                })}
+              </select>
+            </div>
+            <div className={css.inputField}>
+              <select name="" id="" onChange={(e) => setStufe(e.target.value)}>
+                <option value="">--- Stufe wählen ---</option>
+                {grades.map((grade, index) => {
+                  return <option key={index}>{grade}</option>;
+                })}
+              </select>
+            </div>
           </div>
           <input type="submit" value="weiter" id={css.submit} />
         </form>
