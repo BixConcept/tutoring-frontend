@@ -4,6 +4,7 @@ import { ThemeContext } from "../ThemeContext";
 import lottie from "lottie-web";
 import css from "../styles/registerPage.module.scss";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, useParams } from "react-router";
 
 function RegisterPage() {
   document.title = "Registrieren";
@@ -34,7 +35,23 @@ function RegisterPage() {
   const [email, setEmail] = useState("");
   const [chosen, setChosen] = useState([]);
 
+  const navigate = useNavigate();
+  const { stepIndex } = useParams();
+
   const [step, setStep] = useState(1);
+
+  useEffect(() => {
+    if (!stepIndex) {
+      navigate("/register/1", { replace: true });
+    } else {
+      let parsedIndex = parseInt(stepIndex);
+      if (parsedIndex === NaN) {
+        navigate("/register/1", { replace: true });
+      } else {
+        setStep(parsedIndex);
+      }
+    }
+  });
 
   const context = useContext(ThemeContext);
 

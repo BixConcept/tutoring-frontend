@@ -23,14 +23,15 @@ function App() {
           <Navbar />
           <div id="wrapper">
             <Routes>
-              <Route path="*" element={<FourOFourPage />} />
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/register/:stepIndex" element={<RegisterPage />} />
               <Route path="/license" element={<License />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/imprint" element={<Imprint />} />
               <Route path="/find" element={<Find />} />
+              <Route path="*" element={<FourOFourPage />} />
             </Routes>
           </div>
           <Footer />
