@@ -4,4 +4,4 @@
 
 
 
-Front-End für die Nachhilfe
+Frontend für die Nachhilfe
