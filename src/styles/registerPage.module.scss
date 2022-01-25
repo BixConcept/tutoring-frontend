@@ -1,12 +1,12 @@
 // Step 2
 .container {
-  margin-top: 7rem !important;
+  margin: auto;
+  margin-top: 7rem;
   padding: 2rem;
   background-color: var(--background_color);
   border: 5px;
   width: 30rem;
-  margin: auto;
-  > h1 {
+  h1 {
     text-align: center;
   }
 
@@ -19,71 +19,70 @@
   box-shadow: inset 0 0 5px #c9c9c9;
 }
 
-.placeholder {
-  width: 100%;
-  height: 6rem;
-}
-
 .step {
   text-align: center;
 }
 
 .inputFields {
+  margin: auto;
+  margin-top: 1rem;
   width: 60%;
-  > form {
+
+  form {
+    gap: 1rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
 
-  margin: auto;
+  #submit {
+    width: 60%;
+    height: 2rem;
+    border-radius: 0.3rem;
+    border-style: none;
+    background-color: #98c222;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
 
-  > input {
-    height: 2.5rem;
-    color: var(--text_color);
+    align-self: center;
+  }
 
-    &:focus {
-      outline: none;
+  #gymhaanPlacehodler {
+    align-self: flex-end;
+    font-size: 12px;
+    margin: auto;
+    margin-right: 10px;
+    margin-left: 3px;
+    text-align: right;
+  }
+
+  .inputField {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    border-radius: 0.3rem;
+    box-shadow: 0 0 0 2px var(--text_color);
+
+    padding: 0.5rem;
+
+    input {
+      width: 80%;
+      border: none;
+      background-color: transparent;
+      padding: 0;
+      color: var(--text_color);
     }
   }
 }
 
-#submit {
-  width: 60%;
-  height: 2rem;
-  margin-top: 2rem;
-  border-radius: 0.3rem;
-  border-style: none;
-  background-color: #98c222;
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-}
+@media screen and (max-width: 600px) {
+  .container {
+    p {
+      font-size: 11pt !important;
+    }
 
-#gymhaanPlacehodler {
-  align-self: flex-end;
-  font-size: 12px;
-  margin: auto;
-  margin-right: 10px;
-  margin-left: 3px;
-  text-align: right;
-}
-
-.inputField {
-  margin: 0;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  border-radius: 0.3rem;
-  box-shadow: 0 0 0 2px var(--text_color);
-
-  input {
-    width: 80%;
-    border: none;
-    background-color: transparent;
-    padding: 0.5rem;
+    margin-top: 3rem;
+    width: auto;
   }
 }

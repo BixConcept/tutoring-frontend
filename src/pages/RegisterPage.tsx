@@ -128,10 +128,10 @@ function RegisterPage() {
           Das sollte die selbe sein, die auch für Login bei Teams/Office 365
           benutzt wird.
         </p>
-        <div className={css.inputfields}>
+        <div className={css.inputFields}>
           <form
             onSubmit={(e) => {
-              const schoolMailRegex = /(.*)\.(.*)(@gymhaan\.de)?/;
+              const schoolMailRegex = /(.*)\.(.*)(@gymhaan\.de)?/; // this allows too much, but I am not sure how they are generated exactly so '729asdf=9@.23aa~~3F@gymhaan.de' is valid for now
               if (email.match(schoolMailRegex)) {
                 newStep(2);
               } else {
@@ -142,7 +142,7 @@ function RegisterPage() {
               e.preventDefault();
             }}
           >
-            <div className={css.inputfield}>
+            <div className={css.inputField}>
               <input
                 type="text"
                 required
@@ -150,12 +150,11 @@ function RegisterPage() {
                   setEmail(e.target.value);
                 }}
               />
-              <p id={css.gymhaanplacehodler}>@gymhaan.de</p>
+              <p id={css.gymhaanPlacehodler}>@gymhaan.de</p>
             </div>
             <input type="submit" value="weiter" id={css.submit} />
           </form>
         </div>
-        <div className={css.placeholder}></div>
         <p className={css.step}>Schritt {step} / 3</p>
         <ToastContainer />
       </div>
