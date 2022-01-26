@@ -26,13 +26,13 @@ function App() {
               <Route path="*" element={<FourOFourPage />} />
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/register" element={<Find />} />
               <Route path="/license" element={<License />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/imprint" element={<Imprint />} />
               <Route path="/find" element={<Find />} />
             </Routes>
-          </div>
+          </div >
           <Footer />
         </BrowserRouter>
       </ThemeContext.Provider>

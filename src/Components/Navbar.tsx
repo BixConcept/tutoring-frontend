@@ -1,8 +1,8 @@
 import css from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
 import DarkMode from "./DarkMode";
-import logo from "../assets/images/gymhaan_logo_neu.png";
-import logoDark from "../assets/images/gymhaan_logo_neu_dark.png";
+import logo from "../assets/images/logo.svg";
+import logoDark from "../assets/images/logo.svg";
 import { ThemeContext } from "../ThemeContext";
 
 function Navbar() {
@@ -13,7 +13,7 @@ function Navbar() {
           <Link to="/">
             <ThemeContext.Consumer>
               {({ theme }) => {
-				let a = localStorage.getItem("theme");
+                let a = localStorage.getItem("theme");
                 let src = a === "dark" ? logoDark : logo;
                 return <img src={src} alt="gymhaan logo" />;
               }}
