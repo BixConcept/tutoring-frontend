@@ -133,6 +133,11 @@
       font-family: Hack, monospace;
     }
   }
+
+  #numResults {
+    font-weight: bold;
+    font-size: 16pt;
+  }
 }
 
 @media screen and (max-width: 600px) {
