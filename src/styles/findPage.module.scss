@@ -8,7 +8,6 @@
   margin: auto;
   margin-top: 3rem;
   padding: 2rem;
-  background-color: var(--background_color);
   border: 5px;
   max-width: 35rem;
   h1 {
@@ -22,6 +21,10 @@
   -moz-box-shadow: inset 0 0 5px #c9c9c9;
   -webkit-box-shadow: inset 0 0 5px #c9c9c9;
   box-shadow: inset 0 0 5px #c9c9c9;
+  form {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .placeholder {
@@ -90,15 +93,45 @@
 }
 
 #resultsContainer {
-  margin-top: 1rem;
+  margin-top: 2rem;
   text-align: center;
   color: var(--text_color);
-  display: grid;
-  grid-template-columns: 2fr 1fr 2fr 2fr 2fr;
-  grid-template-areas: "Name Stufe E-Mail Telefonnummer Sonstiges";
-  span {
-    padding: 0.1rem;
-    border: 1px solid var(--text_color);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 1rem;
+
+  .result {
+    text-align: left;
+    background-color: var(--contrast_bg_color);
+    border-radius: 0.5rem;
+    -moz-box-shadow: inset 0 0 2px #c9c9c9;
+    -webkit-box-shadow: inset 0 0 2px #c9c9c9;
+    box-shadow: inset 0 0 2px #c9c9c9;
+
+    max-width: 35rem;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
+    padding: 0.5rem 1rem;
+    h2 {
+      margin: 0;
+      font-size: 15pt;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .email {
+      font-family: Hack, monospace;
+    }
   }
 }
 
@@ -106,9 +139,4 @@
   #inputRow {
     flex-direction: column !important;
   }
-}
-
-form {
-  display: flex;
-  flex-direction: column;
 }

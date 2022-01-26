@@ -36,7 +36,7 @@ function Find() {
   const [subject, setSubject] = useState("");
   const [results, setResults] = useState<TutoringOffer[]>([]);
 
-  function validate() {
+  function validate(): boolean {
     if (subject === "") {
       alert(
         "Du musst ein Fach auswählen",
@@ -45,7 +45,7 @@ function Find() {
           ? context.theme
           : "dark"
       );
-      return -1;
+      return false;
     }
     if (grade === "") {
       alert(
@@ -55,8 +55,9 @@ function Find() {
           ? context.theme
           : "dark"
       );
-      return -1;
+      return false;
     }
+    return true;
   }
 
   const mockupData: TutoringOffer[] = [
@@ -118,10 +119,11 @@ function Find() {
     // TODO: API request
 
     setResults(
-      mockupData.filter(
-        (offer) =>
-          offer.subject === subject && toAbsGrade(offer) >= parseInt(grade)
-      )
+      mockupData
+      // mockupData.filter(
+      //   (offer) =>
+      //     offer.subject === subject && toAbsGrade(offer) >= parseInt(grade)
+      // )
     );
   }
 
@@ -132,17 +134,7 @@ function Find() {
         <div className={css.inputfields}>
           <form
             onSubmit={(e) => {
-              if (validate() !== -1) {
-
-                // Spaeter den Text der Meldung nach dem empfangen der Daten aendern...
-                alert(
-                  "Suche wird gestartet 🦄",
-                  "info",
-                  context.theme === "dark" || context.theme === "light"
-                    ? context.theme
-                    : "dark"
-                );
-                // Suche
+              if (validate()) {
                 search();
 
                 // TODO: add parameters to url so you can copy it
@@ -188,29 +180,17 @@ function Find() {
       </div>
       {results.length > 0 ? (
         <div id={css.resultsContainer}>
-          <span>
-            <strong>Name</strong>
-          </span>
-          <span>
-            <strong>Stufe</strong>
-          </span>
-          <span>
-            <strong>E-Mail</strong>
-          </span>
-          <span>
-            <strong>Telefonnummer</strong>
-          </span>
-          <span>
-            <strong>Sonstiges</strong>
-          </span>
-          {results.map((result, index) => (
-            <Fragment key={index}>
-              <span>{result.teacher.name}</span>
-              <span>{result.teacher.grade}</span>
-              <span>{result.teacher.email}</span>
-              <span>{result.teacher.phoneNumber}</span>
-              <span>{result.teacher.misc}</span>
-            </Fragment>
+          {results.map((result) => (
+            <div className={css.result}>
+              <h2>{result.teacher.name}</h2>
+              {result.teacher.misc !== undefined ? (
+                <p>{result.teacher.misc}</p>
+              ) : null}
+              <p className={css.email}>{result.teacher.email}</p>
+              <p>
+                {result.subject} bis Stufe {toAbsGrade(result)}
+              </p>
+            </div>
           ))}
         </div>
       ) : null}
