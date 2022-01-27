@@ -25,19 +25,19 @@ function Home() {
               Unter anderem sind wir äußerst stolz auf unser Fair-Trade Siegel
               und unser Berufswahl Siegel. Wir sehen uns als Schule von Morgen
               und als ein Raum der Lernentwicklung des einzelnen Individuums.
-              Daher haben wir auf Nachfrage der SV ein Ort geschaffen, wo
+              Daher haben wir auf Nachfrage der SV ein Ort geschaffen, an dem
               Schüler Schülern helfen.
             </p>
             <p>
-              Wir haben eine Nachhilfeplattform geschaffen, wo jeder mitmachen
-              kann. Brauchst du Nachhilfe? Wir finden jemanden von der
+              Wir haben eine Nachhilfeplattform geschaffen, an der jeder
+              mitmachen kann. Brauchst du Nachhilfe? Wir finden jemanden von der
               Schülerschaft der dir Nachhilfe gibt.
             </p>
             <p>
-              Bist du nett??? Wir brauchen dich! Trage dich als
-              Nachhilfelehrenden ein und bessere dir dein Taschengeld auf, mit
-              dem du noch mehr konsumieren und den Zerfall der westlichen
-              Zivilisation vorantreiben kannst.
+              Bist du nett? Wir brauchen dich! Trage dich als Nachhilfelehrenden
+              ein und bessere dir dein Taschengeld auf, mit dem du noch mehr
+              konsumieren und den Zerfall der westlichen Zivilisation
+              vorantreiben kannst.
             </p>
           </div>
           <div id={css.choices}>
@@ -56,23 +56,6 @@ function Home() {
           </div>
         </div>
       </section>
-      {/* <section id="stats-section">
-        <h2 id="stat-title">Statistiken</h2>
-        <div id="stats">
-          <div className="stat">
-            <h3>{requestsPerMonth}</h3>
-            <h4>Anfragen pro Monat</h4>
-          </div>
-          <div className="stat">
-            <h3>{numTutors}</h3>
-            <h4>Nachhilfelehrer:innen</h4>
-          </div>
-          <div className="stat">
-            <h3>{numTutors}</h3>
-            <h4>Nachhilfelehrer:innen</h4>
-          </div>
-        </div>
-      </section>*/}
     </main>
   );
 }

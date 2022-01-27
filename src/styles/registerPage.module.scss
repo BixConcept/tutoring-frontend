@@ -1,60 +1,88 @@
-#wrapper {
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+// Step 2
+.container {
+  margin: auto;
+  margin-top: 7rem;
+  padding: 2rem;
+  background-color: var(--background_color);
+  border: 5px;
+  width: 30rem;
+  h1 {
+    text-align: center;
+  }
 
   color: var(--text_color);
+
+  background-color: var(--contrast_bg_color);
+  border-radius: 0.5rem;
+  -moz-box-shadow: inset 0 0 5px #c9c9c9;
+  -webkit-box-shadow: inset 0 0 5px #c9c9c9;
+  box-shadow: inset 0 0 5px #c9c9c9;
 }
 
-#formContainer {
-  margin-top: 5rem;
-  width: 50rem;
+.step {
+  text-align: center;
+}
 
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-
-  input[type="text"] {
-    width: 100px;
-
-    height: 2.5rem;
-    border-radius: 0.5rem;
-  }
+.inputFields {
+  margin: auto;
+  margin-top: 1rem;
+  width: 60%;
 
   form {
-    width: 100%;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
   }
 
-  .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+  #submit {
+    width: 60%;
+    height: 2rem;
+    border-radius: 0.3rem;
+    border-style: none;
+    background-color: #98c222;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+
+    align-self: center;
+  }
+
+  #gymhaanPlacehodler {
+    align-self: flex-end;
+    font-size: 12px;
+    margin: auto;
+    margin-right: 10px;
+    margin-left: 3px;
+    text-align: right;
+  }
+
+  .inputField {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    border-radius: 0.3rem;
+    box-shadow: 0 0 0 2px var(--text_color);
+
+    padding: 0.5rem;
 
     input {
-      width: 100%;
+      width: 80%;
+      border: none;
+      background-color: transparent;
+      padding: 0;
+      color: var(--text_color);
     }
   }
+}
 
-  .subjectOptions {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1rem;
-
-    div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      border-collapse: separate;
-      input[type="checkbox"] {
-        width: 2rem;
-        height: 2rem;
-        border-radius: 5px;
-        border-collapse: separate;
-      }
+@media screen and (max-width: 600px) {
+  .container {
+    p {
+      font-size: 11pt !important;
     }
+
+    margin-top: 3rem;
+    width: auto;
   }
 }
