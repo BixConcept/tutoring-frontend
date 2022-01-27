@@ -33,7 +33,7 @@ function App() {
               <Route path="/find" element={<Find />} />
               <Route path="*" element={<FourOFourPage />} />
             </Routes>
-          </div>
+          </div >
           <Footer />
         </BrowserRouter>
       </ThemeContext.Provider>

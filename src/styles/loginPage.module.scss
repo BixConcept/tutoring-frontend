@@ -1,11 +1,12 @@
 #login {
-  margin-top: 7rem !important;
+  margin-top: 5% !important;
   padding: 2rem;
   background-color: var(--background_color);
   border: 5px;
   width: 30rem;
   margin: auto;
-  h1 {
+
+  > h1 {
     text-align: center;
   }
 
@@ -30,10 +31,10 @@
   input {
     height: 2.5rem;
     color: var(--text_color);
-	
-	&:focus {
-   outline: none;
-   }
+
+    &:focus {
+      outline: none;
+    }
   }
 }
 
@@ -58,7 +59,7 @@
   box-shadow: 0 0 0 2px var(--text_color);
 
   input {
-    width: 90%;
+    width: 100%;
     border: none;
     background-color: transparent;
     padding: 0.5rem;
