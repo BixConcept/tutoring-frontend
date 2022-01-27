@@ -1,0 +1,54 @@
+/*general css*/
+
+/*every css color setting has to be one of these*/
+/*every color has to have a _dark version. even if the color is the same*/
+
+$primary_color: #98c222;
+$primary_color_dark: #98c222;
+
+/*optional, not final color*/
+$secondary_color: #a2d;
+$secondary_color_dark: #a2d;
+
+$space_background_color: #fff;
+$space_background_dark_color: #121212;
+
+$primary_text_color: #23272a;
+$primary_text_color_dark: #dadada;
+
+$secondary_text_color: #dadada;
+$secondary_text_color_dark: #23272a;
+
+$text_marker_color: #98c222;
+$text_marker_color_dark: #98c222;
+
+/*not final*/
+$primary_font: "Roboto";
+$secondary_font: "Oxygen";
+
+/*button which contains text like 'login'*/
+.text_button {
+  height: 2rem;
+  border-radius: 0.3rem;
+  border-style: none;
+  background-color: $primary_color;
+  color: $secondary_text_color;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.text_field {
+}
+
+.email_text_field {
+}
+
+.password_text_field {
+}
+
+.dropdown {
+}
+
+.text_marker {
+}

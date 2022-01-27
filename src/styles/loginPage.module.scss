@@ -30,10 +30,10 @@
   input {
     height: 2.5rem;
     color: var(--text_color);
-	
-	&:focus {
-   outline: none;
-   }
+
+    &:focus {
+      outline: none;
+    }
   }
 }
 
