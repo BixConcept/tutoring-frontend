@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /var/www/tutoring-frontend
+cd /var/www/tutoring-frontend || exit
 
 if [[ $(git pull) != "Already up to date." ]]
 then
