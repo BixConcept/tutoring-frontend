@@ -25,12 +25,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LoginPage />} />
-<<<<<<< HEAD
-              <Route path="/register" element={<Find />} />
-=======
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/register/:stepIndex" element={<RegisterPage />} />
->>>>>>> 8448c758de06ce03ba8fbdf4b1ae288445bf90d3
               <Route path="/license" element={<License />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/imprint" element={<Imprint />} />
