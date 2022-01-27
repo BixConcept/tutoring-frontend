@@ -1,12 +1,14 @@
 // Step 2
 .container {
   margin: auto;
-  margin-top: 7rem;
   padding: 2rem;
   background-color: var(--background_color);
-  border: 5px;
-  width: 30rem;
-  h1 {
+  border: 3px;
+  margin: 3rem;
+  grid-template-columns: 1fr;
+  grid-template-areas: banane5;
+  h1,
+  h4 {
     text-align: center;
   }
 
@@ -34,7 +36,7 @@
     flex-direction: column;
   }
 
-  #submit {
+  .submit {
     width: 60%;
     height: 2rem;
     border-radius: 0.3rem;
@@ -66,13 +68,41 @@
 
     padding: 0.5rem;
 
-    input {
+    > input {
       width: 80%;
-      border: none;
+      border-width: 0;
       background-color: transparent;
       padding: 0;
       color: var(--text_color);
+      &:focus {
+        outline-width: 0;
+      }
     }
+  }
+}
+
+.subjects {
+  text-align: left;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: banane banane2 banane3;
+  grid-gap: 1rem;
+}
+
+.subject {
+  text-align: left;
+  background-color: var(--background_color);
+  border-radius: 0.5rem;
+  box-shadow: inset 0 0 2px #c9c9c9;
+  max-width: auto;
+  display: grid;
+  grid-template-columns: auto 0.5fr 1rem;
+  grid-template-areas: banane1 banane2 banane3;
+  grid-gap: 0.2rem;
+  padding: 0.5rem 0;
+
+  > select {
+    margin: 0;
   }
 }
 

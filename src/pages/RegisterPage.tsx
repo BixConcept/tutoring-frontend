@@ -152,7 +152,7 @@ function RegisterPage() {
               />
               <p id={css.gymhaanPlacehodler}>@gymhaan.de</p>
             </div>
-            <input type="submit" value="weiter" id={css.submit} />
+            <input type="submit" value="weiter" className={css.submit} />
           </form>
         </div>
         <p className={css.step}>Schritt {step} / 3</p>
@@ -165,6 +165,7 @@ function RegisterPage() {
         <div id={css.formContainer}>
           <h1>Fächer auswählen</h1>
           <h4>Deine E-Mail: {email}@gymhaan.de</h4>
+          {/*
           <table>
             <thead>
               <tr>
@@ -204,15 +205,28 @@ function RegisterPage() {
               </tr>
             </tbody>
           </table>
+          */}
+          <div className={css.subjects}>
+            {subjects.sort().map((subject, index) => {
+              return (
+                <div className={css.subject} key={index}>
+                  <h4>{subject}</h4>
+                  <ChooseStufe />
+                  <input type="checkbox" />
+                </div>
+              );
+            })}
+          </div>
           <input
             type="submit"
             value="weiter"
-            id={css.submit}
+            className={css.submit}
             onClick={(e) => {
               setStep(3);
               e.preventDefault();
             }}
           />
+          <input type="submit" value="weiter" className={css.submit} />
         </div>
         <p className={css.step}>Schritt {step} / 3</p>
         <ToastContainer />
