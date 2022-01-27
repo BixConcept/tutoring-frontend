@@ -99,8 +99,8 @@ function Find() {
       id: 4,
       teacher: {
         id: 2,
-        name: "Jemand Anderes",
-        email: "jemand.anderes@gymhaan.de",
+        name: "Nielspferd",
+        email: "niels.pferd@gymhaan.de",
         grade: 9,
       },
       subject: "Latein",
@@ -120,6 +120,7 @@ function Find() {
 
     setResults(
       mockupData
+      // das Filtern geschieht im Back-End!
       // mockupData.filter(
       //   (offer) =>
       //     offer.subject === subject && toAbsGrade(offer) >= parseInt(grade)
