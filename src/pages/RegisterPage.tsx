@@ -125,7 +125,7 @@ function RegisterPage() {
         <h1>Anmelden</h1>
         <p>Gib die E-Mail-Adresse an, die du von der Schule bekommen hast.</p>
         <p>
-          Das sollte die selbe sein, die auch für Login bei Teams/Office 365
+          Das sollte dieselbe sein, die auch für Login bei Teams/Office 365
           benutzt wird.
         </p>
         <div className={css.inputFields}>
