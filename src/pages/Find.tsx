@@ -106,6 +106,28 @@ function Find() {
       subject: "Latein",
       maxGrade: 8,
     },
+    {
+      id: 5,
+      teacher: {
+        id: 3,
+        name: "Jakob",
+        email: "jakob.kobaj@gymhaan.de",
+        grade: 9,
+      },
+      subject: "Religion",
+      maxGrade: 8,
+    },
+    {
+      id: 6,
+      teacher: {
+        id: 4,
+        name: "David",
+        email: "david.kr@gymhaan.de",
+        grade: 11,
+      },
+      subject: "Fortnite",
+      maxGrade: 11,
+    },
   ];
 
   function toAbsGrade(offer: TutoringOffer): number {
@@ -182,11 +204,14 @@ function Find() {
       {results.length > 0 ? (
         <div id={css.resultsContainer}>
           <span id={css.numResults}>
-            🎉 Es gibt {results.length} mögliche Lehrer:innen
+            🎉 Es gibt {results.length} mögliche Lehrer
           </span>
           {results.map((result) => (
             <div className={css.result}>
-              <h2>{result.teacher.name}</h2>
+              <p>
+                <h2 style={{ display: "inline" }}>{result.teacher.name} </h2>
+                aus der {result.teacher.grade} Stufe
+              </p>
               {result.teacher.misc !== undefined ? (
                 <p>{result.teacher.misc}</p>
               ) : null}
