@@ -1,16 +1,18 @@
 // Step 2
-.container {
-  margin: auto;
+#container {
+  margin: 3rem auto;
   padding: 2rem;
   background-color: var(--background_color);
   border: 3px;
-  margin: 3rem;
+  // margin: 3rem;
   grid-template-columns: 1fr;
   grid-template-areas: banane5;
   h1,
   h4 {
     text-align: center;
   }
+
+  max-width: 60rem;
 
   color: var(--text_color);
 
@@ -25,7 +27,7 @@
   text-align: center;
 }
 
-.inputFields {
+.input-fields {
   margin: auto;
   margin-top: 1rem;
   width: 60%;
@@ -59,7 +61,7 @@
     text-align: right;
   }
 
-  .inputField {
+  .input-field {
     width: 100%;
     display: flex;
     flex-direction: row;
