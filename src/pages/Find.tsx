@@ -183,7 +183,7 @@ function Find() {
       {results.length > 0 ? (
         <div id={css.resultsContainer}>
           <span id={css.numResults}>
-            🎉 Es gibt {results.length} mögliche Lehrer
+            🎉 Es gibt {results.length} Ergebnisse
           </span>
           {results.map((result) => (
             <div className={css.result}>
