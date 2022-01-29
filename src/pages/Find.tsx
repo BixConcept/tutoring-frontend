@@ -2,29 +2,13 @@ import { Fragment, useContext, useState } from "react";
 import css from "../styles/findPage.module.scss";
 import { ThemeContext } from "../ThemeContext";
 import { toast, ToastContainer } from "react-toastify";
-import { Teacher, TutoringOffer } from "../Models";
+import { subjects, Teacher, TutoringOffer } from "../Models";
 import alert from "../Components/Alert";
 
 function Find() {
   document.title = "Nachhilfe finden";
 
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
-  const subjects = [
-    "Deutsch",
-    "Englisch",
-    "Mathematik",
-    "Latein",
-    "Physik",
-    "Biologie",
-    "Chemie",
-    "Französisch",
-    "Spanisch",
-    "Pädagogik",
-    "Sozialwissenschaften",
-    "Politik/Wirtschaft",
-    "Informatik",
-  ].sort();
-
   const context = useContext(ThemeContext);
 
   const [grade, setGrade] = useState("");
@@ -55,6 +39,7 @@ function Find() {
     return true;
   }
 
+  // FIXME: remove this.
   const mockupData: TutoringOffer[] = [
     {
       id: 1,
