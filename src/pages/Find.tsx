@@ -142,7 +142,6 @@ function Find() {
 
     setResults(
       mockupData
-      // das Filtern geschieht im Back-End!
       // mockupData.filter(
       //   (offer) =>
       //     offer.subject === subject && toAbsGrade(offer) >= parseInt(grade)
@@ -204,20 +203,19 @@ function Find() {
       {results.length > 0 ? (
         <div id={css.resultsContainer}>
           <span id={css.numResults}>
-            🎉 Es gibt {results.length} mögliche Lehrer
+            🎉 Es gibt {results.length} mögliche Lehrer:innen
           </span>
           {results.map((result) => (
             <div className={css.result}>
               <p>
-                <h2 style={{ display: "inline" }}>{result.teacher.name} </h2>
-                aus der {result.teacher.grade} Stufe
+                <h2 >{result.teacher.name}, {result.teacher.grade}</h2>
               </p>
               {result.teacher.misc !== undefined ? (
                 <p>{result.teacher.misc}</p>
               ) : null}
               <p className={css.email}>{result.teacher.email}</p>
               <p>
-                {result.subject} bis Stufe {toAbsGrade(result)}
+                {result.subject} bis Stufe/Klasse {toAbsGrade(result)}
               </p>
             </div>
           ))}
