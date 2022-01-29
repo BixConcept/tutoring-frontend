@@ -12,13 +12,8 @@ function Find() {
   const subjects = [
     "Deutsch",
     "Englisch",
-    "Katholische Religion",
-    "Evangelische Religion",
     "Mathematik",
-    "Philosophie",
     "Latein",
-    "Altgriechisch",
-    "Hebräisch",
     "Physik",
     "Biologie",
     "Chemie",
@@ -26,7 +21,7 @@ function Find() {
     "Spanisch",
     "Pädagogik",
     "Sozialwissenschaften",
-    "Politik/Wirtschaft",
+    "Politik / Wirtschaft",
     "Informatik",
   ].sort();
 
@@ -203,12 +198,14 @@ function Find() {
       {results.length > 0 ? (
         <div id={css.resultsContainer}>
           <span id={css.numResults}>
-            🎉 Es gibt {results.length} mögliche Lehrer:innen
+            🎉 Es gibt {results.length} mögliche Lehrer
           </span>
           {results.map((result) => (
             <div className={css.result}>
               <p>
-                <h2 >{result.teacher.name}, {result.teacher.grade}</h2>
+                <h2>
+                  {result.teacher.name}, {result.teacher.grade}
+                </h2>
               </p>
               {result.teacher.misc !== undefined ? (
                 <p>{result.teacher.misc}</p>

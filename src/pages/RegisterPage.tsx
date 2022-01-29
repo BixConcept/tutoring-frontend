@@ -13,13 +13,8 @@ function RegisterPage() {
   const subjects = [
     "Deutsch",
     "Englisch",
-    "Katholische Religion",
-    "Evangelische Religion",
     "Mathematik",
-    "Philosophie",
     "Latein",
-    "Altgriechisch",
-    "Hebräisch",
     "Physik",
     "Biologie",
     "Chemie",
@@ -27,7 +22,7 @@ function RegisterPage() {
     "Spanisch",
     "Pädagogik",
     "Sozialwissenschaften",
-    "Politik/Wirtschaft",
+    "Politik / Wirtschaft",
     "Informatik",
   ];
 

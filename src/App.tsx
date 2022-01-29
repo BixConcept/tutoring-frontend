@@ -12,6 +12,7 @@ import { ThemeContext } from "./ThemeContext";
 import { useState } from "react";
 import FourOFourPage from "./pages/404";
 import Find from "./pages/Find";
+import Dashboard from "./pages/UserDashboard";
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -31,9 +32,10 @@ function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/imprint" element={<Imprint />} />
               <Route path="/find" element={<Find />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="*" element={<FourOFourPage />} />
             </Routes>
-          </div >
+          </div>
           <Footer />
         </BrowserRouter>
       </ThemeContext.Provider>
