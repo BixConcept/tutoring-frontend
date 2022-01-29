@@ -21,7 +21,7 @@ function Find() {
     "Spanisch",
     "Pädagogik",
     "Sozialwissenschaften",
-    "Politik / Wirtschaft",
+    "Politik/Wirtschaft",
     "Informatik",
   ].sort();
 
