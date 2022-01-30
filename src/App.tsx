@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import License from "./pages/License";
 import Privacy from "./pages/Privacy";
 import Imprint from "./pages/Imprint";
-import { ThemeContext } from "./ThemeContext";
+import { OurContext } from "./OurContext";
 import { useState } from "react";
 import FourOFourPage from "./pages/404";
 import Find from "./pages/Find";
@@ -19,7 +19,7 @@ function App() {
 
   return (
     <div className="App">
-      <ThemeContext.Provider value={{ theme: theme, setTheme: setTheme }}>
+      <OurContext.Provider value={{ theme: theme, setTheme: setTheme }}>
         <BrowserRouter>
           <Navbar />
           <div id="wrapper">
@@ -38,7 +38,7 @@ function App() {
           </div>
           <Footer />
         </BrowserRouter>
-      </ThemeContext.Provider>
+      </OurContext.Provider>
     </div>
   );
 }

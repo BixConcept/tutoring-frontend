@@ -1,6 +1,6 @@
 import { Fragment, useContext, useState } from "react";
 import css from "../styles/findPage.module.scss";
-import { ThemeContext } from "../ThemeContext";
+import { OurContext } from "../OurContext";
 import { toast, ToastContainer } from "react-toastify";
 import { subjects, Teacher, TutoringOffer } from "../Models";
 import alert from "../Components/Alert";
@@ -9,7 +9,7 @@ function Find() {
   document.title = "Nachhilfe finden";
 
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
-  const context = useContext(ThemeContext);
+  const context = useContext(OurContext);
 
   const [grade, setGrade] = useState("");
   const [subject, setSubject] = useState("");

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast, Theme } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ThemeContext } from "../ThemeContext";
+import { OurContext } from "../OurContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
 
@@ -22,7 +22,7 @@ function LoginPage() {
   };
 
   const navigate = useNavigate();
-  const context = useContext(ThemeContext);
+  const context = useContext(OurContext);
   const toastId: any = useRef(null);
 
   function checkTheme(): "dark" | "light" {

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import css from "../styles/darkModeButton.module.scss";
-import { ThemeContext } from "../ThemeContext";
+import { OurContext } from "../OurContext";
 
 const DarkMode = () => {
   const body = document.body;
@@ -45,17 +45,20 @@ const DarkMode = () => {
   return (
     <div id={css.switch}>
       <label className={css.toggle}>
-        <ThemeContext.Consumer>
+        <OurContext.Consumer>
           {({ theme, setTheme }) => (
             <input
               type="checkbox"
               onChange={() => {
                 toggleDarkMode(setTheme);
               }}
-              checked={localStorage.getItem("theme") === "dark" || localStorage.getItem("theme") === null}
+              checked={
+                localStorage.getItem("theme") === "dark" ||
+                localStorage.getItem("theme") === null
+              }
             />
           )}
-        </ThemeContext.Consumer>
+        </OurContext.Consumer>
         <span className={css.slider}></span>
         <span className={css.labels}></span>
       </label>
