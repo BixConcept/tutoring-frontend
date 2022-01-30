@@ -20,8 +20,6 @@ const DarkMode = () => {
         setTheme("dark");
       }
     }
-
-    // console.log(theme);
   }, [body.classList]);
 
   const toggleDarkMode = (callback: (newTheme: string) => void) => {
@@ -42,7 +40,7 @@ const DarkMode = () => {
     <div id={css.switch}>
       <label className={css.toggle}>
         <OurContext.Consumer>
-          {({ theme, setTheme }) => (
+          {({ setTheme }) => (
             <input
               type="checkbox"
               onChange={() => {

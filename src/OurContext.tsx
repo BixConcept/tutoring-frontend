@@ -1,6 +1,16 @@
 import { createContext } from "react";
+import { Teacher } from "./Models";
 
-export const OurContext = createContext({
+interface state {
+  theme: string;
+  setTheme: any;
+  user?: Teacher; // only teachers can create accounts, so this _should_ be fine?
+}
+
+export const defaultValues: state = {
   theme: "dark",
-  setTheme: (newTheme: string) => {},
-});
+  setTheme: () => {},
+  user: undefined,
+};
+
+export const OurContext = createContext(defaultValues);
