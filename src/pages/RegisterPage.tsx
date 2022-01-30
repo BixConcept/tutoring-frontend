@@ -11,9 +11,9 @@ function RegisterPage() {
   document.title = "Registrieren";
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
-  const [id, setId] = useState("");
+  const [id] = useState("");
   const [email, setEmail] = useState("");
-  const [chosen, setChosen] = useState([]);
+  const [chosen] = useState([]);
 
   const navigate = useNavigate();
   const { stepIndex } = useParams();
@@ -25,13 +25,13 @@ function RegisterPage() {
       navigate("/register/1", { replace: true });
     } else {
       let parsedIndex = parseInt(stepIndex);
-      if (parsedIndex === NaN) {
+      if (isNaN(parsedIndex)) {
         navigate("/register/1", { replace: true });
       } else {
         setStep(parsedIndex);
       }
     }
-  });
+  }, [stepIndex, navigate]);
 
   const context = useContext(ThemeContext);
 
@@ -68,7 +68,7 @@ function RegisterPage() {
     }
   }
 
-  function ChooseStufe() {
+  function ChooseGrade() {
     return (
       <select name="" id="">
         <option value="">--- Stufe auswählen ---</option>
@@ -141,7 +141,7 @@ function RegisterPage() {
     );
   } else if (step === 2) {
     return (
-      <div className={css.container}>
+      <div id={css.container}>
         <div id={css.formContainer}>
           <h1>Fächer auswählen</h1>
           <h4>Deine E-Mail: {email}@gymhaan.de</h4>
@@ -191,7 +191,7 @@ function RegisterPage() {
               return (
                 <div className={css.subject} key={index}>
                   <h4>{subject}</h4>
-                  <ChooseStufe />
+                  <ChooseGrade />
                   <input type="checkbox" />
                 </div>
               );
@@ -214,7 +214,7 @@ function RegisterPage() {
     );
   } else if (step === 3) {
     return (
-      <div className={css.container}>
+      <div id={css.container}>
         <h1>Bestätigen</h1>
         <p>
           Wir haben eine Bestätigungs-E-Mail an {email}@gymhaan.de geschickt.
