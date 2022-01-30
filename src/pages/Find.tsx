@@ -189,13 +189,17 @@ function Find() {
             <div className={css.result}>
               <p>
                 <h2>
-                  {result.teacher.name}, {result.teacher.grade}
+                  {result.teacher.name}, Stufe/Klasse {result.teacher.grade}
                 </h2>
               </p>
               {result.teacher.misc !== undefined ? (
                 <p>{result.teacher.misc}</p>
               ) : null}
-              <p className={css.email}>{result.teacher.email}</p>
+              <p className={css.email}>
+                <a href={`mailto:${result.teacher.email}`}>
+                  {result.teacher.email}
+                </a>
+              </p>
               <p>
                 {result.subject} bis Stufe/Klasse {toAbsGrade(result)}
               </p>
