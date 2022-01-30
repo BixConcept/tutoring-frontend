@@ -129,6 +129,10 @@
 
     .email {
       font-family: Hack, monospace;
+      > a {
+        color: var(--text_color);
+        text-decoration: none;
+      }
     }
   }
 
