@@ -145,54 +145,12 @@ function RegisterPage() {
         <div id={css.formContainer}>
           <h1>Fächer auswählen</h1>
           <h4>Deine E-Mail: {email}@gymhaan.de</h4>
-          {/*
-          <table>
-            <thead>
-              <tr>
-                <th>Fach</th>
-                <th>Stufe</th>
-                <th>Chechbox</th>
-              </tr>
-            </thead>
-            <tbody>
-              {subjects.sort().map((subject, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{subject}</td>
-                    <td>
-                      <ChooseStufe />
-                    </td>
-                    <td>
-                      <input type="checkbox" />
-                    </td>
-                  </tr>
-                );
-              })}
-              <tr>
-                <td>Fortnite</td>
-                <td>
-                  <select name="" id="">
-                    <option value="">--- Bereich auswählen ---</option>
-                    <option>Bauen</option>
-                    <option>Editieren</option>
-                    <option>Aim</option>
-                    <option>Skin Contest</option>
-                  </select>
-                </td>
-                <td>
-                  <input type="checkbox" />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          */}
           <div className={css.subjects}>
             {subjects.sort().map((subject, index) => {
               return (
                 <div className={css.subject} key={index}>
                   <h4>{subject}</h4>
                   <ChooseStufe />
-                  <input type="checkbox" />
                 </div>
               );
             })}

@@ -189,7 +189,7 @@ function Find() {
             <div className={css.result}>
               <p>
                 <h2>
-                  {result.teacher.name}, {result.teacher.grade}
+                  {result.teacher.name}, Stufe/Klasse {result.teacher.grade}
                 </h2>
               </p>
               {result.teacher.misc !== undefined ? (

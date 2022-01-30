@@ -1,6 +1,16 @@
 import css from "../styles/Home.module.scss";
 import { Link } from "react-router-dom";
 
+import logo1 from "../assets/images/logos/logo1.jpg";
+import logo2 from "../assets/images/logos/logo2.jpg";
+import logo3 from "../assets/images/logos/logo3.png";
+import logo4 from "../assets/images/logos/logo4.jpg";
+import logo5 from "../assets/images/logos/logo5.png";
+import logo7 from "../assets/images/logos/logo7.png";
+import logo9 from "../assets/images/logos/logo9.png";
+
+// import logo8 from "../assets/images/logos/logo8.svg";
+
 function Home() {
   document.title = "Nachhilfe GymHaan";
 
@@ -49,6 +59,14 @@ function Home() {
                 öffne ein Issue!
               </a>
             </p>
+            <h2>Unsere Zertifikate</h2>
+            <img src={logo1} alt="" width={"200px"} />
+            <img src={logo2} alt="" width={"200px"} />
+            <img src={logo3} alt="" width={"200px"} />
+            <img src={logo4} alt="" width={"200px"} />
+            <img src={logo5} alt="" width={"200px"} />
+            <img src={logo7} alt="" width={"200px"} />
+            <img src={logo9} alt="" width={"200px"} />
           </div>
           <div id={css.choices}>
             <div className={css.choice}>
