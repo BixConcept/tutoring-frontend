@@ -2,34 +2,13 @@ import { Fragment, useContext, useState } from "react";
 import css from "../styles/findPage.module.scss";
 import { ThemeContext } from "../ThemeContext";
 import { toast, ToastContainer } from "react-toastify";
-import { Teacher, TutoringOffer } from "../Models";
+import { subjects, Teacher, TutoringOffer } from "../Models";
 import alert from "../Components/Alert";
 
 function Find() {
   document.title = "Nachhilfe finden";
 
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
-  const subjects = [
-    "Deutsch",
-    "Englisch",
-    "Katholische Religion",
-    "Evangelische Religion",
-    "Mathematik",
-    "Philosophie",
-    "Latein",
-    "Altgriechisch",
-    "Hebräisch",
-    "Physik",
-    "Biologie",
-    "Chemie",
-    "Französisch",
-    "Spanisch",
-    "Pädagogik",
-    "Sozialwissenschaften",
-    "Politik/Wirtschaft",
-    "Informatik",
-  ].sort();
-
   const context = useContext(ThemeContext);
 
   const [grade, setGrade] = useState("");
@@ -60,6 +39,7 @@ function Find() {
     return true;
   }
 
+  // FIXME: remove this.
   const mockupData: TutoringOffer[] = [
     {
       id: 1,
@@ -203,12 +183,14 @@ function Find() {
       {results.length > 0 ? (
         <div id={css.resultsContainer}>
           <span id={css.numResults}>
-            🎉 Es gibt {results.length} mögliche Lehrer:innen
+            🎉 Es gibt {results.length} Ergebnisse
           </span>
           {results.map((result) => (
             <div className={css.result}>
               <p>
-                <h2 >{result.teacher.name}, {result.teacher.grade}</h2>
+                <h2>
+                  {result.teacher.name}, {result.teacher.grade}
+                </h2>
               </p>
               {result.teacher.misc !== undefined ? (
                 <p>{result.teacher.misc}</p>

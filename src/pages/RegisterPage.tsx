@@ -5,35 +5,15 @@ import lottie from "lottie-web";
 import css from "../styles/registerPage.module.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router";
+import { subjects } from "../Models";
 
 function RegisterPage() {
   document.title = "Registrieren";
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
-  const subjects = [
-    "Deutsch",
-    "Englisch",
-    "Katholische Religion",
-    "Evangelische Religion",
-    "Mathematik",
-    "Philosophie",
-    "Latein",
-    "Altgriechisch",
-    "Hebräisch",
-    "Physik",
-    "Biologie",
-    "Chemie",
-    "Französisch",
-    "Spanisch",
-    "Pädagogik",
-    "Sozialwissenschaften",
-    "Politik/Wirtschaft",
-    "Informatik",
-  ];
-
-  const [id, setId] = useState("");
+  const [id] = useState("");
   const [email, setEmail] = useState("");
-  const [chosen, setChosen] = useState([]);
+  const [chosen] = useState([]);
 
   const navigate = useNavigate();
   const { stepIndex } = useParams();
@@ -45,13 +25,13 @@ function RegisterPage() {
       navigate("/register/1", { replace: true });
     } else {
       let parsedIndex = parseInt(stepIndex);
-      if (parsedIndex === NaN) {
+      if (isNaN(parsedIndex)) {
         navigate("/register/1", { replace: true });
       } else {
         setStep(parsedIndex);
       }
     }
-  });
+  }, [stepIndex, navigate]);
 
   const context = useContext(ThemeContext);
 
@@ -88,7 +68,7 @@ function RegisterPage() {
     }
   }
 
-  function ChooseStufe() {
+  function ChooseGrade() {
     return (
       <select name="" id="">
         <option value="">--- Stufe auswählen ---</option>
@@ -121,14 +101,14 @@ function RegisterPage() {
   // Render
   if (step === 1) {
     return (
-      <div className={css.container}>
+      <div id={css.container}>
         <h1>Anmelden</h1>
         <p>Gib die E-Mail-Adresse an, die du von der Schule bekommen hast.</p>
         <p>
           Das sollte dieselbe sein, die auch für Login bei Teams/Office 365
           benutzt wird.
         </p>
-        <div className={css.inputFields}>
+        <div className={css["input-fields"]}>
           <form
             onSubmit={(e) => {
               const schoolMailRegex = /(.*)\.(.*)(@gymhaan\.de)?/; // this allows too much, but I am not sure how they are generated exactly so '729asdf=9@.23aa~~3F@gymhaan.de' is valid for now
@@ -142,7 +122,7 @@ function RegisterPage() {
               e.preventDefault();
             }}
           >
-            <div className={css.inputField}>
+            <div className={css["input-field"]}>
               <input
                 type="text"
                 required
@@ -161,7 +141,7 @@ function RegisterPage() {
     );
   } else if (step === 2) {
     return (
-      <div className={css.container}>
+      <div id={css.container}>
         <div id={css.formContainer}>
           <h1>Fächer auswählen</h1>
           <h4>Deine E-Mail: {email}@gymhaan.de</h4>
@@ -211,7 +191,7 @@ function RegisterPage() {
               return (
                 <div className={css.subject} key={index}>
                   <h4>{subject}</h4>
-                  <ChooseStufe />
+                  <ChooseGrade />
                   <input type="checkbox" />
                 </div>
               );
@@ -234,7 +214,7 @@ function RegisterPage() {
     );
   } else if (step === 3) {
     return (
-      <div className={css.container}>
+      <div id={css.container}>
         <h1>Bestätigen</h1>
         <p>
           Wir haben eine Bestätigungs-E-Mail an {email}@gymhaan.de geschickt.

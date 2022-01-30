@@ -25,8 +25,9 @@ function Home() {
               Unter anderem sind wir äußerst stolz auf unser Fair-Trade Siegel
               und unser Berufswahl Siegel. Wir sehen uns als Schule von Morgen
               und als ein Raum der Lernentwicklung des einzelnen Individuums.
-              Daher haben wir auf Nachfrage der SV ein Ort geschaffen, an dem
-              Schüler Schülern helfen.
+              Hier noch irgendeine Scheiße juckt eh keinen was hier steht danke
+              laurens. Daher haben wir auf Nachfrage der SV einen Ort
+              geschaffen, an dem wir uns gegenseitig helfen.
             </p>
             <p>
               Wir haben eine Nachhilfeplattform geschaffen, an der jeder
@@ -34,10 +35,19 @@ function Home() {
               Schülerschaft der dir Nachhilfe gibt.
             </p>
             <p>
-              Bist du nett? Wir brauchen dich! Trage dich als Nachhilfelehrenden
-              ein und bessere dir dein Taschengeld auf, mit dem du noch mehr
-              konsumieren und den Zerfall der westlichen Zivilisation
-              vorantreiben kannst.
+              Falls du Interesse daran zeigst, dich hier einzutragen, tu dies.
+              Wir sind große Freunde derjenigen die sich bereiterklären (gegen
+              ein Entgeld) anderen zu helfen und möchten deren User Experience
+              perfektionieren.
+            </p>
+            <p>
+              WIP: falls du ein Problem auf dieser Website finden mögest,{" "}
+              <a
+                id={css["issue-link"]}
+                href="https://github.com/HaanerBarbaren/tutoring-frontend/issues"
+              >
+                öffne ein Issue!
+              </a>
             </p>
           </div>
           <div id={css.choices}>

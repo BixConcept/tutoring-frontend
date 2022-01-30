@@ -17,7 +17,7 @@ main {
   }
 
   a:visited {
-    color: $not_quite_black;
+    color: var(--text_color);
   }
 }
 
@@ -46,6 +46,10 @@ main {
       text-align: center;
     }
   }
+}
+
+#issue-link {
+  text-decoration: underline;
 }
 
 #applySection {
