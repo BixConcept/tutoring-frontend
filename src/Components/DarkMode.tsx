@@ -6,7 +6,6 @@ import { OurContext } from "../OurContext";
 const DarkMode = () => {
   const body = document.body;
   const [theme, setTheme] = useState("dark");
-  const [checkedS, setCheckedS] = useState(false);
 
   useEffect(() => {
     if (localStorage) {
@@ -20,11 +19,10 @@ const DarkMode = () => {
         localStorage.setItem("theme", "dark");
         setTheme("dark");
       }
-      if (value === "dark") setCheckedS(true);
     }
 
     // console.log(theme);
-  }, []);
+  }, [body.classList]);
 
   const toggleDarkMode = (callback: (newTheme: string) => void) => {
     if (theme === "dark") {
@@ -32,13 +30,11 @@ const DarkMode = () => {
       localStorage.setItem("theme", "light");
       setTheme("light");
       callback("light");
-      setCheckedS(false);
     } else {
       body.classList.replace("light", "dark");
       localStorage.setItem("theme", "dark");
       setTheme("dark");
       callback("dark");
-      // setCheckedS(true);
     }
   };
 
