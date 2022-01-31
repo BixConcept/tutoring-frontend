@@ -13,6 +13,7 @@ import { useState } from "react";
 import FourOFourPage from "./pages/404";
 import Find from "./pages/Find";
 import ComponentsShowpage from "./pages/ComponentsShowpage";
+import Dashboard from "./pages/UserDashboard";
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -33,6 +34,7 @@ function App() {
               <Route path="/imprint" element={<Imprint />} />
               <Route path="/find" element={<Find />} />
               <Route path="/components" element={<ComponentsShowpage />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="*" element={<FourOFourPage />} />
             </Routes>
           </div>

@@ -6,6 +6,7 @@ import { ToastContainer, toast, Theme } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeContext } from "../ThemeContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router";
 
 import { API_HOST } from "../index";
 
@@ -20,6 +21,7 @@ function LoginPage() {
     else setPwType("text");
   };
 
+  const navigate = useNavigate();
   const context = useContext(ThemeContext);
   const toastId: any = useRef(null);
 
@@ -85,6 +87,9 @@ function LoginPage() {
       },
       body: JSON.stringify({ name, password }),
     }).then((res) => console.log(res));
+
+    //
+    navigate("/dashboard", { replace: true });
 
     // Erstmal zum Testen
     /* let a = Math.floor(Math.random() * 10);

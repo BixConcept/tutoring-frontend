@@ -1,5 +1,3 @@
-// kopiert von Find.module.scss
-
 .container {
   padding: 1rem;
 }
@@ -131,6 +129,10 @@
 
     .email {
       font-family: Hack, monospace;
+      > a {
+        color: var(--text_color);
+        text-decoration: none;
+      }
     }
   }
 
