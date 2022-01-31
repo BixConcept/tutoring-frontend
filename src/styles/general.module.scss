@@ -38,7 +38,25 @@ $secondary_font: "Oxygen";
   cursor: pointer;
 }
 
+.login {
+  width: 20rem;
+  height: 50rem;
+  margin: auto;
+}
+
+.form {
+  width: 100%;
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  margin: auto;
+}
+
 .text_field {
+  height: 5rem;
+  width: 100%;
 }
 
 .email_text_field {
@@ -47,7 +65,18 @@ $secondary_font: "Oxygen";
 .password_text_field {
 }
 
+.submit_button {
+  width: 60%;
+}
+
 .dropdown {
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0;
+  appearance: none;
+  height: 2rem;
+  background-color: $primary_color;
+  color: $primary_text_color;
 }
 
 .text_marker {
