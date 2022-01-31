@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import css from "../styles/dashboard.module.scss";
 
 function UserDashboard() {
@@ -7,7 +7,17 @@ function UserDashboard() {
   const [name, setName] = useState("");
 
   return (
+    <Fragment>
+      <ul id={css["settings-menu"]}>
+        <li>
+          Personenbezogene Daten
+        </li>
+      <li>
+          Fächer ändern
+      </li>
+      </ul>
     <div id={css["dashboard"]}>
+      
       <h1>Einstellungen</h1>
       <button>Fächer ändern</button>
       <h2>Account löschen</h2>
@@ -39,6 +49,8 @@ function UserDashboard() {
         </div>
       </div>
     </div>
+    </Fragment>
+
   );
 }
 

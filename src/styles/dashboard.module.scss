@@ -6,6 +6,11 @@
   max-width: 100%;
 }
 
+#settings-menu {
+  float: left;
+  list-style: none;
+}
+
 #modal-background {
   position: fixed;
   z-index: 100;
