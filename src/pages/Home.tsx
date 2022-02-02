@@ -25,20 +25,18 @@ function Home() {
               Unter anderem sind wir äußerst stolz auf unser Fair-Trade Siegel
               und unser Berufswahl Siegel. Wir sehen uns als Schule von Morgen
               und als ein Raum der Lernentwicklung des einzelnen Individuums.
-              Hier noch irgendeine Scheiße juckt eh keinen was hier steht danke
-              laurens. Daher haben wir auf Nachfrage der SV einen Ort
-              geschaffen, an dem wir uns gegenseitig helfen.
+              Daher haben wir auf Nachfrage der SV einen Ort geschaffen, an dem
+              wir uns gegenseitig helfen.
             </p>
             <p>
               Wir haben eine Nachhilfeplattform geschaffen, an der jeder
               mitmachen kann. Brauchst du Nachhilfe? Wir finden jemanden von der
-              Schülerschaft der dir Nachhilfe gibt.
+              Schülerschaft, der dir Nachhilfe gibt.
             </p>
             <p>
               Falls du Interesse daran zeigst, dich hier einzutragen, tu dies.
-              Wir sind große Freunde derjenigen die sich bereiterklären (gegen
-              ein Entgeld) anderen zu helfen und möchten deren User Experience
-              perfektionieren.
+              Wir sind große Freunde derjenigen, die sich bereiterklären anderen
+              zu helfen und möchten deren User Experience perfektionieren.
             </p>
             <p>
               WIP: falls du ein Problem auf dieser Website finden mögest,{" "}

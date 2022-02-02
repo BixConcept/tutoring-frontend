@@ -154,8 +154,6 @@ main {
     }
     h1 {
       text-align: center;
-      color: blue;
-      border: solid red; 
     }
   }
 
@@ -175,15 +173,13 @@ main {
 
   #choices {
     flex-direction: column;
-    
+
     a {
       display: flex;
       align-items: center;
     }
     h1 {
       text-align: center;
-      color: blue;
-      border: solid red; 
     }
   }
 

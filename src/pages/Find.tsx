@@ -185,13 +185,11 @@ function Find() {
           <span id={css.numResults}>
             🎉 Es gibt {results.length} Ergebnisse
           </span>
-          {results.map((result) => (
-            <div className={css.result}>
-              <p>
-                <h2>
-                  {result.teacher.name}, Stufe/Klasse {result.teacher.grade}
-                </h2>
-              </p>
+          {results.map((result, index) => (
+            <div className={css.result} key={index}>
+              <h2>
+                {result.teacher.name}, Stufe/Klasse {result.teacher.grade}
+              </h2>
               {result.teacher.misc !== undefined ? (
                 <p>{result.teacher.misc}</p>
               ) : null}
