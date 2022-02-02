@@ -1,4 +1,6 @@
-//Step 1
+@import "./vars";
+
+// Step 1
 #loginContainer {
   margin: 3rem auto;
   padding: 1.5rem;
@@ -98,7 +100,7 @@
   height: 2rem;
   border-radius: 0.3rem;
   border-style: none;
-  background-color: #98c222;
+  background-color: $primary_color;
   color: #fff;
   font-weight: bold;
   font-size: 1rem;
@@ -124,7 +126,7 @@
     height: 2rem;
     border-radius: 0.3rem;
     border-style: none;
-    background-color: #98c222;
+    background-color: $primary_color;
     color: white;
     font-weight: bold;
     font-size: 1rem;
@@ -271,4 +273,19 @@
     width: 100%;
     height: 3rem;
   }
+}
+
+.selectGrade {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  outline: none;
+  font-size: 12pt;
+  border-radius: 3px;
+  text-align: center;
+  padding: 0.3rem;
+  background-color: $primary_color;
+  color: var(--text_color);
+  cursor: pointer;
 }
