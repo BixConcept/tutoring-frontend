@@ -179,7 +179,7 @@ function RegisterPage() {
             <input
               type="submit"
               value="weiter"
-              className={general.text_button}
+              className={css.next_button}
               onClick={(e) => {
                 setStep(3);
                 e.preventDefault();
