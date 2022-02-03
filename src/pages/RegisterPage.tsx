@@ -71,7 +71,7 @@ function RegisterPage() {
   function ChooseGrade() {
     return (
       <select name="" id="" className={css.selectGrade}>
-        <option value="">Nicht ausgewählt </option>
+        <option value="">Nicht ausgewählt</option>
         {grades.map((grade, index) => {
           return <option key={index}>{grade}</option>;
         })}
