@@ -6,15 +6,16 @@ import general from "../styles/general.module.scss";
 import css from "../styles/registerPage.module.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router";
-import { subjects } from "../Models";
+import { subjects, topSubjects } from "../Models";
 
 function RegisterPage() {
   document.title = "Registrieren";
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
-  const [id] = useState("");
+  const [id, setID] = useState("");
   const [email, setEmail] = useState("");
-  const [chosen] = useState([]);
+  const [chosen, setChosen] = useState([]);
+  const [name, setName] = useState("Niels");
 
   const navigate = useNavigate();
   const { stepIndex } = useParams();
@@ -74,7 +75,7 @@ function RegisterPage() {
       <select name="" id="" className={css.selectGrade}>
         <option value="">Nicht ausgewählt</option>
         {grades.map((grade, index) => {
-          return <option key={index}>{grade}</option>;
+          return <option key={index}>ab Stufe {grade}</option>;
         })}
       </select>
     );
@@ -133,6 +134,7 @@ function RegisterPage() {
               const schoolMailRegex = /(.*)\.(.*)(@gymhaan\.de)?/; // this allows too much, but I am not sure how they are generated exactly so '729asdf=9@.23aa~~3F@gymhaan.de' is valid for now
               if (email.match(schoolMailRegex)) {
                 newStep(2);
+                lottie.destroy();
               } else {
                 lottie.stop();
                 lottie.setSpeed(1.5);
@@ -154,7 +156,10 @@ function RegisterPage() {
             <input type="submit" value="weiter" className={css.submit} />
           </form>
         </div>
-        <p className={css.step}>Schritt {step} / 3</p>
+        <p className={css.step}>
+          <span className={general.bullSpan}>&bull;</span>&bull;&bull;
+        </p>
+
         <ToastContainer />
       </div>
     );
@@ -162,9 +167,21 @@ function RegisterPage() {
     return (
       <div id={css.container}>
         <div id={css.formContainer}>
-          <h1>Fächer auswählen</h1>
-          <h4>Deine E-Mail: {email}@gymhaan.de</h4>
+          <h1>Wähle deine Fächer, {name}</h1>
+          <h4>Fächer ausgewählt: 0</h4>
           <div className={css.subjects}>
+            <h3>Beliebte Fächer:</h3>
+            {topSubjects.map((subject, index) => {
+              return (
+                <div className={css.subject} key={index}>
+                  <h4>{subject}</h4>
+                  <ChooseGrade />
+                </div>
+              );
+            })}
+          </div>
+          <div className={css.subjects}>
+            <h3>Weitere Fächer:</h3>
             {subjects.sort().map((subject, index) => {
               return (
                 <div className={css.subject} key={index}>
@@ -187,7 +204,10 @@ function RegisterPage() {
             />
           </div>
         </div>
-        <p className={css.step}>Schritt {step} / 3</p>
+        <div className={css.step}>
+          &bull;<span className={general.bullSpan}>&bull;</span>&bull;
+        </div>
+
         <ToastContainer />
       </div>
     );
@@ -200,12 +220,13 @@ function RegisterPage() {
           id={css.letterAnimation}
           onPointerEnter={(e) => {
             lottie.stop();
+            lottie.setSpeed(2);
             lottie.play();
           }}
         ></div>
-        <p>
+        <p id={css.justifyText}>
           Damit wir deine Identität bestätigen können haben wir dir eine E-Mail
-          an {email}@gymhaan.de geschickt. <br />
+          an <span>{email}@gymhaan.de geschickt.</span> <br />
           Öffne diese und befolge den Anweisungen, um deinen Account zu
           aktivieren. <br /> <br />
           PS: Wenn du die E-Mail nicht findest, schau in deinem Spam Ordner
@@ -213,7 +234,9 @@ function RegisterPage() {
         </p>
 
         <div className={css.placeholder}></div>
-        <p className={css.step}>Schritt {step} / 3</p>
+        <p className={css.step}>
+          &bull;&bull;<span className={general.bullSpan}>&bull;</span>
+        </p>
         <ToastContainer />
       </div>
     );

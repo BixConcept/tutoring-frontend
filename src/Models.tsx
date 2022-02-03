@@ -14,21 +14,24 @@ export interface Teacher {
   misc?: string;
 }
 
+export const topSubjects: string[] = [
+  "Mathematik",
+  "Englisch",
+  "Deutsch",
+  "Latein",
+  "Französisch",
+  "Spanisch",
+];
+
 export const subjects: string[] = [
   "Altgriechisch",
   "Biologie",
   "Chemie",
-  "Deutsch",
-  "Englisch",
-  "Französisch",
   "Hebräisch",
   "Informatik",
-  "Latein",
-  "Mathematik",
   "Philosophie",
   "Physik",
   "Politik/Wirtschaft",
   "Pädagogik",
   "Sozialwissenschaften",
-  "Spanisch",
 ];
