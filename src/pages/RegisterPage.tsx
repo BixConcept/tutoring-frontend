@@ -4,21 +4,24 @@ import { ThemeContext } from "../ThemeContext";
 import lottie from "lottie-web";
 import css from "../styles/registerPage.module.scss";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate, useParams } from "react-router";
-import { subjects } from "../Models";
+import { useLocation, useNavigate, useParams } from "react-router";
+import { subjects, topSubjects } from "../Models";
 
 function RegisterPage() {
   document.title = "Registrieren";
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
-  const [id] = useState("");
+  const [id, setID] = useState("");
   const [email, setEmail] = useState("");
-  const [chosen] = useState([]);
+  const [chosen, setChosen] = useState([{}]);
+  const [name, setName] = useState("Niels");
 
   const navigate = useNavigate();
   const { stepIndex } = useParams();
 
   const [step, setStep] = useState(1);
+
+  const location = useLocation();
 
   useEffect(() => {
     if (!stepIndex) {
@@ -68,27 +71,42 @@ function RegisterPage() {
     }
   }
 
-  function ChooseGrade() {
+  const handleChange = (e: any, subj: string) => {
+    console.log(e.target.value);
+    console.log(subj);
+  };
+
+  function ChooseGrade(props: { value: string }) {
     return (
-      <select name="" id="">
-        <option value="">--- Stufe auswählen ---</option>
+      <select
+        name=""
+        id=""
+        className={css.selectGrade}
+        onChange={(e) => handleChange(e, props.value)}
+      >
+        <option value="">Nicht ausgewählt </option>
         {grades.map((grade, index) => {
-          return <option key={index}>{grade}</option>;
+          return (
+            <option key={index} value={grade}>
+              ab Stufe {grade}
+            </option>
+          );
         })}
       </select>
     );
   }
 
-  // Smile Animation
-  const smile = useRef(null);
+  // letter animation
+  const letter = useRef(null);
+
   useEffect(() => {
-    if (smile.current) {
+    if (letter.current) {
       lottie.loadAnimation({
-        container: smile.current,
+        container: letter.current,
         renderer: "svg",
-        loop: true,
+        loop: false,
         autoplay: true,
-        animationData: require("../assets/animations/smile.json"),
+        animationData: require("../assets/animations/letter.json"),
       });
     }
   });
@@ -98,11 +116,29 @@ function RegisterPage() {
     navigate(`/register/${theStep}`);
   }
 
+  const login = useRef(null);
+
+  useEffect(() => {
+    if (login.current && location.pathname === "/register/1") {
+      lottie.loadAnimation({
+        container: login.current,
+        renderer: "svg",
+        loop: false,
+        autoplay: false,
+        animationData: require("../assets/animations/login.json"),
+      });
+      return () => {
+        lottie.destroy();
+      };
+    }
+  }, []);
+
   // Render
   if (step === 1) {
     return (
-      <div id={css.container}>
+      <div id={css.loginContainer}>
         <h1>Anmelden</h1>
+        <div ref={login} id={css.loginAnimation}></div>
         <p>Gib die E-Mail-Adresse an, die du von der Schule bekommen hast.</p>
         <p>
           Das sollte dieselbe sein, die auch für Login bei Teams/Office 365
@@ -114,10 +150,11 @@ function RegisterPage() {
               const schoolMailRegex = /(.*)\.(.*)(@gymhaan\.de)?/; // this allows too much, but I am not sure how they are generated exactly so '729asdf=9@.23aa~~3F@gymhaan.de' is valid for now
               if (email.match(schoolMailRegex)) {
                 newStep(2);
+                lottie.destroy();
               } else {
-                toast.error(
-                  "Die angegebene E-Mail Addresse ist leider nicht valide."
-                );
+                lottie.stop();
+                lottie.setSpeed(1.5);
+                lottie.play();
               }
               e.preventDefault();
             }}
@@ -135,7 +172,9 @@ function RegisterPage() {
             <input type="submit" value="weiter" className={css.submit} />
           </form>
         </div>
-        <p className={css.step}>Schritt {step} / 3</p>
+        <p className={css.step}>
+          <span className={css.bullSpan}>&bull;</span>&bull;&bull;
+        </p>
         <ToastContainer />
       </div>
     );
@@ -143,85 +182,74 @@ function RegisterPage() {
     return (
       <div id={css.container}>
         <div id={css.formContainer}>
-          <h1>Fächer auswählen</h1>
-          <h4>Deine E-Mail: {email}@gymhaan.de</h4>
-          {/*
-          <table>
-            <thead>
-              <tr>
-                <th>Fach</th>
-                <th>Stufe</th>
-                <th>Chechbox</th>
-              </tr>
-            </thead>
-            <tbody>
-              {subjects.sort().map((subject, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{subject}</td>
-                    <td>
-                      <ChooseStufe />
-                    </td>
-                    <td>
-                      <input type="checkbox" />
-                    </td>
-                  </tr>
-                );
-              })}
-              <tr>
-                <td>Fortnite</td>
-                <td>
-                  <select name="" id="">
-                    <option value="">--- Bereich auswählen ---</option>
-                    <option>Bauen</option>
-                    <option>Editieren</option>
-                    <option>Aim</option>
-                    <option>Skin Contest</option>
-                  </select>
-                </td>
-                <td>
-                  <input type="checkbox" />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          */}
+          <h1>Wähle deine Fächer, {name}</h1>
+          <h4>Fächer ausgewählt: {chosen.length - 1}</h4>
           <div className={css.subjects}>
-            {subjects.sort().map((subject, index) => {
+            <h3>Beliebte Fächer:</h3>
+            {topSubjects.map((subject, index) => {
               return (
                 <div className={css.subject} key={index}>
                   <h4>{subject}</h4>
-                  <ChooseGrade />
-                  <input type="checkbox" />
+                  <ChooseGrade value={subject} />
                 </div>
               );
             })}
           </div>
-          <input
-            type="submit"
-            value="weiter"
-            className={css.submit}
-            onClick={(e) => {
-              setStep(3);
-              e.preventDefault();
-            }}
-          />
-          <input type="submit" value="weiter" className={css.submit} />
+          <div className={css.subjects}>
+            <h3>Weitere Fächer:</h3>
+            {subjects.sort().map((subject, index) => {
+              return (
+                <div className={css.subject} key={index}>
+                  <h4>{subject}</h4>
+                  <ChooseGrade value={subject} />
+                </div>
+              );
+            })}
+          </div>
+          <div id={css.submitContainer}>
+            <input
+              type="submit"
+              value="weiter"
+              className={css.next_button}
+              onClick={(e) => {
+                setStep(3);
+                e.preventDefault();
+              }}
+            />
+          </div>
         </div>
-        <p className={css.step}>Schritt {step} / 3</p>
+        <div className={css.step}>
+          &bull;<span className={css.bullSpan}>&bull;</span>&bull;
+        </div>
+
         <ToastContainer />
       </div>
     );
   } else if (step === 3) {
     return (
-      <div id={css.container}>
+      <div id={css.confirmContainer}>
         <h1>Bestätigen</h1>
-        <p>
-          Wir haben eine Bestätigungs-E-Mail an {email}@gymhaan.de geschickt.
+        <div
+          ref={letter}
+          id={css.letterAnimation}
+          onPointerEnter={(e) => {
+            lottie.stop();
+            lottie.setSpeed(2);
+            lottie.play();
+          }}
+        ></div>
+        <p id={css.justifyText}>
+          Damit wir deine Identität bestätigen können, haben wir dir eine E-Mail
+          an <span>{email}@gymhaan.de geschickt.</span> <br />
+          Öffne diese und befolge die Anweisungen, um deinen Account zu
+          aktivieren. <br />
+          PS: Wenn du die E-Mail nicht findest, schau in deinem Spam Ordner
+          nach.
         </p>
-        <div ref={smile}></div>
         <div className={css.placeholder}></div>
-        <p className={css.step}>Schritt {step} / 3</p>
+        <p className={css.step}>
+          &bull;&bull;<span className={css.bullSpan}>&bull;</span>
+        </p>
         <ToastContainer />
       </div>
     );

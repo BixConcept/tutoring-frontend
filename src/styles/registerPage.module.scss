@@ -1,11 +1,49 @@
+@import "./general.module.scss";
+
+//Step 1
+#loginContainer {
+  margin: 3rem auto;
+  padding: 1.5rem;
+  h1,
+  h4 {
+    text-align: center;
+  }
+
+  background-color: var(--contrast_bg_color);
+  border: 3px;
+  max-width: 30rem;
+  border-radius: 0.5rem;
+  -moz-box-shadow: inset 0 0 5px #c9c9c9;
+  -webkit-box-shadow: inset 0 0 5px #c9c9c9;
+  box-shadow: inset 0 0 5px #c9c9c9;
+  color: var(--text_color);
+}
+
+//Step 3
+#confirmContainer {
+  margin: 3rem auto;
+  padding: 1.5rem;
+  h1,
+  h4 {
+    text-align: center;
+  }
+
+  background-color: var(--contrast_bg_color);
+  border: 3px;
+  max-width: 30rem;
+  border-radius: 0.5rem;
+  -moz-box-shadow: inset 0 0 5px #c9c9c9;
+  -webkit-box-shadow: inset 0 0 5px #c9c9c9;
+  box-shadow: inset 0 0 5px #c9c9c9;
+  color: var(--text_color);
+}
+
 // Step 2
 #container {
   margin: 3rem auto;
   padding: 2rem;
   background-color: var(--background_color);
   border: 3px;
-  grid-template-columns: 1fr;
-  grid-template-areas: banane5;
   h1,
   h4 {
     text-align: center;
@@ -22,61 +60,142 @@
   box-shadow: inset 0 0 5px #c9c9c9;
 }
 
+#formContainer {
+  margin: auto;
+  width: 100%;
+}
+
+#submitContainer {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  input {
+    margin: auto;
+  }
+}
+
+#letterAnimation {
+  max-width: 15rem;
+  max-height: 15rem;
+  padding: 0;
+  margin-top: 0;
+  margin: auto;
+  overflow: hidden;
+}
+
+#loginAnimation {
+  max-width: 10rem;
+  max-height: 10rem;
+  padding: 0;
+  margin-top: 0;
+  margin: auto;
+  overflow: hidden;
+}
+
 .step {
   text-align: center;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+.next_button {
+  height: 2rem;
+  width: 100%;
+  border-radius: 0.3rem;
+  border-style: none;
+  background-color: $primary_color;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+a {
+  width: 100%;
+  text-align: center;
+  color: general($primary_text_color);
+  :visited {
+    color: general($primary_text_color);
+  }
 }
 
 .input-fields {
   margin: auto;
   margin-top: 1rem;
-  width: 60%;
+  width: 100%;
 
   form {
     gap: 1rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 
   .submit {
-    width: 60%;
+    width: 10rem;
     height: 2rem;
     border-radius: 0.3rem;
     border-style: none;
-    background-color: #98c222;
+    background-color: $primary_color;
     color: white;
     font-weight: bold;
     font-size: 1rem;
     cursor: pointer;
 
-    align-self: center;
+    align-self: flex-end;
   }
 
   #gymhaanPlacehodler {
     align-self: flex-end;
-    font-size: 12px;
+    font-size: 14px;
     margin: auto;
-    margin-right: 10px;
-    margin-left: 3px;
+    padding-right: 0.7rem;
+    padding-left: 0.3rem;
     text-align: right;
+  }
+  #idPlaceholder {
+    align-self: flex-start;
+    font-size: 14px;
+    margin: auto;
+
+    text-align: left;
+  }
+
+  #idInput {
+    width: 100%;
   }
 
   .input-field {
-    width: 100%;
+    width: 20rem;
     display: flex;
     flex-direction: row;
     border-radius: 0.3rem;
     box-shadow: 0 0 0 2px var(--text_color);
 
-    padding: 0.5rem;
+    height: 2rem;
+    padding-left: 0.7rem;
+    padding-right: 0.3rem;
 
     > input {
       width: 80%;
       border-width: 0;
       background-color: transparent;
       padding: 0;
+      height: 100%;
+      font-size: 14px;
       color: var(--text_color);
       &:focus {
         outline-width: 0;
+        outline: none;
       }
     }
   }
@@ -84,10 +203,17 @@
 
 .subjects {
   text-align: left;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-areas: banane banane2 banane3;
-  grid-gap: 1rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  width: 100%;
+
+  h3 {
+    width: 100%;
+    text-align: left !important;
+    padding-left: 3rem;
+  }
 }
 
 .subject {
@@ -96,14 +222,23 @@
   border-radius: 0.5rem;
   box-shadow: inset 0 0 2px #c9c9c9;
   max-width: auto;
-  display: grid;
-  grid-template-columns: auto 0.5fr 1rem;
-  grid-template-areas: banane1 banane2 banane3;
-  grid-gap: 0.2rem;
-  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  width: 40%;
+  margin: auto;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
 
   > select {
-    margin: 0;
+    margin: auto;
+    width: 40%;
+  }
+
+  h4 {
+    width: 50%;
+    text-align: left !important;
+    padding-left: 1.2rem;
   }
 }
 
@@ -115,5 +250,94 @@
 
     margin-top: 3rem;
     width: auto;
+    border: 0;
   }
+
+  #loginContainer {
+    margin-top: 0;
+    border: 0;
+    border-radius: 0;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  #confirmContainer {
+    margin-top: 0;
+    border: 0;
+    border-radius: 0;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+
+    #justifyText {
+      text-align: justify;
+    }
+
+    span {
+      font-weight: bold;
+    }
+  }
+
+  #container {
+    margin-top: 0;
+    border: 0;
+    border-radius: 0;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .input-fields {
+    form {
+      flex-direction: column;
+    }
+
+    .submit {
+      width: 100%;
+      height: 2.5rem;
+    }
+  }
+
+  .input-field {
+    width: 100% !important;
+  }
+
+  .subjects {
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    h3 {
+      padding-left: 0;
+    }
+  }
+
+  .subject {
+    width: 100%;
+  }
+
+  #submitContainer {
+    margin-top: 1rem;
+  }
+
+  .next_button {
+    margin-top: 3rem;
+    width: 100%;
+    height: 3rem;
+  }
+}
+
+.selectGrade {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  outline: none;
+  font-size: 12pt;
+  border-radius: 3px;
+  text-align: center;
+  padding: 0.3rem;
+  background-color: $primary_color;
+  color: var(--text_color);
+  cursor: pointer;
 }
