@@ -61,3 +61,11 @@ nav {
     }
   }
 }
+
+@media screen and (max-width: 600px) {
+  nav {
+    ul {
+      padding: 0, 1rem;
+    }
+  }
+}
