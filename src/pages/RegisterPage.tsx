@@ -4,7 +4,7 @@ import { ThemeContext } from "../ThemeContext";
 import lottie from "lottie-web";
 import css from "../styles/registerPage.module.scss";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { subjects, topSubjects } from "../Models";
 
 function RegisterPage() {
@@ -13,13 +13,15 @@ function RegisterPage() {
 
   const [id, setID] = useState("");
   const [email, setEmail] = useState("");
-  const [chosen, setChosen] = useState([]);
+  const [chosen, setChosen] = useState([{}]);
   const [name, setName] = useState("Niels");
 
   const navigate = useNavigate();
   const { stepIndex } = useParams();
 
   const [step, setStep] = useState(1);
+
+  const location = useLocation();
 
   useEffect(() => {
     if (!stepIndex) {
@@ -69,33 +71,30 @@ function RegisterPage() {
     }
   }
 
-  function ChooseGrade() {
+  const handleChange = (e: any, subj: string) => {
+    console.log(e.target.value);
+    console.log(subj);
+  };
+
+  function ChooseGrade(props: { value: string }) {
     return (
-      <select name="" id="" className={css.selectGrade}>
+      <select
+        name=""
+        id=""
+        className={css.selectGrade}
+        onChange={(e) => handleChange(e, props.value)}
+      >
         <option value="">Nicht ausgewählt </option>
         {grades.map((grade, index) => {
-          return <option key={index}>ab Stufe {grade}</option>;
+          return (
+            <option key={index} value={grade}>
+              ab Stufe {grade}
+            </option>
+          );
         })}
       </select>
     );
   }
-
-  // login Animation
-  const login = useRef(null);
-  useEffect(() => {
-    if (login.current) {
-      lottie.loadAnimation({
-        container: login.current,
-        renderer: "svg",
-        loop: false,
-        autoplay: false,
-        animationData: require("../assets/animations/login.json"),
-      });
-      return () => {
-        lottie.destroy();
-      };
-    }
-  }, []);
 
   // letter animation
   const letter = useRef(null);
@@ -116,6 +115,23 @@ function RegisterPage() {
     setStep(theStep);
     navigate(`/register/${theStep}`);
   }
+
+  const login = useRef(null);
+
+  useEffect(() => {
+    if (login.current && location.pathname === "/register/1") {
+      lottie.loadAnimation({
+        container: login.current,
+        renderer: "svg",
+        loop: false,
+        autoplay: false,
+        animationData: require("../assets/animations/login.json"),
+      });
+      return () => {
+        lottie.destroy();
+      };
+    }
+  }, []);
 
   // Render
   if (step === 1) {
@@ -157,9 +173,8 @@ function RegisterPage() {
           </form>
         </div>
         <p className={css.step}>
-          <span className={general.bullSpan}>&bull;</span>&bull;&bull;
+          <span className={css.bullSpan}>&bull;</span>&bull;&bull;
         </p>
-
         <ToastContainer />
       </div>
     );
@@ -168,14 +183,14 @@ function RegisterPage() {
       <div id={css.container}>
         <div id={css.formContainer}>
           <h1>Wähle deine Fächer, {name}</h1>
-          <h4>Fächer ausgewählt: 0</h4>
+          <h4>Fächer ausgewählt: {chosen.length - 1}</h4>
           <div className={css.subjects}>
             <h3>Beliebte Fächer:</h3>
             {topSubjects.map((subject, index) => {
               return (
                 <div className={css.subject} key={index}>
                   <h4>{subject}</h4>
-                  <ChooseGrade />
+                  <ChooseGrade value={subject} />
                 </div>
               );
             })}
@@ -186,12 +201,11 @@ function RegisterPage() {
               return (
                 <div className={css.subject} key={index}>
                   <h4>{subject}</h4>
-                  <ChooseGrade />
+                  <ChooseGrade value={subject} />
                 </div>
               );
             })}
           </div>
-
           <div id={css.submitContainer}>
             <input
               type="submit"
@@ -205,7 +219,7 @@ function RegisterPage() {
           </div>
         </div>
         <div className={css.step}>
-          &bull;<span className={general.bullSpan}>&bull;</span>&bull;
+          &bull;<span className={css.bullSpan}>&bull;</span>&bull;
         </div>
 
         <ToastContainer />
@@ -228,13 +242,13 @@ function RegisterPage() {
           Damit wir deine Identität bestätigen können, haben wir dir eine E-Mail
           an <span>{email}@gymhaan.de geschickt.</span> <br />
           Öffne diese und befolge die Anweisungen, um deinen Account zu
-          aktivieren. <br /> 
+          aktivieren. <br />
           PS: Wenn du die E-Mail nicht findest, schau in deinem Spam Ordner
           nach.
         </p>
         <div className={css.placeholder}></div>
         <p className={css.step}>
-          &bull;&bull;<span className={general.bullSpan}>&bull;</span>
+          &bull;&bull;<span className={css.bullSpan}>&bull;</span>
         </p>
         <ToastContainer />
       </div>
