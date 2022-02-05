@@ -3,8 +3,8 @@
 /*every css color setting has to be one of these*/
 /*every color has to have a _dark version. even if the color is the same*/
 
-$primary_color: #98c222;
-$primary_color_dark: #98c222;
+$primary_color: rgb(86, 186, 249);
+$primary_color_dark: rgb(86, 186, 249);
 
 /*optional, not final color*/
 $secondary_color: #a2d;
@@ -19,8 +19,8 @@ $primary_text_color_dark: #dadada;
 $secondary_text_color: #dadada;
 $secondary_text_color_dark: #23272a;
 
-$text_marker_color: #98c222;
-$text_marker_color_dark: #98c222;
+$text_marker_color: rgb(86, 186, 249);
+$text_marker_color_dark: rgb(86, 186, 249);
 
 /*not final*/
 $primary_font: "Roboto";

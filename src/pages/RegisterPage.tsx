@@ -2,7 +2,6 @@ import { useState, useContext, useRef, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { ThemeContext } from "../ThemeContext";
 import lottie from "lottie-web";
-import general from "../styles/general.module.scss";
 import css from "../styles/registerPage.module.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router";
@@ -73,7 +72,7 @@ function RegisterPage() {
   function ChooseGrade() {
     return (
       <select name="" id="" className={css.selectGrade}>
-        <option value="">Nicht ausgewählt</option>
+        <option value="">Nicht ausgewählt </option>
         {grades.map((grade, index) => {
           return <option key={index}>ab Stufe {grade}</option>;
         })}
@@ -98,8 +97,9 @@ function RegisterPage() {
     }
   }, []);
 
-  //letter animation
+  // letter animation
   const letter = useRef(null);
+
   useEffect(() => {
     if (letter.current) {
       lottie.loadAnimation({
@@ -225,14 +225,13 @@ function RegisterPage() {
           }}
         ></div>
         <p id={css.justifyText}>
-          Damit wir deine Identität bestätigen können haben wir dir eine E-Mail
+          Damit wir deine Identität bestätigen können, haben wir dir eine E-Mail
           an <span>{email}@gymhaan.de geschickt.</span> <br />
-          Öffne diese und befolge den Anweisungen, um deinen Account zu
-          aktivieren. <br /> <br />
+          Öffne diese und befolge die Anweisungen, um deinen Account zu
+          aktivieren. <br /> 
           PS: Wenn du die E-Mail nicht findest, schau in deinem Spam Ordner
           nach.
         </p>
-
         <div className={css.placeholder}></div>
         <p className={css.step}>
           &bull;&bull;<span className={general.bullSpan}>&bull;</span>
