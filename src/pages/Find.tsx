@@ -4,7 +4,7 @@ import general from "../styles/general.module.scss";
 import { ThemeContext } from "../ThemeContext";
 import { toast, ToastContainer } from "react-toastify";
 import { subjects, Teacher, topSubjects, TutoringOffer } from "../Models";
-import alert from "../Components/Alert";
+import Alert from "../Components/Alert";
 
 function Find() {
   document.title = "Nachhilfe finden";

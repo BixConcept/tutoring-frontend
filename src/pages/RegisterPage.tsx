@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { ThemeContext } from "../ThemeContext";
 import lottie from "lottie-web";
 import css from "../styles/registerPage.module.scss";
+import general from "../styles/general.module.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { subjects, topSubjects } from "../Models";

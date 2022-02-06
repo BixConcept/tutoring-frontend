@@ -25,10 +25,9 @@ function Home() {
               ganz einfach mit deiner Schul-Email registrieren. Für alle die
               Nachhilfe brauchen funktioniert der Zugang ohne Registrierung.{" "}
               <br />
-              Viel Erfolg beim lernen! Eure Webseitenersteller aus dem
+              Viel Erfolg beim Lernen! Eure Webseitenersteller aus dem
               Info-Kurs🤗 <br />
-
-              WIP: falls du ein Problem auf dieser Website finden mögest,{" "}
+              WIP: falls du ein Problem auf dieser Website findest,{" "}
               <a
                 id={css["issue-link"]}
                 href="https://github.com/HaanerBarbaren/tutoring-frontend/issues"
