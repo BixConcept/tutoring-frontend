@@ -1,6 +1,6 @@
 import { toast, ToastContainer } from "react-toastify";
 
-export default function alert(
+export default function Alert(
   text: string,
   type: string,
   aTheme: "dark" | "light"

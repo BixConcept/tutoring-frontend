@@ -6,6 +6,7 @@ import css from "../styles/registerPage.module.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { subjects, topSubjects } from "../Models";
+import Alert from "../Components/Alert";
 
 function RegisterPage() {
   document.title = "Registrieren";
@@ -13,7 +14,7 @@ function RegisterPage() {
 
   const [id, setID] = useState("");
   const [email, setEmail] = useState("");
-  const [chosen, setChosen] = useState([{}]);
+  const [chosen, setChosen] = useState<{ [key: string]: string }>({});
   const [name, setName] = useState("Niels");
 
   const navigate = useNavigate();
@@ -47,8 +48,16 @@ function RegisterPage() {
     }
   }
 
+  function numChosen(): number {
+    return Object.entries(chosen).reduce(
+      (previous, [subject, grade]) =>
+        previous + (grade !== "" && grade !== undefined ? 1 : 0),
+      0
+    );
+  }
+
   function register() {
-    if (/^-?[\d.]+(?:e-?\d+)?$/.test(id) && chosen.length > 1) {
+    if (/^-?[\d.]+(?:e-?\d+)?$/.test(id) && numChosen() > 1) {
       toast.success("User wird erstellt...", {
         position: "bottom-right",
         autoClose: false,
@@ -71,18 +80,28 @@ function RegisterPage() {
     }
   }
 
-  const handleChange = (e: any, subj: string) => {
-    console.log(e.target.value);
-    console.log(subj);
+  const handleChange = (e: any, subject: string) => {
+    const grade: string = e.target.value;
+    setChosen({
+      ...chosen,
+      ...{ [subject]: grade },
+    });
   };
 
-  function ChooseGrade(props: { value: string }) {
+  function ChooseGrade(props: { subject: string }) {
     return (
       <select
         name=""
         id=""
         className={css.selectGrade}
-        onChange={(e) => handleChange(e, props.value)}
+        onChange={(e) => handleChange(e, props.subject)}
+        value={
+          chosen[props.subject] !== undefined
+            ? chosen[props.subject] !== ""
+              ? chosen[props.subject]
+              : undefined
+            : undefined
+        }
       >
         <option value="">Nicht ausgewählt </option>
         {grades.map((grade, index) => {
@@ -152,6 +171,7 @@ function RegisterPage() {
                 newStep(2);
                 lottie.destroy();
               } else {
+                Alert("Invalide E-Mail Adresse!", "error", checkTheme());
                 lottie.stop();
                 lottie.setSpeed(1.5);
                 lottie.play();
@@ -183,14 +203,14 @@ function RegisterPage() {
       <div id={css.container}>
         <div id={css.formContainer}>
           <h1>Wähle deine Fächer, {name}</h1>
-          <h4>Fächer ausgewählt: {chosen.length - 1}</h4>
+          <h4>Fächer ausgewählt: {numChosen()}</h4>
           <div className={css.subjects}>
             <h3>Beliebte Fächer:</h3>
             {topSubjects.map((subject, index) => {
               return (
                 <div className={css.subject} key={index}>
                   <h4>{subject}</h4>
-                  <ChooseGrade value={subject} />
+                  <ChooseGrade subject={subject} />
                 </div>
               );
             })}
@@ -201,7 +221,7 @@ function RegisterPage() {
               return (
                 <div className={css.subject} key={index}>
                   <h4>{subject}</h4>
-                  <ChooseGrade value={subject} />
+                  <ChooseGrade subject={subject} />
                 </div>
               );
             })}

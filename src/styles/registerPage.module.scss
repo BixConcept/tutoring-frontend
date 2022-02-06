@@ -66,8 +66,8 @@
 }
 
 #submitContainer {
-  margin: auto;
-  width: 100%;
+  margin: 1rem auto 0;
+  width: 50%;
   display: flex;
   input {
     margin: auto;
@@ -93,6 +93,7 @@
 }
 
 .step {
+  margin-top: 2rem;
   text-align: center;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -314,10 +315,6 @@ a {
 
   .subject {
     width: 100%;
-  }
-
-  #submitContainer {
-    margin-top: 1rem;
   }
 
   .next_button {
