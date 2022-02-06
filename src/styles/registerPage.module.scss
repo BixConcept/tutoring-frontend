@@ -9,6 +9,8 @@
     text-align: center;
   }
 
+  color: var(--text_color);
+
   background-color: var(--contrast_bg_color);
   border: 3px;
   max-width: 30rem;
@@ -26,6 +28,8 @@
   h4 {
     text-align: center;
   }
+
+  color: var(--text_color);
 
   background-color: var(--contrast_bg_color);
   border: 3px;
@@ -261,7 +265,6 @@ a {
   .subject {
     width: 100%;
   }
-
 }
 
 @media screen and (max-width: 600px) {
