@@ -14,7 +14,7 @@ function RegisterPage() {
 
   const [id, setID] = useState("");
   const [email, setEmail] = useState("");
-  const [chosen, setChosen] = useState<{ [key: string]: string }>({}); // FIXME: this should probably be an object rather than an array
+  const [chosen, setChosen] = useState<{ [key: string]: string }>({});
   const [name, setName] = useState("Niels");
 
   const navigate = useNavigate();
