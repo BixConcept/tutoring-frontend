@@ -17,7 +17,7 @@ nav {
 
     font-weight: bold;
 
-    padding: 0 3rem;
+    padding: 0 3vw;
     margin: 0;
 
     #logo img {
@@ -51,10 +51,6 @@ nav {
       justify-content: center;
       align-items: center;
 
-      * {
-        margin: 0 0.5rem;
-      }
-
       span {
         padding-left: 2px;
       }
@@ -64,8 +60,6 @@ nav {
 
 @media screen and (max-width: 600px) {
   nav {
-    ul {
-      padding: 0, 1rem;
-    }
+    padding: 0 5vw;
   }
 }

@@ -9,38 +9,24 @@ function Home() {
       <section id={css.mainThingy}>
         <div id={css.title}>
           <h1>
-            <span className={css.backdrop}>Nachhilfeplattform</span>
+            <span className={css.backdrop}>
+              Nach&shy;hil&shy;fe&shy;platt&shy;form
+            </span>
           </h1>
         </div>
       </section>
       <section id={css.applySection}>
         <div className={css.applyFlexContainer}>
           <div className={css.informationText}>
+            <p>Willkommen auf unserem Nachhilfeportal!🥳</p>
             <p>
-              Unsere Schule sieht sich als Europa-Schule mit Europa sehr stark
-              verbunden. Außerdem hat unsere Schule 1000 verschiedene Siegel,
-              einfach nur weil wir es können.
-            </p>
-            <p>
-              Unter anderem sind wir äußerst stolz auf unser Fair-Trade Siegel
-              und unser Berufswahl Siegel. Wir sehen uns als Schule von Morgen
-              und als ein Raum der Lernentwicklung des einzelnen Individuums.
-              Hier noch irgendeine Scheiße juckt eh keinen was hier steht danke
-              laurens. Daher haben wir auf Nachfrage der SV einen Ort
-              geschaffen, an dem wir uns gegenseitig helfen.
-            </p>
-            <p>
-              Wir haben eine Nachhilfeplattform geschaffen, an der jeder
-              mitmachen kann. Brauchst du Nachhilfe? Wir finden jemanden von der
-              Schülerschaft der dir Nachhilfe gibt.
-            </p>
-            <p>
-              Falls du Interesse daran zeigst, dich hier einzutragen, tu dies.
-              Wir sind große Freunde derjenigen die sich bereiterklären (gegen
-              ein Entgeld) anderen zu helfen und möchten deren User Experience
-              perfektionieren.
-            </p>
-            <p>
+              Diese Seite wird komplett von Schülern geführt und entwickelt.
+              Wenn du in einem Fach Nachhilfe geben möchtest, kannst du dich
+              ganz einfach mit deiner Schul-Email registrieren. Für alle die
+              Nachhilfe brauchen funktioniert der Zugang ohne Registrierung.{" "}
+              <br />
+              Viel Erfolg beim lernen! Eure Webseitenersteller aus dem
+              Info-Kurs🤗 <br />
               WIP: falls du ein Problem auf dieser Website finden mögest,{" "}
               <a
                 id={css["issue-link"]}
@@ -59,7 +45,8 @@ function Home() {
             <div className={css.choice}>
               <Link to="/register">
                 <h1>
-                  Ich möchte <span>Nachhilfe geben</span>
+                  Ich möchte{" "}
+                  <span className={css.backdrop}>Nachhilfe geben</span>
                 </h1>
               </Link>
             </div>

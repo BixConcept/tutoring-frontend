@@ -115,6 +115,13 @@
   padding-right: 3rem;
 }
 
+.select_wrapper {
+  width: 30%;
+  height: 3.5rem;
+  display: flex;
+  align-self: center;
+}
+
 a {
   width: 100%;
   text-align: center;
@@ -222,6 +229,7 @@ a {
   max-width: auto;
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
   padding: 0;
   width: 40%;
   margin: auto;
@@ -238,6 +246,22 @@ a {
     text-align: left !important;
     padding-left: 1.2rem;
   }
+}
+
+@media screen and (max-width: 768px) {
+  .subjects {
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    h3 {
+      padding-left: 0;
+    }
+  }
+
+  .subject {
+    width: 100%;
+  }
+
 }
 
 @media screen and (max-width: 600px) {

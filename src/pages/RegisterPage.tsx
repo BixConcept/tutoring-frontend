@@ -72,12 +72,18 @@ function RegisterPage() {
 
   function ChooseGrade() {
     return (
-      <select name="" id="" className={css.selectGrade}>
-        <option value="">Nicht ausgewählt</option>
-        {grades.map((grade, index) => {
-          return <option key={index}>ab Stufe {grade}</option>;
-        })}
-      </select>
+      <div className={css.select_wrapper}>
+        <div className={general.select_input_field}>
+          <select name="" id="" className={general.select}>
+            <option value="asdf" className={css.na_option}>
+              Nicht ausgewählt
+            </option>
+            {grades.map((grade, index) => {
+              return <option key={index}>ab Stufe {grade}</option>;
+            })}
+          </select>
+        </div>
+      </div>
     );
   }
 

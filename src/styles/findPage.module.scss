@@ -34,6 +34,8 @@
   text-align: center;
 }
 
+
+
 #submit {
   width: 60%;
   height: 2rem;
@@ -61,23 +63,6 @@
   box-shadow: 0 0 0 2px var(--text_color);
 
   background-color: var(--background_color);
-
-  select {
-    -webkit-appearance: none;
-    border: none;
-    background-color: transparent;
-    padding: 0.5rem;
-    width: 100%;
-
-    color: var(--text_color);
-
-    option:nth-child(even) {
-      background-color: var(--background_color);
-    }
-    option:nth-child(odd) {
-      background-color: var(--contrast_bg_color);
-    }
-  }
 }
 
 #inputRow {
