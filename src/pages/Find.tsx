@@ -18,7 +18,7 @@ function Find() {
 
   function validate(): boolean {
     if (subject === "") {
-      alert(
+      Alert(
         "Du musst ein Fach auswählen",
         "error",
         context.theme === "dark" || context.theme === "light"
@@ -28,7 +28,7 @@ function Find() {
       return false;
     }
     if (grade === "") {
-      alert(
+      Alert(
         "Du musst eine Stufe auswählen",
         "error",
         context.theme === "dark" || context.theme === "light"
@@ -197,13 +197,11 @@ function Find() {
           <span id={css.numResults}>
             🎉 Es gibt {results.length} Ergebnisse
           </span>
-          {results.map((result) => (
-            <div className={css.result}>
-              <p>
-                <h2>
-                  {result.teacher.name}, Stufe/Klasse {result.teacher.grade}
-                </h2>
-              </p>
+          {results.map((result, index) => (
+            <div className={css.result} key={index}>
+              <h2>
+                {result.teacher.name}, Stufe/Klasse {result.teacher.grade}
+              </h2>
               {result.teacher.misc !== undefined ? (
                 <p>{result.teacher.misc}</p>
               ) : null}

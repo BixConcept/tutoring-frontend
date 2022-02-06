@@ -27,6 +27,7 @@ function Home() {
               <br />
               Viel Erfolg beim lernen! Eure Webseitenersteller aus dem
               Info-Kurs🤗 <br />
+
               WIP: falls du ein Problem auf dieser Website finden mögest,{" "}
               <a
                 id={css["issue-link"]}

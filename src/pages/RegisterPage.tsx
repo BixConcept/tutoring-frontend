@@ -2,11 +2,11 @@ import { useState, useContext, useRef, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { ThemeContext } from "../ThemeContext";
 import lottie from "lottie-web";
-import general from "../styles/general.module.scss";
 import css from "../styles/registerPage.module.scss";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { subjects, topSubjects } from "../Models";
+import Alert from "../Components/Alert";
 
 function RegisterPage() {
   document.title = "Registrieren";
@@ -14,13 +14,15 @@ function RegisterPage() {
 
   const [id, setID] = useState("");
   const [email, setEmail] = useState("");
-  const [chosen, setChosen] = useState([]);
+  const [chosen, setChosen] = useState<{ [key: string]: string }>({});
   const [name, setName] = useState("Niels");
 
   const navigate = useNavigate();
   const { stepIndex } = useParams();
 
   const [step, setStep] = useState(1);
+
+  const location = useLocation();
 
   useEffect(() => {
     if (!stepIndex) {
@@ -46,8 +48,16 @@ function RegisterPage() {
     }
   }
 
+  function numChosen(): number {
+    return Object.entries(chosen).reduce(
+      (previous, [subject, grade]) =>
+        previous + (grade !== "" && grade !== undefined ? 1 : 0),
+      0
+    );
+  }
+
   function register() {
-    if (/^-?[\d.]+(?:e-?\d+)?$/.test(id) && chosen.length > 1) {
+    if (/^-?[\d.]+(?:e-?\d+)?$/.test(id) && numChosen() > 1) {
       toast.success("User wird erstellt...", {
         position: "bottom-right",
         autoClose: false,
@@ -70,13 +80,21 @@ function RegisterPage() {
     }
   }
 
-  function ChooseGrade() {
+  const handleChange = (e: any, subject: string) => {
+    const grade: string = e.target.value;
+    setChosen({
+      ...chosen,
+      ...{ [subject]: grade },
+    });
+  };
+
+  function ChooseGrade(props: { subject: string }) {
     return (
       <div className={css.select_wrapper}>
         <div className={general.select_input_field}>
           <select name="" id="" className={general.select}>
             <option value="asdf" className={css.na_option}>
-              Nicht ausgewählt
+              Nichts ausgewählt
             </option>
             {grades.map((grade, index) => {
               return <option key={index}>ab Stufe {grade}</option>;
@@ -87,25 +105,9 @@ function RegisterPage() {
     );
   }
 
-  // login Animation
-  const login = useRef(null);
-  useEffect(() => {
-    if (login.current) {
-      lottie.loadAnimation({
-        container: login.current,
-        renderer: "svg",
-        loop: false,
-        autoplay: false,
-        animationData: require("../assets/animations/login.json"),
-      });
-      return () => {
-        lottie.destroy();
-      };
-    }
-  }, []);
-
-  //letter animation
+  // letter animation
   const letter = useRef(null);
+
   useEffect(() => {
     if (letter.current) {
       lottie.loadAnimation({
@@ -122,6 +124,23 @@ function RegisterPage() {
     setStep(theStep);
     navigate(`/register/${theStep}`);
   }
+
+  const login = useRef(null);
+
+  useEffect(() => {
+    if (login.current && location.pathname === "/register/1") {
+      lottie.loadAnimation({
+        container: login.current,
+        renderer: "svg",
+        loop: false,
+        autoplay: false,
+        animationData: require("../assets/animations/login.json"),
+      });
+      return () => {
+        lottie.destroy();
+      };
+    }
+  }, []);
 
   // Render
   if (step === 1) {
@@ -142,6 +161,7 @@ function RegisterPage() {
                 newStep(2);
                 lottie.destroy();
               } else {
+                Alert("Invalide E-Mail Adresse!", "error", checkTheme());
                 lottie.stop();
                 lottie.setSpeed(1.5);
                 lottie.play();
@@ -163,9 +183,8 @@ function RegisterPage() {
           </form>
         </div>
         <p className={css.step}>
-          <span className={general.bullSpan}>&bull;</span>&bull;&bull;
+          <span className={css.bullSpan}>&bull;</span>&bull;&bull;
         </p>
-
         <ToastContainer />
       </div>
     );
@@ -174,14 +193,14 @@ function RegisterPage() {
       <div id={css.container}>
         <div id={css.formContainer}>
           <h1>Wähle deine Fächer, {name}</h1>
-          <h4>Fächer ausgewählt: 0</h4>
+          <h4>Fächer ausgewählt: {numChosen()}</h4>
           <div className={css.subjects}>
             <h3>Beliebte Fächer:</h3>
             {topSubjects.map((subject, index) => {
               return (
                 <div className={css.subject} key={index}>
                   <h4>{subject}</h4>
-                  <ChooseGrade />
+                  <ChooseGrade subject={subject} />
                 </div>
               );
             })}
@@ -192,12 +211,11 @@ function RegisterPage() {
               return (
                 <div className={css.subject} key={index}>
                   <h4>{subject}</h4>
-                  <ChooseGrade />
+                  <ChooseGrade subject={subject} />
                 </div>
               );
             })}
           </div>
-
           <div id={css.submitContainer}>
             <input
               type="submit"
@@ -211,7 +229,7 @@ function RegisterPage() {
           </div>
         </div>
         <div className={css.step}>
-          &bull;<span className={general.bullSpan}>&bull;</span>&bull;
+          &bull;<span className={css.bullSpan}>&bull;</span>&bull;
         </div>
 
         <ToastContainer />
@@ -231,17 +249,16 @@ function RegisterPage() {
           }}
         ></div>
         <p id={css.justifyText}>
-          Damit wir deine Identität bestätigen können haben wir dir eine E-Mail
+          Damit wir deine Identität bestätigen können, haben wir dir eine E-Mail
           an <span>{email}@gymhaan.de geschickt.</span> <br />
-          Öffne diese und befolge den Anweisungen, um deinen Account zu
-          aktivieren. <br /> <br />
+          Öffne diese und befolge die Anweisungen, um deinen Account zu
+          aktivieren. <br />
           PS: Wenn du die E-Mail nicht findest, schau in deinem Spam Ordner
           nach.
         </p>
-
         <div className={css.placeholder}></div>
         <p className={css.step}>
-          &bull;&bull;<span className={general.bullSpan}>&bull;</span>
+          &bull;&bull;<span className={css.bullSpan}>&bull;</span>
         </p>
         <ToastContainer />
       </div>

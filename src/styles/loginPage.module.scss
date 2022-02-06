@@ -1,9 +1,11 @@
+@import "./vars";
+
 #login {
   margin-top: 5% !important;
   padding: 2rem;
   background-color: var(--background_color);
   border: 5px;
-  width: 30rem;
+  max-width: 30rem;
   margin: auto;
 
   > h1 {
@@ -43,7 +45,7 @@
   height: 2rem;
   border-radius: 0.3rem;
   border-style: none;
-  background-color: #98c222;
+  background-color: $primary_color;
   color: white;
   font-weight: bold;
   font-size: 1rem;
@@ -75,8 +77,8 @@
   box-shadow: 0 0 0 2px var(--text_color);
 
   input {
+    width: calc(100% - 2rem);
     background-color: transparent;
-    width: 90%;
     border: none;
     padding: 0.5rem;
   }
@@ -89,6 +91,12 @@
 }
 
 .passwordEye {
-  width: 10%;
+  width: 2rem;
   align-self: flex-end;
+}
+
+@media screen and (max-width: 500px) {
+  #login {
+    margin: 1rem;
+  }
 }
