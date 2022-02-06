@@ -90,28 +90,18 @@ function RegisterPage() {
 
   function ChooseGrade(props: { subject: string }) {
     return (
-      <select
-        name=""
-        id=""
-        className={css.selectGrade}
-        onChange={(e) => handleChange(e, props.subject)}
-        value={
-          chosen[props.subject] !== undefined
-            ? chosen[props.subject] !== ""
-              ? chosen[props.subject]
-              : undefined
-            : undefined
-        }
-      >
-        <option value="">Nicht ausgewählt </option>
-        {grades.map((grade, index) => {
-          return (
-            <option key={index} value={grade}>
-              ab Stufe {grade}
+      <div className={css.select_wrapper}>
+        <div className={general.select_input_field}>
+          <select name="" id="" className={general.select}>
+            <option value="asdf" className={css.na_option}>
+              Nichts ausgewählt
             </option>
-          );
-        })}
-      </select>
+            {grades.map((grade, index) => {
+              return <option key={index}>ab Stufe {grade}</option>;
+            })}
+          </select>
+        </div>
+      </div>
     );
   }
 

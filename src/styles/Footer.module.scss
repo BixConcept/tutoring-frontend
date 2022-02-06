@@ -9,10 +9,26 @@
 
   justify-content: space-evenly;
   align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
 
   a {
+    width: auto;
+    padding: 0 clamp(1rem, 5vw, 3rem);
+    margin: 0;
     text-decoration: none;
     color: var(--text_color);
   }
+}
 
+@media screen and (max-width: 600px) {
+  .footer {
+    height: auto;
+    flex-direction: column;
+    padding: 1rem 0;
+    justify-content: space-around;
+    a {
+      padding: 0.5rem 0;
+    }
+  }
 }

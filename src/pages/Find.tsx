@@ -1,9 +1,10 @@
 import { Fragment, useContext, useState } from "react";
 import css from "../styles/findPage.module.scss";
+import general from "../styles/general.module.scss";
 import { ThemeContext } from "../ThemeContext";
 import { toast, ToastContainer } from "react-toastify";
-import { subjects, Teacher, TutoringOffer } from "../Models";
-import Alert from "../Components/Alert";
+import { subjects, Teacher, topSubjects, TutoringOffer } from "../Models";
+import alert from "../Components/Alert";
 
 function Find() {
   document.title = "Nachhilfe finden";
@@ -147,13 +148,23 @@ function Find() {
             <div id={css.inputRow}>
               <div>
                 <label htmlFor="subject">Fach auswählen</label>
-                <div className={css.inputField}>
+                <div className={general.select_input_field}>
                   <select
                     name="subject"
                     id=""
+                    className={general.select}
                     onChange={(e) => setSubject(e.target.value)}
                   >
                     <option value="">--- Fach wählen ---</option>
+                    <option value="" disabled>
+                      Beliebte Fächer
+                    </option>
+                    {topSubjects.map((subject, index) => {
+                      return <option key={index}>{subject}</option>;
+                    })}
+                    <option value="" disabled>
+                      Weitere Fächer
+                    </option>
                     {subjects.sort().map((subject, index) => {
                       return <option key={index}>{subject}</option>;
                     })}
@@ -162,10 +173,11 @@ function Find() {
               </div>
               <div>
                 <label htmlFor="subject">Deine Stufe</label>
-                <div className={css.inputField}>
+                <div className={general.select_input_field}>
                   <select
                     name=""
                     id=""
+                    className={general.select}
                     onChange={(e) => setGrade(e.target.value)}
                   >
                     <option value="">--- Stufe wählen ---</option>

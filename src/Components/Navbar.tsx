@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import DarkMode from "./DarkMode";
 import logo from "../assets/images/logo.svg";
 
-
 function Navbar() {
   return (
     <nav>
@@ -14,9 +13,6 @@ function Navbar() {
           </Link>
         </li>
         <div id={css.loginRegister}>
-          <li>
-            <DarkMode />
-          </li>
           <li>
             <Link to="/login">
               <span className={css.backdrop}>Login</span>
