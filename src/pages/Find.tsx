@@ -3,7 +3,7 @@ import css from "../styles/findPage.module.scss";
 import { ThemeContext } from "../ThemeContext";
 import { toast, ToastContainer } from "react-toastify";
 import { subjects, Teacher, TutoringOffer } from "../Models";
-import alert from "../Components/Alert";
+import Alert from "../Components/Alert";
 
 function Find() {
   document.title = "Nachhilfe finden";
@@ -17,7 +17,7 @@ function Find() {
 
   function validate(): boolean {
     if (subject === "") {
-      alert(
+      Alert(
         "Du musst ein Fach auswählen",
         "error",
         context.theme === "dark" || context.theme === "light"
@@ -27,7 +27,7 @@ function Find() {
       return false;
     }
     if (grade === "") {
-      alert(
+      Alert(
         "Du musst eine Stufe auswählen",
         "error",
         context.theme === "dark" || context.theme === "light"
