@@ -17,6 +17,8 @@ function RegisterPage() {
   const [email, setEmail] = useState("");
   const [chosen, setChosen] = useState<{ [key: string]: string }>({});
   const [name, setName] = useState("Niels");
+  const [grade, setGrade] = useState("");
+  const [misc, setMisc] = useState("");
 
   const navigate = useNavigate();
   const { stepIndex } = useParams();
@@ -184,7 +186,7 @@ function RegisterPage() {
           </form>
         </div>
         <p className={css.step}>
-          <span className={css.bullSpan}>&bull;</span>&bull;&bull;
+          <span className={css.bullSpan}>&bull;</span>&bull;&bull;&bull;
         </p>
         <ToastContainer />
       </div>
@@ -223,20 +225,76 @@ function RegisterPage() {
               value="weiter"
               className={css.next_button}
               onClick={(e) => {
-                setStep(3);
+                newStep(3);
                 e.preventDefault();
               }}
             />
           </div>
         </div>
         <div className={css.step}>
-          &bull;<span className={css.bullSpan}>&bull;</span>&bull;
+          &bull;<span className={css.bullSpan}>&bull;</span>&bull;&bull;
         </div>
 
         <ToastContainer />
       </div>
     );
   } else if (step === 3) {
+    return (
+      <div id={css.loginContainer}>
+        <h1>Deine Infos</h1>
+        <div ref={login} id={css.loginAnimation}></div>
+        <p>In welche Klasse/Stufe gehst du?</p>
+        <div className={general.select_input_field}>
+          <select
+            name=""
+            className={general.select}
+            value={grade}
+            onChange={(e) => {
+              setGrade(e.target.value);
+            }}
+          >
+            <option value="">--- Stufe wählen ---</option>
+            {grades.map((grade, index) => {
+              return <option key={index}>{grade}</option>;
+            })}
+          </select>
+        </div>
+        <br />
+        <p>Wenn du willst, kannst du hier noch etwas über dich schreiben.</p>
+        <div className={general.select_input_field}>
+          <textarea
+            name=""
+            value={misc}
+            onChange={(e) => {
+              setMisc(e.target.value.slice(0, 280));
+            }}
+            className={css.textarea}
+          ></textarea>
+        </div>
+        <br />
+        <br />
+        <div className={general.flexdiv}>
+          <button
+            className={general.text_button}
+            onClick={(e) => {
+              if (isNaN(parseInt(grade))) {
+                Alert("Bitte wähle deine Stufe!!!", "error", checkTheme());
+              } else {
+                newStep(4);
+              }
+            }}
+          >
+            Weiter
+          </button>
+        </div>
+
+        <p className={css.step}>
+          &bull;&bull;<span className={css.bullSpan}>&bull;</span>&bull;
+        </p>
+        <ToastContainer />
+      </div>
+    );
+  } else if (step === 4) {
     return (
       <div id={css.confirmContainer}>
         <h1>Bestätigen</h1>
@@ -259,7 +317,7 @@ function RegisterPage() {
         </p>
         <div className={css.placeholder}></div>
         <p className={css.step}>
-          &bull;&bull;<span className={css.bullSpan}>&bull;</span>
+          &bull;&bull;&bull;<span className={css.bullSpan}>&bull;</span>
         </p>
         <ToastContainer />
       </div>

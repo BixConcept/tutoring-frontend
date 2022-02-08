@@ -1,1 +1,1 @@
-export const API_HOST: string = "https://api.nachhhilfe.sanberk.xyz";
+export const API_HOST: string = "http://localhost:5001";
