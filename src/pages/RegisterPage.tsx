@@ -95,7 +95,7 @@ function RegisterPage() {
         <div className={general.select_input_field}>
           <select name="" id="" className={general.select}>
             <option value="asdf" className={css.na_option}>
-              Nichts ausgewählt
+              ---
             </option>
             {grades.map((grade, index) => {
               return <option key={index}>ab Stufe {grade}</option>;

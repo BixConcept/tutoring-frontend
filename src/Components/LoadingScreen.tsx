@@ -3,7 +3,7 @@ import css from "../styles/LoadingScreen.module.scss";
 import { useRef, useEffect } from "react";
 import lottie from "lottie-web";
 
-function LoadingScreen(props: { s: boolean }) {
+function LoadingScreen(props: { state: boolean }) {
   // loading animation
   const loading = useRef(null);
 
@@ -18,9 +18,9 @@ function LoadingScreen(props: { s: boolean }) {
       });
     }
   });
-  if (!props.s) {
+  if (!props.state) {
     return (
-      <div className={css.LoadingScreen} style={{ opacity: props.s ? 0 : 1 }}>
+      <div className={css.LoadingScreen} style={{ opacity: props.state ? 0 : 1 }}>
         <div className={css.loading_animation} ref={loading}></div>
       </div>
     );
