@@ -12,8 +12,8 @@ import { ThemeContext } from "./ThemeContext";
 import { useState } from "react";
 import FourOFourPage from "./pages/404";
 import Find from "./pages/Find";
-import ComponentsShowpage from "./pages/ComponentsShowpage";
 import Dashboard from "./pages/UserDashboard";
+import ScrollToTop from "./Components/ScrollToTop";
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -22,6 +22,7 @@ function App() {
     <div className="App">
       <ThemeContext.Provider value={{ theme: theme, setTheme: setTheme }}>
         <BrowserRouter>
+          <ScrollToTop />
           <Navbar />
           <div id="wrapper">
             <Routes>
@@ -33,7 +34,6 @@ function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/imprint" element={<Imprint />} />
               <Route path="/find" element={<Find />} />
-              <Route path="/components" element={<ComponentsShowpage />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="*" element={<FourOFourPage />} />
             </Routes>
