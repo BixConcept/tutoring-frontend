@@ -1,19 +1,10 @@
 import Page from "../Components/Page";
-import Bauarbeiter from "../assets/images/bauarbeiter.gif";
+import Bauarbeiter from "../Components/Bauarbeiter";
 
 function Privacy() {
   return (
     <Page title={"Datenschutz"}>
-      <div
-        style={{
-          display: "block",
-          marginLeft: "auto",
-          width: "50%",
-          marginRight: "7%",
-        }}
-      >
-        <img src={Bauarbeiter} alt="Bauarbeiter" />
-      </div>
+      <Bauarbeiter />
     </Page>
   );
 }
