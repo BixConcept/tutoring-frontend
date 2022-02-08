@@ -8,12 +8,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { subjects, topSubjects } from "../Models";
 import Alert from "../Components/Alert";
+import { API_HOST } from "..";
 
 function RegisterPage() {
   document.title = "Registrieren";
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
-  const [id, setID] = useState("");
   const [email, setEmail] = useState("");
   const [chosen, setChosen] = useState<{ [key: string]: string }>({});
   const [name, setName] = useState("Niels");
@@ -60,27 +60,19 @@ function RegisterPage() {
   }
 
   function register() {
-    if (/^-?[\d.]+(?:e-?\d+)?$/.test(id) && numChosen() > 1) {
-      toast.success("User wird erstellt...", {
-        position: "bottom-right",
-        autoClose: false,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        theme: checkTheme(),
-        progress: undefined,
-      });
-    } else {
-      toast.error("Ungültige Daten", {
-        position: "bottom-right",
-        autoClose: false,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        theme: checkTheme(),
-        progress: undefined,
-      });
-    }
+    fetch(`${API_HOST}/user/register`, {
+      method: "POST",
+      body: JSON.stringify({
+        grade: parseInt(grade),
+        email,
+        subjects: chosen,
+        misc,
+      }),
+      headers: { "Content-Type": "application/json" },
+    }).catch((error) => {
+      console.log(error);
+      Alert("Fehler beim Erstellen :((...", "error", checkTheme());
+    });
   }
 
   const handleChange = (e: any, subject: string) => {
@@ -120,6 +112,10 @@ function RegisterPage() {
         autoplay: true,
         animationData: require("../assets/animations/letter.json"),
       });
+      lottie.setSpeed(2);
+      setTimeout((t) => {
+        lottie.destroy();
+      }, 2000);
     }
   });
 
@@ -281,6 +277,7 @@ function RegisterPage() {
                 Alert("Bitte wähle deine Stufe!!!", "error", checkTheme());
               } else {
                 newStep(4);
+                register();
               }
             }}
           >
@@ -298,15 +295,7 @@ function RegisterPage() {
     return (
       <div id={css.confirmContainer}>
         <h1>Bestätigen</h1>
-        <div
-          ref={letter}
-          id={css.letterAnimation}
-          onPointerEnter={(e) => {
-            lottie.stop();
-            lottie.setSpeed(2);
-            lottie.play();
-          }}
-        ></div>
+        <div ref={letter} id={css.letterAnimation}></div>
         <p id={css.justifyText}>
           Damit wir deine Identität bestätigen können, haben wir dir eine E-Mail
           an <span>{email}@gymhaan.de geschickt.</span> <br />
