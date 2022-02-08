@@ -25,6 +25,6 @@ function LoadingScreen(props: { s: boolean }) {
       </div>
     );
   } else return null;
-}
+};
 
 export default LoadingScreen;

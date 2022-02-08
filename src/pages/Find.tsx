@@ -1,10 +1,11 @@
-import { Fragment, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import css from "../styles/findPage.module.scss";
 import general from "../styles/general.module.scss";
 import { ThemeContext } from "../ThemeContext";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { subjects, Teacher, topSubjects, TutoringOffer } from "../Models";
-import alert from "../Components/Alert";
+import Alert from "../Components/Alert";
+import { API_HOST } from "../API_HOST";
 
 function Find() {
   document.title = "Nachhilfe finden";
@@ -40,77 +41,6 @@ function Find() {
     return true;
   }
 
-  // FIXME: remove this.
-  const mockupData: TutoringOffer[] = [
-    {
-      id: 1,
-      teacher: {
-        id: 1,
-        name: "Niels Schlegel",
-        email: "niels.schlegel@gymhaan.de",
-        grade: 11,
-      },
-      subject: "Mathematik",
-      maxGrade: -1,
-    },
-    {
-      id: 2,
-      teacher: {
-        id: 1,
-        name: "Niels Schlegel",
-        email: "niels.schlegel@gymhaan.de",
-        grade: 11,
-      },
-      subject: "Informatik",
-      maxGrade: -1,
-    },
-    {
-      id: 3,
-      teacher: {
-        id: 1,
-        name: "Niels Schlegel",
-        email: "niels.schlegel@gymhaan.de",
-        grade: 11,
-        misc: "Coole Socke",
-      },
-      subject: "Englisch",
-      maxGrade: -1,
-    },
-    {
-      id: 4,
-      teacher: {
-        id: 2,
-        name: "Nielspferd",
-        email: "niels.pferd@gymhaan.de",
-        grade: 9,
-      },
-      subject: "Latein",
-      maxGrade: 8,
-    },
-    {
-      id: 5,
-      teacher: {
-        id: 3,
-        name: "Jakob",
-        email: "jakob.kobaj@gymhaan.de",
-        grade: 9,
-      },
-      subject: "Religion",
-      maxGrade: 8,
-    },
-    {
-      id: 6,
-      teacher: {
-        id: 4,
-        name: "David",
-        email: "david.kr@gymhaan.de",
-        grade: 11,
-      },
-      subject: "Fortnite",
-      maxGrade: 11,
-    },
-  ];
-
   function toAbsGrade(offer: TutoringOffer): number {
     if (offer.maxGrade >= 5) {
       return offer.maxGrade;
@@ -119,14 +49,12 @@ function Find() {
   }
 
   function search() {
-    // TODO: API request
-
-    setResults(
-      mockupData
-      // mockupData.filter(
-      //   (offer) =>
-      //     offer.subject === subject && toAbsGrade(offer) >= parseInt(grade)
-      // )
+    fetch(`${API_HOST}/find?subject=${subject}&grade=${grade}`).then(
+      (response) => {
+        if (response.ok) {
+          console.log(response);
+        }
+      }
     );
   }
 
@@ -139,8 +67,6 @@ function Find() {
             onSubmit={(e) => {
               if (validate()) {
                 search();
-
-                // TODO: add parameters to url so you can copy it
               }
               e.preventDefault();
             }}

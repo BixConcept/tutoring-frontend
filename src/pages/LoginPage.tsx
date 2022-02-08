@@ -14,7 +14,6 @@ function LoginPage() {
   document.title = "Login";
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-
   const [pwType, setPwType] = useState("password");
   const changePwType = () => {
     if (pwType !== "password") setPwType("password");
@@ -26,7 +25,6 @@ function LoginPage() {
   const toastId: any = useRef(null);
 
   function checkTheme(): "dark" | "light" {
-    // to have type safety
     if (context.theme === "dark" || context.theme === "light") {
       return context.theme;
     } else {
@@ -88,24 +86,7 @@ function LoginPage() {
       body: JSON.stringify({ name, password }),
     }).then((res) => console.log(res));
 
-    //
     navigate("/dashboard", { replace: true });
-
-    // Erstmal zum Testen
-    /* let a = Math.floor(Math.random() * 10);
-    if (a <= 5) {
-      toast.update(toastId.current, {
-        type: toast.TYPE.ERROR,
-        autoClose: 3000,
-        render: "Falsche Anmeldedaten",
-      });
-    } else {
-      toast.update(toastId.current, {
-        type: toast.TYPE.SUCCESS,
-        autoClose: 3000,
-        render: "Erfolgreich angemeldet",
-      });
-    } */
   };
 
   return (
