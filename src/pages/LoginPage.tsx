@@ -14,7 +14,6 @@ function LoginPage() {
   document.title = "Login";
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-
   const [pwType, setPwType] = useState("password");
   const changePwType = () => {
     if (pwType !== "password") setPwType("password");
@@ -26,7 +25,6 @@ function LoginPage() {
   const toastId: any = useRef(null);
 
   function checkTheme(): "dark" | "light" {
-    // to have type safety
     if (context.theme === "dark" || context.theme === "light") {
       return context.theme;
     } else {

@@ -20,13 +20,13 @@ function License() {
         setTimeout(() => {
           setLoaded(true);
           setContent(e.replace("\n", "\n\n"));
-        }, 250);
+        }, 300);
       });
   }, []);
   return (
     <div>
       <Page title="Lizenz" center={true}>
-        <LoadingScreen s={loaded} />
+        <LoadingScreen state={loaded} />
         <pre id={css.licenseText}>{content}</pre>
       </Page>
     </div>
