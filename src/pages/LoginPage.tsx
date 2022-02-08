@@ -86,24 +86,7 @@ function LoginPage() {
       body: JSON.stringify({ name, password }),
     }).then((res) => console.log(res));
 
-    //
     navigate("/dashboard", { replace: true });
-
-    // Erstmal zum Testen
-    /* let a = Math.floor(Math.random() * 10);
-    if (a <= 5) {
-      toast.update(toastId.current, {
-        type: toast.TYPE.ERROR,
-        autoClose: 3000,
-        render: "Falsche Anmeldedaten",
-      });
-    } else {
-      toast.update(toastId.current, {
-        type: toast.TYPE.SUCCESS,
-        autoClose: 3000,
-        render: "Erfolgreich angemeldet",
-      });
-    } */
   };
 
   return (
