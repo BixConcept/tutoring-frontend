@@ -7,6 +7,7 @@ export interface TutoringOffer {
   phone_number: string | null;
   subject: string;
   misc: string | null;
+  grade: number;
 }
 
 export const topSubjects: string[] = [
