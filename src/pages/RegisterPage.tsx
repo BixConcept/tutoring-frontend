@@ -78,7 +78,7 @@ function RegisterPage() {
       method: "POST",
       body: JSON.stringify({
         grade: parseInt(grade),
-        email,
+        email: email+"@gymhaan.de",
         subjects: tmp,
         misc,
       }),
@@ -331,8 +331,12 @@ function RegisterPage() {
           <br />
           Öffne diese und befolge die Anweisungen, um deinen Account zu
           aktivieren. <br />
-          PS: Wenn du die E-Mail nicht findest, schau in deinem Spam Ordner
+          PS: Wenn du die E-Mail nicht findest, schau in deinem Spam-Ordner
           nach.
+          <br />
+          <p>
+            <a href="https://outlook.office365.com/mail/">Link zu Outlook</a>
+          </p>
         </p>
         <div className={css.placeholder}></div>
         <p className={css.step}>
