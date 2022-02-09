@@ -59,13 +59,27 @@ function RegisterPage() {
     );
   }
 
+  const emailToName = (email: string): string => {
+    return email
+      .split("@")[0]
+      .split(".")
+      .map((x) => capitalizeWord(x))
+      .join(" ");
+  };
+  const capitalizeWord = (x: string): string => {
+    return x.charAt(0).toUpperCase() + x.slice(1);
+  };
+
   function register() {
+    let tmp = chosen;
+    Object.keys(chosen).map((key, index) => parseInt(chosen[key]));
+
     fetch(`${API_HOST}/user/register`, {
       method: "POST",
       body: JSON.stringify({
         grade: parseInt(grade),
         email,
-        subjects: chosen,
+        subjects: tmp,
         misc,
       }),
       headers: { "Content-Type": "application/json" },
@@ -84,15 +98,32 @@ function RegisterPage() {
   };
 
   function ChooseGrade(props: { subject: string }) {
+    console.log(chosen[props.subject]);
     return (
       <div className={css.select_wrapper}>
         <div className={general.select_input_field}>
-          <select name="" id="" className={general.select}>
+          <select
+            name=""
+            id=""
+            className={general.select}
+            onChange={(e) => handleChange(e, props.subject)}
+            value={
+              chosen[props.subject] !== undefined
+                ? chosen[props.subject] !== ""
+                  ? chosen[props.subject]
+                  : undefined
+                : undefined
+            }
+          >
             <option value="asdf" className={css.na_option}>
               ---
             </option>
             {grades.map((grade, index) => {
-              return <option key={index}>ab Stufe {grade}</option>;
+              return (
+                <option value={index + 5} key={index + 5}>
+                  bis Stufe {grade}
+                </option>
+              );
             })}
           </select>
         </div>
@@ -108,14 +139,10 @@ function RegisterPage() {
       lottie.loadAnimation({
         container: letter.current,
         renderer: "svg",
-        loop: false,
+        loop: true,
         autoplay: true,
         animationData: require("../assets/animations/letter.json"),
       });
-      lottie.setSpeed(2);
-      setTimeout((t) => {
-        lottie.destroy();
-      }, 2000);
     }
   });
 
@@ -175,6 +202,7 @@ function RegisterPage() {
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
+                value={email.toLowerCase()}
               />
               <p id={css.gymhaanPlacehodler}>@gymhaan.de</p>
             </div>
@@ -191,7 +219,7 @@ function RegisterPage() {
     return (
       <div id={css.container}>
         <div id={css.formContainer}>
-          <h1>Wähle deine Fächer, {name}</h1>
+          <h1>Wähle deine Fächer, {emailToName(email).split(" ")[0]}</h1>
           <h4>Fächer ausgewählt: {numChosen()}</h4>
           <div className={css.subjects}>
             <h3>Beliebte Fächer:</h3>
@@ -298,7 +326,9 @@ function RegisterPage() {
         <div ref={letter} id={css.letterAnimation}></div>
         <p id={css.justifyText}>
           Damit wir deine Identität bestätigen können, haben wir dir eine E-Mail
-          an <span>{email}@gymhaan.de geschickt.</span> <br />
+          an <span className={general.text_marker}>{email}@gymhaan.de</span>{" "}
+          geschickt.
+          <br />
           Öffne diese und befolge die Anweisungen, um deinen Account zu
           aktivieren. <br />
           PS: Wenn du die E-Mail nicht findest, schau in deinem Spam Ordner

@@ -109,6 +109,16 @@ $secondary_font: "Oxygen";
 }
 
 .text_marker {
+  /*replace px*/
+  padding: 0 5px;
+  background: linear-gradient(
+      transparent,
+      transparent 42%,
+      $primary_color 0,
+      $primary_color 90%,
+      transparent 0
+    )
+    no-repeat;
 }
 
 .bullSpan {

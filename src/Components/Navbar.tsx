@@ -2,6 +2,7 @@ import css from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
 import DarkMode from "./DarkMode";
 import logo from "../assets/images/logo.svg";
+import general from "../styles/general.module.scss";
 
 function Navbar() {
   return (
@@ -15,7 +16,7 @@ function Navbar() {
         <div id={css.loginRegister}>
           <li>
             <Link to="/login">
-              <span className={css.backdrop}>Login</span>
+              <span className={general.text_marker}>Login</span>
             </Link>
           </li>
         </div>
