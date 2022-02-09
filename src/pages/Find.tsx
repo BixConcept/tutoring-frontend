@@ -129,7 +129,7 @@ function Find() {
           </span>
           {results.map((result, index) => (
             <div className={css.result} key={index}>
-              <h2>{result.name}, Stufe/Klasse</h2>
+              <h2>{result.name}, Stufe/Klasse {result.grade}</h2>
               {result.misc !== null ? <p>{result.misc}</p> : null}
               <p className={css.email}>
                 <a href={`mailto:${result.email}`}>{result.email}</a>
