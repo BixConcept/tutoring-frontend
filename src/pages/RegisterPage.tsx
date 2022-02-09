@@ -8,15 +8,17 @@ import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { subjects, topSubjects } from "../Models";
 import Alert from "../Components/Alert";
+import { API_HOST } from "..";
 
 function RegisterPage() {
   document.title = "Registrieren";
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
-  const [id, setID] = useState("");
   const [email, setEmail] = useState("");
   const [chosen, setChosen] = useState<{ [key: string]: string }>({});
   const [name, setName] = useState("Niels");
+  const [grade, setGrade] = useState("");
+  const [misc, setMisc] = useState("");
 
   const navigate = useNavigate();
   const { stepIndex } = useParams();
@@ -57,28 +59,34 @@ function RegisterPage() {
     );
   }
 
+  const emailToName = (email: string): string => {
+    return email
+      .split("@")[0]
+      .split(".")
+      .map((x) => capitalizeWord(x))
+      .join(" ");
+  };
+  const capitalizeWord = (x: string): string => {
+    return x.charAt(0).toUpperCase() + x.slice(1);
+  };
+
   function register() {
-    if (/^-?[\d.]+(?:e-?\d+)?$/.test(id) && numChosen() > 1) {
-      toast.success("User wird erstellt...", {
-        position: "bottom-right",
-        autoClose: false,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        theme: checkTheme(),
-        progress: undefined,
-      });
-    } else {
-      toast.error("Ungültige Daten", {
-        position: "bottom-right",
-        autoClose: false,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        theme: checkTheme(),
-        progress: undefined,
-      });
-    }
+    let tmp = chosen;
+    Object.keys(chosen).map((key, index) => parseInt(chosen[key]));
+
+    fetch(`${API_HOST}/user/register`, {
+      method: "POST",
+      body: JSON.stringify({
+        grade: parseInt(grade),
+        email: email+"@gymhaan.de",
+        subjects: tmp,
+        misc,
+      }),
+      headers: { "Content-Type": "application/json" },
+    }).catch((error) => {
+      console.log(error);
+      Alert("Fehler beim Erstellen :((...", "error", checkTheme());
+    });
   }
 
   const handleChange = (e: any, subject: string) => {
@@ -90,15 +98,32 @@ function RegisterPage() {
   };
 
   function ChooseGrade(props: { subject: string }) {
+    console.log(chosen[props.subject]);
     return (
       <div className={css.select_wrapper}>
         <div className={general.select_input_field}>
-          <select name="" id="" className={general.select}>
+          <select
+            name=""
+            id=""
+            className={general.select}
+            onChange={(e) => handleChange(e, props.subject)}
+            value={
+              chosen[props.subject] !== undefined
+                ? chosen[props.subject] !== ""
+                  ? chosen[props.subject]
+                  : undefined
+                : undefined
+            }
+          >
             <option value="asdf" className={css.na_option}>
               ---
             </option>
             {grades.map((grade, index) => {
-              return <option key={index}>ab Stufe {grade}</option>;
+              return (
+                <option value={index + 5} key={index + 5}>
+                  bis Stufe {grade}
+                </option>
+              );
             })}
           </select>
         </div>
@@ -114,7 +139,7 @@ function RegisterPage() {
       lottie.loadAnimation({
         container: letter.current,
         renderer: "svg",
-        loop: false,
+        loop: true,
         autoplay: true,
         animationData: require("../assets/animations/letter.json"),
       });
@@ -177,6 +202,7 @@ function RegisterPage() {
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
+                value={email.toLowerCase()}
               />
               <p id={css.gymhaanPlacehodler}>@gymhaan.de</p>
             </div>
@@ -184,7 +210,7 @@ function RegisterPage() {
           </form>
         </div>
         <p className={css.step}>
-          <span className={css.bullSpan}>&bull;</span>&bull;&bull;
+          <span className={css.bullSpan}>&bull;</span>&bull;&bull;&bull;
         </p>
         <ToastContainer />
       </div>
@@ -193,7 +219,7 @@ function RegisterPage() {
     return (
       <div id={css.container}>
         <div id={css.formContainer}>
-          <h1>Wähle deine Fächer, {name}</h1>
+          <h1>Wähle deine Fächer, {emailToName(email).split(" ")[0]}</h1>
           <h4>Fächer ausgewählt: {numChosen()}</h4>
           <div className={css.subjects}>
             <h3>Beliebte Fächer:</h3>
@@ -223,14 +249,14 @@ function RegisterPage() {
               value="weiter"
               className={css.next_button}
               onClick={(e) => {
-                setStep(3);
+                newStep(3);
                 e.preventDefault();
               }}
             />
           </div>
         </div>
         <div className={css.step}>
-          &bull;<span className={css.bullSpan}>&bull;</span>&bull;
+          &bull;<span className={css.bullSpan}>&bull;</span>&bull;&bull;
         </div>
 
         <ToastContainer />
@@ -238,28 +264,83 @@ function RegisterPage() {
     );
   } else if (step === 3) {
     return (
+      <div id={css.loginContainer}>
+        <h1>Deine Infos</h1>
+        <div ref={login} id={css.loginAnimation}></div>
+        <p>In welche Klasse/Stufe gehst du?</p>
+        <div className={general.select_input_field}>
+          <select
+            name=""
+            className={general.select}
+            value={grade}
+            onChange={(e) => {
+              setGrade(e.target.value);
+            }}
+          >
+            <option value="">--- Stufe wählen ---</option>
+            {grades.map((grade, index) => {
+              return <option key={index}>{grade}</option>;
+            })}
+          </select>
+        </div>
+        <br />
+        <p>Wenn du willst, kannst du hier noch etwas über dich schreiben.</p>
+        <div className={general.select_input_field}>
+          <textarea
+            name=""
+            value={misc}
+            onChange={(e) => {
+              setMisc(e.target.value.slice(0, 280));
+            }}
+            className={css.textarea}
+          ></textarea>
+        </div>
+        <br />
+        <br />
+        <div className={general.flexdiv}>
+          <button
+            className={general.text_button}
+            onClick={(e) => {
+              if (isNaN(parseInt(grade))) {
+                Alert("Bitte wähle deine Stufe!!!", "error", checkTheme());
+              } else {
+                newStep(4);
+                register();
+              }
+            }}
+          >
+            Weiter
+          </button>
+        </div>
+
+        <p className={css.step}>
+          &bull;&bull;<span className={css.bullSpan}>&bull;</span>&bull;
+        </p>
+        <ToastContainer />
+      </div>
+    );
+  } else if (step === 4) {
+    return (
       <div id={css.confirmContainer}>
         <h1>Bestätigen</h1>
-        <div
-          ref={letter}
-          id={css.letterAnimation}
-          onPointerEnter={(e) => {
-            lottie.stop();
-            lottie.setSpeed(2);
-            lottie.play();
-          }}
-        ></div>
+        <div ref={letter} id={css.letterAnimation}></div>
         <p id={css.justifyText}>
           Damit wir deine Identität bestätigen können, haben wir dir eine E-Mail
-          an <span>{email}@gymhaan.de geschickt.</span> <br />
+          an <span className={general.text_marker}>{email}@gymhaan.de</span>{" "}
+          geschickt.
+          <br />
           Öffne diese und befolge die Anweisungen, um deinen Account zu
           aktivieren. <br />
-          PS: Wenn du die E-Mail nicht findest, schau in deinem Spam Ordner
+          PS: Wenn du die E-Mail nicht findest, schau in deinem Spam-Ordner
           nach.
+          <br />
+          <p>
+            <a href="https://outlook.office365.com/mail/">Link zu Outlook</a>
+          </p>
         </p>
         <div className={css.placeholder}></div>
         <p className={css.step}>
-          &bull;&bull;<span className={css.bullSpan}>&bull;</span>
+          &bull;&bull;&bull;<span className={css.bullSpan}>&bull;</span>
         </p>
         <ToastContainer />
       </div>

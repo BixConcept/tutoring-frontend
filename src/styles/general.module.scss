@@ -30,14 +30,19 @@ $secondary_font: "Oxygen";
 
 /*button which contains text like 'login'*/
 .text_button {
+  width: auto;
   height: 2rem;
+  margin-top: 1rem;
+  padding: 0 2rem;
   border-radius: 0.3rem;
   border-style: none;
   background-color: $primary_color;
-  color: $secondary_text_color;
+  color: white;
   font-weight: bold;
   font-size: 1rem;
   cursor: pointer;
+
+  align-self: center;
 }
 
 .login {
@@ -100,12 +105,28 @@ $secondary_font: "Oxygen";
   border-radius: 0.3rem;
   box-shadow: 0 0 0 2px var(--text_color);
 
-  background-color: var(--background_color);
+  background-color: var(--contrast_bg_color);
 }
 
 .text_marker {
+  /*replace px*/
+  padding: 0 5px;
+  background: linear-gradient(
+      transparent,
+      transparent 42%,
+      $primary_color 0,
+      $primary_color 90%,
+      transparent 0
+    )
+    no-repeat;
 }
 
 .bullSpan {
   color: $primary_color;
+}
+
+.flexdiv {
+  display: flex;
+  width: 100%;
+  justify-content: center;
 }

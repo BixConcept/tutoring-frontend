@@ -1,1 +1,1 @@
-export const API_HOST: string = "https://api.nachhhilfe.sanberk.xyz";
+export const API_HOST: string = "https://nachhilfe.3nt3.de/api";

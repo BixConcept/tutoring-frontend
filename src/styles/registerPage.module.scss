@@ -213,6 +213,22 @@ a {
   }
 }
 
+.textarea {
+  resize: none;
+  width: 100%;
+  height: 7rem;
+  font-size: 14px;
+  border: none;
+  border-radius: 0.3rem;
+  background: transparent;
+  color: var(--text_color);
+  padding: 0.3rem;
+
+  :focus {
+    border: none;
+  }
+}
+
 .subjects {
   text-align: left;
   display: flex;

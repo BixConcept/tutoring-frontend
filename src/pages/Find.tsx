@@ -3,9 +3,10 @@ import css from "../styles/findPage.module.scss";
 import general from "../styles/general.module.scss";
 import { ThemeContext } from "../ThemeContext";
 import { ToastContainer } from "react-toastify";
-import { subjects, Teacher, topSubjects, TutoringOffer } from "../Models";
+import { subjects, topSubjects, TutoringOffer } from "../Models";
 import Alert from "../Components/Alert";
 import { API_HOST } from "../API_HOST";
+import { json } from "stream/consumers";
 
 function Find() {
   document.title = "Nachhilfe finden";
@@ -41,21 +42,24 @@ function Find() {
     return true;
   }
 
-  function toAbsGrade(offer: TutoringOffer): number {
-    if (offer.maxGrade >= 5) {
-      return offer.maxGrade;
-    }
-    return offer.teacher.grade + offer.maxGrade;
-  }
-
   function search() {
-    fetch(`${API_HOST}/find?subject=${subject}&grade=${grade}`).then(
-      (response) => {
+    console.log(JSON.stringify({ subject, grade: parseInt(grade) }));
+    fetch(`${API_HOST}/find`, {
+      method: "POST",
+      body: JSON.stringify({ subject, grade: parseInt(grade) }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then(async (response) => {
         if (response.ok) {
+          console.log("response ok");
           console.log(response);
+          return response.json();
         }
-      }
-    );
+      })
+      .then((body) => {
+        console.log(body);
+        setResults(body.content);
+      });
   }
 
   return (
@@ -125,19 +129,13 @@ function Find() {
           </span>
           {results.map((result, index) => (
             <div className={css.result} key={index}>
-              <h2>
-                {result.teacher.name}, Stufe/Klasse {result.teacher.grade}
-              </h2>
-              {result.teacher.misc !== undefined ? (
-                <p>{result.teacher.misc}</p>
-              ) : null}
+              <h2>{result.name}, Stufe/Klasse {result.grade}</h2>
+              {result.misc !== null ? <p>{result.misc}</p> : null}
               <p className={css.email}>
-                <a href={`mailto:${result.teacher.email}`}>
-                  {result.teacher.email}
-                </a>
+                <a href={`mailto:${result.email}`}>{result.email}</a>
               </p>
               <p>
-                {result.subject} bis Stufe/Klasse {toAbsGrade(result)}
+                {result.subject} bis Stufe/Klasse {result.max_grade}
               </p>
             </div>
           ))}

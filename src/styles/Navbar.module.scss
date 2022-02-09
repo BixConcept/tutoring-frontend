@@ -41,10 +41,6 @@ nav {
       transition: color 0.2s;
     }
 
-    a:hover {
-      color: lighten($not_quite_black, 60%);
-    }
-
     #loginRegister {
       display: flex;
 
