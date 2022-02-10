@@ -1,5 +1,4 @@
 import Page from "../Components/Page";
-import Bauarbeiter from "../Components/Bauarbeiter";
 
 function Privacy() {
   return (

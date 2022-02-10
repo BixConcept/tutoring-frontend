@@ -18,15 +18,15 @@ function Home() {
       <section id={css.applySection}>
         <div className={css.applyFlexContainer}>
           <div className={css.informationText}>
-            <p>Willkommen auf unserem Nachhilfeportal!🥳</p>
+            <p>Willkommen auf unserem Nachhilfeportal! 🥳</p>
             <p>
               Diese Seite wird komplett von Schülern geführt und entwickelt.
               Wenn du in einem Fach Nachhilfe geben möchtest, kannst du dich
               ganz einfach mit deiner Schul-Email registrieren. Für alle die
               Nachhilfe brauchen funktioniert der Zugang ohne Registrierung.{" "}
               <br />
-              Viel Erfolg beim Lernen! Eure Webseitenersteller aus dem
-              Info-Kurs🤗 <br />
+              Viel Erfolg beim Lernen! Eure Webseitenersteller aus dem Info-Kurs
+              🤗 <br />
               WIP: falls du ein Problem auf dieser Website findest,{" "}
               <a
                 id={css["issue-link"]}

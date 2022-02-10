@@ -1,4 +1,3 @@
-import Logo from "../assets/images/logo.svg";
 import css from "../styles/LoadingScreen.module.scss";
 import { useRef, useEffect } from "react";
 import lottie from "lottie-web";
@@ -20,11 +19,14 @@ function LoadingScreen(props: { state: boolean }) {
   });
   if (!props.state) {
     return (
-      <div className={css.LoadingScreen} style={{ opacity: props.state ? 0 : 1 }}>
+      <div
+        className={css.LoadingScreen}
+        style={{ opacity: props.state ? 0 : 1 }}
+      >
         <div className={css.loading_animation} ref={loading}></div>
       </div>
     );
   } else return null;
-};
+}
 
 export default LoadingScreen;

@@ -16,7 +16,6 @@ function RegisterPage() {
 
   const [email, setEmail] = useState("");
   const [chosen, setChosen] = useState<{ [key: string]: string }>({});
-  const [name, setName] = useState("Niels");
   const [grade, setGrade] = useState("");
   const [misc, setMisc] = useState("");
 
@@ -78,7 +77,7 @@ function RegisterPage() {
       method: "POST",
       body: JSON.stringify({
         grade: parseInt(grade),
-        email: email+"@gymhaan.de",
+        email: email + "@gymhaan.de",
         subjects: tmp,
         misc,
       }),
