@@ -9,7 +9,7 @@ function License() {
 
   useEffect(() => {
     fetch(
-      "https://raw.githubusercontent.com/HaanerBarbaren/tutoring-frontend/main/LICENSE"
+      "https://raw.githubusercontent.com/BixConcept/tutoring-frontend/main/LICENSE"
     )
       .then((response) => {
         if (response.ok) {
@@ -23,6 +23,7 @@ function License() {
         }, 300);
       });
   }, []);
+
   return (
     <div>
       <Page title="Lizenz" center={true}>

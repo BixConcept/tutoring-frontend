@@ -1,10 +1,8 @@
-import Logo from "../assets/images/logo.svg";
 import css from "../styles/LoadingScreen.module.scss";
 import { useRef, useEffect } from "react";
 import lottie from "lottie-web";
 
 function LoadingScreen(props: { loaded: boolean }) {
-  // loading animation
   const loading = useRef(null);
 
   useEffect(() => {

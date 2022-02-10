@@ -130,11 +130,12 @@
 }
 
 a {
-  width: 100%;
   text-align: center;
-  color: general($primary_text_color);
-  :visited {
-    color: general($primary_text_color);
+  &:visited,
+  &:link,
+  &:hover,
+  &:active {
+    color: var(--text_color);
   }
 }
 
