@@ -26,7 +26,7 @@ function License() {
   return (
     <div>
       <Page title="Lizenz" center={true}>
-        <LoadingScreen state={loaded} />
+        <LoadingScreen loaded={loaded} />
         <pre id={css.licenseText}>{content}</pre>
       </Page>
     </div>
