@@ -125,11 +125,13 @@ function Find() {
       {results.length > 0 ? (
         <div id={css.resultsContainer}>
           <span id={css.numResults}>
-            🎉 Es gibt {results.length} Ergebnisse
+            🎉 Es gibt {results.length} Ergebnisse 🎉
           </span>
           {results.map((result, index) => (
             <div className={css.result} key={index}>
-              <h2>{result.name}, Stufe/Klasse {result.grade}</h2>
+              <h2>
+                {result.name}, Stufe/Klasse {result.grade}
+              </h2>
               {result.misc !== null ? <p>{result.misc}</p> : null}
               <p className={css.email}>
                 <a href={`mailto:${result.email}`}>{result.email}</a>

@@ -9,7 +9,7 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 function Footer() {
   return (
     <footer className={css.footer}>
-      <a href="https://github.com/HaanerBarbaren/tutoring-frontend">
+      <a href="https://github.com/BixConcept/tutoring-frontend">
         Source Code <FontAwesomeIcon icon={faGithub} />
       </a>
       <Link to="/license">Lizenz</Link>

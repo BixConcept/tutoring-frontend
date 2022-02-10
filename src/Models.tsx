@@ -4,10 +4,10 @@ export interface TutoringOffer {
   name: string;
   email: string;
   max_grade: number;
-  grade: number;
   phone_number: string | null;
   subject: string;
   misc: string | null;
+  grade: number;
 }
 
 export const topSubjects: string[] = [
