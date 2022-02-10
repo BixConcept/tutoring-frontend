@@ -15,31 +15,40 @@ function Verify(): JSX.Element {
   const failureRef = useRef(null);
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoaded(true);
-      setVerified(true);
-
-      lottie.destroy();
-      if (successRef.current) {
-        lottie.loadAnimation({
-          container: successRef.current,
-          renderer: "svg",
-          loop: false,
-          autoplay: true,
-          animationData: require("../assets/animations/success.json"),
-        });
-      }
-      if (failureRef.current) {
-        lottie.loadAnimation({
-          container: failureRef.current,
-          renderer: "svg",
-          loop: false,
-          autoplay: true,
-          animationData: require("../assets/animations/404.json"),
-        });
-      }
-    }, 1000);
+    fetch(`${API_HOST}/user/verify?code=${code}`)
+      .then((res) => {
+        setLoaded(true);
+        if (res.ok) {
+          setVerified(true);
+        }
+      })
+      .catch((e) => {
+        setLoaded(true);
+        setVerified(false);
+      });
   }, []);
+
+  useEffect(() => {
+    lottie.destroy();
+    if (successRef.current) {
+      lottie.loadAnimation({
+        container: successRef.current,
+        renderer: "svg",
+        loop: false,
+        autoplay: true,
+        animationData: require("../assets/animations/success.json"),
+      });
+    }
+    if (failureRef.current) {
+      lottie.loadAnimation({
+        container: failureRef.current,
+        renderer: "svg",
+        loop: false,
+        autoplay: true,
+        animationData: require("../assets/animations/failure.json"),
+      });
+    }
+  });
 
   return (
     <div id={css.container} className={general["weird-shadow"]}>
