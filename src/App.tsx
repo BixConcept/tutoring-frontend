@@ -8,19 +8,44 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import License from "./pages/License";
 import Privacy from "./pages/Privacy";
 import Imprint from "./pages/Imprint";
-import { ThemeContext } from "./ThemeContext";
-import { useState } from "react";
+import { OurContext } from "./OurContext";
+import { useEffect, useState } from "react";
 import FourOFourPage from "./pages/404";
 import Find from "./pages/Find";
 import Dashboard from "./pages/UserDashboard";
 import ScrollToTop from "./Components/ScrollToTop";
+import { User } from "./Models";
+import { API_HOST } from "./API_HOST";
 
 function App() {
   const [theme, setTheme] = useState("dark");
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    if (!localStorage) {
+      setUser(null);
+      return;
+    }
+
+    let token: string | null = localStorage.getItem("token");
+    if (token) {
+      // test validity of token
+      fetch(`${API_HOST}/user`, {
+        headers: { Authorization: `Bearer ${token}` }, // NOTE: I hope this works like dis lul
+      });
+    }
+  }, []);
 
   return (
     <div className="App">
-      <ThemeContext.Provider value={{ theme: theme, setTheme: setTheme }}>
+      <OurContext.Provider
+        value={{
+          theme: theme,
+          setTheme: setTheme,
+          user: null,
+          setUser: setUser,
+        }}
+      >
         <BrowserRouter>
           <ScrollToTop />
           <Navbar />
@@ -40,7 +65,7 @@ function App() {
           </div>
           <Footer />
         </BrowserRouter>
-      </ThemeContext.Provider>
+      </OurContext.Provider>
     </div>
   );
 }

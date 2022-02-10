@@ -1,6 +1,6 @@
 import { useState, useContext, useRef, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { ThemeContext } from "../ThemeContext";
+import { OurContext } from "../OurContext";
 import lottie from "lottie-web";
 import css from "../styles/registerPage.module.scss";
 import general from "../styles/general.module.scss";
@@ -40,7 +40,7 @@ function RegisterPage() {
     }
   }, [stepIndex, navigate]);
 
-  const context = useContext(ThemeContext);
+  const context = useContext(OurContext);
 
   function checkTheme(): "dark" | "light" {
     // to have type safety

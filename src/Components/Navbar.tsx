@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import DarkMode from "./DarkMode";
 import logo from "../assets/images/logo.svg";
 import general from "../styles/general.module.scss";
+import { useContext } from "react";
+import { OurContext } from "../OurContext";
 
 function Navbar() {
+  const context = useContext(OurContext);
+
   return (
     <nav>
       <ul>
@@ -15,9 +19,15 @@ function Navbar() {
         </li>
         <div id={css.loginRegister}>
           <li>
-            <Link to="/login">
-              <span className={general.text_marker}>Login</span>
-            </Link>
+            {context.user === null ? (
+              <Link to="/login">
+                <span className={general.text_marker}>Login</span>
+              </Link>
+            ) : (
+              <Link to="/dashboard">
+                <span className={general.text_marker}>Daskboard</span>
+              </Link>
+            )}
           </li>
         </div>
       </ul>
