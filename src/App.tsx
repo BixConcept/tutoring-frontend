@@ -14,6 +14,7 @@ import FourOFourPage from "./pages/404";
 import Find from "./pages/Find";
 import Dashboard from "./pages/UserDashboard";
 import ScrollToTop from "./Components/ScrollToTop";
+import Verify from "./pages/Verify";
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -35,6 +36,7 @@ function App() {
               <Route path="/imprint" element={<Imprint />} />
               <Route path="/find" element={<Find />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/verify/:code" element={<Verify />} />
               <Route path="*" element={<FourOFourPage />} />
             </Routes>
           </div>
