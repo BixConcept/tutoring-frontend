@@ -35,6 +35,11 @@ function Home() {
                 öffne ein Issue!
               </a>
             </p>
+
+            <em>
+              PS: Mit der Nutzung dieser Seite bist du mit den{" "}
+              <a href="/privacy">Datenschutzbestimmungen</a> einverstanden.
+            </em>
           </div>
           <div id={css.choices}>
             <div className={css.choice}>
