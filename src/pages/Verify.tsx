@@ -8,20 +8,19 @@ import lottie from "lottie-web";
 
 const Timer = (props: { href: string; verified: boolean }) => {
   const { href, verified } = props;
-  let [num, setNum] = useState<number>(5);
-  const timer = () => setNum(num--);
+  let [num, setNum] = useState<number>(3);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (num <= 0) {
       return navigate(href);
     }
-    const id = setInterval(timer, 1000);
+    const id = setInterval(() => setNum(num-1), 1000);
     return () => clearInterval(id);
   }, [num]);
 
   return verified ? (
-    <p>Du wist in {num}s zum Dashboard weitergeleitet</p>
+    <p>Du wirst in {num}s zum Dashboard weitergeleitet</p>
   ) : (
     <p>Du wirst in {num}s zurückgeleitet</p>
   );
