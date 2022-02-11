@@ -1,5 +1,5 @@
 import css from "../styles/loginPage.module.scss";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast, Theme } from "react-toastify";
@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { OurContext } from "../OurContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
+import lottie from "lottie-web";
 
 import { API_HOST } from "../index";
 import Alert from "../Components/Alert";
@@ -26,12 +27,15 @@ const LoginPage = (): JSX.Element => {
     if (pwType !== "password") setPwType("password");
     else setPwType("text");
   };
+  const [displayAnimation, setDisplayAnimation] = useState(false);
 
   const navigate = useNavigate();
   const context = useContext(OurContext);
   const toastId: any = useRef(null);
 
-  function checkTheme(): "dark" | "light" {
+  const animationRef = useRef(null);
+
+  function getTheme(): "dark" | "light" {
     console.log(context.theme);
     if (context.theme === "dark" || context.theme === "light") {
       return context.theme;
@@ -49,7 +53,7 @@ const LoginPage = (): JSX.Element => {
           hideProgressBar: false,
           closeOnClick: true,
           draggable: true,
-          theme: checkTheme(),
+          theme: getTheme(),
           progress: undefined,
         });
         return;
@@ -65,7 +69,7 @@ const LoginPage = (): JSX.Element => {
           hideProgressBar: false,
           closeOnClick: true,
           draggable: true,
-          theme: checkTheme(),
+          theme: getTheme(),
           progress: undefined,
         });
         return;
@@ -78,7 +82,7 @@ const LoginPage = (): JSX.Element => {
       hideProgressBar: false,
       closeOnClick: true,
       draggable: true,
-      theme: checkTheme(),
+      theme: getTheme(),
       progress: undefined,
     });
 
@@ -102,23 +106,50 @@ const LoginPage = (): JSX.Element => {
     })
       .then((res) => {
         if (res.ok) {
-          Alert("E-Mail geschickt!", "success", checkTheme());
+          Alert("E-Mail geschickt!", "success", getTheme());
+          lottie.destroy();
+          setDisplayAnimation(true);
+          setTimeout(() => {
+            setDisplayAnimation(false);
+          }, 2000);
         } else {
           Alert(
             "Wahrscheinlich stimmt mit deinem Input was nicht.",
             "error",
-            checkTheme()
+            getTheme()
           );
+          setDisplayAnimation(false);
         }
         return res.json();
       })
       .then((body) => console.log(body));
   }
 
+  useEffect(() => {
+    if (animationRef.current) {
+      lottie.loadAnimation({
+        container: animationRef.current,
+        renderer: "svg",
+        loop: false,
+        autoplay: true,
+        animationData: require("../assets/animations/message.json"),
+      });
+    }
+  }, [displayAnimation]);
+
   return (
     <div id={css.login}>
       <h1>Login</h1>
+      {displayAnimation ? (
+        <div id={css.animationContainer} ref={animationRef} />
+      ) : null}
       <h3>Anmelden mit Link per E-Mail</h3>
+      <p>
+        Wenn du dich so anmeldest, kriegt du einen Link per E-Mail (deine
+        Schul-E-Mail-Adresse) zugeschickt womit du dich für 30 Tage auf einem
+        Gerät authentifizieren kannst.{" "}
+        <a href="https://outlook.office365.com/mail/">Link zu Outlook</a>
+      </p>
       <div className={css["inputFields"]}>
         <form
           onSubmit={(e) => {
@@ -145,6 +176,10 @@ const LoginPage = (): JSX.Element => {
       </div>
 
       <h3>E-Mail/Passwort (deaktiviert)</h3>
+      <p>
+        Passwort, das du nach der Registrierung gesetzt hast. Zurzeit
+        deaktiviert.
+      </p>
       <div className={css["inputFields"]}>
         <form
           onSubmit={(e) => {
