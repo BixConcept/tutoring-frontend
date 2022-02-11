@@ -8,9 +8,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { subjects, topSubjects } from "../Models";
 import Alert from "../Components/Alert";
-import { API_HOST } from "..";
+import { API_HOST } from "../index";
 
-function RegisterPage() {
+const RegisterPage = (): JSX.Element => {
   document.title = "Registrieren";
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
@@ -41,22 +41,22 @@ function RegisterPage() {
 
   const context = useContext(ThemeContext);
 
-  function checkTheme(): "dark" | "light" {
+  const checkTheme = (): "dark" | "light" => {
     // to have type safety
     if (context.theme === "dark" || context.theme === "light") {
       return context.theme;
     } else {
       return "dark";
     }
-  }
+  };
 
-  function numChosen(): number {
+  const numChosen = (): number => {
     return Object.entries(chosen).reduce(
       (previous, [subject, grade]) =>
         previous + (grade !== "" && grade !== undefined ? 1 : 0),
       0
     );
-  }
+  };
 
   const emailToName = (email: string): string => {
     return email
@@ -344,7 +344,7 @@ function RegisterPage() {
         <ToastContainer />
       </div>
     );
-  } else return null;
-}
+  } else return <></>;
+};
 
 export default RegisterPage;

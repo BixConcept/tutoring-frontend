@@ -1,6 +1,6 @@
 import Page from "../Components/Page";
 
-function Imprint() {
+const Imprint = (): JSX.Element => {
   let imprint = "https://gymhaan.de/unsere-schule/impressum/";
   return (
     <Page title="Impressum">
@@ -8,6 +8,6 @@ function Imprint() {
       <a href={imprint}>{imprint}</a>
     </Page>
   );
-}
+};
 
 export default Imprint;

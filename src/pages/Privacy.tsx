@@ -1,6 +1,6 @@
 import Page from "../Components/Page";
 
-function Privacy() {
+const Privacy = () => {
   return (
     <Page title={"Datenschutz"}>
       <h1>Disclamer</h1>
@@ -14,6 +14,6 @@ function Privacy() {
       </p>
     </Page>
   );
-}
+};
 
 export default Privacy;

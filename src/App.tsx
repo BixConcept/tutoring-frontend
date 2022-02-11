@@ -16,7 +16,7 @@ import Dashboard from "./pages/UserDashboard";
 import ScrollToTop from "./Components/ScrollToTop";
 import Verify from "./pages/Verify";
 
-function App() {
+const App = (): JSX.Element => {
   const [theme, setTheme] = useState("dark");
 
   return (
@@ -45,6 +45,6 @@ function App() {
       </ThemeContext.Provider>
     </div>
   );
-}
+};
 
 export default App;

@@ -2,7 +2,7 @@ import css from "../styles/NotFound.module.scss";
 import lottie from "lottie-web";
 import { useEffect, useRef } from "react";
 
-function NotFound() {
+const NotFound = () => {
   const container = useRef(null);
 
   useEffect(() => {
@@ -17,6 +17,6 @@ function NotFound() {
   }, []);
 
   return <div className={css.animation_container} ref={container}></div>;
-}
+};
 
 export default NotFound;

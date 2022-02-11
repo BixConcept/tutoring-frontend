@@ -2,7 +2,7 @@ import css from "../styles/LoadingScreen.module.scss";
 import { useRef, useEffect } from "react";
 import lottie from "lottie-web";
 
-function LoadingScreen(props: { loaded: boolean }) {
+const LoadingScreen = (props: { loaded: boolean }): JSX.Element => {
   const loading = useRef(null);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ function LoadingScreen(props: { loaded: boolean }) {
         <div className={css.loading_animation} ref={loading}></div>
       </div>
     );
-  } else return null;
-}
+  } else return <></>;
+};
 
 export default LoadingScreen;

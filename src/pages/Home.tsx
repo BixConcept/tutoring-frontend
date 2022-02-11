@@ -1,7 +1,7 @@
 import css from "../styles/Home.module.scss";
 import { Link } from "react-router-dom";
 
-function Home() {
+const Home = (): JSX.Element => {
   document.title = "Nachhilfe GymHaan";
 
   return (
@@ -60,6 +60,6 @@ function Home() {
       </section>
     </main>
   );
-}
+};
 
 export default Home;

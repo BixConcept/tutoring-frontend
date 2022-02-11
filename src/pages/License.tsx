@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import css from "../styles/license.module.scss";
 import LoadingScreen from "../Components/LoadingScreen";
 
-function License() {
+const License = (): JSX.Element => {
   const [content, setContent] = useState("");
   const [loaded, setLoaded] = useState(false);
 
@@ -32,6 +32,6 @@ function License() {
       </Page>
     </div>
   );
-}
+};
 
 export default License;

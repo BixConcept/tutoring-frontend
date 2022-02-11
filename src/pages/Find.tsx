@@ -5,10 +5,9 @@ import { ThemeContext } from "../ThemeContext";
 import { ToastContainer } from "react-toastify";
 import { subjects, topSubjects, TutoringOffer } from "../Models";
 import Alert from "../Components/Alert";
-import { API_HOST } from "../API_HOST";
-import { json } from "stream/consumers";
+import { API_HOST } from "../index";
 
-function Find() {
+const Find = (): JSX.Element => {
   document.title = "Nachhilfe finden";
 
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
@@ -18,7 +17,7 @@ function Find() {
   const [subject, setSubject] = useState("");
   const [results, setResults] = useState<TutoringOffer[]>([]);
 
-  function validate(): boolean {
+  const validate = (): boolean => {
     if (subject === "") {
       Alert(
         "Du musst ein Fach auswählen",
@@ -40,9 +39,9 @@ function Find() {
       return false;
     }
     return true;
-  }
+  };
 
-  function search() {
+  const search = (): void => {
     console.log(JSON.stringify({ subject, grade: parseInt(grade) }));
     fetch(`${API_HOST}/find`, {
       method: "POST",
@@ -51,16 +50,14 @@ function Find() {
     })
       .then(async (response) => {
         if (response.ok) {
-          console.log("response ok");
           console.log(response);
           return response.json();
         }
       })
       .then((body) => {
-        console.log(body);
         setResults(body.content);
       });
-  }
+  };
 
   return (
     <div className={css.container}>
@@ -146,6 +143,6 @@ function Find() {
       <ToastContainer />
     </div>
   );
-}
+};
 
 export default Find;
