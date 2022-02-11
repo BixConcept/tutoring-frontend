@@ -138,9 +138,9 @@ function RegisterPage() {
       lottie.loadAnimation({
         container: letter.current,
         renderer: "svg",
-        loop: true,
+        loop: false,
         autoplay: true,
-        animationData: require("../assets/animations/letter.json"),
+        animationData: require("../assets/animations/message.json"),
       });
     }
   });
