@@ -25,8 +25,10 @@ $text_marker_color_dark: #98c222;
 $error_color: #e84118;
 
 /*not final*/
-$primary_font: "Roboto";
+$primary_font: "Inter";
 $secondary_font: "Oxygen";
+
+$border_radius: 0.5rem;
 
 /*button which contains text like 'login'*/
 .text_button {
@@ -129,4 +131,10 @@ $secondary_font: "Oxygen";
   display: flex;
   width: 100%;
   justify-content: center;
+}
+
+.weird-shadow {
+  -moz-box-shadow: inset 0 0 5px #c9c9c9;
+  -webkit-box-shadow: inset 0 0 5px #c9c9c9;
+  box-shadow: inset 0 0 5px #c9c9c9;
 }

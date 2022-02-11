@@ -1,0 +1,24 @@
+@import "general.module";
+
+#container {
+  background-color: var(--background_color);
+  color: var(--text_color);
+
+  border-radius: $border_radius;
+  max-width: 40rem;
+  margin: 2rem auto 0;
+
+  padding: 2rem;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  h1 {
+    margin: 0;
+  }
+
+  #animation-container {
+    max-width: 30rem;
+  }
+}

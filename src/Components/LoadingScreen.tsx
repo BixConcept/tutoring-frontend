@@ -1,10 +1,8 @@
-import Logo from "../assets/images/logo.svg";
 import css from "../styles/LoadingScreen.module.scss";
 import { useRef, useEffect } from "react";
 import lottie from "lottie-web";
 
-function LoadingScreen(props: { state: boolean }) {
-  // loading animation
+const LoadingScreen = (props: { loaded: boolean }): JSX.Element => {
   const loading = useRef(null);
 
   useEffect(() => {
@@ -18,13 +16,16 @@ function LoadingScreen(props: { state: boolean }) {
       });
     }
   });
-  if (!props.state) {
+  if (!props.loaded) {
     return (
-      <div className={css.LoadingScreen} style={{ opacity: props.state ? 0 : 1 }}>
+      <div
+        className={css.LoadingScreen}
+        style={{ opacity: props.loaded ? 0 : 1 }}
+      >
         <div className={css.loading_animation} ref={loading}></div>
       </div>
     );
-  } else return null;
+  } else return <></>;
 };
 
 export default LoadingScreen;

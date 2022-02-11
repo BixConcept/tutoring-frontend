@@ -11,7 +11,6 @@ const DarkMode = () => {
   useEffect(() => {
     if (localStorage) {
       let value = localStorage.getItem("theme");
-      // console.log(`value: ${value}`);
       if (value === "light" || value === "dark") {
         body.classList.add(value);
         setTheme(value);
@@ -22,8 +21,6 @@ const DarkMode = () => {
       }
       if (value === "dark") setCheckedS(true);
     }
-
-    // console.log(theme);
   }, []);
 
   const toggleDarkMode = (callback: (newTheme: string) => void) => {
@@ -38,7 +35,6 @@ const DarkMode = () => {
       localStorage.setItem("theme", "dark");
       setTheme("dark");
       callback("dark");
-      // setCheckedS(true);
     }
   };
 
@@ -52,7 +48,10 @@ const DarkMode = () => {
               onChange={() => {
                 toggleDarkMode(setTheme);
               }}
-              checked={localStorage.getItem("theme") === "dark" || localStorage.getItem("theme") === null}
+              checked={
+                localStorage.getItem("theme") === "dark" ||
+                localStorage.getItem("theme") === null
+              }
             />
           )}
         </OurContext.Consumer>

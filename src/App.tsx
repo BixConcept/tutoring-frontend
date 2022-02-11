@@ -17,7 +17,7 @@ import ScrollToTop from "./Components/ScrollToTop";
 import { User } from "./Models";
 import { API_HOST } from "./API_HOST";
 
-function App() {
+const App = (): JSX.Element => {
   const [theme, setTheme] = useState("dark");
   const [user, setUser] = useState<User | null>(null);
 
@@ -60,6 +60,7 @@ function App() {
               <Route path="/imprint" element={<Imprint />} />
               <Route path="/find" element={<Find />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/verify/:code" element={<Verify />} />
               <Route path="*" element={<FourOFourPage />} />
             </Routes>
           </div>
@@ -68,6 +69,6 @@ function App() {
       </OurContext.Provider>
     </div>
   );
-}
+};
 
 export default App;

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 
 import { API_HOST } from "../index";
 
-function LoginPage() {
+const LoginPage = (): JSX.Element => {
   document.title = "Login";
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -137,6 +137,6 @@ function LoginPage() {
       </div>
     </div>
   );
-}
+};
 
 export default LoginPage;

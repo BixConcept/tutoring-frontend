@@ -1,6 +1,5 @@
 import css from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
-import DarkMode from "./DarkMode";
 import logo from "../assets/images/logo.svg";
 import general from "../styles/general.module.scss";
 import { useContext } from "react";
