@@ -111,7 +111,7 @@ const LoginPage = (): JSX.Element => {
           setDisplayAnimation(true);
           setTimeout(() => {
             setDisplayAnimation(false);
-          }, 2000);
+          }, 4000);
         } else {
           Alert(
             "Wahrscheinlich stimmt mit deinem Input was nicht.",
