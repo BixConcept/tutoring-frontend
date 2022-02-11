@@ -8,8 +8,22 @@
   max-width: 30rem;
   margin: auto;
 
-  > h1 {
-    text-align: center;
+  h1 {
+    margin: 0;
+  }
+
+  h3 {
+    font-size: 14pt;
+    margin: 1rem 0 0;
+  }
+
+  #animationContainer {
+    margin-top: -3rem;
+    transform: scale(0.75); // this yields better performance than width I think
+  }
+
+  p {
+    margin: 0.5rem 0;
   }
 
   color: var(--text_color);
@@ -22,11 +36,20 @@
 }
 
 .inputFields {
-  width: 60%;
+  width: 80%;
   form {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    // align-items: center;
+
+    // center button
+    input[type="submit"] {
+      margin: 0 auto;
+    }
+
+    label {
+      font-size: 0.8rem;
+    }
   }
   margin: auto;
 
@@ -93,6 +116,10 @@
 .passwordEye {
   width: 2rem;
   align-self: flex-end;
+}
+
+.required {
+  color: red;
 }
 
 @media screen and (max-width: 500px) {

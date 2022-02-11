@@ -1,6 +1,6 @@
 import { useState, useContext, useRef, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { ThemeContext } from "../ThemeContext";
+import { OurContext } from "../OurContext";
 import lottie from "lottie-web";
 import css from "../styles/registerPage.module.scss";
 import general from "../styles/general.module.scss";
@@ -8,9 +8,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { subjects, topSubjects } from "../Models";
 import Alert from "../Components/Alert";
-import { API_HOST } from "..";
+import { API_HOST } from "../index";
 
-function RegisterPage() {
+const RegisterPage = (): JSX.Element => {
   document.title = "Registrieren";
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
@@ -39,24 +39,24 @@ function RegisterPage() {
     }
   }, [stepIndex, navigate]);
 
-  const context = useContext(ThemeContext);
+  const context = useContext(OurContext);
 
-  function checkTheme(): "dark" | "light" {
+  const checkTheme = (): "dark" | "light" => {
     // to have type safety
     if (context.theme === "dark" || context.theme === "light") {
       return context.theme;
     } else {
       return "dark";
     }
-  }
+  };
 
-  function numChosen(): number {
+  const numChosen = (): number => {
     return Object.entries(chosen).reduce(
       (previous, [subject, grade]) =>
         previous + (grade !== "" && grade !== undefined ? 1 : 0),
       0
     );
-  }
+  };
 
   const emailToName = (email: string): string => {
     return email
@@ -138,9 +138,9 @@ function RegisterPage() {
       lottie.loadAnimation({
         container: letter.current,
         renderer: "svg",
-        loop: true,
+        loop: false,
         autoplay: true,
-        animationData: require("../assets/animations/letter.json"),
+        animationData: require("../assets/animations/message.json"),
       });
     }
   });
@@ -344,7 +344,7 @@ function RegisterPage() {
         <ToastContainer />
       </div>
     );
-  } else return null;
-}
+  } else return <></>;
+};
 
 export default RegisterPage;

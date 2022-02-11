@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import css from "../styles/darkModeButton.module.scss";
-import { ThemeContext } from "../ThemeContext";
+import { OurContext } from "../OurContext";
 
 const DarkMode = () => {
   const body = document.body;
@@ -11,7 +11,6 @@ const DarkMode = () => {
   useEffect(() => {
     if (localStorage) {
       let value = localStorage.getItem("theme");
-      // console.log(`value: ${value}`);
       if (value === "light" || value === "dark") {
         body.classList.add(value);
         setTheme(value);
@@ -22,8 +21,6 @@ const DarkMode = () => {
       }
       if (value === "dark") setCheckedS(true);
     }
-
-    // console.log(theme);
   }, []);
 
   const toggleDarkMode = (callback: (newTheme: string) => void) => {
@@ -38,24 +35,26 @@ const DarkMode = () => {
       localStorage.setItem("theme", "dark");
       setTheme("dark");
       callback("dark");
-      // setCheckedS(true);
     }
   };
 
   return (
     <div id={css.switch}>
       <label className={css.toggle}>
-        <ThemeContext.Consumer>
+        <OurContext.Consumer>
           {({ theme, setTheme }) => (
             <input
               type="checkbox"
               onChange={() => {
                 toggleDarkMode(setTheme);
               }}
-              checked={localStorage.getItem("theme") === "dark" || localStorage.getItem("theme") === null}
+              checked={
+                localStorage.getItem("theme") === "dark" ||
+                localStorage.getItem("theme") === null
+              }
             />
           )}
-        </ThemeContext.Consumer>
+        </OurContext.Consumer>
         <span className={css.slider}></span>
         <span className={css.labels}></span>
       </label>

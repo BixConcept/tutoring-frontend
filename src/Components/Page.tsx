@@ -1,7 +1,11 @@
 import css from "../styles/page.module.scss";
 
-function Page(props: { children: any; title: string; center?: boolean }) {
-   document.title = props.title;
+const Page = (props: {
+  children: any;
+  title: string;
+  center?: boolean;
+}): JSX.Element => {
+  document.title = props.title;
   return (
     <main className={`${css.page} ${props.center ? "center" : "nocenter"}`}>
       <div id={css.title}>
@@ -15,6 +19,6 @@ function Page(props: { children: any; title: string; center?: boolean }) {
       </div>
     </main>
   );
-}
+};
 
 export default Page;

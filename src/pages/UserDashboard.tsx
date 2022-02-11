@@ -2,7 +2,7 @@ import { useState, Fragment } from "react";
 import css from "../styles/userDashboard.module.scss";
 import Page from "../Components/Page";
 
-function UserDashboard(): JSX.Element {
+const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";
 
   const [content, setContent] = useState<number>(0);
@@ -75,6 +75,6 @@ function UserDashboard(): JSX.Element {
       </div>
     </Page>
   );
-}
+};
 
 export default UserDashboard;
