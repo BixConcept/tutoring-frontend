@@ -15,7 +15,8 @@ import Find from "./pages/Find";
 import Dashboard from "./pages/UserDashboard";
 import ScrollToTop from "./Components/ScrollToTop";
 import { User } from "./Models";
-import { API_HOST } from "./API_HOST";
+import { API_HOST } from "./index";
+import Verify from "./pages/Verify";
 
 const App = (): JSX.Element => {
   const [theme, setTheme] = useState("dark");
@@ -31,8 +32,13 @@ const App = (): JSX.Element => {
     if (token) {
       // test validity of token
       fetch(`${API_HOST}/user`, {
-        headers: { Authorization: `Bearer ${token}` }, // NOTE: I hope this works like dis lul
-      });
+        credentials: "include",
+      })
+        .then((res) => res.json())
+        .then((body) => {
+          setUser(body.content);
+        })
+        .catch();
     }
   }, []);
 
