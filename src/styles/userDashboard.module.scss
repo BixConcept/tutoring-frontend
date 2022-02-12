@@ -63,7 +63,7 @@
       }
 
       button {
-        background-color: rgb(230, 20, 51);
+        background-color: $error_color;
         color: white;
         border: none;
 
@@ -131,7 +131,7 @@ h4 {
 
     button {
       height: 2rem;
-      background-color: rgb(230, 20, 51);
+      background-color: $error_color;
       color: white;
       border: none;
       font-size: inherit;

@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { json } from "stream/consumers";
 import { API_HOST } from "..";
 import Alert from "../Components/Alert";
 import LoadingScreen from "../Components/LoadingScreen";
@@ -35,15 +36,6 @@ const UserDashboard = (): JSX.Element => {
         // navigate("/login");
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  function getTheme(): "dark" | "light" {
-    console.log(context.theme);
-    if (context.theme === "dark" || context.theme === "light") {
-      return context.theme;
-    } else {
-      return "dark";
-    }
-  }
 
   if (allowed) {
     return (
@@ -102,10 +94,10 @@ const UserDashboard = (): JSX.Element => {
                         Alert(
                           "Irgendwas ist schiefgegangen.",
                           "error",
-                          getTheme()
+                          context.theme
                         );
                       } else {
-                        Alert("Account gelöscht.", "info", getTheme());
+                        Alert("Account gelöscht.", "info", context.theme);
                       }
                     });
                   }}
@@ -168,27 +160,50 @@ const UserDashboard = (): JSX.Element => {
                   onSubmit={(e) => {
                     e.preventDefault();
                     // TODO
-                    fetch(`${API_HOST}/user/`);
+                    fetch(`${API_HOST}/user`, {
+                      method: "PUT",
+                      credentials: "include",
+                      body: JSON.stringify({ email }),
+                      headers: { "content-type": "application/json" },
+                    }).then(async (res) => {
+                      const body = await res.json();
+                      if (!res.ok) {
+                        Alert(
+                          `Irgendwas ist schief gegangen: ${body.msg}`,
+                          "error",
+                          context.theme
+                        );
+                      } else {
+                        Alert("E-Mail geändert!", "success", context.theme);
+                      }
+                    });
                   }}
                 >
                   <input
                     type="text"
                     placeholder=""
                     value={name}
-                    onChange={(e) => {}}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                    required
                   />
                   <input
                     type="text"
                     placeholder=" Neue E-Mail"
-                    value={""}
+                    value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
                     }}
+                    required
                   />
                   <input
                     type="submit"
                     value="Ändern"
-                    disabled={name !== context.user?.name}
+                    disabled={
+                      name !== context.user?.name ||
+                      !/\b[a-z0-9-_.]+@[a-z0-9-_.]+(\.[a-z0-9]+)+/i.test(email)
+                    }
                   />
                 </form>
               </div>
