@@ -62,10 +62,10 @@ nav {
     height: auto !important;
   }
 
-  * {
-    gap: 2rem;
+  ul {
     flex-direction: column;
-    .links {
+    gap: 2rem;
+    #links {
       flex-direction: column;
     }
   }

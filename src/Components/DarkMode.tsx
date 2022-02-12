@@ -23,7 +23,7 @@ const DarkMode = () => {
     }
   }, []);
 
-  const toggleDarkMode = (callback: (newTheme: string) => void) => {
+  const toggleDarkMode = (callback: (newTheme: "dark" | "light") => void) => {
     if (theme === "dark") {
       body.classList.replace("dark", "light");
       localStorage.setItem("theme", "light");
