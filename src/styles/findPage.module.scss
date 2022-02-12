@@ -49,6 +49,11 @@
   cursor: pointer;
 
   align-self: center;
+
+  &:disabled {
+    background-color: var(--disabled_color);
+    cursor: not-allowed;
+  }
 }
 
 .inputField {

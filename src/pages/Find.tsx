@@ -48,10 +48,10 @@ const Find = (): JSX.Element => {
       headers: { "Content-Type": "application/json" },
     })
       .then(async (response) => {
-        if (response.ok) {
-          console.log(response);
-          return response.json();
+        if (!response.ok) {
+          Alert("irgendwas ist schief gegangen.", "error", context.theme);
         }
+        return response.json();
       })
       .then((body) => {
         setResults(body.content);
@@ -114,14 +114,21 @@ const Find = (): JSX.Element => {
                 </div>
               </div>
             </div>
-            <input type="submit" value="suchen 🚀" id={css.submit} />
+            <input
+              type="submit"
+              value="suchen 🚀"
+              id={css.submit}
+              disabled={!(grade && subject)}
+            />
           </form>
         </div>
       </div>
       {results.length > 0 ? (
         <div id={css.resultsContainer}>
           <span id={css.numResults}>
-            🎉 Es gibt {results.length} Ergebnisse 🎉
+            {results.length > 0
+              ? `🎉 Es gibt ${results.length} Ergebnisse 🎉`
+              : `Leider gibt es keine Ergebnisse 😔`}
           </span>
           {results.map((result, index) => (
             <div className={css.result} key={index}>
