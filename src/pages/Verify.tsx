@@ -13,9 +13,9 @@ const Timer = (props: { href: string; verified: boolean }) => {
 
   useEffect(() => {
     if (num <= 0) {
-      return navigate(href);
+      // return navigate(href);
     }
-    const id = setInterval(() => setNum(num-1), 1000);
+    const id = setInterval(() => setNum(num - 1), 1000);
     return () => clearInterval(id);
   }, [num]);
 
@@ -35,7 +35,7 @@ const Verify = () => {
   const failureRef = useRef(null);
 
   useEffect(() => {
-    fetch(`${API_HOST}/user/verify?code=${code}`)
+    fetch(`${API_HOST}/user/verify?code=${code}`, { credentials: "include" })
       .then((res) => {
         setLoaded(true);
         if (res.ok) {

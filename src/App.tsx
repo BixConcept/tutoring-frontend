@@ -23,23 +23,15 @@ const App = (): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (!localStorage) {
-      setUser(null);
-      return;
-    }
-
-    let token: string | null = localStorage.getItem("token");
-    if (token) {
-      // test validity of token
-      fetch(`${API_HOST}/user`, {
-        credentials: "include",
+    // test validity of token
+    fetch(`${API_HOST}/user`, {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((body) => {
+        setUser(body.content);
       })
-        .then((res) => res.json())
-        .then((body) => {
-          setUser(body.content);
-        })
-        .catch();
-    }
+      .catch();
   }, []);
 
   return (
