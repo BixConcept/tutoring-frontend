@@ -106,3 +106,56 @@
     }
   }
 }
+
+h4 {
+  font-weight: normal;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+#danger-zone {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 2px solid $error_color;
+
+  > .danger-item {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    width: 100%;
+
+    * {
+      margin: 0;
+    }
+
+    button {
+      height: 2rem;
+      background-color: rgb(230, 20, 51);
+      color: white;
+      border: none;
+      font-size: inherit;
+      white-space: nowrap;
+
+      border-radius: 5px;
+    }
+
+    button:disabled {
+      background-color: var(--disabled_color);
+    }
+
+    .danger-action {
+      font-weight: bold;
+      margin: 0 0 5px;
+    }
+  }
+  hr {
+    border: none;
+    border-top: 1px solid grey;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .danger-item {
+    flex-direction: column;
+  }
+}
