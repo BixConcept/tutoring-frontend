@@ -1,6 +1,8 @@
-import { useState, Fragment } from "react";
-import css from "../styles/userDashboard.module.scss";
+import { useState, Fragment, useContext } from "react";
 import Page from "../Components/Page";
+import { OurContext } from "../OurContext";
+import css from "../styles/userDashboard.module.scss";
+import general from "../styles/general.module.scss";
 
 const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";
@@ -8,6 +10,7 @@ const UserDashboard = (): JSX.Element => {
   const [content, setContent] = useState<number>(0);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
+  const context = useContext(OurContext);
 
   const DashboardContent = (props: { state: number }): JSX.Element => {
     const { state } = props;
@@ -37,16 +40,20 @@ const UserDashboard = (): JSX.Element => {
                   &times;
                 </button>
               </div>
+              <hr />
               <p>Diese Aktion ist ir­re­ver­si­bel!</p>
-              <p>Bitte gib zum Bestätigen {"name"}</p>
+              <p>Bitte gib zum Bestätigen {context.user?.email}</p>
               <input
                 type="text"
                 placeholder=""
                 onChange={(e) => {
                   // todo
+                  setName(e.target.value);
                 }}
               />
-              <button disabled={name === "asdf" ? false : true}>Löschen</button>
+              <button disabled={name === context.user?.email ? false : true}>
+                Löschen
+              </button>
             </div>
           </div>
         </Fragment>
@@ -57,23 +64,28 @@ const UserDashboard = (): JSX.Element => {
   const SideButton = (props: { title: string; index: number }): JSX.Element => {
     const { title, index } = props;
     return (
-      <button className={css.button} onClick={() => setContent(index)}>
+      <button
+        className={general["text_button"]}
+        onClick={() => setContent(index)}
+      >
         {title}
       </button>
     );
   };
 
   return (
-    <Page title={"Dashboard"}>
-      <div>
-        <SideButton title="Fächer ändern" index={0} />
-        <br />
-        <SideButton title="Account löschen" index={1} />
-      </div>
-      <div className={css.dashboard}>
-        <DashboardContent state={content} />
-      </div>
-    </Page>
+    <div id={css.dashboard}>
+      <Page title={"Dashboard"}>
+        <div id={css.dashboard_side}>
+          <SideButton title="Fächer ändern" index={0} />
+          <br />
+          <SideButton title="Account löschen" index={1} />
+        </div>
+        <div className={css.dashboard}>
+          <DashboardContent state={content} />
+        </div>
+      </Page>
+    </div>
   );
 };
 
