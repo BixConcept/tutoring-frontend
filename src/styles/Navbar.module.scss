@@ -50,7 +50,7 @@ nav {
     #links {
       display: flex;
 
-      gap: 1rem;
+      gap: 3rem;
 
       justify-content: center;
       align-items: center;
@@ -73,6 +73,7 @@ nav {
     gap: 2rem;
     #links {
       flex-direction: column;
+      gap: 1rem !important;
     }
   }
 }
