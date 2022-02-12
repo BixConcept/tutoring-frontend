@@ -1,10 +1,10 @@
 @import "general.module.scss";
 
-#dashboard {
+.dashboard {
   color: var(--text_color);
   width: 100vw;
 
-  #dashboard-content {
+  .dashboard-content {
     margin: 2rem auto;
     min-width: 50%;
     max-width: 50rem;
@@ -18,16 +18,17 @@
       margin: 0;
     }
 
-    #name {
+    .name {
       font-family: Hack, Menlo, monospace !important;
       background-color: var(--contrast_bg_color);
       padding: 4px;
       border-radius: 8px;
+      margin-right: 4px;
     }
   }
 }
 
-#modal-background {
+.modal-background {
   position: fixed;
   z-index: 100;
   left: 0;
@@ -41,7 +42,7 @@
 
   background-color: #aaaaaa5f;
 
-  #modal-content {
+  .modal-content {
     z-index: 999;
 
     margin-top: -10rem;
@@ -51,7 +52,7 @@
     border-radius: 0.5rem;
     justify-content: center;
 
-    #modal-heading-row {
+    .modal-heading-row {
       display: flex;
 
       h1 {
@@ -62,7 +63,7 @@
       }
 
       button {
-        background-color: rgb(230, 20, 51);
+        background-color: $error_color;
         color: white;
         border: none;
 
@@ -113,7 +114,7 @@ h4 {
   margin-bottom: 0.5rem;
 }
 
-#danger-zone {
+.danger-zone {
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: 2px solid $error_color;
@@ -130,12 +131,12 @@ h4 {
 
     button {
       height: 2rem;
-      background-color: rgb(230, 20, 51);
+      background-color: $error_color;
       color: white;
       border: none;
       font-size: inherit;
       white-space: nowrap;
-
+      cursor: pointer;
       border-radius: 5px;
     }
 
@@ -152,6 +153,10 @@ h4 {
     border: none;
     border-top: 1px solid grey;
   }
+}
+
+.close-button {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {
