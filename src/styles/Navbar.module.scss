@@ -41,8 +41,10 @@ nav {
       transition: color 0.2s;
     }
 
-    #loginRegister {
+    #links {
       display: flex;
+
+      gap: 1rem;
 
       justify-content: center;
       align-items: center;
@@ -56,6 +58,15 @@ nav {
 
 @media screen and (max-width: 600px) {
   nav {
-    padding: 0 5vw;
+    padding: 1rem 5vw;
+    height: auto !important;
+  }
+
+  * {
+    gap: 2rem;
+    flex-direction: column;
+    .links {
+      flex-direction: column;
+    }
   }
 }

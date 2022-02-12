@@ -20,19 +20,18 @@ function Navbar() {
             <img src={logo} alt="gymhaan logo" />
           </Link>
         </li>
-        <div id={css.loginRegister}>
-          <li>
-            {context.user === null ? (
-              <Link to="/login">
-                <span className={general.text_marker}>Login</span>
-              </Link>
-            ) : (
-              <Link to="/dashboard">
-                <span className={general.text_marker}>Mein Account</span>
-              </Link>
-            )}
-          </li>
-        </div>
+        <ul>
+          <div id={css.links}>
+            {context.user !== null ? <a href="#">Abmelden</a> : null}
+            <li>
+              {context.user === null ? (
+                <Link to="/login">Login</Link>
+              ) : (
+                <Link to="/dashboard">Mein Account</Link>
+              )}
+            </li>
+          </div>
+        </ul>
       </ul>
     </nav>
   );
