@@ -6,7 +6,6 @@ import { OurContext } from "../OurContext";
 const DarkMode = () => {
   const body = document.body;
   const [theme, setTheme] = useState("dark");
-  const [checkedS, setCheckedS] = useState(false);
 
   useEffect(() => {
     if (localStorage) {
@@ -19,17 +18,15 @@ const DarkMode = () => {
         localStorage.setItem("theme", "dark");
         setTheme("dark");
       }
-      if (value === "dark") setCheckedS(true);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const toggleDarkMode = (callback: (newTheme: string) => void) => {
+  const toggleDarkMode = (callback: (newTheme: "dark" | "light") => void) => {
     if (theme === "dark") {
       body.classList.replace("dark", "light");
       localStorage.setItem("theme", "light");
       setTheme("light");
       callback("light");
-      setCheckedS(false);
     } else {
       body.classList.replace("light", "dark");
       localStorage.setItem("theme", "dark");

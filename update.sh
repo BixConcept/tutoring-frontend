@@ -8,13 +8,10 @@ echo "2"
 
 if [[ $(git pull) != "Already up to date." ]]
 then
-	echo "3" ;
-	git pull ;
-	echo "4"
-	npm install ;
-	echo "5"
-	npm run build ;
-	echo "6"
+	npm install 
+	npm run build 
+    rm -rf build_production
+    mv build build_production # we serve build_production so the user doesn't get a 404 while updating
 fi
 
 echo "7"

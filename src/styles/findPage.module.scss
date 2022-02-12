@@ -1,4 +1,4 @@
-@import "./vars";
+@import "./general.module";
 
 .container {
   padding: 1rem;
@@ -35,8 +35,6 @@
 .step {
   text-align: center;
 }
-
-
 
 #submit {
   width: 60%;

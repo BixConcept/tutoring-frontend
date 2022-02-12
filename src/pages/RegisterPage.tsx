@@ -1,5 +1,4 @@
 import { useState, useContext, useRef, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import { OurContext } from "../OurContext";
 import lottie from "lottie-web";
 import css from "../styles/registerPage.module.scss";
@@ -37,7 +36,7 @@ const RegisterPage = (): JSX.Element => {
         setStep(parsedIndex);
       }
     }
-  }, [stepIndex, navigate]);
+  }, [stepIndex, navigate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const context = useContext(OurContext);
 
@@ -165,7 +164,7 @@ const RegisterPage = (): JSX.Element => {
         lottie.destroy();
       };
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Render
   if (step === 1) {
@@ -211,7 +210,6 @@ const RegisterPage = (): JSX.Element => {
         <p className={css.step}>
           <span className={css.bullSpan}>&bull;</span>&bull;&bull;&bull;
         </p>
-        <ToastContainer />
       </div>
     );
   } else if (step === 2) {
@@ -257,8 +255,6 @@ const RegisterPage = (): JSX.Element => {
         <div className={css.step}>
           &bull;<span className={css.bullSpan}>&bull;</span>&bull;&bull;
         </div>
-
-        <ToastContainer />
       </div>
     );
   } else if (step === 3) {
@@ -315,7 +311,6 @@ const RegisterPage = (): JSX.Element => {
         <p className={css.step}>
           &bull;&bull;<span className={css.bullSpan}>&bull;</span>&bull;
         </p>
-        <ToastContainer />
       </div>
     );
   } else if (step === 4) {
@@ -341,7 +336,6 @@ const RegisterPage = (): JSX.Element => {
         <p className={css.step}>
           &bull;&bull;&bull;<span className={css.bullSpan}>&bull;</span>
         </p>
-        <ToastContainer />
       </div>
     );
   } else return <></>;
