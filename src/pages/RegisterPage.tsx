@@ -1,5 +1,4 @@
 import { useState, useContext, useRef, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import { OurContext } from "../OurContext";
 import lottie from "lottie-web";
 import css from "../styles/registerPage.module.scss";
@@ -37,7 +36,7 @@ const RegisterPage = (): JSX.Element => {
         setStep(parsedIndex);
       }
     }
-  }, [stepIndex, navigate]);
+  }, [stepIndex, navigate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const context = useContext(OurContext);
 
@@ -165,7 +164,7 @@ const RegisterPage = (): JSX.Element => {
         lottie.destroy();
       };
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Render
   if (step === 1) {

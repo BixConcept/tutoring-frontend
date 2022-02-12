@@ -2,11 +2,9 @@ import css from "../styles/loginPage.module.scss";
 import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { ToastContainer, toast, Theme } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { OurContext } from "../OurContext";
 import { useContext } from "react";
-import { useNavigate } from "react-router";
 import lottie from "lottie-web";
 
 import { API_HOST } from "../index";
@@ -29,9 +27,7 @@ const LoginPage = (): JSX.Element => {
   };
   const [displayAnimation, setDisplayAnimation] = useState(false);
 
-  const navigate = useNavigate();
   const context = useContext(OurContext);
-  const toastId: any = useRef(null);
 
   const animationRef = useRef(null);
 
@@ -43,60 +39,6 @@ const LoginPage = (): JSX.Element => {
       return "dark";
     }
   }
-
-  const login = () => {
-    if (email) {
-      if (email.includes("@") && email.split("@")[1] !== "gymhaan.de") {
-        toast.error("Es sind nur gymhaan-E-Mails zugelassen", {
-          position: "bottom-right",
-          autoClose: false,
-          hideProgressBar: false,
-          closeOnClick: true,
-          draggable: true,
-          theme: getTheme(),
-          progress: undefined,
-        });
-        return;
-      }
-      if (
-        email.split("@")[0] === "" ||
-        !email.includes(".") ||
-        !email.includes("@")
-      ) {
-        toast.error("Das ist keine valide E-Mail", {
-          position: "bottom-right",
-          autoClose: false,
-          hideProgressBar: false,
-          closeOnClick: true,
-          draggable: true,
-          theme: getTheme(),
-          progress: undefined,
-        });
-        return;
-      }
-    }
-
-    toastId.current = toast("Daten werden überprüft...", {
-      position: "bottom-right",
-      autoClose: false,
-      hideProgressBar: false,
-      closeOnClick: true,
-      draggable: true,
-      theme: getTheme(),
-      progress: undefined,
-    });
-
-    fetch(API_HOST + "/user/login", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: email, password }),
-    }).then((res) => console.log(res));
-
-    navigate("/dashboard", { replace: true });
-  };
 
   function loginOTP() {
     fetch(`${API_HOST}/user/otp`, {

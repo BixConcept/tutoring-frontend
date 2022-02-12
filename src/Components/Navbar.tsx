@@ -1,12 +1,10 @@
 import css from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
 import logo from "../assets/images/logo.svg";
-import general from "../styles/general.module.scss";
 import { useContext, useEffect } from "react";
 import { OurContext } from "../OurContext";
 import { API_HOST } from "..";
 import Alert from "./Alert";
-import { setSourceMapRange } from "typescript";
 
 function Navbar() {
   const context = useContext(OurContext);
@@ -26,8 +24,7 @@ function Navbar() {
         <div id={css.links}>
           <li>
             {context.user !== null ? (
-              <a
-                href="#"
+              <button
                 onClick={(e) => {
                   e.preventDefault();
 
@@ -43,7 +40,7 @@ function Navbar() {
                 }}
               >
                 Abmelden
-              </a>
+              </button>
             ) : null}
           </li>
           <li>

@@ -1,11 +1,10 @@
-import { useState, Fragment, useEffect, useContext } from "react";
-import css from "../styles/userDashboard.module.scss";
-import general from "../styles/general.module.scss";
-import Page from "../Components/Page";
-import { API_HOST } from "..";
-import { OurContext } from "../OurContext";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { API_HOST } from "..";
 import Alert from "../Components/Alert";
+import { OurContext } from "../OurContext";
+import general from "../styles/general.module.scss";
+import css from "../styles/userDashboard.module.scss";
 
 const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";

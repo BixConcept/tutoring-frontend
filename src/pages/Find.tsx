@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import css from "../styles/findPage.module.scss";
 import general from "../styles/general.module.scss";
 import { OurContext } from "../OurContext";
-import { ToastContainer } from "react-toastify";
 import { subjects, topSubjects, TutoringOffer } from "../Models";
 import Alert from "../Components/Alert";
 import { API_HOST } from "../index";
