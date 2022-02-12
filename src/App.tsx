@@ -17,29 +17,28 @@ import ScrollToTop from "./Components/ScrollToTop";
 import { User } from "./Models";
 import { API_HOST } from "./index";
 import Verify from "./pages/Verify";
+import { ToastContainer } from "react-toastify";
 
 const App = (): JSX.Element => {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (!localStorage) {
-      setUser(null);
-      return;
-    }
-
-    let token: string | null = localStorage.getItem("token");
-    if (token) {
-      // test validity of token
-      fetch(`${API_HOST}/user`, {
-        credentials: "include",
+    // test validity of token
+    fetch(`${API_HOST}/user`, {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw new Error("asdf");
       })
-        .then((res) => res.json())
-        .then((body) => {
-          setUser(body.content);
-        })
-        .catch();
-    }
+      .then((body) => {
+        setUser(body.content);
+        console.log(body.content);
+      })
+      .catch((e) => {
+        setUser(null);
+      });
   }, []);
 
   return (
@@ -48,7 +47,7 @@ const App = (): JSX.Element => {
         value={{
           theme: theme,
           setTheme: setTheme,
-          user: null,
+          user: user,
           setUser: setUser,
         }}
       >
@@ -71,6 +70,7 @@ const App = (): JSX.Element => {
             </Routes>
           </div>
           <Footer />
+          <ToastContainer />
         </BrowserRouter>
       </OurContext.Provider>
     </div>

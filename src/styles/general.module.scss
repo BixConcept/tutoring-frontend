@@ -68,6 +68,32 @@ $border_radius: 0.5rem;
   width: 100%;
 }
 
+.input-field {
+  width: 20rem;
+  display: flex;
+  flex-direction: row;
+  border-radius: 0.3rem;
+  box-shadow: 0 0 0 2px var(--text_color);
+
+  height: 2rem;
+  padding-left: 0.7rem;
+  padding-right: 0.3rem;
+
+  > input {
+    width: 80%;
+    border-width: 0;
+    background-color: transparent;
+    padding: 0;
+    height: 100%;
+    font-size: 14px;
+    color: var(--text_color);
+    &:focus {
+      outline-width: 0;
+      outline: none;
+    }
+  }
+}
+
 .email_text_field {
 }
 

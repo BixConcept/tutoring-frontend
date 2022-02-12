@@ -1,19 +1,12 @@
-@import "_vars.scss";
-
-@font-face {
-  font-family: "Computer Modern Serif";
-  src: url("/assets/fonts/cmunrm.ttf");
-}
-
 body {
   background-color: var(--background_color);
 
   margin: 0 !important;
   padding: 0 !important;
   // font-family: "Computer Modern Serif" !important;
-  font-family: "Computer Modern", "Inter", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -23,12 +16,16 @@ body.light {
   --background_color: #fff;
   --text_color: #23272a; // stolen from the discord landing page. better readability than pure black.
   --contrast_bg_color: rgb(235, 235, 235);
+  --contrasterer_bg_color: rgb(235, 235, 235);
+  --disabled_color: rgb(167, 166, 166);
 }
 
 body.dark {
   --background_color: #222;
   --text_color: #fff;
   --contrast_bg_color: rgb(41, 41, 41);
+  --contrasterer_bg_color: rgb(41, 41, 41);
+  --disabled_color: rgb(61, 61, 61);
 }
 
 .App {

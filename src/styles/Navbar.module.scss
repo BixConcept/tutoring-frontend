@@ -1,4 +1,4 @@
-@import "./vars";
+@import "general.module";
 
 nav {
   width: 100vw;
@@ -30,9 +30,15 @@ nav {
       }
     }
 
-    a {
+    a,
+    button {
+      background-color: transparent;
+      border: none;
+      font-size: 1rem;
+      font-weight: bold;
       display: flex;
       align-items: center;
+      font-family: Inter;
 
       text-decoration: none;
 
@@ -41,8 +47,10 @@ nav {
       transition: color 0.2s;
     }
 
-    #loginRegister {
+    #links {
       display: flex;
+
+      gap: 3rem;
 
       justify-content: center;
       align-items: center;
@@ -56,6 +64,16 @@ nav {
 
 @media screen and (max-width: 600px) {
   nav {
-    padding: 0 5vw;
+    padding: 1rem 5vw;
+    height: auto !important;
+  }
+
+  ul {
+    flex-direction: column;
+    gap: 2rem;
+    #links {
+      flex-direction: column;
+      gap: 1rem !important;
+    }
   }
 }
