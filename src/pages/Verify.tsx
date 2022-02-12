@@ -6,18 +6,18 @@ import css from "../styles/verify.module.scss";
 import general from "../styles/general.module.scss";
 import lottie from "lottie-web";
 
-const Timer = (props: { href: string; verified: boolean }) => {
+const TimedRedirect = (props: { href: string; verified: boolean }) => {
   const { href, verified } = props;
   let [num, setNum] = useState<number>(3);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (num <= 0) {
-      // return navigate(href);
+      return navigate(href);
     }
     const id = setInterval(() => setNum(num - 1), 1000);
     return () => clearInterval(id);
-  }, [num]);
+  }, [num, href, navigate]);
 
   return verified ? (
     <p>Du wirst in {num}s zum Dashboard weitergeleitet</p>
@@ -46,7 +46,7 @@ const Verify = () => {
         setLoaded(true);
         setVerified(false);
       });
-  }, []);
+  }, [code]);
 
   useEffect(() => {
     lottie.destroy();
@@ -79,12 +79,12 @@ const Verify = () => {
           {verified ? (
             <Fragment>
               <h1>Erfolgreich verifiziert!</h1>
-              <Timer href="/dashboard" verified={true} />
+              <TimedRedirect href="/dashboard" verified={true} />
             </Fragment>
           ) : (
             <Fragment>
               <h1>Das hat nicht geklappt</h1>
-              <Timer href="/" verified={false} />
+              <TimedRedirect href="/" verified={false} />
             </Fragment>
           )}
           {verified ? (

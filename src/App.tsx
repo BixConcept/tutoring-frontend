@@ -30,6 +30,7 @@ const App = (): JSX.Element => {
       .then((res) => res.json())
       .then((body) => {
         setUser(body.content);
+        console.log(body.content);
       })
       .catch();
   }, []);
@@ -40,7 +41,7 @@ const App = (): JSX.Element => {
         value={{
           theme: theme,
           setTheme: setTheme,
-          user: null,
+          user: user,
           setUser: setUser,
         }}
       >

@@ -2,11 +2,15 @@ import css from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
 import logo from "../assets/images/logo.svg";
 import general from "../styles/general.module.scss";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { OurContext } from "../OurContext";
 
 function Navbar() {
   const context = useContext(OurContext);
+
+  useEffect(() => {
+    console.log(context);
+  });
 
   return (
     <nav>
@@ -24,7 +28,7 @@ function Navbar() {
               </Link>
             ) : (
               <Link to="/dashboard">
-                <span className={general.text_marker}>Daskboard</span>
+                <span className={general.text_marker}>Mein Account</span>
               </Link>
             )}
           </li>
