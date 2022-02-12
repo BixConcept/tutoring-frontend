@@ -237,7 +237,6 @@ const LoginPage = (): JSX.Element => {
             id={css.submit}
             disabled
           />
-          <ToastContainer />
         </form>
       </div>
     </div>

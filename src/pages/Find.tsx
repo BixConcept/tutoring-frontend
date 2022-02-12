@@ -140,7 +140,6 @@ const Find = (): JSX.Element => {
           ))}
         </div>
       ) : null}
-      <ToastContainer />
     </div>
   );
 };

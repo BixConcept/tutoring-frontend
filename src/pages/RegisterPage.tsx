@@ -211,7 +211,6 @@ const RegisterPage = (): JSX.Element => {
         <p className={css.step}>
           <span className={css.bullSpan}>&bull;</span>&bull;&bull;&bull;
         </p>
-        <ToastContainer />
       </div>
     );
   } else if (step === 2) {
@@ -257,8 +256,6 @@ const RegisterPage = (): JSX.Element => {
         <div className={css.step}>
           &bull;<span className={css.bullSpan}>&bull;</span>&bull;&bull;
         </div>
-
-        <ToastContainer />
       </div>
     );
   } else if (step === 3) {
@@ -315,7 +312,6 @@ const RegisterPage = (): JSX.Element => {
         <p className={css.step}>
           &bull;&bull;<span className={css.bullSpan}>&bull;</span>&bull;
         </p>
-        <ToastContainer />
       </div>
     );
   } else if (step === 4) {
@@ -341,7 +337,6 @@ const RegisterPage = (): JSX.Element => {
         <p className={css.step}>
           &bull;&bull;&bull;<span className={css.bullSpan}>&bull;</span>
         </p>
-        <ToastContainer />
       </div>
     );
   } else return <></>;
