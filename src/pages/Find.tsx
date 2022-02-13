@@ -15,6 +15,7 @@ const Find = (): JSX.Element => {
   const [grade, setGrade] = useState("");
   const [subject, setSubject] = useState("");
   const [results, setResults] = useState<TutoringOffer[]>([]);
+  const [expandedResults, setExpandedResults] = useState<number[]>([]);
 
   const validate = (): boolean => {
     if (subject === "") {
@@ -131,17 +132,41 @@ const Find = (): JSX.Element => {
               : `Leider gibt es keine Ergebnisse 😔`}
           </span>
           {results.map((result, index) => (
-            <div className={css.result} key={index}>
+            <div
+              className={
+                css.result +
+                (expandedResults.indexOf(result.offer_id) > -1
+                  ? ` ${css.expandedResult}`
+                  : "")
+              }
+              key={index}
+              onClick={() => {
+                // if it is inside the list, remove it
+                // NOTE: maybe this should be an object to have easier to read syntax
+                console.log(expandedResults.indexOf(result.offer_id));
+                if (expandedResults.indexOf(result.offer_id) > -1) {
+                  setExpandedResults(
+                    expandedResults.filter((x) => x != result.offer_id)
+                  );
+                } else {
+                  setExpandedResults([...expandedResults, result.offer_id]);
+                }
+
+                console.log(expandedResults);
+              }}
+            >
               <h2>
                 {result.name}, Stufe/Klasse {result.grade}
               </h2>
-              {result.misc !== null ? <p>{result.misc}</p> : null}
               <p className={css.email}>
                 <a href={`mailto:${result.email}`}>{result.email}</a>
               </p>
               <p>
                 {result.subject} bis Stufe/Klasse {result.max_grade}
               </p>
+              {expandedResults.indexOf(result.offer_id) > -1 ? (
+                <div className={css["result-expanded"]}></div>
+              ) : null}
             </div>
           ))}
         </div>
