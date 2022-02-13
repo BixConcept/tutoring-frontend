@@ -1,10 +1,18 @@
-import { useContext, useState } from "react";
+import { useContext, useState, Fragment } from "react";
 import css from "../styles/findPage.module.scss";
 import general from "../styles/general.module.scss";
 import { OurContext } from "../OurContext";
 import { subjects, topSubjects, TutoringOffer } from "../Models";
 import Alert from "../Components/Alert";
 import { API_HOST } from "../index";
+import LoadingScreen from "../Components/LoadingScreen";
+
+enum RequestState {
+  NotAsked,
+  Loading,
+  Failure,
+  Success,
+}
 
 const Find = (): JSX.Element => {
   document.title = "Nachhilfe finden";
@@ -15,7 +23,9 @@ const Find = (): JSX.Element => {
   const [grade, setGrade] = useState("");
   const [subject, setSubject] = useState("");
   const [results, setResults] = useState<TutoringOffer[]>([]);
-  const [expandedResults, setExpandedResults] = useState<number[]>([]);
+  const [requestState, setRequestState] = useState<RequestState>(
+    RequestState.Loading
+  );
 
   const validate = (): boolean => {
     if (subject === "") {
@@ -42,7 +52,7 @@ const Find = (): JSX.Element => {
   };
 
   const search = (): void => {
-    console.log(JSON.stringify({ subject, grade: parseInt(grade) }));
+    setRequestState(RequestState.Loading);
     fetch(`${API_HOST}/find`, {
       method: "POST",
       body: JSON.stringify({ subject, grade: parseInt(grade) }),
@@ -50,11 +60,13 @@ const Find = (): JSX.Element => {
     })
       .then(async (response) => {
         if (!response.ok) {
-          Alert("irgendwas ist schief gegangen.", "error", context.theme);
+          setRequestState(RequestState.Failure);
+          Alert("Irgendwas ist schief gegangen.", "error", context.theme);
         }
         return response.json();
       })
       .then((body) => {
+        setRequestState(RequestState.Success);
         setResults(body.content);
       });
   };
@@ -124,53 +136,32 @@ const Find = (): JSX.Element => {
           </form>
         </div>
       </div>
-      {results.length > 0 ? (
-        <div id={css.resultsContainer}>
-          <span id={css.numResults}>
-            {results.length > 0
-              ? `🎉 Es gibt ${results.length} Ergebnisse 🎉`
-              : `Leider gibt es keine Ergebnisse 😔`}
-          </span>
-          {results.map((result, index) => (
-            <div
-              className={
-                css.result +
-                (expandedResults.indexOf(result.offer_id) > -1
-                  ? ` ${css.expandedResult}`
-                  : "")
-              }
-              key={index}
-              onClick={() => {
-                // if it is inside the list, remove it
-                // NOTE: maybe this should be an object to have easier to read syntax
-                console.log(expandedResults.indexOf(result.offer_id));
-                if (expandedResults.indexOf(result.offer_id) > -1) {
-                  setExpandedResults(
-                    expandedResults.filter((x) => x != result.offer_id)
-                  );
-                } else {
-                  setExpandedResults([...expandedResults, result.offer_id]);
-                }
-
-                console.log(expandedResults);
-              }}
-            >
-              <h2>
-                {result.name}, Stufe/Klasse {result.grade}
-              </h2>
-              <p className={css.email}>
-                <a href={`mailto:${result.email}`}>{result.email}</a>
-              </p>
-              <p>
-                {result.subject} bis Stufe/Klasse {result.max_grade}
-              </p>
-              {expandedResults.indexOf(result.offer_id) > -1 ? (
-                <div className={css["result-expanded"]}></div>
-              ) : null}
-            </div>
-          ))}
-        </div>
-      ) : null}
+      <div id={css.resultsContainer}>
+        {requestState === RequestState.Success ? (
+          <Fragment>
+            <span id={css.numResults}>
+              {results.length > 0
+                ? `🎉 Es gibt ${results.length} Ergebnisse 🎉`
+                : `Leider gibt es keine Ergebnisse 😔`}
+            </span>
+            {results.map((result, index) => (
+              <div className={css.result} key={index}>
+                <h2>
+                  {result.name}, Stufe/Klasse {result.grade}
+                </h2>
+                <p className={css.email}>
+                  <a href={`mailto:${result.email}`}>{result.email}</a>
+                </p>
+                <p>
+                  {result.subject} bis Stufe/Klasse {result.max_grade}
+                </p>
+              </div>
+            ))}
+          </Fragment>
+        ) : (
+          <LoadingScreen loaded={requestState !== RequestState.Loading} />
+        )}
+      </div>
     </div>
   );
 };
