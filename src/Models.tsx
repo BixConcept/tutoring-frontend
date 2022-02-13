@@ -16,6 +16,13 @@ export enum AuthLevel {
   Admin = 2,
 }
 
+export enum RequestState {
+  NotAsked,
+  Loading,
+  Failure,
+  Success,
+}
+
 export interface User {
   id: number;
   name: string;
