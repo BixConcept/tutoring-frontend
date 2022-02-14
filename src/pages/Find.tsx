@@ -2,17 +2,10 @@ import { useContext, useState, Fragment } from "react";
 import css from "../styles/findPage.module.scss";
 import general from "../styles/general.module.scss";
 import { OurContext } from "../OurContext";
-import { subjects, topSubjects, TutoringOffer } from "../Models";
+import { RequestState, subjects, topSubjects, TutoringOffer } from "../Models";
 import Alert from "../Components/Alert";
 import { API_HOST } from "../index";
 import LoadingScreen from "../Components/LoadingScreen";
-
-enum RequestState {
-  NotAsked,
-  Loading,
-  Failure,
-  Success,
-}
 
 const Find = (): JSX.Element => {
   document.title = "Nachhilfe finden";
@@ -24,7 +17,7 @@ const Find = (): JSX.Element => {
   const [subject, setSubject] = useState("");
   const [results, setResults] = useState<TutoringOffer[]>([]);
   const [requestState, setRequestState] = useState<RequestState>(
-    RequestState.Loading
+    RequestState.NotAsked
   );
 
   const validate = (): boolean => {
