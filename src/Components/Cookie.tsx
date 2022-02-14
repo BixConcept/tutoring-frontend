@@ -7,10 +7,23 @@ import kruemmelmonster from "../assets/images/kruemmelmonster.webp";
 const Cookie = (): JSX.Element => {
   const [modalVisible, setModalVisible] = useState<boolean>(true);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+	if (localStorage) {
+		let val = localStorage.getItem("cookiesAllowed");
+		if (val === "true" || val === "false") {
+		setModalVisible(false);
+		}
+	}
+  }, [
+  ]);
 
   const handleSubmit = (n: number): void => {
     setModalVisible(false);
+    if (n === 0) {
+        localStorage.setItem("cookiesAllowed", "false");
+    } else {
+       localStorage.setItem("cookiesAllowed", "true");
+    }
   };
 
   return (
@@ -26,8 +39,8 @@ const Cookie = (): JSX.Element => {
           <p>Wir verwenden Cookies, um (Laurens fueg einen guten Text ein) </p>
         </div>
         <div className={css.buttonsArea}>
-          <button>Ablehnen</button>
-          <button>Akzeptieren</button>
+          <button onClick={(e) => handleSubmit(0)}>Ablehnen</button>
+          <button onClick={(e) => handleSubmit(1)}>Akzeptieren</button>
         </div>
       </div>
     </div>
