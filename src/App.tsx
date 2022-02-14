@@ -18,12 +18,19 @@ import { User } from "./Models";
 import { API_HOST } from "./index";
 import Verify from "./pages/Verify";
 import { ToastContainer } from "react-toastify";
+import Cookie from "./Components/Cookie";
 
 const App = (): JSX.Element => {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [user, setUser] = useState<User | null>(null);
+  const [cookieConsent, setCookieConsent] = useState<boolean>(
+    localStorage.getItem("cookieConsent") === "true"
+  );
+
+  const [cookieModalVisible, setCookieModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
+    console.log(cookieConsent);
     // test validity of token
     fetch(`${API_HOST}/user`, {
       credentials: "include",
@@ -33,13 +40,24 @@ const App = (): JSX.Element => {
         throw new Error("asdf");
       })
       .then((body) => {
+        // if the server returns something, a cookie exists => the user has already consented before
+        updateCookieConsent(true);
         setUser(body.content);
         console.log(body.content);
       })
-      .catch((e) => {
+      .catch((_) => {
         setUser(null);
+        if (!cookieConsent) {
+          setCookieModalVisible(true);
+        }
       });
   }, []);
+
+  function updateCookieConsent(status: boolean) {
+    setCookieConsent(status);
+    localStorage.setItem("cookieConsent", status.toString());
+    setCookieModalVisible(false);
+  }
 
   return (
     <div className="App">
@@ -49,6 +67,8 @@ const App = (): JSX.Element => {
           setTheme: setTheme,
           user: user,
           setUser: setUser,
+          cookieConsent,
+          setCookieConsent: updateCookieConsent,
         }}
       >
         <BrowserRouter>
@@ -69,6 +89,10 @@ const App = (): JSX.Element => {
               <Route path="*" element={<FourOFourPage />} />
             </Routes>
           </div>
+          <Cookie
+            visible={cookieModalVisible}
+            onConsent={updateCookieConsent}
+          />
           <Footer />
           <ToastContainer />
         </BrowserRouter>

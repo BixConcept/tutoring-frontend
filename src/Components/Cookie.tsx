@@ -1,22 +1,16 @@
 import css from "../styles/cookie.module.scss";
 import general from "../styles/general.module.scss";
-import { useContext, useState, useEffect } from "react";
-import { OurContext } from "../OurContext";
-import kruemmelmonster from "../assets/images/kruemmelmonster.webp";
 
-const Cookie = (): JSX.Element => {
-  const [modalVisible, setModalVisible] = useState<boolean>(true);
-
-  useEffect(() => {}, []);
-
-  const handleSubmit = (n: number): void => {
-    setModalVisible(false);
-  };
-
+const Cookie = (props: {
+  visible: boolean;
+  // this is called when the consent type changes, not just if the user actually consents
+  // use a better name if you can think of one
+  onConsent: (status: boolean) => void;
+}): JSX.Element => {
   return (
     <div
       className={css["modal-background"]}
-      style={{ display: modalVisible ? "flex" : "none" }}
+      style={{ display: props.visible ? "flex" : "none" }}
     >
       <div className={css["modal-content"]}>
         <div className={css["modal-heading-row"]}>
@@ -26,8 +20,8 @@ const Cookie = (): JSX.Element => {
           <p>Wir verwenden Cookies, um (Laurens fueg einen guten Text ein) </p>
         </div>
         <div className={css.buttonsArea}>
-          <button>Ablehnen</button>
-          <button>Akzeptieren</button>
+          <button onClick={() => props.onConsent(false)}>Ablehnen</button>
+          <button onClick={() => props.onConsent(true)}>Akzeptieren</button>
         </div>
       </div>
     </div>

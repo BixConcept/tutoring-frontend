@@ -1,12 +1,10 @@
 import css from "../styles/Home.module.scss";
 import { Link } from "react-router-dom";
-import Cookie from "../Components/Cookie";
 
 const Home = (): JSX.Element => {
   document.title = "Nachhilfe GymHaan";
 
   return (
-    <>
     <main>
       <section id={css.mainThingy}>
         <div id={css.title}>
@@ -61,9 +59,7 @@ const Home = (): JSX.Element => {
         </div>
       </section>
     </main>
-        <Cookie />
-        </>
-);
+  );
 };
 
 export default Home;
