@@ -8,6 +8,8 @@ interface IOurContext {
   setUser: (newUser: User | null) => void;
   cookieConsent: boolean;
   setCookieConsent: (newValue: boolean) => void;
+  cookieModalVisible: boolean;
+  setCookieModalVisible: (newValue: boolean) => void;
 }
 
 export const OurContext = createContext<IOurContext>({
@@ -15,6 +17,8 @@ export const OurContext = createContext<IOurContext>({
   setTheme: (_: string) => {},
   user: null,
   setUser: (_: User | null) => {},
-  cookieConsent: true,
+  cookieConsent: false,
   setCookieConsent: (_: boolean) => {},
+  cookieModalVisible: true,
+  setCookieModalVisible: (_: boolean) => {},
 });

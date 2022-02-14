@@ -51,7 +51,7 @@ const App = (): JSX.Element => {
           setCookieModalVisible(true);
         }
       });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   function updateCookieConsent(status: boolean) {
     setCookieConsent(status);
@@ -69,6 +69,8 @@ const App = (): JSX.Element => {
           setUser: setUser,
           cookieConsent,
           setCookieConsent: updateCookieConsent,
+          cookieModalVisible,
+          setCookieModalVisible,
         }}
       >
         <BrowserRouter>
