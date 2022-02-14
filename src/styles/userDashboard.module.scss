@@ -16,6 +16,8 @@
 
     h1 {
       margin: 0;
+      font-weight: normal;
+      font-size: 3rem;
     }
 
     .name {
@@ -157,6 +159,21 @@ h4 {
 
 .close-button {
   cursor: pointer;
+}
+
+.subjects-container {
+  border: solid 1px grey;
+  padding: 1rem;
+  border-radius: 0.5rem;
+
+  .subjects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    .subject {
+      width: 100%;
+    }
+  }
 }
 
 @media screen and (max-width: 600px) {

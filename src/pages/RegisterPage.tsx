@@ -5,13 +5,13 @@ import css from "../styles/registerPage.module.scss";
 import general from "../styles/general.module.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { subjects, topSubjects } from "../Models";
+import { grades, subjects, topSubjects } from "../Models";
 import Alert from "../Components/Alert";
 import { API_HOST } from "../index";
+import ChooseGrade from "../Components/ChooseGrade";
 
 const RegisterPage = (): JSX.Element => {
   document.title = "Registrieren";
-  const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
   const [email, setEmail] = useState("");
   const [chosen, setChosen] = useState<{ [key: string]: string }>({});
@@ -94,40 +94,6 @@ const RegisterPage = (): JSX.Element => {
       ...{ [subject]: grade },
     });
   };
-
-  function ChooseGrade(props: { subject: string }) {
-    console.log(chosen[props.subject]);
-    return (
-      <div className={css.select_wrapper}>
-        <div className={general.select_input_field}>
-          <select
-            name=""
-            id=""
-            className={general.select}
-            onChange={(e) => handleChange(e, props.subject)}
-            value={
-              chosen[props.subject] !== undefined
-                ? chosen[props.subject] !== ""
-                  ? chosen[props.subject]
-                  : undefined
-                : undefined
-            }
-          >
-            <option value="asdf" className={css.na_option}>
-              ---
-            </option>
-            {grades.map((grade, index) => {
-              return (
-                <option value={index + 5} key={index + 5}>
-                  bis Stufe {grade}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-      </div>
-    );
-  }
 
   // letter animation
   const letter = useRef(null);
@@ -224,7 +190,18 @@ const RegisterPage = (): JSX.Element => {
               return (
                 <div className={css.subject} key={index}>
                   <h4>{subject}</h4>
-                  <ChooseGrade subject={subject} />
+                  <ChooseGrade
+                    subject={subject}
+                    className={css.select_wrapper}
+                    value={
+                      chosen[subject] !== undefined
+                        ? chosen[subject] !== ""
+                          ? chosen[subject]
+                          : undefined
+                        : undefined
+                    }
+                    onChange={handleChange}
+                  />
                 </div>
               );
             })}
@@ -235,7 +212,18 @@ const RegisterPage = (): JSX.Element => {
               return (
                 <div className={css.subject} key={index}>
                   <h4>{subject}</h4>
-                  <ChooseGrade subject={subject} />
+                  <ChooseGrade
+                    subject={subject}
+                    className={css.select_wrapper}
+                    value={
+                      chosen[subject] !== undefined
+                        ? chosen[subject] !== ""
+                          ? chosen[subject]
+                          : undefined
+                        : undefined
+                    }
+                    onChange={handleChange}
+                  />
                 </div>
               );
             })}

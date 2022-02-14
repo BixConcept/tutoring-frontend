@@ -6,7 +6,9 @@ import Alert from "../Components/Alert";
 import LoadingScreen from "../Components/LoadingScreen";
 import { OurContext } from "../OurContext";
 import general from "../styles/general.module.scss";
+import { Offer, subjects, topSubjects } from "../Models";
 import css from "../styles/userDashboard.module.scss";
+import ChooseGrade from "../Components/ChooseGrade";
 
 const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";
@@ -16,6 +18,9 @@ const UserDashboard = (): JSX.Element => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [allowed, setAllowed] = useState<boolean>(true);
+  const [chosenSubjects, setChosenSubjects] = useState<{
+    [key: string]: string;
+  }>({});
   const context = useContext(OurContext);
   const navigate = useNavigate();
 
@@ -27,6 +32,15 @@ const UserDashboard = (): JSX.Element => {
         if (res.ok) {
           res.json().then((body) => {
             context.setUser(body.content);
+            let chosen = context.user?.offers.reduce(
+              (prev: { [key: string]: string }, x: Offer) => ({
+                ...prev,
+                ...{ [x.subject]: x.maxGrade.toString() },
+              }),
+              {}
+            );
+
+            setChosenSubjects(chosen || {});
             setAllowed(true);
           });
         } else {
@@ -39,14 +53,72 @@ const UserDashboard = (): JSX.Element => {
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (allowed) {
+  function updateSubjects() {}
+
+  if (allowed && context.user) {
     return (
       <div className={css.dashboard}>
         <div className={css["dashboard-content"]}>
-          <h1>Dashboard</h1>
+          <h1>Einstellungen</h1>
+          <h2>Logisches Heyho, {context.user.name.split(" ")[0]} 👋</h2>
           <h4>Meine Fächer</h4>
-          <i>Coming soon...</i>
-
+          <div className={css["subjects-container"]}>
+            <h3>Beliebte Fächer:</h3>
+            <div className={css.subjects}>
+              {topSubjects.map((subject, index) => {
+                return (
+                  <div className={css.subject} key={index}>
+                    <h4>{subject}</h4>
+                    <ChooseGrade
+                      subject={subject}
+                      value={
+                        chosenSubjects[subject] !== undefined
+                          ? chosenSubjects[subject] !== ""
+                            ? chosenSubjects[subject]
+                            : undefined
+                          : undefined
+                      }
+                      className={css["choose-grade"]}
+                      onChange={(e: Event) => console.log(e)}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <h3>Weitere Fächer:</h3>
+            <div className={css.subjects}>
+              {subjects.sort().map((subject, index) => {
+                return (
+                  <div className={css.subject} key={index}>
+                    <h4>{subject}</h4>
+                    <ChooseGrade
+                      subject={subject}
+                      value={
+                        chosenSubjects[subject] !== undefined
+                          ? chosenSubjects[subject] !== ""
+                            ? chosenSubjects[subject]
+                            : undefined
+                          : undefined
+                      }
+                      className={css["choose-grade"]}
+                      onChange={(e: any) => console.log(e)}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <div id={css.submitContainer}>
+              <input
+                type="submit"
+                value="weiter"
+                className={css.next_button}
+                onClick={(e) => {
+                  updateSubjects();
+                  e.preventDefault();
+                }}
+              />
+            </div>
+          </div>
           <h4>Danger Zone</h4>
           <div className={css["danger-zone"]}>
             <div className={css["danger-item"]}>

@@ -2,10 +2,23 @@ import { useContext, useState, Fragment } from "react";
 import css from "../styles/findPage.module.scss";
 import general from "../styles/general.module.scss";
 import { OurContext } from "../OurContext";
-import { RequestState, subjects, topSubjects, TutoringOffer } from "../Models";
+import { RequestState, subjects, topSubjects } from "../Models";
 import Alert from "../Components/Alert";
 import { API_HOST } from "../index";
 import LoadingScreen from "../Components/LoadingScreen";
+
+// this differs from regular Offers since it contains info about the owner/creator
+interface Result {
+  offer_id: number;
+  user_id: number;
+  name: string;
+  email: string;
+  max_grade: number;
+  phone_number: string | null;
+  subject: string;
+  misc: string | null;
+  grade: number;
+}
 
 const Find = (): JSX.Element => {
   document.title = "Nachhilfe finden";
@@ -15,7 +28,7 @@ const Find = (): JSX.Element => {
 
   const [grade, setGrade] = useState("");
   const [subject, setSubject] = useState("");
-  const [results, setResults] = useState<TutoringOffer[]>([]);
+  const [results, setResults] = useState<Result[]>([]);
   const [requestState, setRequestState] = useState<RequestState>(
     RequestState.NotAsked
   );
