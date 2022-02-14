@@ -151,9 +151,8 @@ const Find = (): JSX.Element => {
               </div>
             ))}
           </Fragment>
-        ) : (
-          <LoadingScreen loaded={requestState !== RequestState.Loading} />
-        )}
+        ) : null}
+        <LoadingScreen loaded={requestState !== RequestState.Loading} />
       </div>
     </div>
   );
