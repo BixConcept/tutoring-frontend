@@ -25,15 +25,17 @@ const UserDashboard = (): JSX.Element => {
     })
       .then((res) => {
         if (res.ok) {
-          return res.json();
+          res.json().then((body) => {
+            context.setUser(body.content);
+            setAllowed(true);
+          });
+        } else {
+          context.setUser(null);
+          navigate("/login");
         }
       })
-      .then((body) => {
-        context.setUser(body.content);
-        setAllowed(true);
-      })
-      .catch((e) => {
-        // navigate("/login");
+      .catch((_) => {
+        navigate("/login");
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
