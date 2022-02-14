@@ -1,13 +1,9 @@
-export interface TutoringOffer {
-  offer_id: number;
-  user_id: number;
-  name: string;
-  email: string;
-  max_grade: number;
-  phone_number: string | null;
+export interface Offer {
+  id: number;
+  userId: number;
   subject: string;
-  misc: string | null;
-  grade: number;
+  maxGrade: number;
+  createdAt: Date;
 }
 
 export enum AuthLevel {
@@ -31,6 +27,7 @@ export interface User {
   misc?: string;
   grade: number;
   auth: AuthLevel;
+  offers: Offer[];
 }
 
 export const topSubjects: string[] = [

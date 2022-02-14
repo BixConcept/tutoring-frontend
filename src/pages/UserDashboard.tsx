@@ -25,6 +25,10 @@ const UserDashboard = (): JSX.Element => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    refreshUser();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  function refreshUser(): void {
     fetch(`${API_HOST}/user`, {
       credentials: "include",
     })
@@ -32,16 +36,18 @@ const UserDashboard = (): JSX.Element => {
         if (res.ok) {
           res.json().then((body) => {
             context.setUser(body.content);
-            let chosen = context.user?.offers.reduce(
-              (prev: { [key: string]: string }, x: Offer) => ({
-                ...prev,
-                ...{ [x.subject]: x.maxGrade.toString() },
-              }),
-              {}
-            );
+            if (context.user) {
+              let chosen = context.user?.offers.reduce(
+                (prev: { [key: string]: string }, x: Offer) => ({
+                  ...prev,
+                  ...{ [x.subject]: x.maxGrade.toString() },
+                }),
+                {}
+              );
 
-            setChosenSubjects(chosen || {});
-            setAllowed(true);
+              setChosenSubjects(chosen);
+              setAllowed(true);
+            }
           });
         } else {
           context.setUser(null);
@@ -51,9 +57,24 @@ const UserDashboard = (): JSX.Element => {
       .catch((_) => {
         navigate("/login");
       });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }
 
-  function updateSubjects() {}
+  function updateSubjects() {
+    let tmp: any = {};
+    Object.keys(chosenSubjects).map(
+      (subject) => (tmp[subject] = parseInt(chosenSubjects[subject]))
+    );
+    fetch(`${API_HOST}/user`, {
+      method: "PUT",
+      credentials: "include",
+      body: JSON.stringify({ subjects: tmp }),
+    }).then((res) => {
+      if (!res.ok) {
+        Alert("Irgendwas ist schiefgegangen", "error", context.theme);
+      }
+      refreshUser();
+    });
+  }
 
   if (allowed && context.user) {
     return (
@@ -79,7 +100,12 @@ const UserDashboard = (): JSX.Element => {
                           : undefined
                       }
                       className={css["choose-grade"]}
-                      onChange={(e: Event) => console.log(e)}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        setChosenSubjects({
+                          ...chosenSubjects,
+                          ...{ [subject]: e.target?.value },
+                        });
+                      }}
                     />
                   </div>
                 );

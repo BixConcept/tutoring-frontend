@@ -1,5 +1,9 @@
 @import "general.module.scss";
 
+* {
+  font-size: 1rem;
+}
+
 .dashboard {
   color: var(--text_color);
   width: 100vw;
@@ -14,10 +18,20 @@
 
     padding: 2rem;
 
-    h1 {
+    > h1 {
       margin: 0;
       font-weight: normal;
       font-size: 3rem;
+    }
+
+    > h2 {
+      font-size: 1.7rem;
+    }
+
+    > h4 {
+      font-weight: normal;
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
     }
 
     .name {
@@ -110,12 +124,6 @@
   }
 }
 
-h4 {
-  font-weight: normal;
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-}
-
 .danger-zone {
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -162,13 +170,58 @@ h4 {
 }
 
 .subjects-container {
-  border: solid 1px grey;
-  padding: 1rem;
+  border: solid 2px grey;
   border-radius: 0.5rem;
+  padding: 1rem;
 
   .subjects {
+    text-align: left;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+
+    width: 100%;
+  }
+
+  .subject {
+    text-align: left;
+    background-color: var(--background_color);
+    border-radius: 0.5rem;
+    box-shadow: inset 0 0 2px #c9c9c9;
+    max-width: auto;
+    padding: 0 1rem;
+    height: 4rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    > select {
+      margin: auto;
+      width: 40%;
+    }
+
+    h4 {
+      margin: 0;
+      width: 50%;
+    }
+
+    .choose-grade {
+      width: 50%;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .subjects {
+      flex-direction: column;
+      flex-wrap: nowrap;
+
+      h3 {
+        padding-left: 0;
+      }
+    }
 
     .subject {
       width: 100%;
