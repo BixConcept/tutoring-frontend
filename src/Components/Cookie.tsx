@@ -17,10 +17,18 @@ const Cookie = (props: {
           <h2 className={general.text_marker}>Cookies</h2>
         </div>
         <div id={css.content}>
-          <p>Wir verwenden Cookies, um (Laurens fueg einen guten Text ein) </p>
+          <p>
+            Wir verwenden Cookies, um deine Session zu speicher, falls du dich
+            einloggen solltest.
+          </p>
         </div>
         <div className={css.buttonsArea}>
-          <button onClick={() => props.onConsent(false)}>Ablehnen</button>
+          <button
+            className={css.decline}
+            onClick={() => props.onConsent(false)}
+          >
+            Ablehnen
+          </button>
           <button onClick={() => props.onConsent(true)}>Akzeptieren</button>
         </div>
       </div>

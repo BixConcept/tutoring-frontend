@@ -14,7 +14,9 @@ function Navbar() {
   });
 
   return (
-    <nav>
+    <nav
+      style={{ filter: context.cookieModalVisible ? "blur(8px)" : undefined }}
+    >
       <ul>
         <li id={css.logo}>
           <Link to="/">

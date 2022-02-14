@@ -1,34 +1,5 @@
 @import "general.module.scss";
 
-/* #cookieDiv {
-    color: var(--background);
-    background-image: url("../assets/images/kruemmelmonster.webp");
-    background-size: 10%;
-    padding: .3rem 1rem;
-    margin: 2rem;
-    width: auto;
-    border-radius: 1rem;
-    max-width: 30rem;
-
-    #content {
-        display: grid;
-        grid-template-columns: 1fr;
-    }
-    
-    p {
-        font-size: 12pt;
-    }
-
-    button {
-        width: 50%;
-        background-color: var(--text_color);
-        color: var(--background_color);
-        padding: .5rem;
-        border-radius: .7rem;
-        cursor: pointer;
-    } 
-}; */
-
 .modal-background {
   position: fixed;
   z-index: 100;
@@ -61,7 +32,6 @@
       }
 
       button {
-        background-color: $primary_color;
         color: white;
         border: none;
         border-radius: 5px;
@@ -89,21 +59,34 @@
         background-color: $primary_color;
         box-shadow: 0 0 0 2px $primary_color;
         color: white;
+
+        &.decline {
+          background-color: $error_color;
+          box-shadow: 0 0 0 2px $error_color;
+        }
       }
     }
   }
   .modal-heading-row {
-      background-image: url("../assets/images/kruemmelmonster.webp");
-      height: 20rem;
-      border-radius: .5rem;
-      max-width: auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: white;
+    background-image: url("../assets/images/kruemmelmonster.webp");
+    height: 20rem;
+    border-radius: 0.5rem;
+    max-width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    font-size: 3rem;
+    background-size: cover;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .modal-content {
+    padding: 2rem 1rem !important;
+    h2 {
       font-size: 3rem;
-      background-size: 100% 100%;
-    
+    }
   }
 }

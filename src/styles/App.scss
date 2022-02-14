@@ -10,6 +10,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+
+  * {
+    transition-property: -moz-filter, -ms-filter, -o-filter, -webkit-filter,
+      filter;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+  }
 }
 
 body.light {
@@ -26,11 +33,6 @@ body.dark {
   --contrast_bg_color: rgb(41, 41, 41);
   --contrasterer_bg_color: rgb(41, 41, 41);
   --disabled_color: rgb(61, 61, 61);
-}
-
-.App {
-  height: 100%;
-  width: 100%;
 }
 
 * {

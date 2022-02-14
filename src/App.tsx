@@ -76,7 +76,10 @@ const App = (): JSX.Element => {
         <BrowserRouter>
           <ScrollToTop />
           <Navbar />
-          <div id="wrapper">
+          <div
+            id="wrapper"
+            style={{ filter: cookieModalVisible ? "blur(8px)" : undefined }}
+          >
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LoginPage />} />
