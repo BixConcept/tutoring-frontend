@@ -24,8 +24,13 @@ const RegisterPage = (): JSX.Element => {
   const [step, setStep] = useState(1);
 
   const location = useLocation();
+  const context = useContext(OurContext);
 
   useEffect(() => {
+    if (!context.cookieConsent) {
+      navigate("/");
+      context.setCookieModalVisible(true);
+    }
     if (!stepIndex) {
       navigate("/register/1", { replace: true });
     } else {
@@ -36,9 +41,7 @@ const RegisterPage = (): JSX.Element => {
         setStep(parsedIndex);
       }
     }
-  }, [stepIndex, navigate]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const context = useContext(OurContext);
+  }, [stepIndex, navigate, context.cookieConsent]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const checkTheme = (): "dark" | "light" => {
     // to have type safety
