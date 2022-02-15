@@ -6,13 +6,7 @@ import { subjects, topSubjects, TutoringOffer } from "../Models";
 import Alert from "../Components/Alert";
 import { API_HOST } from "../index";
 import LoadingScreen from "../Components/LoadingScreen";
-
-enum RequestState {
-  NotAsked,
-  Loading,
-  Failure,
-  Success,
-}
+import { RequestState } from "../Models";
 
 const Find = (): JSX.Element => {
   document.title = "Nachhilfe finden";
