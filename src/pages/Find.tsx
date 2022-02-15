@@ -1,11 +1,13 @@
-import { useContext, useState, Fragment } from "react";
+import { useContext, useState, Fragment, useEffect } from "react";
 import css from "../styles/findPage.module.scss";
 import general from "../styles/general.module.scss";
 import { OurContext } from "../OurContext";
-import { RequestState, subjects, topSubjects, TutoringOffer } from "../Models";
+
+import { Subject, topSubjects, TutoringOffer } from "../Models";
 import Alert from "../Components/Alert";
 import { API_HOST } from "../index";
 import LoadingScreen from "../Components/LoadingScreen";
+import { RequestState } from "../Models";
 
 const Find = (): JSX.Element => {
   document.title = "Nachhilfe finden";
@@ -14,14 +16,50 @@ const Find = (): JSX.Element => {
   const context = useContext(OurContext);
 
   const [grade, setGrade] = useState("");
-  const [subject, setSubject] = useState("");
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [subject, setSubject] = useState<number>(NaN);
   const [results, setResults] = useState<TutoringOffer[]>([]);
   const [requestState, setRequestState] = useState<RequestState>(
     RequestState.NotAsked
   );
+  const [clickCount, setClickCount] = useState<number>(0);
+  const [subjectsRequestState, setSubjectsRequestState] =
+    useState<RequestState>(RequestState.Loading);
+
+  const handleClick = () => {
+    console.log(clickCount);
+    setClickCount(clickCount + 1);
+    if (clickCount === 10) {
+      Alert("WIR BAUEN DIE SKYBASEEE", "success", context.theme);
+      subjects.push({ id: 187, name: "Fortnite" });
+    }
+  };
+
+  useEffect(() => {
+    setSubjectsRequestState(RequestState.Loading);
+    fetch(`${API_HOST}/subjects`)
+      .then((res: Response) => {
+        if (!res.ok) {
+          console.log(res);
+          throw new Error();
+        }
+        return res.json();
+      })
+      .then((body: any) => {
+        setSubjectsRequestState(RequestState.Success);
+        if (body.content) {
+          console.log(body.content);
+          setSubjects(body.content);
+        }
+      })
+      .catch((e) => {
+        setSubjectsRequestState(RequestState.Failure);
+        Alert("Irgendwas ist schiefgegangen", "error", context.theme);
+      });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const validate = (): boolean => {
-    if (subject === "") {
+    if (isNaN(subject)) {
       Alert(
         "Du musst ein Fach auswählen",
         "error",
@@ -48,7 +86,7 @@ const Find = (): JSX.Element => {
     setRequestState(RequestState.Loading);
     fetch(`${API_HOST}/find`, {
       method: "POST",
-      body: JSON.stringify({ subject, grade: parseInt(grade) }),
+      body: JSON.stringify({ subjectId: subject, grade: parseInt(grade) }),
       headers: { "Content-Type": "application/json" },
     })
       .then(async (response) => {
@@ -64,10 +102,22 @@ const Find = (): JSX.Element => {
       });
   };
 
+  function subjectIdFromName(name: string): number {
+    let matching = subjects.filter((x) => x.name === name);
+    if (matching.length === 0) return NaN;
+    return matching[0].id;
+  }
+
   return (
     <div className={css.container}>
       <div className={css.formContainer}>
-        <h1>Nachhilfe finden</h1>
+        <h1
+          onClick={() => {
+            handleClick();
+          }}
+        >
+          Nachhilfe finden
+        </h1>
         <div className={css.inputfields}>
           <form
             onSubmit={(e) => {
@@ -85,21 +135,30 @@ const Find = (): JSX.Element => {
                     name="subject"
                     id=""
                     className={general.select}
-                    onChange={(e) => setSubject(e.target.value)}
+                    onChange={(e) => {
+                      if (!isNaN(subjectIdFromName(e.target.value))) {
+                        setSubject(subjectIdFromName(e.target.value));
+                      }
+                    }}
                   >
                     <option value="">--- Fach wählen ---</option>
                     <option value="" disabled>
                       Beliebte Fächer
                     </option>
-                    {topSubjects.map((subject, index) => {
-                      return <option key={index}>{subject}</option>;
-                    })}
+                    {subjects
+                      .filter((x) => topSubjects.indexOf(x.name) !== -1)
+                      .map((subject, index) => {
+                        return <option key={index}>{subject.name}</option>;
+                      })}
                     <option value="" disabled>
                       Weitere Fächer
                     </option>
-                    {subjects.sort().map((subject, index) => {
-                      return <option key={index}>{subject}</option>;
-                    })}
+                    {subjects
+                      .sort()
+                      .filter((x) => topSubjects.indexOf(x.name) === -1)
+                      .map((subject, index) => {
+                        return <option key={index}>{subject.name}</option>;
+                      })}
                   </select>
                 </div>
               </div>
@@ -146,13 +205,15 @@ const Find = (): JSX.Element => {
                   <a href={`mailto:${result.email}`}>{result.email}</a>
                 </p>
                 <p>
-                  {result.subject} bis Stufe/Klasse {result.max_grade}
+                  {result.subject_name} bis Stufe/Klasse {result.max_grade}
                 </p>
               </div>
             ))}
           </Fragment>
-        ) : null}
-        <LoadingScreen loaded={requestState !== RequestState.Loading} />
+        ) : (
+          <LoadingScreen loaded={requestState !== RequestState.Loading} />
+        )}
+        <LoadingScreen loaded={subjectsRequestState !== RequestState.Loading} />
       </div>
     </div>
   );

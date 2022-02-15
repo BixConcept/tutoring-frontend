@@ -5,7 +5,8 @@ export interface TutoringOffer {
   email: string;
   max_grade: number;
   phone_number: string | null;
-  subject: string;
+  subject_id: string;
+  subject_name: string;
   misc: string | null;
   grade: number;
 }
@@ -42,15 +43,7 @@ export const topSubjects: string[] = [
   "Spanisch",
 ];
 
-export const subjects: string[] = [
-  "Altgriechisch",
-  "Biologie",
-  "Chemie",
-  "Hebräisch",
-  "Informatik",
-  "Philosophie",
-  "Physik",
-  "Politik/Wirtschaft",
-  "Pädagogik",
-  "Sozialwissenschaften",
-];
+export interface Subject {
+  id: number;
+  name: string;
+}

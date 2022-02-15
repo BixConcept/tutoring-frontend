@@ -1,22 +1,27 @@
-import { useState, useContext, useRef, useEffect } from "react";
+import { useState, useContext, useRef, useEffect, Fragment } from "react";
 import { OurContext } from "../OurContext";
 import lottie from "lottie-web";
 import css from "../styles/registerPage.module.scss";
 import general from "../styles/general.module.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { subjects, topSubjects } from "../Models";
+import { RequestState, Subject, topSubjects } from "../Models";
 import Alert from "../Components/Alert";
 import { API_HOST } from "../index";
+import LoadingScreen from "../Components/LoadingScreen";
 
 const RegisterPage = (): JSX.Element => {
   document.title = "Registrieren";
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
   const [email, setEmail] = useState("");
-  const [chosen, setChosen] = useState<{ [key: string]: string }>({});
+  const [chosen, setChosen] = useState<{ [key: number]: string }>({});
   const [grade, setGrade] = useState("");
   const [misc, setMisc] = useState("");
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [requestState, setRequestState] = useState<RequestState>(
+    RequestState.NotAsked
+  );
 
   const navigate = useNavigate();
   const { stepIndex } = useParams();
@@ -27,6 +32,7 @@ const RegisterPage = (): JSX.Element => {
   const context = useContext(OurContext);
 
   useEffect(() => {
+    setRequestState(RequestState.Loading);
     if (!context.cookieConsent) {
       navigate("/");
       context.setCookieModalVisible(true);
@@ -39,6 +45,23 @@ const RegisterPage = (): JSX.Element => {
         navigate("/register/1", { replace: true });
       } else {
         setStep(parsedIndex);
+
+        fetch(`${API_HOST}/subjects`)
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error();
+            }
+            return res.json();
+          })
+          .then((body) => {
+            if (body.content) {
+              setRequestState(RequestState.Success);
+              setSubjects(body.content);
+            }
+          })
+          .catch(() => {
+            Alert("Irgendas ist schiefgegangen", "error", context.theme);
+          });
       }
     }
   }, [stepIndex, navigate, context.cookieConsent]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -54,7 +77,7 @@ const RegisterPage = (): JSX.Element => {
 
   const numChosen = (): number => {
     return Object.entries(chosen).reduce(
-      (previous, [subject, grade]) =>
+      (previous, [_, grade]) =>
         previous + (grade !== "" && grade !== undefined ? 1 : 0),
       0
     );
@@ -71,9 +94,15 @@ const RegisterPage = (): JSX.Element => {
     return x.charAt(0).toUpperCase() + x.slice(1);
   };
 
+  function subjectIdFromName(name: string): number {
+    let matching = subjects.filter((x) => x.name === name);
+    if (matching.length === 0) return NaN;
+    return matching[0].id;
+  }
+
   function register() {
     let tmp = chosen;
-    Object.keys(chosen).map((key, index) => parseInt(chosen[key]));
+    Object.keys(chosen).map((key: any) => parseInt(chosen[key]));
 
     fetch(`${API_HOST}/user/register`, {
       method: "POST",
@@ -90,7 +119,7 @@ const RegisterPage = (): JSX.Element => {
     });
   }
 
-  const handleChange = (e: any, subject: string) => {
+  const handleChange = (e: any, subject: number) => {
     const grade: string = e.target.value;
     setChosen({
       ...chosen,
@@ -98,8 +127,9 @@ const RegisterPage = (): JSX.Element => {
     });
   };
 
-  function ChooseGrade(props: { subject: string }) {
-    console.log(chosen[props.subject]);
+  function ChooseGrade(props: { subjectId: number }) {
+    let subject: Subject = subjects.filter((x) => x.id === props.subjectId)[0];
+
     return (
       <div className={css.select_wrapper}>
         <div className={general.select_input_field}>
@@ -107,16 +137,16 @@ const RegisterPage = (): JSX.Element => {
             name=""
             id=""
             className={general.select}
-            onChange={(e) => handleChange(e, props.subject)}
+            onChange={(e) => handleChange(e, subject.id)}
             value={
-              chosen[props.subject] !== undefined
-                ? chosen[props.subject] !== ""
-                  ? chosen[props.subject]
+              chosen[subject.id] !== undefined
+                ? chosen[subject.id] !== ""
+                  ? chosen[subject.id]
                   : undefined
                 : undefined
             }
           >
-            <option value="asdf" className={css.na_option}>
+            <option value="" className={css.na_option}>
               ---
             </option>
             {grades.map((grade, index) => {
@@ -218,43 +248,54 @@ const RegisterPage = (): JSX.Element => {
   } else if (step === 2) {
     return (
       <div id={css.container}>
-        <div id={css.formContainer}>
-          <h1>Wähle deine Fächer, {emailToName(email).split(" ")[0]}</h1>
-          <h4>Fächer ausgewählt: {numChosen()}</h4>
-          <div className={css.subjects}>
-            <h3>Beliebte Fächer:</h3>
-            {topSubjects.map((subject, index) => {
-              return (
-                <div className={css.subject} key={index}>
-                  <h4>{subject}</h4>
-                  <ChooseGrade subject={subject} />
-                </div>
-              );
-            })}
-          </div>
-          <div className={css.subjects}>
-            <h3>Weitere Fächer:</h3>
-            {subjects.sort().map((subject, index) => {
-              return (
-                <div className={css.subject} key={index}>
-                  <h4>{subject}</h4>
-                  <ChooseGrade subject={subject} />
-                </div>
-              );
-            })}
-          </div>
-          <div id={css.submitContainer}>
-            <input
-              type="submit"
-              value="weiter"
-              className={css.next_button}
-              onClick={(e) => {
-                newStep(3);
-                e.preventDefault();
-              }}
-            />
-          </div>
-        </div>
+        {requestState === RequestState.Success ? (
+          <Fragment>
+            <div id={css.formContainer}>
+              <h1>Wähle deine Fächer, {emailToName(email).split(" ")[0]}</h1>
+              <h4>Fächer ausgewählt: {numChosen()}</h4>
+              <div className={css.subjects}>
+                <h3>Beliebte Fächer:</h3>
+                {topSubjects.map((subjectName, index) => {
+                  let matching = subjects.filter((x) => x.name === subjectName);
+                  if (matching.length === 0) return null;
+                  return (
+                    <div className={css.subject} key={index}>
+                      <h4>{matching[0].name}</h4>
+                      <ChooseGrade subjectId={matching[0].id} />
+                    </div>
+                  );
+                })}
+              </div>
+              <div className={css.subjects}>
+                <h3>Weitere Fächer:</h3>
+                {subjects
+                  .sort()
+                  .filter((x) => topSubjects.indexOf(x.name) === -1)
+                  .map((subject, index) => {
+                    return (
+                      <div className={css.subject} key={index}>
+                        <h4>{subject.name}</h4>
+                        <ChooseGrade subjectId={subject.id} />
+                      </div>
+                    );
+                  })}
+              </div>
+              <div id={css.submitContainer}>
+                <input
+                  type="submit"
+                  value="weiter"
+                  className={css.next_button}
+                  onClick={(e) => {
+                    newStep(3);
+                    e.preventDefault();
+                  }}
+                />
+              </div>
+            </div>
+          </Fragment>
+        ) : (
+          <LoadingScreen loaded={requestState !== RequestState.Loading} />
+        )}
         <div className={css.step}>
           &bull;<span className={css.bullSpan}>&bull;</span>&bull;&bull;
         </div>
