@@ -21,8 +21,18 @@ const Find = (): JSX.Element => {
   const [requestState, setRequestState] = useState<RequestState>(
     RequestState.NotAsked
   );
+  const [clickCount, setClickCount] = useState<number>(0);
   const [subjectsRequestState, setSubjectsRequestState] =
     useState<RequestState>(RequestState.Loading);
+
+  const handleClick = () => {
+    console.log(clickCount);
+    setClickCount(clickCount + 1);
+    if (clickCount === 10) {
+      Alert("WIR BAUEN DIE SKYBASEEE", "success", context.theme);
+      subjects.push({ id: 187, name: "Fortnite" });
+    }
+  };
 
   useEffect(() => {
     setSubjectsRequestState(RequestState.Loading);
@@ -100,7 +110,13 @@ const Find = (): JSX.Element => {
   return (
     <div className={css.container}>
       <div className={css.formContainer}>
-        <h1>Nachhilfe finden</h1>
+        <h1
+          onClick={() => {
+            handleClick();
+          }}
+        >
+          Nachhilfe finden
+        </h1>
         <div className={css.inputfields}>
           <form
             onSubmit={(e) => {
@@ -201,6 +217,3 @@ const Find = (): JSX.Element => {
 };
 
 export default Find;
-function Loading(Loading: any) {
-  throw new Error("Function not implemented.");
-}
