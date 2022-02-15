@@ -42,15 +42,7 @@ export const topSubjects: string[] = [
   "Spanisch",
 ];
 
-export const subjects: string[] = [
-  "Altgriechisch",
-  "Biologie",
-  "Chemie",
-  "Hebräisch",
-  "Informatik",
-  "Philosophie",
-  "Physik",
-  "Politik/Wirtschaft",
-  "Pädagogik",
-  "Sozialwissenschaften",
-];
+export interface Subject {
+  id: number;
+  name: string;
+}

@@ -1,8 +1,8 @@
-import { useContext, useState, Fragment } from "react";
+import { useContext, useState, Fragment, useEffect } from "react";
 import css from "../styles/findPage.module.scss";
 import general from "../styles/general.module.scss";
 import { OurContext } from "../OurContext";
-import { subjects, topSubjects, TutoringOffer } from "../Models";
+import { Subject, topSubjects, TutoringOffer } from "../Models";
 import Alert from "../Components/Alert";
 import { API_HOST } from "../index";
 import LoadingScreen from "../Components/LoadingScreen";
@@ -15,14 +15,40 @@ const Find = (): JSX.Element => {
   const context = useContext(OurContext);
 
   const [grade, setGrade] = useState("");
-  const [subject, setSubject] = useState("");
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [subject, setSubject] = useState<number>(NaN);
   const [results, setResults] = useState<TutoringOffer[]>([]);
   const [requestState, setRequestState] = useState<RequestState>(
-    RequestState.Loading
+    RequestState.NotAsked
   );
+  const [subjectsRequestState, setSubjectsRequestState] =
+    useState<RequestState>(RequestState.Loading);
+
+  useEffect(() => {
+    setSubjectsRequestState(RequestState.Loading);
+    fetch(`${API_HOST}/subjects`)
+      .then((res: Response) => {
+        if (!res.ok) {
+          console.log(res);
+          throw new Error();
+        }
+        return res.json();
+      })
+      .then((body: any) => {
+        setSubjectsRequestState(RequestState.Success);
+        if (body.content) {
+          console.log(body.content);
+          setSubjects(body.content);
+        }
+      })
+      .catch((e) => {
+        setSubjectsRequestState(RequestState.Failure);
+        Alert("Irgendwas ist schiefgegangen", "error", context.theme);
+      });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const validate = (): boolean => {
-    if (subject === "") {
+    if (isNaN(subject)) {
       Alert(
         "Du musst ein Fach auswählen",
         "error",
@@ -65,6 +91,12 @@ const Find = (): JSX.Element => {
       });
   };
 
+  function subjectIdFromName(name: string): number {
+    let matching = subjects.filter((x) => x.name === name);
+    if (matching.length === 0) return NaN;
+    return matching[0].id;
+  }
+
   return (
     <div className={css.container}>
       <div className={css.formContainer}>
@@ -86,7 +118,11 @@ const Find = (): JSX.Element => {
                     name="subject"
                     id=""
                     className={general.select}
-                    onChange={(e) => setSubject(e.target.value)}
+                    onChange={(e) => {
+                      if (!isNaN(subjectIdFromName(e.target.value))) {
+                        setSubject(subjectIdFromName(e.target.value));
+                      }
+                    }}
                   >
                     <option value="">--- Fach wählen ---</option>
                     <option value="" disabled>
@@ -98,9 +134,12 @@ const Find = (): JSX.Element => {
                     <option value="" disabled>
                       Weitere Fächer
                     </option>
-                    {subjects.sort().map((subject, index) => {
-                      return <option key={index}>{subject}</option>;
-                    })}
+                    {subjects
+                      .sort()
+                      .filter((x) => topSubjects.indexOf(x.name) === -1)
+                      .map((subject, index) => {
+                        return <option key={index}>{subject.name}</option>;
+                      })}
                   </select>
                 </div>
               </div>
@@ -155,9 +194,13 @@ const Find = (): JSX.Element => {
         ) : (
           <LoadingScreen loaded={requestState !== RequestState.Loading} />
         )}
+        <LoadingScreen loaded={subjectsRequestState !== RequestState.Loading} />
       </div>
     </div>
   );
 };
 
 export default Find;
+function Loading(Loading: any) {
+  throw new Error("Function not implemented.");
+}
