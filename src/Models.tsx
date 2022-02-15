@@ -5,7 +5,8 @@ export interface TutoringOffer {
   email: string;
   max_grade: number;
   phone_number: string | null;
-  subject: string;
+  subject_id: string;
+  subject_name: string;
   misc: string | null;
   grade: number;
 }

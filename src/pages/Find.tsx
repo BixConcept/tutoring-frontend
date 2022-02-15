@@ -85,7 +85,7 @@ const Find = (): JSX.Element => {
     setRequestState(RequestState.Loading);
     fetch(`${API_HOST}/find`, {
       method: "POST",
-      body: JSON.stringify({ subject, grade: parseInt(grade) }),
+      body: JSON.stringify({ subjectId: subject, grade: parseInt(grade) }),
       headers: { "Content-Type": "application/json" },
     })
       .then(async (response) => {
@@ -144,9 +144,11 @@ const Find = (): JSX.Element => {
                     <option value="" disabled>
                       Beliebte Fächer
                     </option>
-                    {topSubjects.map((subject, index) => {
-                      return <option key={index}>{subject}</option>;
-                    })}
+                    {subjects
+                      .filter((x) => topSubjects.indexOf(x.name) !== -1)
+                      .map((subject, index) => {
+                        return <option key={index}>{subject.name}</option>;
+                      })}
                     <option value="" disabled>
                       Weitere Fächer
                     </option>
@@ -202,7 +204,7 @@ const Find = (): JSX.Element => {
                   <a href={`mailto:${result.email}`}>{result.email}</a>
                 </p>
                 <p>
-                  {result.subject} bis Stufe/Klasse {result.max_grade}
+                  {result.subject_name} bis Stufe/Klasse {result.max_grade}
                 </p>
               </div>
             ))}
