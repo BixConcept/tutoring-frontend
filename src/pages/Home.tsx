@@ -1,8 +1,13 @@
 import css from "../styles/Home.module.scss";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { OurContext } from "../OurContext";
+import Alert from "../Components/Alert";
 
 const Home = (): JSX.Element => {
   document.title = "Nachhilfe GymHaan";
+
+  const context = useContext(OurContext);
 
   return (
     <main>
@@ -47,8 +52,21 @@ const Home = (): JSX.Element => {
                 <h1>Ich brauche Nachhilfe</h1>
               </Link>
             </div>
-            <div className={css.choice}>
-              <Link to="/register">
+            <div
+              className={css.choice}
+              onClick={(e) => {
+                if (!context.cookieConsent) {
+                  Alert(
+                    "Um dich registrieren zu können musst du unserem Session-Cookie zustimmen.",
+                    "info",
+                    context.theme
+                  );
+                  context.setCookieModalVisible(true);
+                  e.preventDefault();
+                }
+              }}
+            >
+              <Link to={context.cookieConsent ? "/register" : "#"}>
                 <h1>
                   Ich möchte{" "}
                   <span className={css.backdrop}>Nachhilfe geben</span>
