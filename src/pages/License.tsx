@@ -5,9 +5,10 @@ import LoadingScreen from "../Components/LoadingScreen";
 
 const License = (): JSX.Element => {
   const [content, setContent] = useState("");
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(true);
 
   useEffect(() => {
+    setLoaded(false);
     fetch(
       "https://raw.githubusercontent.com/BixConcept/tutoring-frontend/main/LICENSE"
     )
@@ -27,7 +28,7 @@ const License = (): JSX.Element => {
   return (
     <div>
       <Page title="Lizenz" center={true}>
-        <LoadingScreen loaded={loaded} />
+        {!loaded ? <LoadingScreen loaded={loaded} /> : null}
         <pre id={css.licenseText}>{content}</pre>
       </Page>
     </div>
