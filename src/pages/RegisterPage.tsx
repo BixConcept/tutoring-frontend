@@ -22,6 +22,7 @@ const RegisterPage = (): JSX.Element => {
   const [requestState, setRequestState] = useState<RequestState>(
     RequestState.NotAsked
   );
+  const [clickCount, setClickCount] = useState<number>(0);
 
   const navigate = useNavigate();
   const { stepIndex } = useParams();
@@ -66,21 +67,24 @@ const RegisterPage = (): JSX.Element => {
     }
   }, [stepIndex, navigate, context.cookieConsent]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const checkTheme = (): "dark" | "light" => {
-    // to have type safety
-    if (context.theme === "dark" || context.theme === "light") {
-      return context.theme;
-    } else {
-      return "dark";
-    }
-  };
-
   const numChosen = (): number => {
     return Object.entries(chosen).reduce(
       (previous, [_, grade]) =>
         previous + (grade !== "" && grade !== undefined ? 1 : 0),
       0
     );
+  };
+
+  const handleClick = () => {
+    setClickCount(clickCount + 1);
+    if (clickCount === 10) {
+      Alert(
+        window.atob("V0lSIEJBVUVOIERJRSBTS1lCQVNFRUUK"),
+        "success",
+        context.theme
+      );
+      subjects.push({ id: 0xbb, name: window.atob("Rm9ydG5pdGU=") });
+    }
   };
 
   const emailToName = (email: string): string => {
@@ -93,12 +97,6 @@ const RegisterPage = (): JSX.Element => {
   const capitalizeWord = (x: string): string => {
     return x.charAt(0).toUpperCase() + x.slice(1);
   };
-
-  function subjectIdFromName(name: string): number {
-    let matching = subjects.filter((x) => x.name === name);
-    if (matching.length === 0) return NaN;
-    return matching[0].id;
-  }
 
   function register() {
     let tmp = chosen;
@@ -115,7 +113,7 @@ const RegisterPage = (): JSX.Element => {
       headers: { "Content-Type": "application/json" },
     }).catch((error) => {
       console.log(error);
-      Alert("Fehler beim Erstellen :((...", "error", checkTheme());
+      Alert("Fehler beim Erstellen :((...", "error", context.theme);
     });
   }
 
@@ -167,7 +165,7 @@ const RegisterPage = (): JSX.Element => {
 
   useEffect(
     () => {
-      if (step != 4) return;
+      if (step !== 4) return;
       if (letter.current) {
         lottie.loadAnimation({
           container: letter.current,
@@ -222,7 +220,7 @@ const RegisterPage = (): JSX.Element => {
                 newStep(2);
                 lottie.destroy();
               } else {
-                Alert("Invalide E-Mail Adresse!", "error", checkTheme());
+                Alert("Invalide E-Mail Adresse!", "error", context.theme);
                 lottie.stop();
                 lottie.setSpeed(1.5);
                 lottie.play();
@@ -255,23 +253,33 @@ const RegisterPage = (): JSX.Element => {
         {requestState === RequestState.Success ? (
           <Fragment>
             <div id={css.formContainer}>
-              <h1>Wähle deine Fächer, {emailToName(email).split(" ")[0]}</h1>
+              <h1 onClick={() => handleClick()}>
+                Wähle deine Fächer, {emailToName(email).split(" ")[0]}
+              </h1>
               <h4>Fächer ausgewählt: {numChosen()}</h4>
+              <h3>Beliebte Fächer:</h3>
               <div className={css.subjects}>
-                <h3>Beliebte Fächer:</h3>
                 {topSubjects.map((subjectName, index) => {
                   let matching = subjects.filter((x) => x.name === subjectName);
                   if (matching.length === 0) return null;
                   return (
-                    <div className={css.subject} key={index}>
+                    <div
+                      className={css.subject}
+                      key={index}
+                      id={
+                        subjectName === window.atob("Rm9ydG5pdGU=")
+                          ? css["DONT_LOOK_AT_THIS_PLS_DONT"]
+                          : undefined
+                      }
+                    >
                       <h4>{matching[0].name}</h4>
                       <ChooseGrade subjectId={matching[0].id} />
                     </div>
                   );
                 })}
               </div>
+              <h3>Weitere Fächer:</h3>
               <div className={css.subjects}>
-                <h3>Weitere Fächer:</h3>
                 {subjects
                   .sort()
                   .filter((x) => topSubjects.indexOf(x.name) === -1)
@@ -287,7 +295,7 @@ const RegisterPage = (): JSX.Element => {
               <div id={css.submitContainer}>
                 <input
                   type="submit"
-                  value="weiter"
+                  value="Weiter"
                   className={css.next_button}
                   onClick={(e) => {
                     newStep(3);
@@ -345,7 +353,7 @@ const RegisterPage = (): JSX.Element => {
             className={general.text_button}
             onClick={(e) => {
               if (isNaN(parseInt(grade))) {
-                Alert("Bitte wähle deine Stufe!!!", "error", checkTheme());
+                Alert("Bitte wähle deine Stufe!!!", "error", context.theme);
               } else {
                 newStep(4);
                 register();

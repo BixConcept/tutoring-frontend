@@ -25,14 +25,16 @@ const UserDashboard = (): JSX.Element => {
       .then((res) => {
         if (res.ok) {
           return res.json();
+        } else {
+          throw new Error();
         }
       })
       .then((body) => {
         context.setUser(body.content);
         setAllowed(true);
       })
-      .catch((e) => {
-        // navigate("/login");
+      .catch(() => {
+        navigate("/login");
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -55,7 +57,7 @@ const UserDashboard = (): JSX.Element => {
                 </p>
               </div>
               <button
-                onClick={(e) => setModalVisible(!modalVisible)}
+                onClick={() => setModalVisible(!modalVisible)}
                 className={general["text-button"]}
               >
                 Account löschen

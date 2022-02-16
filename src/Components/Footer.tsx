@@ -1,6 +1,5 @@
 import css from "../styles/Footer.module.scss";
 import { Link } from "react-router-dom";
-import DarkMode from "./DarkMode";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useContext } from "react";
@@ -20,9 +19,6 @@ const Footer = (): JSX.Element => {
       <Link to="/license">Lizenz</Link>
       <Link to="/privacy">Datenschutz</Link>
       <Link to="/imprint">Impressum</Link>
-      <a href="" onClick={(e) => e.preventDefault()}>
-        <DarkMode />
-      </a>
     </footer>
   );
 };
