@@ -176,7 +176,7 @@ const LoginPage = (): JSX.Element => {
           <input
             type="submit"
             value="Login (mit Passwort)"
-            id={css["disabledSubmit"]}
+            id={css.submit}
             disabled
           />
         </form>

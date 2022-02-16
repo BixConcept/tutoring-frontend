@@ -2,8 +2,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import css from "../styles/darkModeButton.module.scss";
 import { OurContext } from "../OurContext";
-import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const DarkMode = () => {
   const body = document.body;
@@ -38,19 +36,25 @@ const DarkMode = () => {
   };
 
   return (
-    <div>
-      <OurContext.Consumer>
-        {({ theme, setTheme }) => (
-          <FontAwesomeIcon
-            type="checkbox"
-            onClick={(e) => {
-              toggleDarkMode(setTheme);
-              e.preventDefault();
-            }}
-            icon={localStorage.getItem("theme") === "dark" ? faMoon : faSun}
-          />
-        )}
-      </OurContext.Consumer>
+    <div id={css.switch}>
+      <label className={css.toggle}>
+        <OurContext.Consumer>
+          {({ theme, setTheme }) => (
+            <input
+              type="checkbox"
+              onChange={() => {
+                toggleDarkMode(setTheme);
+              }}
+              checked={
+                localStorage.getItem("theme") === "dark" ||
+                localStorage.getItem("theme") === null
+              }
+            />
+          )}
+        </OurContext.Consumer>
+        <span className={css.slider}></span>
+        <span className={css.labels}></span>
+      </label>
     </div>
   );
 };
