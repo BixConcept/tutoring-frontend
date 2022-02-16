@@ -1,7 +1,5 @@
 import css from "../styles/loginPage.module.scss";
 import { useState, useRef, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
 import { OurContext } from "../OurContext";
 import { useContext } from "react";
@@ -17,14 +15,7 @@ const Required = (): JSX.Element => {
 
 const LoginPage = (): JSX.Element => {
   document.title = "Login";
-  const [email, setEmail] = useState<string>("");
   const [otpEmail, setOtpEmai] = useState<string>("");
-  const [password, setPassword] = useState("");
-  const [pwType, setPwType] = useState("password");
-  const changePwType = () => {
-    if (pwType !== "password") setPwType("password");
-    else setPwType("text");
-  };
   const [displayAnimation, setDisplayAnimation] = useState(false);
 
   const context = useContext(OurContext);

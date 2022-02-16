@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import css from "../styles/darkModeButton.module.scss";
 import { OurContext } from "../OurContext";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

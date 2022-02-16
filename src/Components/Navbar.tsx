@@ -5,8 +5,9 @@ import { useContext, useEffect } from "react";
 import { OurContext } from "../OurContext";
 import { API_HOST } from "..";
 import Alert from "./Alert";
+import DarkMode from "./DarkMode";
 
-function Navbar() {
+export default function Navbar() {
   const context = useContext(OurContext);
 
   useEffect(() => {
@@ -15,7 +16,9 @@ function Navbar() {
 
   return (
     <nav
-      style={{ filter: context.cookieModalVisible ? "blur(8px)" : undefined }}
+      style={{
+        filter: context.cookieModalVisible ? "blur(8px)" : undefined,
+      }}
     >
       <ul>
         <li id={css.logo}>
@@ -24,6 +27,14 @@ function Navbar() {
           </Link>
         </li>
         <div id={css.links}>
+          <li
+            style={{
+              color: "var(--text_color)",
+              transition: "all 200ms ease-in-out",
+            }}
+          >
+            <DarkMode />
+          </li>
           <li>
             {context.user !== null ? (
               <button
@@ -57,5 +68,3 @@ function Navbar() {
     </nav>
   );
 }
-
-export default Navbar;

@@ -94,12 +94,6 @@ const RegisterPage = (): JSX.Element => {
     return x.charAt(0).toUpperCase() + x.slice(1);
   };
 
-  function subjectIdFromName(name: string): number {
-    let matching = subjects.filter((x) => x.name === name);
-    if (matching.length === 0) return NaN;
-    return matching[0].id;
-  }
-
   function register() {
     let tmp = chosen;
     Object.keys(chosen).map((key: any) => parseInt(chosen[key]));
@@ -167,7 +161,7 @@ const RegisterPage = (): JSX.Element => {
 
   useEffect(
     () => {
-      if (step != 4) return;
+      if (step !== 4) return;
       if (letter.current) {
         lottie.loadAnimation({
           container: letter.current,
