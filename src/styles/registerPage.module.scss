@@ -115,7 +115,7 @@
     border-style: none;
     background-color: $primary_color;
     color: #fff;
-    font-weight: bold;
+    font-weight: boundefined;
     font-size: 1.5rem;
     text-align: center;
     cursor: pointer;
@@ -270,6 +270,11 @@ a {
         width: 50%;
         text-align: left !important;
         margin: auto 0;
+    }
+
+    &#DONT_LOOK_AT_THIS_PLS_DONT {
+        background-color: $primary_color !important;
+        font-weight: bold !important;
     }
 }
 

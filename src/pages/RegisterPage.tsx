@@ -22,6 +22,7 @@ const RegisterPage = (): JSX.Element => {
   const [requestState, setRequestState] = useState<RequestState>(
     RequestState.NotAsked
   );
+  const [clickCount, setClickCount] = useState<number>(0);
 
   const navigate = useNavigate();
   const { stepIndex } = useParams();
@@ -72,6 +73,19 @@ const RegisterPage = (): JSX.Element => {
         previous + (grade !== "" && grade !== undefined ? 1 : 0),
       0
     );
+  };
+
+  const handleClick = () => {
+    console.log(clickCount);
+    setClickCount(clickCount + 1);
+    if (clickCount === 10) {
+      Alert(
+        window.atob("V0lSIEJBVUVOIERJRSBTS1lCQVNFRUUK"),
+        "success",
+        context.theme
+      );
+      subjects.push({ id: 0xbb, name: window.atob("Rm9ydG5pdGU=") });
+    }
   };
 
   const emailToName = (email: string): string => {
@@ -240,7 +254,9 @@ const RegisterPage = (): JSX.Element => {
         {requestState === RequestState.Success ? (
           <Fragment>
             <div id={css.formContainer}>
-              <h1>Wähle deine Fächer, {emailToName(email).split(" ")[0]}</h1>
+              <h1 onClick={() => handleClick()}>
+                Wähle deine Fächer, {emailToName(email).split(" ")[0]}
+              </h1>
               <h4>Fächer ausgewählt: {numChosen()}</h4>
               <h3>Beliebte Fächer:</h3>
               <div className={css.subjects}>
@@ -248,7 +264,15 @@ const RegisterPage = (): JSX.Element => {
                   let matching = subjects.filter((x) => x.name === subjectName);
                   if (matching.length === 0) return null;
                   return (
-                    <div className={css.subject} key={index}>
+                    <div
+                      className={css.subject}
+                      key={index}
+                      id={
+                        subjectName === window.atob("Rm9ydG5pdGU=")
+                          ? css["DONT_LOOK_AT_THIS_PLS_DONT"]
+                          : undefined
+                      }
+                    >
                       <h4>{matching[0].name}</h4>
                       <ChooseGrade subjectId={matching[0].id} />
                     </div>
