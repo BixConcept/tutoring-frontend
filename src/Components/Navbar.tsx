@@ -31,6 +31,7 @@ export default function Navbar() {
             style={{
               color: "var(--text_color)",
               transition: "all 200ms ease-in-out",
+              cursor: "pointer",
             }}
           >
             <DarkMode />
