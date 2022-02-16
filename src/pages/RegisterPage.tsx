@@ -66,15 +66,6 @@ const RegisterPage = (): JSX.Element => {
     }
   }, [stepIndex, navigate, context.cookieConsent]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const checkTheme = (): "dark" | "light" => {
-    // to have type safety
-    if (context.theme === "dark" || context.theme === "light") {
-      return context.theme;
-    } else {
-      return "dark";
-    }
-  };
-
   const numChosen = (): number => {
     return Object.entries(chosen).reduce(
       (previous, [_, grade]) =>
@@ -109,7 +100,7 @@ const RegisterPage = (): JSX.Element => {
       headers: { "Content-Type": "application/json" },
     }).catch((error) => {
       console.log(error);
-      Alert("Fehler beim Erstellen :((...", "error", checkTheme());
+      Alert("Fehler beim Erstellen :((...", "error", context.theme);
     });
   }
 
@@ -216,7 +207,7 @@ const RegisterPage = (): JSX.Element => {
                 newStep(2);
                 lottie.destroy();
               } else {
-                Alert("Invalide E-Mail Adresse!", "error", checkTheme());
+                Alert("Invalide E-Mail Adresse!", "error", context.theme);
                 lottie.stop();
                 lottie.setSpeed(1.5);
                 lottie.play();
@@ -251,8 +242,8 @@ const RegisterPage = (): JSX.Element => {
             <div id={css.formContainer}>
               <h1>Wähle deine Fächer, {emailToName(email).split(" ")[0]}</h1>
               <h4>Fächer ausgewählt: {numChosen()}</h4>
+              <h3>Beliebte Fächer:</h3>
               <div className={css.subjects}>
-                <h3>Beliebte Fächer:</h3>
                 {topSubjects.map((subjectName, index) => {
                   let matching = subjects.filter((x) => x.name === subjectName);
                   if (matching.length === 0) return null;
@@ -264,8 +255,8 @@ const RegisterPage = (): JSX.Element => {
                   );
                 })}
               </div>
+              <h3>Weitere Fächer:</h3>
               <div className={css.subjects}>
-                <h3>Weitere Fächer:</h3>
                 {subjects
                   .sort()
                   .filter((x) => topSubjects.indexOf(x.name) === -1)
@@ -281,7 +272,7 @@ const RegisterPage = (): JSX.Element => {
               <div id={css.submitContainer}>
                 <input
                   type="submit"
-                  value="weiter"
+                  value="Weiter"
                   className={css.next_button}
                   onClick={(e) => {
                     newStep(3);
@@ -339,7 +330,7 @@ const RegisterPage = (): JSX.Element => {
             className={general.text_button}
             onClick={(e) => {
               if (isNaN(parseInt(grade))) {
-                Alert("Bitte wähle deine Stufe!!!", "error", checkTheme());
+                Alert("Bitte wähle deine Stufe!!!", "error", context.theme);
               } else {
                 newStep(4);
                 register();

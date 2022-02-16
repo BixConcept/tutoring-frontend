@@ -37,20 +37,17 @@ const DarkMode = () => {
   };
 
   return (
-    <div>
-      <OurContext.Consumer>
-        {({ theme, setTheme }) => (
-          <FontAwesomeIcon
-            type="checkbox"
-            onClick={(e) => {
-              toggleDarkMode(setTheme);
-              e.preventDefault();
-            }}
-            icon={localStorage.getItem("theme") === "dark" ? faMoon : faSun}
-          />
-        )}
-      </OurContext.Consumer>
-    </div>
+    <button
+      onClick={(e) => {
+        toggleDarkMode(setTheme);
+        e.preventDefault();
+      }}
+    >
+      <FontAwesomeIcon
+        type="checkbox"
+        icon={localStorage.getItem("theme") === "dark" ? faMoon : faSun}
+      />
+    </button>
   );
 };
 
