@@ -30,7 +30,11 @@ const Find = (): JSX.Element => {
     console.log(clickCount);
     setClickCount(clickCount + 1);
     if (clickCount === 10) {
-      Alert("WIR BAUEN DIE SKYBASEEE", "success", context.theme);
+      Alert(
+        window.atob("V0lSIEJBVUVOIERJRSBTS1lCQVNFRUUK"),
+        "success",
+        context.theme
+      );
       subjects.push({ id: 187, name: "Fortnite" });
     }
   };
