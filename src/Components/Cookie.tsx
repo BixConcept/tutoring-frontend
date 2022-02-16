@@ -18,7 +18,7 @@ const Cookie = (props: {
         </div>
         <div id={css.content}>
           <p>
-            Wir verwenden Cookies, um deine Session zu speicher, falls du dich
+            Wir verwenden Cookies, um deine Session zu speichern, falls du dich
             einloggen solltest.
           </p>
         </div>

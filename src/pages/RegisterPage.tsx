@@ -165,17 +165,21 @@ const RegisterPage = (): JSX.Element => {
   // letter animation
   const letter = useRef(null);
 
-  useEffect(() => {
-    if (letter.current) {
-      lottie.loadAnimation({
-        container: letter.current,
-        renderer: "svg",
-        loop: false,
-        autoplay: true,
-        animationData: require("../assets/animations/message.json"),
-      });
-    }
-  });
+  useEffect(
+    () => {
+      if (step != 4) return;
+      if (letter.current) {
+        lottie.loadAnimation({
+          container: letter.current,
+          renderer: "svg",
+          loop: false,
+          autoplay: true,
+          animationData: require("../assets/animations/message.json"),
+        });
+      }
+    },
+    [step] // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   function newStep(theStep: number) {
     setStep(theStep);

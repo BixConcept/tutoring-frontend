@@ -20,7 +20,7 @@ const Footer = (): JSX.Element => {
       <Link to="/license">Lizenz</Link>
       <Link to="/privacy">Datenschutz</Link>
       <Link to="/imprint">Impressum</Link>
-      <a href="">
+      <a href="" onClick={(e) => e.preventDefault()}>
         <DarkMode />
       </a>
     </footer>

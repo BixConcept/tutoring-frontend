@@ -197,7 +197,9 @@ const Find = (): JSX.Element => {
           <Fragment>
             <span id={css.numResults}>
               {results.length > 0
-                ? `🎉 Es gibt ${results.length} Ergebnisse 🎉`
+                ? `🎉 Es gibt ${results.length} ${
+                    results.length > 1 ? "Ergebnisse" : "Ergebnis"
+                  } 🎉`
                 : `Leider gibt es keine Ergebnisse 😔`}
             </span>
             {results.map((result, index) => (
