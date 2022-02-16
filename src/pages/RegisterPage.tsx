@@ -76,7 +76,6 @@ const RegisterPage = (): JSX.Element => {
   };
 
   const handleClick = () => {
-    console.log(clickCount);
     setClickCount(clickCount + 1);
     if (clickCount === 10) {
       Alert(
