@@ -14,7 +14,6 @@ const SubjectPie = () => {
     RequestState.Loading
   );
   const [data, setData] = useState<any[]>([]);
-  const [dataObject, setDataObject] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
     fetch(`${API_HOST}/offers`, { credentials: "include" })
@@ -25,21 +24,18 @@ const SubjectPie = () => {
             Alert(body.msg, "error", context.theme);
           } else {
             setRequestState(RequestState.Success);
-            setDataObject(
-              body.content.reduce(
-                (last: any, x: TutoringOffer) => ({
-                  ...last,
-                  ...{
-                    [x.subjectName]:
-                      last[x.subjectName] === undefined
-                        ? 1
-                        : last[x.subjectName] + 1,
-                  },
-                }),
-                {}
-              )
+            let dataObject = body.content.reduce(
+              (last: any, x: TutoringOffer) => ({
+                ...last,
+                ...{
+                  [x.subjectName]:
+                    last[x.subjectName] === undefined
+                      ? 1
+                      : last[x.subjectName] + 1,
+                },
+              }),
+              {}
             );
-
             setData(
               Object.keys(dataObject).map((x, index) => {
                 return { id: x, label: "ASDF", value: dataObject[x] };
@@ -67,7 +63,9 @@ const SubjectPie = () => {
         padAngle={2}
         cornerRadius={8}
       />
-      <LoadingScreen loaded={requestState !== RequestState.Loading} />
+      {requestState === RequestState.Loading ? (
+        <LoadingScreen loaded={false} />
+      ) : null}
     </div>
   );
 };

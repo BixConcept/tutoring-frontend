@@ -65,11 +65,11 @@ export default function Navbar() {
               <Link to="/dashboard">Mein Account</Link>
             )}
           </li>
-          <li>
-            {context.user?.authLevel === AuthLevel.Admin ? (
+          {context.user?.authLevel === AuthLevel.Admin ? (
+            <li>
               <Link to="/dashboard/admin">Admin</Link>
-            ) : null}
-          </li>
+            </li>
+          ) : null}
         </div>
       </ul>
     </nav>
