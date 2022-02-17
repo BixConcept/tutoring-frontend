@@ -1,12 +1,12 @@
 export interface TutoringOffer {
-  offer_id: number;
-  user_id: number;
+  offerId: number;
+  userId: number;
   name: string;
   email: string;
-  max_grade: number;
-  phone_number: string | null;
-  subject_id: string;
-  subject_name: string;
+  maxGrade: number;
+  phoneNumber: string | null;
+  subjectId: string;
+  subjectName: string;
   misc: string | null;
   grade: number;
 }
