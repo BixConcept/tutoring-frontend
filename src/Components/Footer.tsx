@@ -13,17 +13,22 @@ const Footer = (): JSX.Element => {
       className={css.footer}
       style={{ filter: context.cookieModalVisible ? "blur(8px)" : undefined }}
     >
-      <a
-        href={`https://github.com/BixConcept/tutoring-frontend/commit/${process.env.REACT_APP_GIT_SHA}`}
-      >
-        Version {process.env.REACT_APP_GIT_SHA}
-      </a>
-      <a href="https://github.com/BixConcept/tutoring-frontend">
-        Source Code <FontAwesomeIcon icon={faGithub} />
-      </a>
-      <Link to="/license">Lizenz</Link>
-      <Link to="/privacy">Datenschutz</Link>
-      <Link to="/imprint">Impressum</Link>
+      <ul>
+        <li>
+          <a href="https://github.com/BixConcept/tutoring-frontend">
+            Source Code <FontAwesomeIcon icon={faGithub} />
+          </a>
+        </li>
+        <li>
+          <Link to="/license">Lizenz</Link>
+        </li>
+        <li>
+          <Link to="/privacy">Datenschutz</Link>{" "}
+        </li>
+        <li>
+          <Link to="/imprint">Impressum</Link>
+        </li>
+      </ul>
     </footer>
   );
 };
