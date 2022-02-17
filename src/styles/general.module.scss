@@ -43,8 +43,15 @@ $border_radius: 0.5rem;
   font-weight: bold;
   font-size: 1rem;
   cursor: pointer;
+  box-shadow: 0 0 0 2px $primary_color;
 
   align-self: center;
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: var(--disabled_color);
+    box-shadow: 0 0 0 2px var(--disabled_color);
+  }
 }
 
 .login {
@@ -74,6 +81,7 @@ $border_radius: 0.5rem;
   flex-direction: row;
   border-radius: 0.3rem;
   box-shadow: 0 0 0 2px var(--text_color);
+  background-color: var(--contrast_bg_color);
 
   height: 2rem;
   padding-left: 0.7rem;
