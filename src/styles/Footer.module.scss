@@ -3,21 +3,29 @@
   height: 5rem;
   background-color: var(--contrast_bg_color);
 
-  display: flex;
+  ul {
+    display: flex;
 
-  padding: 0 10rem;
+    padding: 0 10rem;
+    height: 100%;
+    margin: 0;
 
-  justify-content: space-evenly;
-  align-items: center;
-  flex-direction: row;
-  flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 
-  a {
+  li {
+    list-style: none;
     width: auto;
     padding: 0 clamp(1rem, 5vw, 3rem);
     margin: 0;
-    text-decoration: none;
+
     color: var(--text_color);
+    a {
+      text-decoration: none;
+    }
   }
 }
 
