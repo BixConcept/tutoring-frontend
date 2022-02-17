@@ -9,6 +9,85 @@ import { API_HOST } from "../index";
 import LoadingScreen from "../Components/LoadingScreen";
 import { RequestState } from "../Models";
 
+function RequestForm(props: {
+  subject: number;
+  grade: number;
+  subjects: Subject[];
+}) {
+  const [email, setEmail] = useState("");
+  const context = useContext(OurContext);
+
+  function request() {
+    fetch(`${API_HOST}/request`, {
+      method: "POST",
+      body: JSON.stringify({
+        email,
+        grade: props.grade,
+        subject: props.subject,
+      }),
+      headers: { "Content-Type": "application/json" },
+    }).then((res) => {
+      if (res.ok) {
+        Alert(
+          "Erfolgreich auf die Benachrichtigungsliste hinzugefügt!",
+          "success",
+          context.theme
+        );
+      } else {
+        Alert("Irgendwas ist schiefgelaufen.", "error", context.theme);
+      }
+    });
+  }
+
+  function validateEmail(mail: string) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+      return true;
+    }
+    return false;
+  }
+
+  return (
+    <div id={css["request-form"]}>
+      <h3>
+        Per E-Mail benachrichten lassen, wenn jemand anfängt{" "}
+        <span className={general["text_marker"]}>
+          {props.subjects.filter((x) => x.id === props.subject)[0].name}
+        </span>{" "}
+        für <span className={general["text_marker"]}>Stufe {props.grade}</span>
+        anzubieten?
+      </h3>
+      <p>
+        Sobald sich jemand registriert um Nachhilfe für das betreffende Fach zu
+        geben, wirst du per E-Mail an die angegebene Adresse benachrichtigt.
+      </p>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+
+          request();
+        }}
+      >
+        <input
+          type="email"
+          name="email"
+          placeholder="E-Mail"
+          className={general["input-field"]}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />
+
+        <input
+          type="submit"
+          value="Ok"
+          className={general.text_button}
+          disabled={!validateEmail(email)}
+        />
+      </form>
+    </div>
+  );
+}
+
 const Find = (): JSX.Element => {
   document.title = "Nachhilfe finden";
 
@@ -202,6 +281,13 @@ const Find = (): JSX.Element => {
                   } 🎉`
                 : `Leider gibt es keine Ergebnisse 😔`}
             </span>
+            {results.length === 0 ? (
+              <RequestForm
+                grade={parseInt(grade)}
+                subject={subject}
+                subjects={subjects}
+              />
+            ) : null}
             {results.map((result, index) => (
               <div className={css.result} key={index}>
                 <h2>

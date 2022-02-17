@@ -6,7 +6,7 @@ body {
   // font-family: "Computer Modern Serif" !important;
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
     "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+    sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -17,6 +17,11 @@ body {
     transition-duration: 200ms;
     transition-timing-function: ease-in-out;
   }
+}
+
+input {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    sans-serif !important;
 }
 
 body.light {
