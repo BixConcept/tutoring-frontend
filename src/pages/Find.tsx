@@ -297,7 +297,7 @@ const Find = (): JSX.Element => {
                   <a href={`mailto:${result.email}`}>{result.email}</a>
                 </p>
                 <p>
-                  {result.subject_name} bis Stufe/Klasse {result.max_grade}
+                  {result.subjectName} bis Stufe/Klasse {result.maxGrade}
                 </p>
               </div>
             ))}
