@@ -31,7 +31,7 @@ export interface User {
   phone_number?: string;
   misc?: string;
   grade: number;
-  auth: AuthLevel;
+  authLevel: AuthLevel;
 }
 
 export const topSubjects: string[] = [

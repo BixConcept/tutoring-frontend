@@ -6,6 +6,7 @@ import { OurContext } from "../OurContext";
 import { API_HOST } from "..";
 import Alert from "./Alert";
 import DarkMode from "./DarkMode";
+import { AuthLevel } from "../Models";
 
 export default function Navbar() {
   const context = useContext(OurContext);
@@ -63,6 +64,11 @@ export default function Navbar() {
             ) : (
               <Link to="/dashboard">Mein Account</Link>
             )}
+          </li>
+          <li>
+            {context.user?.authLevel === AuthLevel.Admin ? (
+              <Link to="/dashboard/admin">Admin</Link>
+            ) : null}
           </li>
         </div>
       </ul>
