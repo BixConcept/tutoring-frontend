@@ -19,6 +19,7 @@ import { API_HOST } from "./index";
 import Verify from "./pages/Verify";
 import { ToastContainer } from "react-toastify";
 import Cookie from "./Components/Cookie";
+import AdminDashboard from "./AdminDashboard";
 
 const App = (): JSX.Element => {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -95,6 +96,7 @@ const App = (): JSX.Element => {
               <Route path="/imprint" element={<Imprint />} />
               <Route path="/find" element={<Find />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard/admin" element={<AdminDashboard />} />
               <Route path="/verify/:code" element={<Verify />} />
               <Route path="*" element={<FourOFourPage />} />
             </Routes>
