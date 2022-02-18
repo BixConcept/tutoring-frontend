@@ -19,7 +19,7 @@
   li {
     list-style: none;
     width: auto;
-    padding: 0 clamp(1rem, 5vw, 3rem);
+    padding: 0;
     margin: 0;
 
     color: var(--text_color);
@@ -35,8 +35,19 @@
     flex-direction: column;
     padding: 1rem 0;
     justify-content: space-around;
+
     a {
       padding: 0.5rem 0;
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .footer {
+    ul {
+      padding: 2rem;
+      flex-direction: column;
+      justify-content: center;
     }
   }
 }
