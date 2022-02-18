@@ -78,9 +78,12 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
 
 const RequestGraph = (): JSX.Element => {
   const [data, setData] = useState<any>([]);
+  const [loaded, setLoaded] = useState<boolean>(false);
+
   useEffect(() => {
     fetch(`${API_HOST}/apiRequests`, { credentials: "include" }).then((res) => {
       res.json().then((body) => {
+        setLoaded(true);
         const requests: ApiRequest[] = body.content;
 
         // time of the first request
@@ -137,28 +140,38 @@ const RequestGraph = (): JSX.Element => {
   }, []);
   return (
     <div id={css.requestsChart}>
-      <ResponsiveLine
-        data={data}
-        enablePointLabel={true}
-        margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
-        xScale={{
-          type: "time",
-          format: "%Y-%m-%dT%H:%M:%S.%LZ",
-          precision: "hour",
-        }}
-        xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
-        axisBottom={{
-          format: "%Y-%m-%d %H:%M",
-          tickSize: 10,
-          tickPadding: 0,
-          tickRotation: 0,
-          legend: "timestamp",
-          legendPosition: "middle",
-          legendOffset: 46,
-          tickValues: "every 1 hours",
-        }}
-        colors={{ scheme: "category10" }}
-      />
+      {loaded ? (
+        <ResponsiveLine
+          data={data}
+          enablePointLabel={true}
+          margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
+          xScale={{
+            type: "time",
+            format: "%Y-%m-%dT%H:%M:%S.%LZ",
+            precision: "hour",
+          }}
+          axisLeft={{
+            tickValues: 5,
+          }}
+          enableGridX={false}
+          enableGridY={false}
+          xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
+          axisBottom={{
+            format: "%Y-%m-%d %H:%M",
+            tickSize: 10,
+            tickPadding: 0,
+            tickRotation: 0,
+            legend: "timestamp",
+            legendPosition: "middle",
+            legendOffset: 46,
+            tickValues: "every 1 hours",
+          }}
+          colors={{ scheme: "category10" }}
+          theme={{ textColor: "var(--text_color)", fontSize: 14 }}
+          curve="linear"
+        />
+      ) : null}
+      {!loaded ? <LoadingScreen loaded={loaded} /> : null}
     </div>
   );
 };
@@ -168,10 +181,11 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!context.user) {
-      navigate("/");
+    console.log(context.user);
+    if (context.user === null) {
+      // navigate("/");
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={css.dashboard}>
@@ -197,8 +211,10 @@ export default function AdminDashboard() {
             <SubjectPie type="requests" />
           </div>
         </div>
-        <h2>Requests pro Stunde</h2>
-        <RequestGraph />
+        <div id={css.requestChartContainer}>
+          <h2>Requests pro Stunde</h2>
+          <RequestGraph />
+        </div>
       </div>
     </div>
   );
