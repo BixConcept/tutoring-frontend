@@ -26,6 +26,13 @@
     a {
       text-decoration: none;
     }
+
+    button {
+      background: transparent;
+      border: none;
+      color: var(--text_color);
+      font-size: 1.2rem;
+    }
   }
 }
 
