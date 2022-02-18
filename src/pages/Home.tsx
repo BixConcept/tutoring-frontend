@@ -10,7 +10,7 @@ const Home = (): JSX.Element => {
   const context = useContext(OurContext);
 
   return (
-    <main>
+    <main id={css.main}>
       <section id={css.mainThingy}>
         <div id={css.title}>
           <h1>
