@@ -5,6 +5,7 @@ import { useContext, useEffect } from "react";
 import { OurContext } from "../OurContext";
 import { API_HOST } from "..";
 import Alert from "./Alert";
+import { AuthLevel } from "../Models";
 
 export default function Navbar() {
   const context = useContext(OurContext);
@@ -54,6 +55,11 @@ export default function Navbar() {
               <Link to="/dashboard">Mein Account</Link>
             )}
           </li>
+          {context.user?.authLevel === AuthLevel.Admin ? (
+            <li>
+              <Link to="/dashboard/admin">Admin</Link>
+            </li>
+          ) : null}
         </div>
       </ul>
     </nav>

@@ -34,17 +34,15 @@ const Home = (): JSX.Element => {
               🤗 <br />
               WIP: falls du ein Problem auf dieser Website findest,{" "}
               <a
-                id={css["issue-link"]}
+                className={css.link}
                 href="https://github.com/HaanerBarbaren/tutoring-frontend/issues"
               >
                 öffne ein Issue!
               </a>
             </p>
-
-            <em>
-              PS: Mit der Nutzung dieser Seite bist du mit den{" "}
-              <a href="/privacy">Datenschutzbestimmungen</a> einverstanden.
-            </em>
+            <p>
+              Mit der Nutzung dieser Seite erklärst du dich mit den <a href="/privacy" className={css.link}>Datenschutzbestimmungen</a> einverstanden.
+            </p>
           </div>
           <div id={css.choices}>
             <div className={css.choice}>

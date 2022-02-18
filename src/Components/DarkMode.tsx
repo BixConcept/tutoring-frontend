@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { OurContext } from "../OurContext";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -42,6 +41,7 @@ const DarkMode = () => {
         toggleDarkMode(setTheme);
         e.preventDefault();
       }}
+      style={{ cursor: "pointer" }}
     >
       <FontAwesomeIcon
         type="checkbox"

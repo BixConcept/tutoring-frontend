@@ -14,7 +14,7 @@ const UserDashboard = (): JSX.Element => {
   const [emailModalVisible, setEmailModalVisible] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [allowed, setAllowed] = useState<boolean>(true);
+  const [loaded, setLoaded] = useState<boolean>(true);
   const context = useContext(OurContext);
   const navigate = useNavigate();
 
@@ -31,14 +31,14 @@ const UserDashboard = (): JSX.Element => {
       })
       .then((body) => {
         context.setUser(body.content);
-        setAllowed(true);
+        setLoaded(true);
       })
       .catch(() => {
         navigate("/login");
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (allowed) {
+  if (loaded) {
     return (
       <div className={css.dashboard}>
         <div className={css["dashboard-content"]}>
@@ -213,7 +213,7 @@ const UserDashboard = (): JSX.Element => {
         </div>
       </div>
     );
-  } else return <LoadingScreen loaded={allowed} />;
+  } else return <LoadingScreen loaded={loaded} />;
 };
 
 export default UserDashboard;

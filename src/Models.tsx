@@ -31,7 +31,7 @@ export interface User {
   phone_number?: string;
   misc?: string;
   grade: number;
-  auth: AuthLevel;
+  authLevel: AuthLevel;
 }
 
 export const topSubjects: string[] = [
@@ -47,4 +47,12 @@ export const topSubjects: string[] = [
 export interface Subject {
   id: number;
   name: string;
+}
+export interface ApiRequest {
+  id: number;
+  method: string;
+  authLevel: AuthLevel;
+  path: string;
+  ip: string;
+  time: Date;
 }
