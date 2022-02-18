@@ -40,11 +40,10 @@
   form {
     display: flex;
     flex-direction: column;
-    // align-items: center;
 
     // center button
     input[type="submit"] {
-      margin: 0 auto;
+      margin: 1rem auto 0;
     }
 
     label {
@@ -63,29 +62,6 @@
   }
 }
 
-#submit {
-  width: 60%;
-  height: 2rem;
-  border-radius: 0.3rem;
-  border-style: none;
-  background-color: $primary_color;
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-#disabledSubmit {
-  width: 60%;
-  height: 2rem;
-  border-radius: 0.3rem;
-  border-style: none;
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: not-allowed;
-}
-
 .inputField {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -100,33 +76,6 @@
     background-color: transparent;
     padding: 0.5rem;
   }
-}
-
-.passwordField {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-
-  width: 100%;
-  border-radius: 0.3rem;
-  box-shadow: 0 0 0 2px var(--text_color);
-
-  input {
-    width: calc(100% - 2rem);
-    background-color: transparent;
-    border: none;
-    padding: 0.5rem;
-  }
-
-  button {
-    background-color: transparent;
-    color: var(--text_color);
-    border: none;
-  }
-}
-
-.passwordEye {
-  width: 2rem;
-  align-self: flex-end;
 }
 
 .required {

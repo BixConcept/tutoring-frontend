@@ -42,7 +42,7 @@ const RegisterPage = (): JSX.Element => {
       navigate("/register/1", { replace: true });
     } else {
       let parsedIndex = parseInt(stepIndex);
-      if (isNaN(parsedIndex)) {
+      if (isNaN(parsedIndex) || !email) {
         navigate("/register/1", { replace: true });
       } else {
         setStep(parsedIndex);
