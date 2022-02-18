@@ -19,8 +19,6 @@
   li {
     list-style: none;
     width: auto;
-    padding: 0;
-    margin: 0;
 
     color: var(--text_color);
     a {
@@ -39,9 +37,10 @@
 @media screen and (max-width: 600px) {
   .footer {
     height: auto;
-    flex-direction: column;
     padding: 1rem 0;
-    justify-content: space-around;
+    ul {
+      justify-content: space-between;
+    }
 
     a {
       padding: 0.5rem 0;
@@ -49,12 +48,29 @@
   }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (min-width: 2101px) {
   .footer {
     ul {
-      padding: 2rem;
-      flex-direction: column;
-      justify-content: center;
+      padding: 0 20rem;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .footer ul {
+    padding: 0 2rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .footer ul {
+    flex-direction: column;
+    gap: 0.5rem;
+
+    li {
+      padding-top: 0.5rem;
+      border-top: solid var(--disabled_color) 1px;
+      width: 100%;
     }
   }
 }
