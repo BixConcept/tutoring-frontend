@@ -45,7 +45,7 @@ const DarkMode = () => {
     >
       <FontAwesomeIcon
         type="checkbox"
-        icon={localStorage.getItem("theme") === "dark" ? faMoon : faSun}
+        icon={localStorage.getItem("theme") === "dark" ? faSun : faMoon}
       />
     </button>
   );
