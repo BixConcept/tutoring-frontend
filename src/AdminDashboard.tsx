@@ -7,16 +7,15 @@ import { OurContext } from "./OurContext";
 import { API_HOST } from ".";
 import LoadingScreen from "./Components/LoadingScreen";
 
-const SubjectPie = () => {
+const SubjectPie = (props: { type: "offers" | "requests" }) => {
   const context = useContext(OurContext);
-  const [offers, setOffers] = useState<TutoringOffer[]>([]);
   const [requestState, setRequestState] = useState<RequestState>(
     RequestState.Loading
   );
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch(`${API_HOST}/offers`, { credentials: "include" })
+    fetch(`${API_HOST}/${props.type}`, { credentials: "include" })
       .then((res) => {
         res.json().then((body) => {
           if (!res.ok) {
@@ -52,17 +51,21 @@ const SubjectPie = () => {
 
   return (
     <div id={css.offerChart}>
-      <ResponsivePie
-        data={data}
-        colors={{ scheme: "set1" }}
-        arcLabel="value"
-        arcLinkLabelsTextColor="var(--text_color)"
-        arcLinkLabelsThickness={2}
-        arcLinkLabelsColor={{ from: "color" }}
-        innerRadius={0.5}
-        padAngle={2}
-        cornerRadius={8}
-      />
+      {data.length === 0 ? <span>Keine Daten verfübar</span> : null}
+      {requestState === RequestState.Success && data.length > 0 ? (
+        <ResponsivePie
+          data={data}
+          colors={{ scheme: "set1" }}
+          arcLabel="value"
+          arcLinkLabelsTextColor="var(--text_color)"
+          arcLinkLabelsThickness={2}
+          arcLinkLabelsColor={{ from: "color" }}
+          innerRadius={0.5}
+          padAngle={2}
+          cornerRadius={8}
+          theme={{ fontSize: 14 }}
+        />
+      ) : null}
       {requestState === RequestState.Loading ? (
         <LoadingScreen loaded={false} />
       ) : null}
@@ -78,7 +81,11 @@ export default function AdminDashboard() {
           Wenn du hier bist, bist du entweder wichtig, oder unser Code ist
           kaputt.
         </p>
-        <SubjectPie />
+        <h2>Angebote nach Fach</h2>
+        <SubjectPie type="offers" />
+
+        <h2>Anfragen nach Fach</h2>
+        <SubjectPie type="requests" />
       </div>
     </div>
   );
