@@ -30,11 +30,11 @@ body.light {
 }
 
 body.dark {
-  --background_color: #222;
+  --background_color: #1e1e22; // hsl(240, 12, 13)
   --text_color: #fff;
-  --contrast_bg_color: rgb(41, 41, 41);
-  --contrasterer_bg_color: rgb(41, 41, 41);
-  --disabled_color: rgb(61, 61, 61);
+  --contrast_bg_color: #242429;
+  --contrasterer_bg_color: #626269;
+  --disabled_color: #92929c;
 }
 
 * {
