@@ -1,6 +1,5 @@
 import css from "./styles/adminDashboard.module.scss";
 import { ResponsivePie } from "@nivo/pie";
-import { ResponsiveLine } from "@nivo/line";
 import { ApiRequest, RequestState, TutoringOffer } from "./Models";
 import { useContext, useEffect, useState } from "react";
 import Alert from "./Components/Alert";
@@ -14,7 +13,7 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
   const [requestState, setRequestState] = useState<RequestState>(
     RequestState.Loading
   );
-  const [data, setData] = useState<any>({});
+  const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
     fetch(`${API_HOST}/${props.type}`, { credentials: "include" })
@@ -66,7 +65,6 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
           padAngle={2}
           cornerRadius={8}
           theme={{ fontSize: 14 }}
-          margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
         />
       ) : null}
       {requestState === RequestState.Loading ? (
@@ -77,7 +75,6 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
 };
 
 const RequestGraph = (): JSX.Element => {
-  const [data, setData] = useState<any>([]);
   useEffect(() => {
     fetch(`${API_HOST}/apiRequests`, { credentials: "include" }).then((res) => {
       res.json().then((body) => {
@@ -111,56 +108,23 @@ const RequestGraph = (): JSX.Element => {
           hours.push(new Date(min.getTime() + i * 60 * 60 * 1000));
         }
 
-        let newData = [
-          {
-            id: "asdf",
-            data: hours.map(
-              (value: Date) => ({
-                x: value.toISOString(),
-                y: requests.filter((x) => {
-                  let date = new Date(x.time);
-                  return (
-                    date > value &&
-                    date < new Date(value.getTime() + 1000 * 60 * 60)
-                  );
-                }).length,
-              }),
-              []
-            ),
-          },
-        ];
-        console.log(JSON.stringify(newData));
+        let data = hours.map((value: Date, index: number) => {
+          return {
+            value: requests.filter((x) => {
+              let date = new Date(x.time);
+              return (
+                date > value &&
+                date < new Date(value.getTime() + 1000 * 60 * 60)
+              );
+            }).length,
+          };
+        }, []);
 
-        setData(newData);
+        console.log(data);
       });
     });
   }, []);
-  return (
-    <div id={css.requestsChart}>
-      <ResponsiveLine
-        data={data}
-        enablePointLabel={true}
-        margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
-        xScale={{
-          type: "time",
-          format: "%Y-%m-%dT%H:%M:%S.%LZ",
-          precision: "hour",
-        }}
-        xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
-        axisBottom={{
-          format: "%Y-%m-%d %H:%M",
-          tickSize: 10,
-          tickPadding: 0,
-          tickRotation: 0,
-          legend: "timestamp",
-          legendPosition: "middle",
-          legendOffset: 46,
-          tickValues: "every 1 hours",
-        }}
-        colors={{ scheme: "category10" }}
-      />
-    </div>
-  );
+  return <></>;
 };
 
 export default function AdminDashboard() {

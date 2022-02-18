@@ -48,3 +48,11 @@ export interface Subject {
   id: number;
   name: string;
 }
+export interface ApiRequest {
+  id: number;
+  method: string;
+  authLevel: AuthLevel;
+  path: string;
+  ip: string;
+  time: Date;
+}
