@@ -57,7 +57,7 @@ function RequestForm(props: {
         anzubieten?
       </h3>
       <p>
-        Sobald sich jemand registriert um Nachhilfe für das betreffende Fach zu
+        Sobald sich jemand registriert, um Nachhilfe für das betreffende Fach zu
         geben, wirst du per E-Mail an die angegebene Adresse benachrichtigt.
       </p>
       <form
