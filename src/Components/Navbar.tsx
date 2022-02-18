@@ -5,7 +5,6 @@ import { useContext, useEffect } from "react";
 import { OurContext } from "../OurContext";
 import { API_HOST } from "..";
 import Alert from "./Alert";
-import DarkMode from "./DarkMode";
 import { AuthLevel } from "../Models";
 
 export default function Navbar() {
@@ -28,15 +27,6 @@ export default function Navbar() {
           </Link>
         </li>
         <div id={css.links}>
-          <li
-            style={{
-              color: "var(--text_color)",
-              transition: "all 200ms ease-in-out",
-              cursor: "pointer",
-            }}
-          >
-            <DarkMode />
-          </li>
           <li>
             {context.user !== null ? (
               <button

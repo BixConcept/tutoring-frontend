@@ -36,7 +36,7 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
               {}
             );
             setData(
-              Object.keys(dataObject).map((x, index) => {
+              Object.keys(dataObject).map((x) => {
                 return { id: x, label: "ASDF", value: dataObject[x] };
               })
             );
@@ -56,7 +56,7 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
         <ResponsivePie
           data={data}
           colors={{ scheme: "set1" }}
-          arcLabel="value"
+          arcLabel="formattedValue"
           arcLinkLabelsTextColor="var(--text_color)"
           arcLinkLabelsThickness={2}
           arcLinkLabelsColor={{ from: "color" }}
@@ -81,11 +81,24 @@ export default function AdminDashboard() {
           Wenn du hier bist, bist du entweder wichtig, oder unser Code ist
           kaputt.
         </p>
-        <h2>Angebote nach Fach</h2>
-        <SubjectPie type="offers" />
-
-        <h2>Anfragen nach Fach</h2>
-        <SubjectPie type="requests" />
+        <div id={css.stats}>
+          <div className={css.stat}>
+            <span>{}</span>
+          </div>
+          <div className={css.stat}></div>
+        </div>
+        <div id={css.firstCharts}>
+          <div>
+            <h2>Angebote nach Fach</h2>
+            <SubjectPie type="offers" />
+          </div>
+          <div>
+            <h2>Anfragen nach Fach</h2>
+            <SubjectPie type="requests" />
+          </div>
+        </div>
+        <h2>Requests pro Stunde</h2>
+        TODO
       </div>
     </div>
   );
