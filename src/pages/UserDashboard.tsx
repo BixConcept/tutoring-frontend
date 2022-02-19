@@ -6,7 +6,6 @@ import LoadingScreen from "../Components/LoadingScreen";
 import { OurContext } from "../OurContext";
 import general from "../styles/general.module.scss";
 import css from "../styles/userDashboard.module.scss";
-import asdf from "../assets/images/asdf.png";
 import { AuthLevel } from "../Models";
 const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";
@@ -49,7 +48,7 @@ const UserDashboard = (): JSX.Element => {
           <h1>
             Hey, {context.user?.name}{" "}
             {context.user?.authLevel === AuthLevel.Admin ? (
-              <img src={asdf} width="100px" />
+              <img src={""} width="100px" />
             ) : null}
           </h1>
           <h4>Meine Fächer</h4>
