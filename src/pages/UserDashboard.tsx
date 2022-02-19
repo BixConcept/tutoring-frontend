@@ -6,7 +6,8 @@ import LoadingScreen from "../Components/LoadingScreen";
 import { OurContext } from "../OurContext";
 import general from "../styles/general.module.scss";
 import css from "../styles/userDashboard.module.scss";
-
+import asdf from "../assets/images/asdf.png";
+import { AuthLevel } from "../Models";
 const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";
 
@@ -17,6 +18,7 @@ const UserDashboard = (): JSX.Element => {
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [loaded, setLoaded] = useState<boolean>(true);
+  const [misc, setMisc] = useState<string>("");
   const context = useContext(OurContext);
   const navigate = useNavigate();
 
@@ -44,7 +46,12 @@ const UserDashboard = (): JSX.Element => {
     return (
       <div className={css.dashboard}>
         <div className={css["dashboard-content"]}>
-          <h1>Dashboard</h1>
+          <h1>
+            Hey, {context.user?.name}{" "}
+            {context.user?.authLevel === AuthLevel.Admin ? (
+              <img src={asdf} width="100px" />
+            ) : null}
+          </h1>
           <h4>Meine Fächer</h4>
           <i>Coming soon...</i>
           <h4>Dein Profil</h4>
@@ -57,14 +64,46 @@ const UserDashboard = (): JSX.Element => {
               Auth-Level: {context.user?.authLevel}{" "}
               {context.user?.authLevel === 1 ? "(Benutzer)" : "Administrator"}
             </p>
-            <p>Sonstiges: {context.user?.misc}</p>
+            <p>Sonstiges</p>
+            <textarea
+              value={misc}
+              onChange={(e) => {
+                setMisc(e.target.value);
+                console.log(context.user?.misc, misc);
+              }}
+              placeholder={context.user?.misc}
+            />
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                fetch(`${API_HOST}/user`, {
+                  method: "PUT",
+                  credentials: "include",
+                  body: JSON.stringify({ misc }),
+                  headers: { "content-type": "application/json" },
+                }).then(async (res) => {
+                  const body = await res.json();
+                  if (!res.ok) {
+                    Alert(
+                      `Irgendwas ist schief gegangen: ${body.msg}`,
+                      "error",
+                      context.theme
+                    );
+                  } else {
+                    Alert("Sonstiges geändert!", "success", context.theme);
+                  }
+                });
+              }}
+            >
+              Bestätigen
+            </button>
           </form>
 
           <h4>Danger Zone</h4>
           <div className={css["danger-zone"]}>
             <div className={css["danger-item"]}>
               <div>
-                <p className={css["danger-action"]}>Diesen Account löschen</p>
+                <p className={css["danger-action"]}>Account löschen</p>
                 <p className={css["danger-description"]}>
                   Sobald du deinen Account gelöscht hast, wirst du nicht mehr in
                   der Suche angezeigt und kannst nicht mehr darauf zugreifen.
@@ -97,7 +136,6 @@ const UserDashboard = (): JSX.Element => {
                   Bitte gib zum Bestätigen{" "}
                   <span className={css.name}>{context.user?.name}</span>ein.
                 </p>
-                {/* this form is there so the user can submit via pressing escape or the key on their mobile keyboard */}
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -129,6 +167,7 @@ const UserDashboard = (): JSX.Element => {
                     type="submit"
                     value="Löschen"
                     disabled={dname !== context.user?.name}
+                    onSubmit={() => setDname("")}
                   />
                 </form>
               </div>
@@ -221,6 +260,7 @@ const UserDashboard = (): JSX.Element => {
                         email
                       )
                     }
+                    onSubmit={() => setDname("")}
                   />
                 </form>
               </div>
@@ -309,6 +349,7 @@ const UserDashboard = (): JSX.Element => {
                     type="submit"
                     value="Ändern"
                     disabled={dname !== context.user?.name || name === ""}
+                    onSubmit={() => setDname("")}
                   />
                 </form>
               </div>
