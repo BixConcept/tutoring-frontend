@@ -1,12 +1,12 @@
-import css from "./styles/adminDashboard.module.scss";
+import css from "../styles/adminDashboard.module.scss";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveLine } from "@nivo/line";
-import { ApiRequest, RequestState, TutoringOffer } from "./Models";
+import { ApiRequest, RequestState, TutoringOffer } from "../Models";
 import { useContext, useEffect, useState } from "react";
-import Alert from "./Components/Alert";
-import { OurContext } from "./OurContext";
-import { API_HOST } from ".";
-import LoadingScreen from "./Components/LoadingScreen";
+import Alert from "../Components/Alert";
+import { OurContext } from "../OurContext";
+import { API_HOST } from "..";
+import LoadingScreen from "../Components/LoadingScreen";
 import { useNavigate } from "react-router";
 
 const SubjectPie = (props: { type: "offers" | "requests" }) => {
@@ -116,7 +116,7 @@ const RequestGraph = (): JSX.Element => {
 
         let newData = [
           {
-            id: "asdf",
+            id: "request_graph",
             data: hours.map(
               (value: Date) => ({
                 x: value.toISOString(),
@@ -132,8 +132,6 @@ const RequestGraph = (): JSX.Element => {
             ),
           },
         ];
-        console.log(JSON.stringify(newData));
-
         setData(newData);
       });
     });
@@ -153,18 +151,20 @@ const RequestGraph = (): JSX.Element => {
           axisLeft={{
             tickValues: 5,
           }}
-          enableGridX={false}
-          enableGridY={false}
+          gridXValues={10}
+          enableGridX={true}
+          lineWidth={5}
+          enableGridY={true}
           xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
           axisBottom={{
             format: "%Y-%m-%d %H:%M",
             tickSize: 10,
             tickPadding: 0,
             tickRotation: 0,
-            legend: "timestamp",
+            legend: "",
             legendPosition: "middle",
             legendOffset: 46,
-            tickValues: "every 1 hours",
+            tickValues: 5,
           }}
           colors={{ scheme: "category10" }}
           theme={{ textColor: "var(--text_color)", fontSize: 14 }}
