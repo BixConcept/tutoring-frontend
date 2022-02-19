@@ -159,6 +159,19 @@ h4 {
   cursor: pointer;
 }
 
+#profile {
+  input {
+    height: 3rem;
+    border-radius: 0.3rem;
+    border: none;
+    text-align: center;
+    color: var(--text_color);
+    &::placeholder {
+      color: var(--text_color);
+    }
+  }
+}
+
 @media screen and (max-width: 600px) {
   .danger-item {
     flex-direction: column;

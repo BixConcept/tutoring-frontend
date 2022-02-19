@@ -12,8 +12,10 @@ const UserDashboard = (): JSX.Element => {
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [emailModalVisible, setEmailModalVisible] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
+  const [nameModalVisible, setNameModalVisible] = useState<boolean>(false);
+  const [dname, setDname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [loaded, setLoaded] = useState<boolean>(true);
   const context = useContext(OurContext);
   const navigate = useNavigate();
@@ -45,6 +47,18 @@ const UserDashboard = (): JSX.Element => {
           <h1>Dashboard</h1>
           <h4>Meine Fächer</h4>
           <i>Coming soon...</i>
+          <h4>Dein Profil</h4>
+          <form action="" id={css.profile}>
+            <p>Email</p>
+            <input type="text" placeholder={context.user?.email} disabled />
+            <p>Name</p>
+            <input type="text" placeholder={context.user?.name} disabled />
+            <p>
+              Auth-Level: {context.user?.authLevel}{" "}
+              {context.user?.authLevel === 1 ? "(Benutzer)" : "Administrator"}
+            </p>
+            <p>Sonstiges: {context.user?.misc}</p>
+          </form>
 
           <h4>Danger Zone</h4>
           <div className={css["danger-zone"]}>
@@ -106,15 +120,15 @@ const UserDashboard = (): JSX.Element => {
                   <input
                     type="text"
                     placeholder=""
-                    value={name}
+                    value={dname}
                     onChange={(e) => {
-                      setName(e.target.value);
+                      setDname(e.target.value);
                     }}
                   />
                   <input
                     type="submit"
                     value="Löschen"
-                    disabled={name !== context.user?.name}
+                    disabled={dname !== context.user?.name}
                   />
                 </form>
               </div>
@@ -183,9 +197,9 @@ const UserDashboard = (): JSX.Element => {
                   <input
                     type="text"
                     placeholder=""
-                    value={name}
+                    value={dname}
                     onChange={(e) => {
-                      setName(e.target.value);
+                      setDname(e.target.value);
                     }}
                     required
                   />
@@ -202,9 +216,99 @@ const UserDashboard = (): JSX.Element => {
                     type="submit"
                     value="Ändern"
                     disabled={
-                      name !== context.user?.name ||
-                      !/\b[a-z0-9-_.]+@[a-z0-9-_.]+(\.[a-z0-9]+)+/i.test(email)
+                      dname !== context.user?.name ||
+                      !/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
+                        email
+                      )
                     }
+                  />
+                </form>
+              </div>
+            </div>
+            <hr />
+            <div className={css["danger-item"]}>
+              <div>
+                <p className={css["danger-action"]}>Namen ändern</p>
+                <p className={css["danger-description"]}>
+                  Ändere deine Namen, wenn du ihn amtlich geändert hast oder
+                  nicht willst, dass dein Nachname einsehbar ist.
+                </p>
+              </div>
+              <button
+                onClick={(e) => {
+                  setNameModalVisible(!nameModalVisible);
+                }}
+                className={general["text-button"]}
+              >
+                Namen ändern
+              </button>
+            </div>
+            <div
+              className={css["modal-background"]}
+              style={{ display: nameModalVisible ? "flex" : "none" }}
+            >
+              <div className={css["modal-content"]} onClick={() => {}}>
+                <div className={css["modal-heading-row"]}>
+                  <h1>Namen ändern</h1>
+                  <button
+                    onClick={() => setNameModalVisible(false)}
+                    className={css["close-button"]}
+                  >
+                    &times;
+                  </button>
+                </div>
+                <hr />
+                <p>
+                  Bitte gib zum Bestätigen{" "}
+                  <span className={css.name}>{context.user?.name}</span>ein.
+                </p>
+
+                {/* this form is there so the user can submit via pressing escape or the key on their mobile keyboard */}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    // TODO
+                    fetch(`${API_HOST}/user`, {
+                      method: "PUT",
+                      credentials: "include",
+                      body: JSON.stringify({ name }),
+                      headers: { "content-type": "application/json" },
+                    }).then(async (res) => {
+                      const body = await res.json();
+                      if (!res.ok) {
+                        Alert(
+                          `Irgendwas ist schief gegangen: ${body.msg}`,
+                          "error",
+                          context.theme
+                        );
+                      } else {
+                        Alert("E-Mail geändert!", "success", context.theme);
+                      }
+                    });
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder=""
+                    value={dname}
+                    onChange={(e) => {
+                      setDname(e.target.value);
+                    }}
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder=" Neuer Name"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                    required
+                  />
+                  <input
+                    type="submit"
+                    value="Ändern"
+                    disabled={dname !== context.user?.name || name === ""}
                   />
                 </form>
               </div>
