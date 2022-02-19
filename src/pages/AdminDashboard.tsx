@@ -78,6 +78,7 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
 
 const RequestGraph = (): JSX.Element => {
   const [data, setData] = useState<any>([]);
+  const [reqs, setReqs] = useState<number>();
   const [loaded, setLoaded] = useState<boolean>(false);
 
   useEffect(() => {
@@ -85,6 +86,7 @@ const RequestGraph = (): JSX.Element => {
       res.json().then((body) => {
         setLoaded(true);
         const requests: ApiRequest[] = body.content;
+        setReqs(requests.length);
 
         // time of the first request
         const min = requests.reduce(
@@ -171,6 +173,7 @@ const RequestGraph = (): JSX.Element => {
           curve="linear"
         />
       ) : null}
+      <h2 style={{ color: "var(--text_color)" }}>Requests insgesamt: {reqs}</h2>
       {!loaded ? <LoadingScreen loaded={loaded} /> : null}
     </div>
   );
