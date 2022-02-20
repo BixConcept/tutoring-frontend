@@ -156,9 +156,9 @@ const ActivityGraph = (): JSX.Element => {
             tickValues: 5,
           }}
           gridXValues={10}
-          enableGridX={true}
+          enableGridX={false}
           lineWidth={5}
-          enableGridY={true}
+          enableGridY={false}
           xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
           axisBottom={{
             format: "%Y-%m-%d",
