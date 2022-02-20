@@ -67,7 +67,7 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
           innerRadius={0.5}
           padAngle={2}
           cornerRadius={8}
-          theme={{ fontSize: 14, textColor: "var(--text_color)" }}
+          theme={{ fontSize: 14, textColor: "white" }}
           margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
         />
       ) : null}
@@ -191,9 +191,25 @@ const ActivityGraph = (): JSX.Element => {
   );
 };
 
+function Statistic(props: { text: string; value: any }) {
+  return (
+    <div className={css.stat}>
+      <div
+        className={`${css.statValue} ${
+          props.value !== undefined ? "" : css.loading
+        }`}
+      >
+        {props.value}
+      </div>
+      <div className={css.statText}>{props.text}</div>
+    </div>
+  );
+}
+
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const context = useContext(OurContext);
+  const [stats, setStats] = useState<any>({});
 
   useEffect(() => {
     // check if the user is authenticated
@@ -203,12 +219,15 @@ export default function AdminDashboard() {
           // go to home page if the user is not authenticated at all
           navigate("/");
         } else {
-          res.json().then((body) => {
+          res.json().then(async (body) => {
             context.setUser(body.content);
             if (body.content.authLevel !== AuthLevel.Admin) {
               // go to home page if the user is authenticated but not an admin
               navigate("/");
             }
+
+            let res = await fetch(`${API_HOST}/stats`);
+            setStats((await res.json()).content);
           });
         }
       })
@@ -226,12 +245,6 @@ export default function AdminDashboard() {
           Wenn du hier bist, bist du entweder wichtig, oder unser Code ist
           kaputt.
         </p>
-        <div id={css.stats}>
-          <div className={css.stat}>
-            <span>{}</span>
-          </div>
-          <div className={css.stat}></div>
-        </div>
         <div id={css.firstCharts}>
           <div>
             <h2>Angebote nach Fach</h2>
@@ -241,6 +254,12 @@ export default function AdminDashboard() {
             <h2>Anfragen nach Fach</h2>
             <SubjectPie type="requests" />
           </div>
+        </div>
+        <div id={css.stats}>
+          <Statistic text="api requests" value={stats.apiRequests} />
+          <Statistic text="offers" value={stats.offers} />
+          <Statistic text="notification requests" value={stats.requests} />
+          <Statistic text="user" value={stats.users} />
         </div>
         <div id={css.requestChartContainer}>
           <h2>Requests pro Stunde</h2>
