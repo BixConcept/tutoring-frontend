@@ -1,7 +1,7 @@
 import css from "./styles/adminDashboard.module.scss";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveLine } from "@nivo/line";
-import { ApiRequest, RequestState, TutoringOffer } from "./Models";
+import { ApiRequest, AuthLevel, RequestState, TutoringOffer } from "./Models";
 import { useContext, useEffect, useState } from "react";
 import Alert from "./Components/Alert";
 import { OurContext } from "./OurContext";
@@ -53,7 +53,9 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
 
   return (
     <div id={css.offerChart}>
-      {data.length === 0 ? <span>Keine Daten verfübar</span> : null}
+      {data.length === 0 ? (
+        <span style={{ color: "var(--text_color)" }}>Keine Daten verfübar</span>
+      ) : null}
       {requestState === RequestState.Success && data.length > 0 ? (
         <ResponsivePie
           data={data}
@@ -65,7 +67,7 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
           innerRadius={0.5}
           padAngle={2}
           cornerRadius={8}
-          theme={{ fontSize: 14 }}
+          theme={{ fontSize: 14, textColor: "var(--text_color)" }}
           margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
         />
       ) : null}
@@ -143,7 +145,7 @@ const ActivityGraph = (): JSX.Element => {
       {loaded ? (
         <ResponsiveLine
           data={data}
-          enablePointLabel={true}
+          enablePointLabel={false}
           margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
           xScale={{
             type: "time",
@@ -190,15 +192,31 @@ const ActivityGraph = (): JSX.Element => {
 };
 
 export default function AdminDashboard() {
-  const context = useContext(OurContext);
   const navigate = useNavigate();
+  const context = useContext(OurContext);
 
   useEffect(() => {
-    console.log(context.user);
-    if (context.user === null) {
-      // navigate("/");
-    }
-  }, []);
+    // check if the user is authenticated
+    fetch(`${API_HOST}/user`, { credentials: "include" })
+      .then((res) => {
+        if (!res.ok) {
+          // go to home page if the user is not authenticated at all
+          navigate("/");
+        } else {
+          res.json().then((body) => {
+            context.setUser(body.content);
+            if (body.content.authLevel !== AuthLevel.Admin) {
+              // go to home page if the user is authenticated but not an admin
+              navigate("/");
+            }
+          });
+        }
+      })
+      .catch((e) => {
+        // go to home page if there is some error with the request
+        navigate("/");
+      });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={css.dashboard}>
