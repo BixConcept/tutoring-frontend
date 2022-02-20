@@ -60,7 +60,12 @@
   height: 25rem;
   min-width: 100%;
 
-  color: black;
+  #tooltip {
+    background: var(--contrasterer_bg_color);
+    color: var(--text_color);
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+  }
 }
 
 #requestChartContainer {
@@ -70,6 +75,49 @@
   border-radius: 0.5rem;
 }
 
+#stats {
+  display: flex;
+  justify-content: space-evenly;
+
+  margin: 2rem 0;
+
+  .stat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    width: 100%;
+
+    &:last-child {
+      border: none;
+    }
+
+    .statValue {
+      font-size: 2rem;
+      font-weight: bold;
+
+      &.loading {
+        background: var(--contrasterer_bg_color);
+        height: 1.3em;
+        width: 3em;
+        border-radius: 0.5rem;
+      }
+    }
+
+    .statText {
+      text-transform: uppercase;
+      color: var(--disabled_color);
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    height: 7rem;
+    border-right: solid 1px var(--disabled_color);
+  }
+}
+
+/*
 .modal-background {
   position: fixed;
   z-index: 100;
@@ -153,6 +201,7 @@
 .close-button {
   cursor: pointer;
 }
+*/
 
 @media screen and (max-width: 1400px) {
   #firstCharts {

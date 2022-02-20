@@ -111,7 +111,7 @@
 
 h4 {
   font-weight: normal;
-  font-size: 1.3rem;
+  font-size: 1.7rem;
   margin-bottom: 0.5rem;
 }
 
@@ -160,17 +160,51 @@ h4 {
   cursor: pointer;
 }
 
-#profile {
-  input {
-    height: 3rem;
-    border-radius: 0.3rem;
-    border: none;
-    text-align: center;
-    color: var(--text_color);
-    &::placeholder {
-      color: var(--text_color);
-    }
+#profileForm {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    display: block;
+    margin: 0.2rem 0;
   }
+  input[type="text"] {
+    height: 2.5rem;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+    border: none;
+    color: var(--text_color);
+    background-color: var(--contrast_bg_color);
+    width: 40%;
+
+    margin-bottom: 1rem;
+  }
+
+  #chooseGrade {
+    * {
+      text-align: left;
+    }
+    color: var(--text_color);
+    width: 40%;
+  }
+  textarea {
+    width: 40%;
+    padding: 0.5rem;
+    height: 6rem;
+    color: var(--text_color);
+    border: none;
+  }
+
+  input[type="submit"] {
+    width: 30%;
+    align-self: flex-start;
+  }
+}
+
+#rank {
+  height: 0.7em;
+  display: inline-block;
+  margin-left: 3px;
 }
 
 @media screen and (max-width: 600px) {

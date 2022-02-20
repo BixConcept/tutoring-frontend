@@ -1,7 +1,7 @@
 import css from "../styles/adminDashboard.module.scss";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveLine } from "@nivo/line";
-import { ApiRequest, RequestState, TutoringOffer } from "../Models";
+import { ApiRequest, AuthLevel, RequestState, TutoringOffer } from "../Models";
 import { useContext, useEffect, useState } from "react";
 import Alert from "../Components/Alert";
 import { OurContext } from "../OurContext";
@@ -53,7 +53,9 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
 
   return (
     <div id={css.offerChart}>
-      {data.length === 0 ? <span>Keine Daten verfübar</span> : null}
+      {data.length === 0 ? (
+        <span style={{ color: "var(--text_color)" }}>Keine Daten verfübar</span>
+      ) : null}
       {requestState === RequestState.Success && data.length > 0 ? (
         <ResponsivePie
           data={data}
@@ -65,7 +67,7 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
           innerRadius={0.5}
           padAngle={2}
           cornerRadius={8}
-          theme={{ fontSize: 14 }}
+          theme={{ fontSize: 14, textColor: "white" }}
           margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
         />
       ) : null}
@@ -76,7 +78,7 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
   );
 };
 
-const RequestGraph = (): JSX.Element => {
+const ActivityGraph = (): JSX.Element => {
   const [data, setData] = useState<any>([]);
   const [reqs, setReqs] = useState<number>();
   const [loaded, setLoaded] = useState<boolean>(false);
@@ -143,7 +145,7 @@ const RequestGraph = (): JSX.Element => {
       {loaded ? (
         <ResponsiveLine
           data={data}
-          enablePointLabel={true}
+          enablePointLabel={false}
           margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
           xScale={{
             type: "time",
@@ -159,36 +161,82 @@ const RequestGraph = (): JSX.Element => {
           enableGridY={true}
           xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
           axisBottom={{
-            format: "%Y-%m-%d %H:%M",
+            format: "%Y-%m-%d",
             tickSize: 10,
             tickPadding: 0,
             tickRotation: 0,
-            legend: "",
             legendPosition: "middle",
-            legendOffset: 46,
-            tickValues: 5,
+            tickValues: 10,
           }}
+          enableSlices={"x"}
           colors={{ scheme: "category10" }}
-          theme={{ textColor: "var(--text_color)", fontSize: 14 }}
-          curve="linear"
+          theme={{
+            textColor: "var(--text_color)",
+            fontSize: 14,
+          }}
+          curve="monotoneX"
+          sliceTooltip={({ slice }) => {
+            return (
+              <div id={css.tooltip}>
+                {slice.points[0].data.x.toLocaleString()}:{" "}
+                <span style={{ fontWeight: "bold" }}>
+                  {slice.points[0].data.y}
+                </span>
+              </div>
+            );
+          }}
         />
       ) : null}
-      <h2 style={{ color: "var(--text_color)" }}>Requests insgesamt: {reqs}</h2>
       {!loaded ? <LoadingScreen loaded={loaded} /> : null}
     </div>
   );
 };
 
+function Statistic(props: { text: string; value: any }) {
+  return (
+    <div className={css.stat}>
+      <div
+        className={`${css.statValue} ${
+          props.value !== undefined ? "" : css.loading
+        }`}
+      >
+        {props.value}
+      </div>
+      <div className={css.statText}>{props.text}</div>
+    </div>
+  );
+}
+
 export default function AdminDashboard() {
-  const context = useContext(OurContext);
   const navigate = useNavigate();
+  const context = useContext(OurContext);
+  const [stats, setStats] = useState<any>({});
 
   useEffect(() => {
-    console.log(context.user);
-    if (context.user === null) {
-      // navigate("/");
-    }
-  }, []);
+    // check if the user is authenticated
+    fetch(`${API_HOST}/user`, { credentials: "include" })
+      .then((res) => {
+        if (!res.ok) {
+          // go to home page if the user is not authenticated at all
+          navigate("/");
+        } else {
+          res.json().then(async (body) => {
+            context.setUser(body.content);
+            if (body.content.authLevel !== AuthLevel.Admin) {
+              // go to home page if the user is authenticated but not an admin
+              navigate("/");
+            }
+
+            let res = await fetch(`${API_HOST}/stats`);
+            setStats((await res.json()).content);
+          });
+        }
+      })
+      .catch((e) => {
+        // go to home page if there is some error with the request
+        navigate("/");
+      });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={css.dashboard}>
@@ -198,12 +246,6 @@ export default function AdminDashboard() {
           Wenn du hier bist, bist du entweder wichtig, oder unser Code ist
           kaputt.
         </p>
-        <div id={css.stats}>
-          <div className={css.stat}>
-            <span>{}</span>
-          </div>
-          <div className={css.stat}></div>
-        </div>
         <div id={css.firstCharts}>
           <div>
             <h2>Angebote nach Fach</h2>
@@ -214,9 +256,15 @@ export default function AdminDashboard() {
             <SubjectPie type="requests" />
           </div>
         </div>
+        <div id={css.stats}>
+          <Statistic text="api requests" value={stats.apiRequests} />
+          <Statistic text="offers" value={stats.offers} />
+          <Statistic text="notification requests" value={stats.requests} />
+          <Statistic text="user" value={stats.users} />
+        </div>
         <div id={css.requestChartContainer}>
           <h2>Requests pro Stunde</h2>
-          <RequestGraph />
+          <ActivityGraph />
         </div>
       </div>
     </div>

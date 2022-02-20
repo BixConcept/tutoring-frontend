@@ -6,20 +6,35 @@ import LoadingScreen from "../Components/LoadingScreen";
 import { OurContext } from "../OurContext";
 import general from "../styles/general.module.scss";
 import css from "../styles/userDashboard.module.scss";
-import { AuthLevel } from "../Models";
+import { AuthLevel, User } from "../Models";
+import Rank1 from "../assets/images/ranks/1.png";
+import Rank2 from "../assets/images/ranks/2.png";
+import Rank3 from "../assets/images/ranks/3.png";
+
+function Rank(props: { authLevel?: AuthLevel }) {
+  return (
+    <img
+      id={css.rank}
+      src={[Rank1, Rank2, Rank3][props.authLevel || 0]}
+      alt={AuthLevel[props.authLevel || 0]}
+    />
+  );
+}
+
 const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";
 
+  const context = useContext(OurContext);
+  const navigate = useNavigate();
+
+  const [mutUser, setMutUser] = useState<User | null>(context.user);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [emailModalVisible, setEmailModalVisible] = useState<boolean>(false);
   const [nameModalVisible, setNameModalVisible] = useState<boolean>(false);
   const [dname, setDname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [loaded, setLoaded] = useState<boolean>(true);
   const [misc, setMisc] = useState<string>("");
-  const context = useContext(OurContext);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`${API_HOST}/user`, {
@@ -33,69 +48,95 @@ const UserDashboard = (): JSX.Element => {
         }
       })
       .then((body) => {
+        setMutUser(body.content);
         context.setUser(body.content);
-        setLoaded(true);
       })
       .catch(() => {
         navigate("/login");
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (loaded) {
+  if (mutUser) {
     return (
       <div className={css.dashboard}>
         <div className={css["dashboard-content"]}>
           <h1>
-            Hey, {context.user?.name}{" "}
-            {context.user?.authLevel === AuthLevel.Admin ? (
-              <img src={""} width="100px" />
-            ) : null}
+            Hey, {context.user?.name}
+            <Rank authLevel={context.user?.authLevel} />
           </h1>
           <h4>Meine Fächer</h4>
           <i>Coming soon...</i>
           <h4>Dein Profil</h4>
-          <form action="" id={css.profile}>
-            <p>Email</p>
-            <input type="text" placeholder={context.user?.email} disabled />
-            <p>Name</p>
-            <input type="text" placeholder={context.user?.name} disabled />
-            <p>
-              Auth-Level: {context.user?.authLevel}{" "}
-              {context.user?.authLevel === 1 ? "(Benutzer)" : "Administrator"}
-            </p>
-            <p>Sonstiges</p>
-            <textarea
-              value={misc}
-              onChange={(e) => {
-                setMisc(e.target.value);
-                console.log(context.user?.misc, misc);
-              }}
-              placeholder={context.user?.misc}
+          <form
+            id={css.profileForm}
+            onSubmit={(e) => {
+              e.preventDefault();
+              fetch(`${API_HOST}/user`, {
+                method: "PUT",
+                credentials: "include",
+                body: JSON.stringify(mutUser),
+                headers: { "content-type": "application/json" },
+              }).then(async (res) => {
+                const body = await res.json();
+                if (!res.ok) {
+                  Alert(
+                    `Irgendwas ist schief gegangen: ${body.msg}`,
+                    "error",
+                    context.theme
+                  );
+                } else {
+                  Alert("Sonstiges geändert!", "success", context.theme);
+                }
+              });
+            }}
+          >
+            <label htmlFor="email">E-Mail</label>
+            <input
+              type="text"
+              value={mutUser?.email}
+              className={general["input-field"]}
+              name="email"
             />
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                fetch(`${API_HOST}/user`, {
-                  method: "PUT",
-                  credentials: "include",
-                  body: JSON.stringify({ misc }),
-                  headers: { "content-type": "application/json" },
-                }).then(async (res) => {
-                  const body = await res.json();
-                  if (!res.ok) {
-                    Alert(
-                      `Irgendwas ist schief gegangen: ${body.msg}`,
-                      "error",
-                      context.theme
-                    );
-                  } else {
-                    Alert("Sonstiges geändert!", "success", context.theme);
-                  }
-                });
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              value={mutUser?.name}
+              className={general["input-field"]}
+              name="name"
+            />
+            <label htmlFor="grade">Stufe</label>
+            <div className={general.select_input_field} id={css.chooseGrade}>
+              <select
+                name=""
+                className={general.select}
+                value={mutUser.grade}
+                onChange={(e) => {
+                  setMutUser({
+                    ...mutUser,
+                    ...{ grade: parseInt(e.target.value) },
+                  });
+                }}
+              >
+                <option value="">--- Stufe wählen ---</option>
+                {[...Array(13 - 4).keys()].map((grade, index) => {
+                  return <option key={index}>{grade + 5}</option>;
+                })}
+              </select>
+            </div>
+            <label htmlFor="misc">Sonstiges</label>
+            <textarea
+              className={general["select_input_field"]}
+              value={mutUser?.misc}
+              name="misc"
+              onChange={(e) => {
+                setMutUser({ ...mutUser, ...{} });
               }}
-            >
-              Bestätigen
-            </button>
+            />
+            <input
+              type="submit"
+              className={general.text_button}
+              value="Updaten"
+            />
           </form>
 
           <h4>Danger Zone</h4>
@@ -157,16 +198,16 @@ const UserDashboard = (): JSX.Element => {
                   <input
                     type="text"
                     placeholder=""
-                    value={dname}
+                    value={name}
                     onChange={(e) => {
-                      setDname(e.target.value);
+                      setName(e.target.value);
                     }}
                   />
                   <input
                     type="submit"
                     value="Löschen"
-                    disabled={dname !== context.user?.name}
-                    onSubmit={() => setDname("")}
+                    disabled={name !== context.user?.name}
+                    onSubmit={() => setName("")}
                   />
                 </form>
               </div>
@@ -208,7 +249,7 @@ const UserDashboard = (): JSX.Element => {
                   <span className={css.name}>{context.user?.name}</span>ein.
                 </p>
 
-                {/* this form is there so the user can submit via pressing escape or the key on their mobile keyboard */}
+                {/* this form is there so the user can submit via pressing enter or the key on their mobile keyboard */}
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -235,9 +276,9 @@ const UserDashboard = (): JSX.Element => {
                   <input
                     type="text"
                     placeholder=""
-                    value={dname}
+                    value={mutUser.name}
                     onChange={(e) => {
-                      setDname(e.target.value);
+                      setMutUser({ ...mutUser, ...{ name: e.target.value } });
                     }}
                     required
                   />
@@ -246,7 +287,7 @@ const UserDashboard = (): JSX.Element => {
                     placeholder=" Neue E-Mail"
                     value={email}
                     onChange={(e) => {
-                      setEmail(e.target.value);
+                      setMutUser({ ...mutUser, ...{ name: e.target.value } });
                     }}
                     required
                   />
@@ -302,7 +343,7 @@ const UserDashboard = (): JSX.Element => {
                   <span className={css.name}>{context.user?.name}</span>ein.
                 </p>
 
-                {/* this form is there so the user can submit via pressing escape or the key on their mobile keyboard */}
+                {/* this form is there so the user can submit via pressing enter or the key on their mobile keyboard */}
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -357,7 +398,6 @@ const UserDashboard = (): JSX.Element => {
         </div>
       </div>
     );
-  } else return <LoadingScreen loaded={loaded} />;
+  } else return <LoadingScreen loaded={mutUser !== null} />;
 };
-
 export default UserDashboard;
