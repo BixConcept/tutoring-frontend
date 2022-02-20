@@ -23,13 +23,12 @@
     background-image: url("../assets/images/background.webp");
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: bottom;
+    background-position: 10%;
 
     min-height: 25rem;
     width: 100%;
 
-    color: var(--text_color);
-
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,7 +39,7 @@
         /*font-size: 100pt;*/
         font-size: clamp(20pt, 20vw, 100pt);
         font-weight: bold;
-        color: $primary_text_color;
+        color: #f1f2f6;
         hyphens: auto;
         text-align: center;
       }

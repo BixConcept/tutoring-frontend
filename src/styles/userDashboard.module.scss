@@ -168,6 +168,11 @@ h4 {
     display: block;
     margin: 0.2rem 0;
   }
+
+  :disabled {
+    cursor: not-allowed;
+  }
+
   input[type="text"] {
     height: 2.5rem;
     border-radius: 0.3rem;

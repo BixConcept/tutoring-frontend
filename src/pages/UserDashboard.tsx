@@ -96,6 +96,7 @@ const UserDashboard = (): JSX.Element => {
               value={mutUser?.email}
               className={general["input-field"]}
               name="email"
+              disabled
             />
             <label htmlFor="name">Name</label>
             <input
@@ -103,6 +104,7 @@ const UserDashboard = (): JSX.Element => {
               value={mutUser?.name}
               className={general["input-field"]}
               name="name"
+              disabled
             />
             <label htmlFor="grade">Stufe</label>
             <div className={general.select_input_field} id={css.chooseGrade}>
