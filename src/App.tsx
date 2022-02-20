@@ -19,7 +19,7 @@ import { API_HOST } from "./index";
 import Verify from "./pages/Verify";
 import { ToastContainer } from "react-toastify";
 import Cookie from "./Components/Cookie";
-import AdminDashboard from "./AdminDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const App = (): JSX.Element => {
   const [theme, setTheme] = useState<"dark" | "light">("dark");

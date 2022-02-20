@@ -1,12 +1,12 @@
-import css from "./styles/adminDashboard.module.scss";
+import css from "../styles/adminDashboard.module.scss";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveLine } from "@nivo/line";
-import { ApiRequest, AuthLevel, RequestState, TutoringOffer } from "./Models";
+import { ApiRequest, AuthLevel, RequestState, TutoringOffer } from "../Models";
 import { useContext, useEffect, useState } from "react";
-import Alert from "./Components/Alert";
-import { OurContext } from "./OurContext";
-import { API_HOST } from ".";
-import LoadingScreen from "./Components/LoadingScreen";
+import Alert from "../Components/Alert";
+import { OurContext } from "../OurContext";
+import { API_HOST } from "..";
+import LoadingScreen from "../Components/LoadingScreen";
 import { useNavigate } from "react-router";
 
 const SubjectPie = (props: { type: "offers" | "requests" }) => {
@@ -80,6 +80,7 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
 
 const ActivityGraph = (): JSX.Element => {
   const [data, setData] = useState<any>([]);
+  const [reqs, setReqs] = useState<number>();
   const [loaded, setLoaded] = useState<boolean>(false);
 
   useEffect(() => {
@@ -87,6 +88,7 @@ const ActivityGraph = (): JSX.Element => {
       res.json().then((body) => {
         setLoaded(true);
         const requests: ApiRequest[] = body.content;
+        setReqs(requests.length);
 
         // time of the first request
         const min = requests.reduce(
@@ -118,7 +120,7 @@ const ActivityGraph = (): JSX.Element => {
 
         let newData = [
           {
-            id: "asdf",
+            id: "request_graph",
             data: hours.map(
               (value: Date) => ({
                 x: value.toISOString(),
@@ -134,8 +136,6 @@ const ActivityGraph = (): JSX.Element => {
             ),
           },
         ];
-        console.log(JSON.stringify(newData));
-
         setData(newData);
       });
     });
@@ -155,8 +155,10 @@ const ActivityGraph = (): JSX.Element => {
           axisLeft={{
             tickValues: 5,
           }}
-          enableGridX={false}
-          enableGridY={false}
+          gridXValues={10}
+          enableGridX={true}
+          lineWidth={5}
+          enableGridY={true}
           xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
           axisBottom={{
             format: "%Y-%m-%d",
@@ -164,7 +166,6 @@ const ActivityGraph = (): JSX.Element => {
             tickPadding: 0,
             tickRotation: 0,
             legendPosition: "middle",
-            legendOffset: 46,
             tickValues: 10,
           }}
           enableSlices={"x"}
