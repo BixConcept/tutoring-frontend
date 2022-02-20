@@ -61,6 +61,13 @@
   min-width: 100%;
 
   color: black;
+
+  #tooltip {
+    background: var(--contrasterer_bg_color);
+    color: var(--text_color);
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+  }
 }
 
 #requestChartContainer {

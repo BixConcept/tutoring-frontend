@@ -76,7 +76,7 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
   );
 };
 
-const RequestGraph = (): JSX.Element => {
+const ActivityGraph = (): JSX.Element => {
   const [data, setData] = useState<any>([]);
   const [loaded, setLoaded] = useState<boolean>(false);
 
@@ -157,18 +157,31 @@ const RequestGraph = (): JSX.Element => {
           enableGridY={false}
           xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
           axisBottom={{
-            format: "%Y-%m-%d %H:%M",
+            format: "%Y-%m-%d",
             tickSize: 10,
             tickPadding: 0,
             tickRotation: 0,
-            legend: "timestamp",
             legendPosition: "middle",
             legendOffset: 46,
-            tickValues: "every 1 hours",
+            tickValues: 10,
           }}
+          enableSlices={"x"}
           colors={{ scheme: "category10" }}
-          theme={{ textColor: "var(--text_color)", fontSize: 14 }}
-          curve="linear"
+          theme={{
+            textColor: "var(--text_color)",
+            fontSize: 14,
+          }}
+          curve="monotoneX"
+          sliceTooltip={({ slice }) => {
+            return (
+              <div id={css.tooltip}>
+                {slice.points[0].data.x.toLocaleString()}:{" "}
+                <span style={{ fontWeight: "bold" }}>
+                  {slice.points[0].data.y}
+                </span>
+              </div>
+            );
+          }}
         />
       ) : null}
       {!loaded ? <LoadingScreen loaded={loaded} /> : null}
@@ -213,7 +226,7 @@ export default function AdminDashboard() {
         </div>
         <div id={css.requestChartContainer}>
           <h2>Requests pro Stunde</h2>
-          <RequestGraph />
+          <ActivityGraph />
         </div>
       </div>
     </div>

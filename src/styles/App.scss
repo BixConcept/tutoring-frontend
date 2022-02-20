@@ -31,7 +31,7 @@ body.light {
   --background_color: #fff;
   --text_color: #23272a; // stolen from the discord landing page. better readability than pure black.
   --contrast_bg_color: rgb(235, 235, 235);
-  --contrasterer_bg_color: rgb(235, 235, 235);
+  --contrasterer_bg_color: rgb(219, 219, 219);
   --disabled_color: rgb(167, 166, 166);
 }
 
@@ -39,7 +39,7 @@ body.dark {
   --background_color: #222;
   --text_color: #fff;
   --contrast_bg_color: rgb(41, 41, 41);
-  --contrasterer_bg_color: rgb(41, 41, 41);
+  --contrasterer_bg_color: rgb(54, 54, 54);
   --disabled_color: rgb(61, 61, 61);
 }
 
