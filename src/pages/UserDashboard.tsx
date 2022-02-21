@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { API_HOST } from "..";
 import Alert from "../Components/Alert";
@@ -37,6 +37,8 @@ const UserDashboard = (): JSX.Element => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [selectedSubject, setSelectedSubject] = useState<number>(NaN);
   const [targetGrade, setTargetGrade] = useState<number>(0);
+
+  const emailButtonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch(`${API_HOST}/user`, {
@@ -281,7 +283,11 @@ const UserDashboard = (): JSX.Element => {
               value={mutUser?.email}
               className={general["input-field"]}
               name="email"
-              disabled
+              onClick={() => {
+                if (emailButtonRef.current) {
+                  emailButtonRef.current.scrollIntoView();
+                }
+              }}
             />
             <label htmlFor="name">Name</label>
             <input
@@ -400,7 +406,11 @@ const UserDashboard = (): JSX.Element => {
               </div>
             </div>
             <hr />
-            <div className={css["danger-item"]}>
+            <div
+              className={css["danger-item"]}
+              id="change-email-button"
+              ref={emailButtonRef}
+            >
               <div>
                 <p className={css["danger-action"]}>E-Mail ändern</p>
                 <p className={css["danger-description"]}>
