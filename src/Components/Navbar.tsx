@@ -1,7 +1,7 @@
 import css from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
 import logo from "../assets/images/logo.svg";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { OurContext } from "../OurContext";
 import { API_HOST } from "..";
 import Alert from "./Alert";
@@ -11,16 +11,12 @@ import DarkMode from "./DarkMode";
 export default function Navbar() {
   const context = useContext(OurContext);
 
-  useEffect(() => {
-    console.log(context);
-  });
-
   return (
     <nav>
       <ul>
         <li id={css.logo}>
           <Link to="/">
-            <img src={logo} alt="gymhaan logo" /> powered by Bix|Concept
+            <img src={logo} alt="gymhaan logo" /> &nbsp;powered by Bix|Concept
           </Link>
         </li>
         <div id={css.links}>
