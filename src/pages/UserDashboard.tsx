@@ -99,11 +99,61 @@ const UserDashboard = (): JSX.Element => {
           <h4>Meine Fächer</h4>
           <div id={css.offers}>
             {mutUser.offers.map((offer) => (
-              <div key={offer.offerId} className={css.offer}>
+              <div key={offer.id} className={css.offer}>
                 <h1>
                   {offer.subjectName} bis Stufe {offer.maxGrade}
                 </h1>
-                <button className={css["remove-button"]}>Löschen</button>
+                <button
+                  className={css["remove-button"]}
+                  onClick={() => {
+                    console.log(offer.id);
+                    fetch(`${API_HOST}/offer/${offer.id}`, {
+                      method: "DELETE",
+                      credentials: "include",
+                    })
+                      .then((res) => {
+                        if (!res.ok) {
+                          if (
+                            res.headers.get("content-type") !==
+                            "application/json"
+                          ) {
+                            Alert(
+                              "Irgendwas ist schiefgegangen 😠",
+                              "error",
+                              context.theme
+                            );
+                          } else {
+                            res.json().then((body) => {
+                              Alert(
+                                "Irgendwas ist schiefgegangen 😠 " + body.msg,
+                                "error",
+                                context.theme
+                              );
+                            });
+                          }
+                        } else {
+                          Alert(
+                            "Erfolgreich gelöscht 😍",
+                            "success",
+                            context.theme
+                          );
+                          setMutUser({
+                            ...mutUser,
+                            ...{
+                              offers: mutUser.offers.filter(
+                                (x) => x.id !== offer.id
+                              ),
+                            },
+                          });
+                        }
+                      })
+                      .catch((e) => {
+                        console.log(e.stack);
+                      });
+                  }}
+                >
+                  Löschen
+                </button>
               </div>
             ))}
             <div className={css.offer} id={css.addSubjectThingy}>
@@ -193,6 +243,13 @@ const UserDashboard = (): JSX.Element => {
                             );
                           });
                         }
+                      } else {
+                        res.json().then((body) => {
+                          setMutUser({
+                            ...mutUser,
+                            ...{ offers: [...mutUser.offers, body.content] },
+                          });
+                        });
                       }
                     })
                     .catch((e) => {
