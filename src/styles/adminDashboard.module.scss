@@ -117,6 +117,63 @@
   }
 }
 
+#growthChartContainer {
+  margin: 1rem 0;
+  padding: 0 1rem;
+  border: solid 1px var(--disabled_color);
+  border-radius: 0.5rem;
+
+  #growthChart {
+    flex: 1;
+    height: 25rem;
+    min-width: 100%;
+
+    #tooltip {
+      background: var(--contrasterer_bg_color);
+      color: var(--text_color);
+      padding: 0.5rem;
+      border-radius: 0.3rem;
+    }
+  }
+}
+
+#userListContainer {
+  #userList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    border-radius: 0.5rem;
+    .userListItem {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      background-color: var(--contrasterer_bg_color);
+
+      h1 {
+        font-size: 1.4rem;
+        font-weight: normal;
+      }
+
+      p {
+        margin: 0.3rem 0;
+      }
+
+      button {
+        height: 2rem;
+        padding: 0 1rem;
+        background-color: $error_color;
+        color: white;
+        border: none;
+        font-size: inherit;
+        white-space: nowrap;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+    }
+  }
+}
+
 /*
 .modal-background {
   position: fixed;
@@ -214,8 +271,8 @@
   }
 }
 
-@media screen and (max-width: 600px) {
-  .danger-item {
-    flex-direction: column;
+@media screen and (max-width: 1000px) {
+  #userList {
+    grid-template-columns: 1fr;
   }
 }

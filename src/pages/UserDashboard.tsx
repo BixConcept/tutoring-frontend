@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { API_HOST } from "..";
 import Alert from "../Components/Alert";
@@ -6,20 +6,8 @@ import LoadingScreen from "../Components/LoadingScreen";
 import { OurContext } from "../OurContext";
 import general from "../styles/general.module.scss";
 import css from "../styles/userDashboard.module.scss";
-import { AuthLevel, Subject, User } from "../Models";
-import Rank1 from "../assets/images/ranks/1.png";
-import Rank2 from "../assets/images/ranks/2.png";
-import Rank3 from "../assets/images/ranks/3.png";
-
-function Rank(props: { authLevel?: AuthLevel }) {
-  return (
-    <img
-      id={css.rank}
-      src={[Rank1, Rank2, Rank3][props.authLevel || 0]}
-      alt={AuthLevel[props.authLevel || 0]}
-    />
-  );
-}
+import { Subject, User } from "../Models";
+import { Rank } from "../Components/Rank";
 
 const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";
@@ -37,6 +25,8 @@ const UserDashboard = (): JSX.Element => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [selectedSubject, setSelectedSubject] = useState<number>(NaN);
   const [targetGrade, setTargetGrade] = useState<number>(0);
+
+  const emailButtonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch(`${API_HOST}/user`, {
@@ -93,7 +83,7 @@ const UserDashboard = (): JSX.Element => {
       <div className={css.dashboard}>
         <div className={css["dashboard-content"]}>
           <h1>
-            Hey, {context.user?.name}
+            Hey 👋, {context.user?.name.split(" ")[0]}
             <Rank authLevel={context.user?.authLevel} />
           </h1>
           <h4>Meine Fächer</h4>
@@ -281,7 +271,11 @@ const UserDashboard = (): JSX.Element => {
               value={mutUser?.email}
               className={general["input-field"]}
               name="email"
-              disabled
+              onClick={() => {
+                if (emailButtonRef.current) {
+                  emailButtonRef.current.scrollIntoView();
+                }
+              }}
             />
             <label htmlFor="name">Name</label>
             <input
@@ -400,7 +394,11 @@ const UserDashboard = (): JSX.Element => {
               </div>
             </div>
             <hr />
-            <div className={css["danger-item"]}>
+            <div
+              className={css["danger-item"]}
+              id="change-email-button"
+              ref={emailButtonRef}
+            >
               <div>
                 <p className={css["danger-action"]}>E-Mail ändern</p>
                 <p className={css["danger-description"]}>
