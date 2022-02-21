@@ -32,6 +32,7 @@ export interface User {
   misc?: string;
   grade: number;
   authLevel: AuthLevel;
+  offers: TutoringOffer[];
 }
 
 export const topSubjects: string[] = [

@@ -36,26 +36,24 @@ const LoginPage = (): JSX.Element => {
       method: "POST",
       body: JSON.stringify({ email: otpEmail }),
       headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => {
-        if (res.ok) {
-          Alert("E-Mail geschickt!", "success", getTheme());
-          lottie.destroy();
-          setDisplayAnimation(true);
-          setTimeout(() => {
-            setDisplayAnimation(false);
-          }, 4000);
-        } else {
-          Alert(
-            "Wahrscheinlich stimmt mit deinem Input was nicht.",
-            "error",
-            getTheme()
-          );
+    }).then((res) => {
+      if (res.ok) {
+        Alert("E-Mail geschickt!", "success", getTheme());
+        lottie.destroy();
+        setDisplayAnimation(true);
+        setTimeout(() => {
           setDisplayAnimation(false);
-        }
-        return res.json();
-      })
-      .then((body) => console.log(body));
+        }, 4000);
+      } else {
+        Alert(
+          "Wahrscheinlich stimmt mit deinem Input was nicht.",
+          "error",
+          getTheme()
+        );
+        setDisplayAnimation(false);
+      }
+      return res.json();
+    });
   }
 
   useEffect(() => {
