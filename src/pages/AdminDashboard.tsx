@@ -400,6 +400,7 @@ export default function AdminDashboard() {
                         );
                       });
                   }}
+                  disabled={user.id === context.user?.id}
                 >
                   Löschen
                 </button>

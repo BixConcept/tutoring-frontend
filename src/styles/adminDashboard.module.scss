@@ -162,13 +162,20 @@
       button {
         height: 2rem;
         padding: 0 1rem;
-        background-color: $error_color;
         color: white;
         border: none;
         font-size: inherit;
         white-space: nowrap;
         cursor: pointer;
         border-radius: 5px;
+
+        &:enabled {
+          background-color: $error_color;
+        }
+
+        &:disabled {
+          background-color: var(--disabled_color);
+        }
       }
     }
   }
