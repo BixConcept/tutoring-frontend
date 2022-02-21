@@ -41,7 +41,11 @@ const Home = (): JSX.Element => {
               </a>
             </p>
             <p>
-              Mit der Nutzung dieser Seite erklärst du dich mit den <a href="/privacy" className={css.link}>Datenschutzbestimmungen</a> einverstanden.
+              Mit der Nutzung dieser Seite erklärst du dich mit den{" "}
+              <a href="/privacy" className={css.link}>
+                Datenschutzbestimmungen
+              </a>{" "}
+              einverstanden.
             </p>
           </div>
           <div id={css.choices}>
@@ -50,21 +54,8 @@ const Home = (): JSX.Element => {
                 <h1>Ich brauche Nachhilfe</h1>
               </Link>
             </div>
-            <div
-              className={css.choice}
-              onClick={(e) => {
-                if (!context.cookieConsent) {
-                  Alert(
-                    "Um dich registrieren zu können musst du unserem Session-Cookie zustimmen.",
-                    "info",
-                    context.theme
-                  );
-                  context.setCookieModalVisible(true);
-                  e.preventDefault();
-                }
-              }}
-            >
-              <Link to={context.cookieConsent ? "/register" : "#"}>
+            <div className={css.choice}>
+              <Link to="/register">
                 <h1>
                   Ich möchte{" "}
                   <span className={css.backdrop}>Nachhilfe geben</span>

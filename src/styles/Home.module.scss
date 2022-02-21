@@ -36,6 +36,7 @@
     #title {
       h1 {
         margin: 0;
+        text-shadow: $primary_color 0 0;
         /*font-size: 100pt;*/
         font-size: clamp(20pt, 20vw, 70pt);
         font-weight: bold;

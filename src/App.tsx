@@ -24,11 +24,6 @@ import AdminDashboard from "./pages/AdminDashboard";
 const App = (): JSX.Element => {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [user, setUser] = useState<User | null>(null);
-  const [cookieConsent, setCookieConsent] = useState<boolean>(
-    localStorage.getItem("cookieConsent") === "true"
-  );
-
-  const [cookieModalVisible, setCookieModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     // Rainbow Giant Styled Text
@@ -47,23 +42,13 @@ const App = (): JSX.Element => {
       })
       .then((body) => {
         // if the server returns something, a cookie exists => the user has already consented before
-        updateCookieConsent(true);
         setUser(body.content);
         console.log(body.content);
       })
       .catch((_) => {
         setUser(null);
-        if (!cookieConsent) {
-          setCookieModalVisible(true);
-        }
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  function updateCookieConsent(status: boolean) {
-    setCookieConsent(status);
-    localStorage.setItem("cookieConsent", status.toString());
-    setCookieModalVisible(false);
-  }
 
   return (
     <div className="App">
@@ -73,19 +58,12 @@ const App = (): JSX.Element => {
           setTheme: setTheme,
           user: user,
           setUser: setUser,
-          cookieConsent,
-          setCookieConsent: updateCookieConsent,
-          cookieModalVisible,
-          setCookieModalVisible,
         }}
       >
         <BrowserRouter>
           <ScrollToTop />
           <Navbar />
-          <div
-            id="wrapper"
-            style={{ filter: cookieModalVisible ? "blur(8px)" : undefined }}
-          >
+          <div id="wrapper">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LoginPage />} />
@@ -101,10 +79,6 @@ const App = (): JSX.Element => {
               <Route path="*" element={<FourOFourPage />} />
             </Routes>
           </div>
-          <Cookie
-            visible={cookieModalVisible}
-            onConsent={updateCookieConsent}
-          />
           <Footer />
           <ToastContainer />
         </BrowserRouter>

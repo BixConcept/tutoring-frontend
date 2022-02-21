@@ -36,10 +36,6 @@ const RegisterPage = (): JSX.Element => {
 
   useEffect(() => {
     setRequestState(RequestState.Loading);
-    if (!context.cookieConsent) {
-      navigate("/");
-      context.setCookieModalVisible(true);
-    }
     if (!stepIndex) {
       navigate("/register/1", {
         replace: true,
@@ -71,7 +67,7 @@ const RegisterPage = (): JSX.Element => {
           });
       }
     }
-  }, [stepIndex, navigate, context.cookieConsent]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [stepIndex, navigate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const numChosen = (): number => {
     return Object.entries(chosen).reduce(
