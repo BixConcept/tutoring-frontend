@@ -1,5 +1,5 @@
 export interface TutoringOffer {
-  offerId: number;
+  id: number;
   userId: number;
   name: string;
   email: string;
@@ -32,6 +32,7 @@ export interface User {
   misc?: string;
   grade: number;
   authLevel: AuthLevel;
+  offers: TutoringOffer[];
 }
 
 export const topSubjects: string[] = [

@@ -15,7 +15,9 @@ const RegisterPage = (): JSX.Element => {
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
   const [email, setEmail] = useState("");
-  const [chosen, setChosen] = useState<{ [key: number]: string }>({});
+  const [chosen, setChosen] = useState<{
+    [key: number]: string;
+  }>({});
   const [grade, setGrade] = useState("");
   const [misc, setMisc] = useState("");
   const [subjects, setSubjects] = useState<Subject[]>([]);
@@ -39,11 +41,15 @@ const RegisterPage = (): JSX.Element => {
       context.setCookieModalVisible(true);
     }
     if (!stepIndex) {
-      navigate("/register/1", { replace: true });
+      navigate("/register/1", {
+        replace: true,
+      });
     } else {
       let parsedIndex = parseInt(stepIndex);
       if (isNaN(parsedIndex) || !email) {
-        navigate("/register/1", { replace: true });
+        navigate("/register/1", {
+          replace: true,
+        });
       } else {
         setStep(parsedIndex);
 
@@ -83,7 +89,10 @@ const RegisterPage = (): JSX.Element => {
         "success",
         context.theme
       );
-      subjects.push({ id: 0xbb, name: window.atob("Rm9ydG5pdGU=") });
+      subjects.push({
+        id: 0xbb,
+        name: window.atob("Rm9ydG5pdGU="),
+      });
     }
   };
 
@@ -110,7 +119,9 @@ const RegisterPage = (): JSX.Element => {
         subjects: tmp,
         misc,
       }),
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
     }).catch((error) => {
       console.log(error);
       Alert("Fehler beim Erstellen :((...", "error", context.theme);
@@ -121,7 +132,9 @@ const RegisterPage = (): JSX.Element => {
     const grade: string = e.target.value;
     setChosen({
       ...chosen,
-      ...{ [subject]: grade },
+      ...{
+        [subject]: grade,
+      },
     });
   };
 
@@ -243,7 +256,8 @@ const RegisterPage = (): JSX.Element => {
           </form>
         </div>
         <p className={css.step}>
-          <span className={css.bullSpan}>&bull;</span>&bull;&bull;&bull;
+          <span className={css.bullSpan}>&bull;</span>
+          &bull;&bull;&bull;
         </p>
       </div>
     );
@@ -309,7 +323,9 @@ const RegisterPage = (): JSX.Element => {
           <LoadingScreen loaded={requestState !== RequestState.Loading} />
         )}
         <div className={css.step}>
-          &bull;<span className={css.bullSpan}>&bull;</span>&bull;&bull;
+          &bull;
+          <span className={css.bullSpan}>&bull;</span>
+          &bull;&bull;
         </div>
       </div>
     );
@@ -365,7 +381,9 @@ const RegisterPage = (): JSX.Element => {
         </div>
 
         <p className={css.step}>
-          &bull;&bull;<span className={css.bullSpan}>&bull;</span>&bull;
+          &bull;&bull;
+          <span className={css.bullSpan}>&bull;</span>
+          &bull;
         </p>
       </div>
     );
@@ -376,7 +394,11 @@ const RegisterPage = (): JSX.Element => {
         <div ref={letter} id={css.letterAnimation}></div>
         <p id={css.justifyText}>
           Damit wir deine Identität bestätigen können, haben wir dir eine E-Mail
-          an <span className={general.text_marker}>{email}@gymhaan.de</span>{" "}
+          an{" "}
+          <span className={general.text_marker}>
+            {email}
+            @gymhaan.de
+          </span>{" "}
           geschickt.
           <br />
           Öffne diese und befolge die Anweisungen, um deinen Account zu
@@ -390,7 +412,8 @@ const RegisterPage = (): JSX.Element => {
         </p>
         <div className={css.placeholder}></div>
         <p className={css.step}>
-          &bull;&bull;&bull;<span className={css.bullSpan}>&bull;</span>
+          &bull;&bull;&bull;
+          <span className={css.bullSpan}>&bull;</span>
         </p>
       </div>
     );

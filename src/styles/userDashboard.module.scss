@@ -132,6 +132,7 @@ h4 {
 
     button {
       height: 2rem;
+      padding: 0 1rem;
       background-color: $error_color;
       color: white;
       border: none;
@@ -210,6 +211,59 @@ h4 {
   height: 0.7em;
   display: inline-block;
   margin-left: 3px;
+}
+
+#offers {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  .offer {
+    border: 1px solid var(--contrasterer_bg_color);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h1 {
+      font-size: 1.2rem;
+    }
+
+    button {
+      height: 2rem;
+      padding: 0 1rem;
+      color: white;
+      border: none;
+      font-size: inherit;
+      white-space: nowrap;
+      cursor: pointer;
+      border-radius: 5px;
+
+      &:disabled {
+        cursor: not-allowed;
+        background-color: var(--disabled_color) !important;
+      }
+
+      &.remove-button {
+        background-color: $error_color;
+      }
+
+      &.add-button {
+        background: $primary_color;
+        font-weight: bold;
+      }
+    }
+
+    #inputElements {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+
+      .select_wrapper {
+        display: inline-block;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 600px) {

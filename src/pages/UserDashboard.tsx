@@ -6,7 +6,7 @@ import LoadingScreen from "../Components/LoadingScreen";
 import { OurContext } from "../OurContext";
 import general from "../styles/general.module.scss";
 import css from "../styles/userDashboard.module.scss";
-import { AuthLevel, User } from "../Models";
+import { AuthLevel, Subject, User } from "../Models";
 import Rank1 from "../assets/images/ranks/1.png";
 import Rank2 from "../assets/images/ranks/2.png";
 import Rank3 from "../assets/images/ranks/3.png";
@@ -30,11 +30,13 @@ const UserDashboard = (): JSX.Element => {
   const [mutUser, setMutUser] = useState<User | null>(context.user);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [emailModalVisible, setEmailModalVisible] = useState<boolean>(false);
-  const [nameModalVisible, setNameModalVisible] = useState<boolean>(false);
   const [dname, setDname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [misc, setMisc] = useState<string>("");
+
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [selectedSubject, setSelectedSubject] = useState<number>(NaN);
+  const [targetGrade, setTargetGrade] = useState<number>(0);
 
   useEffect(() => {
     fetch(`${API_HOST}/user`, {
@@ -56,6 +58,36 @@ const UserDashboard = (): JSX.Element => {
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    fetch(`${API_HOST}/subjects`)
+      .then((res) => res.json())
+      .then((body) => setSubjects(body.content));
+  }, []);
+
+  function updateProfile() {
+    fetch(`${API_HOST}/user`, {
+      method: "PUT",
+      credentials: "include",
+      body: JSON.stringify(mutUser),
+      headers: { "content-type": "application/json" },
+    }).then(async (res) => {
+      const body = await res.json();
+      if (!res.ok) {
+        Alert(
+          `Irgendwas ist schief gegangen: ${body.msg}`,
+          "error",
+          context.theme
+        );
+      } else {
+        Alert(
+          "Dein Profil wurde erfolgreich geupdatet!",
+          "success",
+          context.theme
+        );
+      }
+    });
+  }
+
   if (mutUser) {
     return (
       <div className={css.dashboard}>
@@ -65,29 +97,182 @@ const UserDashboard = (): JSX.Element => {
             <Rank authLevel={context.user?.authLevel} />
           </h1>
           <h4>Meine Fächer</h4>
-          <i>Coming soon...</i>
+          <div id={css.offers}>
+            {mutUser.offers.map((offer) => (
+              <div key={offer.id} className={css.offer}>
+                <h1>
+                  {offer.subjectName} bis Stufe {offer.maxGrade}
+                </h1>
+                <button
+                  className={css["remove-button"]}
+                  onClick={() => {
+                    console.log(offer.id);
+                    fetch(`${API_HOST}/offer/${offer.id}`, {
+                      method: "DELETE",
+                      credentials: "include",
+                    })
+                      .then((res) => {
+                        if (!res.ok) {
+                          if (
+                            res.headers.get("content-type") !==
+                            "application/json"
+                          ) {
+                            Alert(
+                              "Irgendwas ist schiefgegangen 😠",
+                              "error",
+                              context.theme
+                            );
+                          } else {
+                            res.json().then((body) => {
+                              Alert(
+                                "Irgendwas ist schiefgegangen 😠 " + body.msg,
+                                "error",
+                                context.theme
+                              );
+                            });
+                          }
+                        } else {
+                          Alert(
+                            "Erfolgreich gelöscht 😍",
+                            "success",
+                            context.theme
+                          );
+                          setMutUser({
+                            ...mutUser,
+                            ...{
+                              offers: mutUser.offers.filter(
+                                (x) => x.id !== offer.id
+                              ),
+                            },
+                          });
+                        }
+                      })
+                      .catch((e) => {
+                        console.log(e.stack);
+                      });
+                  }}
+                >
+                  Löschen
+                </button>
+              </div>
+            ))}
+            <div className={css.offer} id={css.addSubjectThingy}>
+              <div id={css.inputElements}>
+                <div className={css.select_wrapper}>
+                  <div className={general.select_input_field}>
+                    <select
+                      name=""
+                      id=""
+                      className={general.select}
+                      onChange={(e) =>
+                        setSelectedSubject(parseInt(e.target.value))
+                      }
+                      value={selectedSubject}
+                    >
+                      <option value="" className={css.na_option}>
+                        ---
+                      </option>
+                      {subjects.map((subject, index) => {
+                        return (
+                          <option value={subject.id} key={subject.id}>
+                            {subject.name}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                </div>{" "}
+                bis Stufe{" "}
+                <div className={css.select_wrapper}>
+                  <div className={general.select_input_field}>
+                    <select
+                      name=""
+                      id=""
+                      className={general.select}
+                      onChange={(e) => setTargetGrade(parseInt(e.target.value))}
+                      value={targetGrade}
+                    >
+                      <option value="" className={css.na_option}>
+                        ---
+                      </option>
+                      {[...Array(13 - 4).keys()].map((grade, index) => {
+                        return (
+                          <option value={index + 5} key={index + 5}>
+                            {grade + 5}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <button
+                className={css["add-button"]}
+                disabled={
+                  isNaN(targetGrade) ||
+                  targetGrade === 0 ||
+                  isNaN(selectedSubject) ||
+                  selectedSubject === 0
+                }
+                onClick={(e) => {
+                  fetch(`${API_HOST}/offer`, {
+                    method: "POST",
+                    credentials: "include",
+                    headers: { "content-type": "application/json" },
+                    body: JSON.stringify({
+                      subjectId: selectedSubject,
+                      maxGrade: targetGrade,
+                    }),
+                  })
+                    .then((res) => {
+                      if (!res.ok) {
+                        if (
+                          res.headers.get("content-type") !== "application/json"
+                        ) {
+                          Alert(
+                            "Irgendwas ist schiefgegangen 😠",
+                            "error",
+                            context.theme
+                          );
+                        } else {
+                          res.json().then((body) => {
+                            Alert(
+                              "Irgendwas ist schiefgegangen 😠 " + body.msg,
+                              "error",
+                              context.theme
+                            );
+                          });
+                        }
+                      } else {
+                        res.json().then((body) => {
+                          setMutUser({
+                            ...mutUser,
+                            ...{ offers: [...mutUser.offers, body.content] },
+                          });
+                        });
+                      }
+                    })
+                    .catch((e) => {
+                      console.log(e.stack);
+                    });
+                }}
+              >
+                Hinzufügen
+              </button>
+            </div>
+          </div>
           <h4>Dein Profil</h4>
           <form
             id={css.profileForm}
+            onKeyDown={(e) => {
+              // submit by pressing ctrl+enter
+              if (e.ctrlKey && e.key === "Enter") {
+                updateProfile();
+              }
+            }}
             onSubmit={(e) => {
               e.preventDefault();
-              fetch(`${API_HOST}/user`, {
-                method: "PUT",
-                credentials: "include",
-                body: JSON.stringify(mutUser),
-                headers: { "content-type": "application/json" },
-              }).then(async (res) => {
-                const body = await res.json();
-                if (!res.ok) {
-                  Alert(
-                    `Irgendwas ist schief gegangen: ${body.msg}`,
-                    "error",
-                    context.theme
-                  );
-                } else {
-                  Alert("Sonstiges geändert!", "success", context.theme);
-                }
-              });
+              updateProfile();
             }}
           >
             <label htmlFor="email">E-Mail</label>
@@ -104,7 +289,6 @@ const UserDashboard = (): JSX.Element => {
               value={mutUser?.name}
               className={general["input-field"]}
               name="name"
-              disabled
             />
             <label htmlFor="grade">Stufe</label>
             <div className={general.select_input_field} id={css.chooseGrade}>
@@ -128,10 +312,10 @@ const UserDashboard = (): JSX.Element => {
             <label htmlFor="misc">Sonstiges</label>
             <textarea
               className={general["select_input_field"]}
-              value={mutUser?.misc}
+              defaultValue={mutUser?.misc}
               name="misc"
               onChange={(e) => {
-                setMutUser({ ...mutUser, ...{} });
+                setMutUser({ ...mutUser, ...{ misc: e.target.value } });
               }}
             />
             <input
@@ -193,6 +377,7 @@ const UserDashboard = (): JSX.Element => {
                         );
                       } else {
                         Alert("Account gelöscht.", "info", context.theme);
+                        setModalVisible(false);
                       }
                     });
                   }}
@@ -271,100 +456,7 @@ const UserDashboard = (): JSX.Element => {
                         );
                       } else {
                         Alert("E-Mail geändert!", "success", context.theme);
-                      }
-                    });
-                  }}
-                >
-                  <input
-                    type="text"
-                    placeholder=""
-                    value={mutUser.name}
-                    onChange={(e) => {
-                      setMutUser({ ...mutUser, ...{ name: e.target.value } });
-                    }}
-                    required
-                  />
-                  <input
-                    type="text"
-                    placeholder=" Neue E-Mail"
-                    value={email}
-                    onChange={(e) => {
-                      setMutUser({ ...mutUser, ...{ name: e.target.value } });
-                    }}
-                    required
-                  />
-                  <input
-                    type="submit"
-                    value="Ändern"
-                    disabled={
-                      dname !== context.user?.name ||
-                      !/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
-                        email
-                      )
-                    }
-                    onSubmit={() => setDname("")}
-                  />
-                </form>
-              </div>
-            </div>
-            <hr />
-            <div className={css["danger-item"]}>
-              <div>
-                <p className={css["danger-action"]}>Namen ändern</p>
-                <p className={css["danger-description"]}>
-                  Ändere deine Namen, wenn du ihn amtlich geändert hast oder
-                  nicht willst, dass dein Nachname einsehbar ist.
-                </p>
-              </div>
-              <button
-                onClick={(e) => {
-                  setNameModalVisible(!nameModalVisible);
-                }}
-                className={general["text-button"]}
-              >
-                Namen ändern
-              </button>
-            </div>
-            <div
-              className={css["modal-background"]}
-              style={{ display: nameModalVisible ? "flex" : "none" }}
-            >
-              <div className={css["modal-content"]} onClick={() => {}}>
-                <div className={css["modal-heading-row"]}>
-                  <h1>Namen ändern</h1>
-                  <button
-                    onClick={() => setNameModalVisible(false)}
-                    className={css["close-button"]}
-                  >
-                    &times;
-                  </button>
-                </div>
-                <hr />
-                <p>
-                  Bitte gib zum Bestätigen{" "}
-                  <span className={css.name}>{context.user?.name}</span>ein.
-                </p>
-
-                {/* this form is there so the user can submit via pressing enter or the key on their mobile keyboard */}
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    // TODO
-                    fetch(`${API_HOST}/user`, {
-                      method: "PUT",
-                      credentials: "include",
-                      body: JSON.stringify({ name }),
-                      headers: { "content-type": "application/json" },
-                    }).then(async (res) => {
-                      const body = await res.json();
-                      if (!res.ok) {
-                        Alert(
-                          `Irgendwas ist schief gegangen: ${body.msg}`,
-                          "error",
-                          context.theme
-                        );
-                      } else {
-                        Alert("E-Mail geändert!", "success", context.theme);
+                        setEmailModalVisible(false);
                       }
                     });
                   }}
@@ -380,17 +472,20 @@ const UserDashboard = (): JSX.Element => {
                   />
                   <input
                     type="text"
-                    placeholder=" Neuer Name"
-                    value={name}
+                    placeholder=" Neue E-Mail"
+                    value={email}
                     onChange={(e) => {
-                      setName(e.target.value);
+                      setEmail(e.target.value);
                     }}
                     required
                   />
                   <input
                     type="submit"
                     value="Ändern"
-                    disabled={dname !== context.user?.name || name === ""}
+                    disabled={
+                      dname !== context.user?.name ||
+                      !/^[^@]+@[^@]+\.[^@]+$/.test(email)
+                    }
                     onSubmit={() => setDname("")}
                   />
                 </form>
