@@ -1,7 +1,13 @@
 import css from "../styles/adminDashboard.module.scss";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveLine } from "@nivo/line";
-import { ApiRequest, AuthLevel, RequestState, TutoringOffer } from "../Models";
+import {
+  ApiRequest,
+  AuthLevel,
+  RequestState,
+  TutoringOffer,
+  User,
+} from "../Models";
 import { useContext, useEffect, useState } from "react";
 import Alert from "../Components/Alert";
 import { OurContext } from "../OurContext";
@@ -157,7 +163,7 @@ const ActivityGraph = (): JSX.Element => {
           }}
           gridXValues={10}
           enableGridX={false}
-          lineWidth={5}
+          lineWidth={3}
           enableGridY={false}
           xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
           axisBottom={{
@@ -203,6 +209,84 @@ function Statistic(props: { text: string; value: any }) {
         {props.value}
       </div>
       <div className={css.statText}>{props.text}</div>
+    </div>
+  );
+}
+
+function UserGrowthChart() {
+  const [data, setData] = useState<any[]>([]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    fetch(`${API_HOST}/users`, { credentials: "include" })
+      .then((res) => res.json())
+      .then((body) => {
+        let newData = [
+          {
+            id: "growth_graph",
+            data: body.content.reduce(
+              (previousValue: any[], user: User) => [
+                ...previousValue,
+                { x: user.createdAt, y: previousValue.length + 1 },
+              ],
+              []
+            ),
+          },
+        ];
+        setData(newData);
+        setLoaded(true);
+      });
+  }, []);
+
+  return (
+    <div id={css.growthChart}>
+      {loaded ? (
+        <ResponsiveLine
+          data={data}
+          enablePointLabel={false}
+          margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
+          xScale={{
+            type: "time",
+            format: "%Y-%m-%dT%H:%M:%S.%LZ",
+            precision: "second",
+          }}
+          axisLeft={{
+            tickValues: 5,
+          }}
+          gridXValues={10}
+          enableGridX={false}
+          lineWidth={3}
+          enableGridY={false}
+          xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
+          axisBottom={{
+            format: "%Y-%m-%d",
+            tickSize: 10,
+            tickPadding: 0,
+            tickRotation: 0,
+            legendPosition: "middle",
+            tickValues: 5,
+          }}
+          enableSlices={"x"}
+          colors={{ scheme: "category10" }}
+          theme={{
+            textColor: "var(--text_color)",
+            fontSize: 14,
+          }}
+          curve="monotoneX"
+          sliceTooltip={({ slice }) => {
+            return (
+              <div id={css.tooltip}>
+                {slice.points[0].data.x.toLocaleString()}:{" "}
+                <span style={{ fontWeight: "bold" }}>
+                  {slice.points[0].data.y}
+                </span>
+              </div>
+            );
+          }}
+        />
+      ) : (
+        <LoadingScreen loaded={loaded} />
+      )}
     </div>
   );
 }
@@ -265,6 +349,10 @@ export default function AdminDashboard() {
         <div id={css.requestChartContainer}>
           <h2>Requests pro Stunde</h2>
           <ActivityGraph />
+        </div>
+        <div id={css.growthChartContainer}>
+          <h2>User-Wachstum</h2>
+          <UserGrowthChart />
         </div>
       </div>
     </div>

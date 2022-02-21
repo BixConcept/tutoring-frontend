@@ -33,6 +33,7 @@ export interface User {
   grade: number;
   authLevel: AuthLevel;
   offers: TutoringOffer[];
+  createdAt: Date;
 }
 
 export const topSubjects: string[] = [

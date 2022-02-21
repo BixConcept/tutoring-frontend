@@ -95,7 +95,7 @@ const UserDashboard = (): JSX.Element => {
       <div className={css.dashboard}>
         <div className={css["dashboard-content"]}>
           <h1>
-            Hey, {context.user?.name}
+            Hey, {context.user?.name.split(" ")[0]} 👋{" "}
             <Rank authLevel={context.user?.authLevel} />
           </h1>
           <h4>Meine Fächer</h4>
