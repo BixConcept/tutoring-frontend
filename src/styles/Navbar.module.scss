@@ -20,13 +20,17 @@ nav {
     padding: 0 10rem;
     margin: 0;
 
-    #logo img {
-      max-height: 3.7rem;
-      .dark {
-        content: url("../assets/images/logo.svg");
-      }
-      .light {
-        content: url("../assets/images/logo.svg");
+    #logo {
+      color: var(--disabled_color);
+      text-transform: "uppercase";
+      img {
+        max-height: 3.7rem;
+        .dark {
+          content: url("../assets/images/logo.svg");
+        }
+        .light {
+          content: url("../assets/images/logo.svg");
+        }
       }
     }
 
@@ -72,13 +76,19 @@ nav {
   nav {
     padding: 1rem 5vw;
     height: auto !important;
+    display: flex;
     ul {
+      margin-left: 2rem;
       flex-direction: column;
+      align-items: start;
       gap: 2rem;
       padding: 0;
+      width: 100%;
+      text-align: left;
+
       #links {
         flex-direction: column;
-        gap: 1rem !important;
+        gap: 0.5rem !important;
       }
     }
   }

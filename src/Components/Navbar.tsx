@@ -20,7 +20,7 @@ export default function Navbar() {
       <ul>
         <li id={css.logo}>
           <Link to="/">
-            <img src={logo} alt="gymhaan logo" />
+            <img src={logo} alt="gymhaan logo" /> powered by Bix|Concept
           </Link>
         </li>
         <div id={css.links}>
