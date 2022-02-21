@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useContext } from "react";
 import { OurContext } from "../OurContext";
-import DarkMode from "./DarkMode";
 
 const Footer = (): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -28,15 +27,6 @@ const Footer = (): JSX.Element => {
         </li>
         <li>
           <Link to="/imprint">Impressum</Link>
-        </li>
-        <li
-          style={{
-            color: "var(--text_color)",
-            transition: "all 200ms ease-in-out",
-            cursor: "pointer",
-          }}
-        >
-          <DarkMode />
         </li>
       </ul>
     </footer>
