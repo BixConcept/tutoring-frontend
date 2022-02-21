@@ -14,6 +14,7 @@ import { OurContext } from "../OurContext";
 import { API_HOST } from "..";
 import LoadingScreen from "../Components/LoadingScreen";
 import { useNavigate } from "react-router";
+import { Rank } from "../Components/Rank";
 
 const SubjectPie = (props: { type: "offers" | "requests" }) => {
   const context = useContext(OurContext);
@@ -213,34 +214,30 @@ function Statistic(props: { text: string; value: any }) {
   );
 }
 
-function UserGrowthChart() {
+function UserGrowthChart(props: { users?: User[] }) {
   const [data, setData] = useState<any[]>([]);
-  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    fetch(`${API_HOST}/users`, { credentials: "include" })
-      .then((res) => res.json())
-      .then((body) => {
-        let newData = [
-          {
-            id: "growth_graph",
-            data: body.content.reduce(
-              (previousValue: any[], user: User) => [
-                ...previousValue,
-                { x: user.createdAt, y: previousValue.length + 1 },
-              ],
-              []
-            ),
-          },
-        ];
-        setData(newData);
-        setLoaded(true);
-      });
-  }, []);
+    if (props.users !== undefined) {
+      let newData = [
+        {
+          id: "growth_graph",
+          data: props.users.reduce(
+            (previousValue: any[], user: User) => [
+              ...previousValue,
+              { x: user.createdAt, y: previousValue.length + 1 },
+            ],
+            []
+          ),
+        },
+      ];
+      setData(newData);
+    }
+  }, [props.users]);
 
   return (
     <div id={css.growthChart}>
-      {loaded ? (
+      {props.users !== undefined ? (
         <ResponsiveLine
           data={data}
           enablePointLabel={false}
@@ -259,12 +256,12 @@ function UserGrowthChart() {
           enableGridY={false}
           xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
           axisBottom={{
-            format: "%Y-%m-%d",
+            format: "%Y-%m-%d %H:00",
             tickSize: 10,
             tickPadding: 0,
             tickRotation: 0,
             legendPosition: "middle",
-            tickValues: 5,
+            tickValues: 8,
           }}
           enableSlices={"x"}
           colors={{ scheme: "category10" }}
@@ -285,7 +282,7 @@ function UserGrowthChart() {
           }}
         />
       ) : (
-        <LoadingScreen loaded={loaded} />
+        <LoadingScreen loaded={props.users !== undefined} />
       )}
     </div>
   );
@@ -295,6 +292,7 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
   const context = useContext(OurContext);
   const [stats, setStats] = useState<any>({});
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     // check if the user is authenticated
@@ -321,6 +319,14 @@ export default function AdminDashboard() {
         navigate("/");
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    fetch(`${API_HOST}/users`, { credentials: "include" })
+      .then((res) => res.json())
+      .then((body) => {
+        setUsers(body.content);
+      });
+  }, []);
 
   return (
     <div className={css.dashboard}>
@@ -352,7 +358,54 @@ export default function AdminDashboard() {
         </div>
         <div id={css.growthChartContainer}>
           <h2>User-Wachstum</h2>
-          <UserGrowthChart />
+          <UserGrowthChart users={users} />
+        </div>
+        <div id={css.userListContainer}>
+          <h2>User</h2>
+          <div id={css.userList}>
+            {users.map((user) => (
+              <div key={user.id} className={css.userListItem}>
+                <div>
+                  <h1>
+                    <span className={css.itemId}>#{user.id}:</span> {user.name}{" "}
+                    <Rank authLevel={user.authLevel} />
+                  </h1>
+                  <p>{user.email}</p>
+                  <p>Stufe {user.grade}</p>
+                </div>
+                <button
+                  onClick={(e) => {
+                    fetch(`${API_HOST}/user/${user.id}`, {
+                      method: "DELETE",
+                      credentials: "include",
+                    })
+                      .then((res) => {
+                        if (!res.ok) {
+                          throw new Error("");
+                        }
+
+                        Alert(
+                          "Erfolgreich gelöscht!",
+                          "success",
+                          context.theme
+                        );
+
+                        setUsers(users.filter((x) => x.id !== user.id));
+                      })
+                      .catch((e) => {
+                        Alert(
+                          "Irgendwas ist schiefgegangen 😟",
+                          "error",
+                          context.theme
+                        );
+                      });
+                  }}
+                >
+                  Löschen
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
