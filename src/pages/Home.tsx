@@ -29,7 +29,7 @@ const Home = (): JSX.Element => {
             </p>
             <p>
               Irgendwas hat{" "}
-              <a href="https://instagram.com/gymhaan.sv">die SV</a> mit dieser
+              <a href="https://instagram.com/sv.gymhaan">die SV</a> mit dieser
               Seite auch zu tun sagen sie.
             </p>
           </div>
