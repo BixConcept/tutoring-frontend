@@ -15,7 +15,7 @@ const UserDashboard = (): JSX.Element => {
   const context = useContext(OurContext);
   const navigate = useNavigate();
 
-  const [mutUser, setMutUser] = useState<User | null>(context.user);
+  const [modUser, setMutUser] = useState<User | null>(context.user);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [emailModalVisible, setEmailModalVisible] = useState<boolean>(false);
   const [dname, setDname] = useState<string>("");
@@ -58,7 +58,7 @@ const UserDashboard = (): JSX.Element => {
     fetch(`${API_HOST}/user`, {
       method: "PUT",
       credentials: "include",
-      body: JSON.stringify(mutUser),
+      body: JSON.stringify(modUser),
       headers: { "content-type": "application/json" },
     }).then(async (res) => {
       const body = await res.json();
@@ -78,17 +78,17 @@ const UserDashboard = (): JSX.Element => {
     });
   }
 
-  if (mutUser) {
+  if (modUser) {
     return (
       <div className={css.dashboard}>
         <div className={css["dashboard-content"]}>
           <h1>
-            Hey 👋, {context.user?.name.split(" ")[0]}
+            Hey 👋, {context.user?.name.split(" ")[0]}{" "}
             <Rank authLevel={context.user?.authLevel} />
           </h1>
           <h4>Meine Fächer</h4>
           <div id={css.offers}>
-            {mutUser.offers.map((offer) => (
+            {modUser.offers.map((offer) => (
               <div key={offer.id} className={css.offer}>
                 <h1>
                   {offer.subjectName} bis Stufe {offer.maxGrade}
@@ -127,9 +127,9 @@ const UserDashboard = (): JSX.Element => {
                             context.theme
                           );
                           setMutUser({
-                            ...mutUser,
+                            ...modUser,
                             ...{
-                              offers: mutUser.offers.filter(
+                              offers: modUser.offers.filter(
                                 (x) => x.id !== offer.id
                               ),
                             },
@@ -234,8 +234,8 @@ const UserDashboard = (): JSX.Element => {
                       } else {
                         res.json().then((body) => {
                           setMutUser({
-                            ...mutUser,
-                            ...{ offers: [...mutUser.offers, body.content] },
+                            ...modUser,
+                            ...{ offers: [...modUser.offers, body.content] },
                           });
                         });
                       }
@@ -266,7 +266,7 @@ const UserDashboard = (): JSX.Element => {
             <label htmlFor="email">E-Mail</label>
             <input
               type="text"
-              value={mutUser?.email}
+              value={modUser?.email}
               className={general["input-field"]}
               name="email"
               onClick={() => {
@@ -278,8 +278,11 @@ const UserDashboard = (): JSX.Element => {
             <label htmlFor="name">Name</label>
             <input
               type="text"
-              value={mutUser?.name}
+              value={modUser?.name}
               className={general["input-field"]}
+              onChange={(e) =>
+                setMutUser({ ...modUser, ...{ name: e.target.value } })
+              }
               name="name"
             />
             <label htmlFor="grade">Stufe</label>
@@ -287,10 +290,10 @@ const UserDashboard = (): JSX.Element => {
               <select
                 name=""
                 className={general.select}
-                value={mutUser.grade}
+                value={modUser.grade}
                 onChange={(e) => {
                   setMutUser({
-                    ...mutUser,
+                    ...modUser,
                     ...{ grade: parseInt(e.target.value) },
                   });
                 }}
@@ -304,10 +307,10 @@ const UserDashboard = (): JSX.Element => {
             <label htmlFor="misc">Sonstiges</label>
             <textarea
               className={general["select_input_field"]}
-              defaultValue={mutUser?.misc}
+              defaultValue={modUser?.misc}
               name="misc"
               onChange={(e) => {
-                setMutUser({ ...mutUser, ...{ misc: e.target.value } });
+                setMutUser({ ...modUser, ...{ misc: e.target.value } });
               }}
             />
             <input
@@ -490,6 +493,6 @@ const UserDashboard = (): JSX.Element => {
         </div>
       </div>
     );
-  } else return <LoadingScreen loaded={mutUser !== null} />;
+  } else return <LoadingScreen loaded={modUser !== null} />;
 };
 export default UserDashboard;

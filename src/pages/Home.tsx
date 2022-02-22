@@ -9,16 +9,13 @@ const Home = (): JSX.Element => {
       <section id={css.mainThingy}>
         <div id={css.title}>
           <h1>
-            <span className={css.backdrop}>
-              Nach&shy;hil&shy;fe&shy;platt&shy;form
-            </span>
+            <span className={css.backdrop}>sv nachhilfeplattform</span>
           </h1>
         </div>
       </section>
       <section id={css.applySection}>
         <div className={css.applyFlexContainer}>
           <div className={css.informationText}>
-            <p>Willkommen auf unserem Nachhilfeportal! 🥳</p>
             <p>
               Wenn du in einem Fach Nachhilfe geben möchtest, kannst du dich
               ganz einfach mit deiner Schul-Email registrieren. Für alle die
