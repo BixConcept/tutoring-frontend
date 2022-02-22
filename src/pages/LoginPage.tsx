@@ -6,7 +6,7 @@ import { OurContext } from "../OurContext";
 import { useContext } from "react";
 import lottie from "lottie-web";
 
-import { API_HOST } from "../index";
+import { API_HOST, checkEmail } from "../index";
 import Alert from "../Components/Alert";
 
 const Required = (): JSX.Element => {
@@ -46,7 +46,7 @@ const LoginPage = (): JSX.Element => {
         }, 4000);
       } else {
         Alert(
-          "Wahrscheinlich stimmt mit deinem Input was nicht.",
+          "Wahrscheinlich stimmt etwas mit deiner Eingabe nicht. Wohlmöglich ist mit dieser E-Mail kein Account verknüpft.",
           "error",
           getTheme()
         );
@@ -106,11 +106,7 @@ const LoginPage = (): JSX.Element => {
             type="submit"
             value="Login (ohne Passwort)"
             className={general["text_button"]}
-            disabled={
-              !/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
-                otpEmail
-              )
-            }
+            disabled={!checkEmail(otpEmail)}
           />
         </form>
       </div>

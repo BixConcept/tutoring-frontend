@@ -1,13 +1,8 @@
 import css from "../styles/Home.module.scss";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { OurContext } from "../OurContext";
-import Alert from "../Components/Alert";
 
 const Home = (): JSX.Element => {
   document.title = "Nachhilfe GymHaan";
-
-  const context = useContext(OurContext);
 
   return (
     <main id={css.main}>
@@ -25,20 +20,12 @@ const Home = (): JSX.Element => {
           <div className={css.informationText}>
             <p>Willkommen auf unserem Nachhilfeportal! 🥳</p>
             <p>
-              Diese Seite wird komplett von Schülern geführt und entwickelt.
               Wenn du in einem Fach Nachhilfe geben möchtest, kannst du dich
               ganz einfach mit deiner Schul-Email registrieren. Für alle die
               Nachhilfe brauchen funktioniert der Zugang ohne Registrierung.{" "}
               <br />
-              Viel Erfolg beim Lernen! Eure Webseitenersteller aus dem Info-Kurs
-              🤗 <br />
-              WIP: falls du ein Problem auf dieser Website findest,{" "}
-              <a
-                className={css.link}
-                href="https://github.com/HaanerBarbaren/tutoring-frontend/issues"
-              >
-                öffne ein Issue!
-              </a>
+              Viel Erfolg beim Lernen! Eure Webseitenersteller aus dem
+              Informatik-Kurs 🤗 <br />
             </p>
             <p>
               Mit der Nutzung dieser Seite erklärst du dich mit den{" "}

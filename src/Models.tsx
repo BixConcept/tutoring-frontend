@@ -43,7 +43,6 @@ export const topSubjects: string[] = [
   "Latein",
   "Französisch",
   "Spanisch",
-  "Fortnite",
 ];
 
 export interface Subject {

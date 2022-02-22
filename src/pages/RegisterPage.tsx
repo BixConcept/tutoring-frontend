@@ -92,6 +92,7 @@ const RegisterPage = (): JSX.Element => {
     }
   };
 
+  // converts something like christianlindner@fdp.de to Christian Lindner
   const emailToName = (email: string): string => {
     return email
       .split("@")[0]
@@ -365,7 +366,7 @@ const RegisterPage = (): JSX.Element => {
             className={general.text_button}
             onClick={(e) => {
               if (isNaN(parseInt(grade))) {
-                Alert("Bitte wähle deine Stufe!!!", "error", context.theme);
+                Alert("Bitte wähle deine Stufe!", "error", context.theme);
               } else {
                 newStep(4);
                 register();
@@ -399,7 +400,7 @@ const RegisterPage = (): JSX.Element => {
           <br />
           Öffne diese und befolge die Anweisungen, um deinen Account zu
           aktivieren. <br />
-          PS: Wenn du die E-Mail nicht findest, schau in deinem Spam-Ordner
+          PS: Wenn du die E-Mail nicht findest, schau in deinem Spam/Junk-Ordner
           nach.
           <br />
           <p>

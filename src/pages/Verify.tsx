@@ -8,7 +8,7 @@ import lottie from "lottie-web";
 
 const TimedRedirect = (props: { href: string; verified: boolean }) => {
   const { href, verified } = props;
-  let [num, setNum] = useState<number>(3);
+  let [num, setNum] = useState<number>(10);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Verify = () => {
           setVerified(true);
         }
       })
-      .catch((e) => {
+      .catch((_) => {
         setLoaded(true);
         setVerified(false);
       });
@@ -83,7 +83,12 @@ const Verify = () => {
             </Fragment>
           ) : (
             <Fragment>
-              <h1>Das hat nicht geklappt</h1>
+              <h1>Verifizierung fehlgeschlagen!</h1>
+              <p style={{ textAlign: "center" }}>
+                {" "}
+                Entweder ist dieser Account bereits verifiziert oder der
+                Verifizierungscode ist invalide.
+              </p>
               <TimedRedirect href="/" verified={false} />
             </Fragment>
           )}

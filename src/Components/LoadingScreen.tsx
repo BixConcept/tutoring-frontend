@@ -4,6 +4,7 @@ import lottie from "lottie-web";
 
 const LoadingScreen = (props: { loaded: boolean }): JSX.Element => {
   const loading = useRef(null);
+  const { loaded } = props;
   const [initialized, setInitialized] = useState(false); // to not have the animation added multiple times
 
   useEffect(() => {
@@ -22,8 +23,8 @@ const LoadingScreen = (props: { loaded: boolean }): JSX.Element => {
     <div
       className={css.LoadingScreen}
       style={{
-        opacity: props.loaded ? 0 : 1,
-        transition: `opacity ${props.loaded ? "0s" : "100ms"} ease-in-out`, // this is so the animation play
+        opacity: loaded ? 0 : 1,
+        transition: `opacity ${loaded ? "0s" : "100ms"} ease-in-out`, // this is so the animation play
       }}
     >
       <div

@@ -5,7 +5,6 @@ import RegisterPage from "./pages/RegisterPage";
 import Footer from "./Components/Footer";
 import "./styles/App.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import License from "./pages/License";
 import Privacy from "./pages/Privacy";
 import Imprint from "./pages/Imprint";
 import { OurContext } from "./OurContext";
@@ -18,7 +17,6 @@ import { User } from "./Models";
 import { API_HOST } from "./index";
 import Verify from "./pages/Verify";
 import { ToastContainer } from "react-toastify";
-import Cookie from "./Components/Cookie";
 import AdminDashboard from "./pages/AdminDashboard";
 
 const App = (): JSX.Element => {
@@ -27,10 +25,10 @@ const App = (): JSX.Element => {
 
   useEffect(() => {
     // Rainbow Giant Styled Text
-    const style =
-      "font-weight: bold; font-size: 50px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38) , 6px 6px 0 rgb(226,91,14) , 9px 9px 0 rgb(245,221,8) , 12px 12px 0 rgb(5,148,68) , 15px 15px 0 rgb(2,135,206) , 18px 18px 0 rgb(4,77,145) , 21px 21px 0 rgb(42,21,113)";
-
-    console.log(`%cCurrent commit: ${process.env.REACT_APP_GIT_SHA}!`, style);
+    console.log(
+      `%cCurrent commit: ${process.env.REACT_APP_GIT_SHA}!`,
+      "font-weight: bold; font-size: 50px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38) , 6px 6px 0 rgb(226,91,14) , 9px 9px 0 rgb(245,221,8) , 12px 12px 0 rgb(5,148,68) , 15px 15px 0 rgb(2,135,206) , 18px 18px 0 rgb(4,77,145) , 21px 21px 0 rgb(42,21,113)"
+    );
 
     // test validity of token
     fetch(`${API_HOST}/user`, {
@@ -38,7 +36,7 @@ const App = (): JSX.Element => {
     })
       .then((res) => {
         if (res.ok) return res.json();
-        throw new Error("asdf");
+        throw new Error("Error while fetching");
       })
       .then((body) => {
         // if the server returns something, a cookie exists => the user has already consented before
@@ -69,7 +67,6 @@ const App = (): JSX.Element => {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/register/:stepIndex" element={<RegisterPage />} />
-              <Route path="/license" element={<License />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/imprint" element={<Imprint />} />
               <Route path="/find" element={<Find />} />

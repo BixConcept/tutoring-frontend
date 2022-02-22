@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { API_HOST } from "..";
+import { API_HOST, checkEmail } from "..";
 import Alert from "../Components/Alert";
 import LoadingScreen from "../Components/LoadingScreen";
 import { OurContext } from "../OurContext";
@@ -64,7 +64,7 @@ const UserDashboard = (): JSX.Element => {
       const body = await res.json();
       if (!res.ok) {
         Alert(
-          `Irgendwas ist schief gegangen: ${body.msg}`,
+          `Irgendetwaswas ist schief gegangen: ${body.msg}`,
           "error",
           context.theme
         );
@@ -108,14 +108,14 @@ const UserDashboard = (): JSX.Element => {
                             "application/json"
                           ) {
                             Alert(
-                              "Irgendwas ist schiefgegangen 😠",
+                              "Irgendetwas ist schiefgegangen 😠",
                               "error",
                               context.theme
                             );
                           } else {
                             res.json().then((body) => {
                               Alert(
-                                "Irgendwas ist schiefgegangen 😠 " + body.msg,
+                                "Irgendetwas ist schiefgegangen 😠 " + body.msg,
                                 "error",
                                 context.theme
                               );
@@ -123,7 +123,7 @@ const UserDashboard = (): JSX.Element => {
                           }
                         } else {
                           Alert(
-                            "Erfolgreich gelöscht 😍",
+                            "Erfolgreich gelöscht!",
                             "success",
                             context.theme
                           );
@@ -152,7 +152,6 @@ const UserDashboard = (): JSX.Element => {
                   <div className={general.select_input_field}>
                     <select
                       name=""
-                      id=""
                       className={general.select}
                       onChange={(e) =>
                         setSelectedSubject(parseInt(e.target.value))
@@ -171,7 +170,7 @@ const UserDashboard = (): JSX.Element => {
                       })}
                     </select>
                   </div>
-                </div>{" "}
+                </div>
                 bis Stufe{" "}
                 <div className={css.select_wrapper}>
                   <div className={general.select_input_field}>
@@ -481,8 +480,7 @@ const UserDashboard = (): JSX.Element => {
                     type="submit"
                     value="Ändern"
                     disabled={
-                      dname !== context.user?.name ||
-                      !/^[^@]+@[^@]+\.[^@]+$/.test(email)
+                      dname !== context.user?.name || !checkEmail(email)
                     }
                     onSubmit={() => setDname("")}
                   />
