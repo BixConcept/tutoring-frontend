@@ -46,6 +46,7 @@ export default function Navbar() {
                     }
                   });
                 }}
+                style={{ cursor: "pointer" }}
               >
                 Abmelden
               </button>

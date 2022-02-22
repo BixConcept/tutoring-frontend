@@ -28,15 +28,15 @@ const Home = (): JSX.Element => {
               </a>
             </p>
             <p>
-              Irgendwas hat{" "}
-              <a href="https://instagram.com/sv.gymhaan">die SV</a> mit dieser
-              Seite auch zu tun sagen sie.
+              <a href="https://instagram.com/sv.gymhaan">Link zur SV</a>
             </p>
           </div>
           <div id={css.choices}>
             <div className={css.choice}>
               <Link to="/find">
-                <h1>Ich brauche Nachhilfe</h1>
+                <h1>
+                  Ich <span className={css.backdrop}>brauche Nachhilfe</span>
+                </h1>
               </Link>
             </div>
             <div className={css.choice}>
