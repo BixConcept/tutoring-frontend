@@ -2,7 +2,6 @@ import css from "../styles/Footer.module.scss";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import License from "../pages/License";
 
 const Footer = (): JSX.Element => {
   return (
@@ -14,7 +13,9 @@ const Footer = (): JSX.Element => {
           </a>
         </li>
         <li>
-          <License />
+          <a href="https://github.com/BixConcept/tutoring-frontend/blob/main/LICENSE">
+            Lizenz
+          </a>
         </li>
         <li>
           <Link to="/privacy">Datenschutz</Link>{" "}
