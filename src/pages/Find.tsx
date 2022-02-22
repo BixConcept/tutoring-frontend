@@ -252,6 +252,7 @@ const Find = (): JSX.Element => {
                 <h2>
                   {result.name}, Stufe/Klasse {result.grade}
                 </h2>
+                <p>{result.misc}</p>
                 <p className={css.email}>
                   <a href={`mailto:${result.email}`}>{result.email}</a>
                 </p>
