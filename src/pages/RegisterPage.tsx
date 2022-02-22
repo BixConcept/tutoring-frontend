@@ -158,7 +158,7 @@ const RegisterPage = (): JSX.Element => {
             </option>
             {grades.map((grade, index) => {
               return (
-                <option value={index + 5} key={index + 5}>
+                <option value={grade} key={index}>
                   bis Stufe {grade}
                 </option>
               );

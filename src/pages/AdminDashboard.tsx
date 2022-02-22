@@ -74,7 +74,10 @@ const SubjectPie = (props: { type: "offers" | "requests" }) => {
           innerRadius={0.5}
           padAngle={2}
           cornerRadius={8}
-          theme={{ fontSize: 14, textColor: "white" }}
+          theme={{
+            fontSize: 14,
+            textColor: "white",
+          }}
           margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
         />
       ) : null}
@@ -180,6 +183,7 @@ const ActivityGraph = (): JSX.Element => {
           theme={{
             textColor: "var(--text_color)",
             fontSize: 14,
+            crosshair: { line: { stroke: "var(--text_color)" } },
           }}
           curve="monotoneX"
           sliceTooltip={({ slice }) => {
@@ -268,6 +272,7 @@ function UserGrowthChart(props: { users?: User[] }) {
           theme={{
             textColor: "var(--text_color)",
             fontSize: 14,
+            crosshair: { line: { stroke: "var(--text_color)" } },
           }}
           curve="monotoneX"
           sliceTooltip={({ slice }) => {
