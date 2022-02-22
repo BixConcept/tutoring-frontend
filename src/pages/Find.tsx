@@ -102,7 +102,6 @@ const Find = (): JSX.Element => {
     fetch(`${API_HOST}/subjects`)
       .then((res: Response) => {
         if (!res.ok) {
-          console.log(res);
           throw new Error();
         }
         return res.json();
@@ -110,11 +109,10 @@ const Find = (): JSX.Element => {
       .then((body: any) => {
         setSubjectsRequestState(RequestState.Success);
         if (body.content) {
-          console.log(body.content);
           setSubjects(body.content);
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setSubjectsRequestState(RequestState.Failure);
         Alert("Irgendwas ist schiefgegangen", "error", context.theme);
       });
@@ -122,23 +120,11 @@ const Find = (): JSX.Element => {
 
   const validate = (): boolean => {
     if (isNaN(subject)) {
-      Alert(
-        "Du musst ein Fach auswählen",
-        "error",
-        context.theme === "dark" || context.theme === "light"
-          ? context.theme
-          : "dark"
-      );
+      Alert("Du musst ein Fach auswählen", "error", context.theme);
       return false;
     }
     if (grade === "") {
-      Alert(
-        "Du musst eine Stufe auswählen",
-        "error",
-        context.theme === "dark" || context.theme === "light"
-          ? context.theme
-          : "dark"
-      );
+      Alert("Du musst eine Stufe auswählen", "error", context.theme);
       return false;
     }
     return true;

@@ -32,6 +32,12 @@ nav {
           content: url("../assets/images/logo.svg");
         }
       }
+
+      display: flex;
+      gap: 1rem;
+      max-width: 10rem;
+      align-items: center;
+      color: var(--disabled_color);
     }
 
     a,

@@ -96,7 +96,6 @@ const UserDashboard = (): JSX.Element => {
                 <button
                   className={css["remove-button"]}
                   onClick={() => {
-                    console.log(offer.id);
                     fetch(`${API_HOST}/offer/${offer.id}`, {
                       method: "DELETE",
                       credentials: "include",

@@ -22,15 +22,6 @@ const LoginPage = (): JSX.Element => {
 
   const animationRef = useRef(null);
 
-  function getTheme(): "dark" | "light" {
-    console.log(context.theme);
-    if (context.theme === "dark" || context.theme === "light") {
-      return context.theme;
-    } else {
-      return "dark";
-    }
-  }
-
   function loginOTP() {
     fetch(`${API_HOST}/user/otp`, {
       method: "POST",
@@ -38,7 +29,7 @@ const LoginPage = (): JSX.Element => {
       headers: { "Content-Type": "application/json" },
     }).then((res) => {
       if (res.ok) {
-        Alert("E-Mail geschickt!", "success", getTheme());
+        Alert("E-Mail geschickt!", "success", context.theme);
         lottie.destroy();
         setDisplayAnimation(true);
         setTimeout(() => {
@@ -46,9 +37,9 @@ const LoginPage = (): JSX.Element => {
         }, 4000);
       } else {
         Alert(
-          "Wahrscheinlich stimmt etwas mit deiner Eingabe nicht. Wohlmöglich ist mit dieser E-Mail kein Account verknüpft.",
+          "Wahrscheinlich stimmt etwas mit deiner Eingabe nicht. Womöglich ist mit dieser E-Mail kein Account verknüpft.",
           "error",
-          getTheme()
+          context.theme
         );
         setDisplayAnimation(false);
       }
