@@ -377,6 +377,7 @@ export default function AdminDashboard() {
                   </h1>
                   <p>{user.email}</p>
                   <p>Stufe {user.grade}</p>
+                  {user.misc ? <p>Misc: {user.misc}</p> : null}
                 </div>
                 <button
                   onClick={(e) => {
