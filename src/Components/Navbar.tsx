@@ -17,8 +17,8 @@ export default function Navbar() {
         <li id={css.logo}>
           <Link to="/">
             <img src={logo} alt="gymhaan logo" />
+            <span>powered by Bix|Concept</span>
           </Link>
-          <span>powered by Bix|Concept</span>
         </li>
         <div id={css.links}>
           <li
