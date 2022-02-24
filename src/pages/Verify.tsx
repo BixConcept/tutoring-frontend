@@ -1,10 +1,11 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { API_HOST } from "../index";
 import LoadingScreen from "../Components/LoadingScreen";
 import css from "../styles/verify.module.scss";
 import general from "../styles/general.module.scss";
 import lottie from "lottie-web";
+import { OurContext } from "../OurContext";
 
 const TimedRedirect = (props: { href: string; verified: boolean }) => {
   const { href, verified } = props;
@@ -33,13 +34,27 @@ const Verify = () => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const successRef = useRef(null);
   const failureRef = useRef(null);
+  const context = useContext(OurContext);
 
   useEffect(() => {
     fetch(`${API_HOST}/user/verify?code=${code}`, { credentials: "include" })
-      .then((res) => {
+      .then(async (res) => {
         setLoaded(true);
         if (res.ok) {
           setVerified(true);
+          const res = await fetch(`${API_HOST}/user`, {
+            credentials: "include",
+          });
+          if (!res.ok) {
+            setVerified(false);
+          } else {
+            try {
+              const json = await res.json();
+              context.setUser(json.content);
+            } catch (e) {
+              console.error(e);
+            }
+          }
         }
       })
       .catch((_) => {
