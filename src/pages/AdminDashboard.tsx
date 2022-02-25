@@ -125,8 +125,7 @@ const ActivityGraph = (props: {
         ),
       },
     ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [requests]);
   return (
     <div id={css.requestsChart}>
       {RequestState.Success === props.requestState ? (
@@ -368,7 +367,7 @@ function IPAddressLeaderboard(props: {
           )
           .slice(0, maxItems)
           .map((ip) => (
-            <tr>
+            <tr key={ip.ip}>
               <td>{ip.ip}</td>
               <td>{ip.numRequests}</td>
               <td>
