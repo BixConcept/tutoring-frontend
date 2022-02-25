@@ -8,6 +8,9 @@ import Alert from "../Components/Alert";
 import { API_HOST, checkEmail } from "../index";
 import LoadingScreen from "../Components/LoadingScreen";
 import { RequestState } from "../Models";
+import { faDiscord, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SignalIcon from "../assets/images/signal.svg";
 
 function RequestForm(props: {
   subject: number;
@@ -252,13 +255,45 @@ const Find = (): JSX.Element => {
                 <h2>
                   {result.name}, Stufe/Klasse {result.grade}
                 </h2>
-                <p>{result.misc}</p>
-                <p className={css.email}>
-                  <a href={`mailto:${result.email}`}>{result.email}</a>
-                </p>
                 <p>
                   {result.subjectName} bis Stufe/Klasse {result.maxGrade}
                 </p>
+                <p className={css.email}>
+                  <a href={`mailto:${result.email}`}>{result.email}</a>
+                </p>
+                <p>{result.misc}</p>
+                <div className={css.messengers}>
+                  {result.hasDiscord ? (
+                    <p>
+                      <a>
+                        <FontAwesomeIcon icon={faDiscord} />{" "}
+                        <span>{result.discordUser}</span>
+                      </a>
+                    </p>
+                  ) : null}
+                  {!result.hasSignal ? (
+                    <p>
+                      <a href={`https://signal.me/#p/${result.phoneNumber}`}>
+                        <img
+                          style={{ display: "inline", height: "1em" }}
+                          src={SignalIcon}
+                          alt="Signal Logo"
+                        />{" "}
+                        <span>{result.phoneNumber}</span>
+                      </a>
+                    </p>
+                  ) : null}
+                  {result.hasWhatsapp ? (
+                    <p>
+                      <a
+                        href={`https://api.whatsapp.com/send?phone=${result.phoneNumber}`}
+                      >
+                        <FontAwesomeIcon icon={faWhatsapp} />{" "}
+                        <span>{result.phoneNumber}</span>
+                      </a>
+                    </p>
+                  ) : null}
+                </div>
               </div>
             ))}
           </Fragment>

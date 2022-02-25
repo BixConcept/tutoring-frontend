@@ -1,13 +1,16 @@
+import { faDiscord, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { API_HOST, checkEmail } from "..";
+import SignalLogo from "../assets/images/signal.svg";
 import Alert from "../Components/Alert";
 import LoadingScreen from "../Components/LoadingScreen";
+import { Rank } from "../Components/Rank";
+import { Subject, User } from "../Models";
 import { OurContext } from "../OurContext";
 import general from "../styles/general.module.scss";
 import css from "../styles/userDashboard.module.scss";
-import { Subject, User } from "../Models";
-import { Rank } from "../Components/Rank";
 
 const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";
@@ -303,6 +306,45 @@ const UserDashboard = (): JSX.Element => {
                   return <option key={index}>{grade + 5}</option>;
                 })}
               </select>
+            </div>
+            <label htmlFor="grade">Telefonnumer</label>
+            <input
+              type="text"
+              value={modUser?.phoneNumber}
+              className={general["input-field"]}
+              placeholder={"+49 176 3215532"}
+            />
+            <div id={css.messengerCheckboxes}>
+              <div className={css.messenger}>
+                <label htmlFor="signal">
+                  Signal <img src={SignalLogo} alt="Signal Icon" />
+                </label>
+                <input
+                  type="checkbox"
+                  className={general.checkbox}
+                  name="signal"
+                />
+              </div>
+              <div className={css.messenger}>
+                <label htmlFor="discord">
+                  Discord <FontAwesomeIcon icon={faDiscord} />
+                </label>
+                <input
+                  type="checkbox"
+                  className={general.checkbox}
+                  name="discord"
+                />
+              </div>
+              <div className={css.messenger}>
+                <label htmlFor="whatsapp">
+                  WhatsApp <FontAwesomeIcon icon={faWhatsapp} />
+                </label>
+                <input
+                  type="checkbox"
+                  className={general.checkbox}
+                  name="whatsapp"
+                />
+              </div>
             </div>
             <label htmlFor="misc">Sonstiges</label>
             <textarea

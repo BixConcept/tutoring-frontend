@@ -200,6 +200,22 @@ h4 {
     color: var(--text_color);
     border: none;
   }
+  #messengerCheckboxes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .messenger {
+      display: flex;
+      justify-content: space-between;
+      width: 20%;
+
+      img {
+        display: inline;
+        height: 1em;
+      }
+    }
+  }
 
   input[type="submit"] {
     width: 30%;

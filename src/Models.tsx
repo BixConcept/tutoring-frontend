@@ -9,6 +9,10 @@ export interface TutoringOffer {
   subjectName: string;
   misc: string | null;
   grade: number;
+  hasDiscord: boolean;
+  hasSignal: boolean;
+  hasWhatsapp: boolean;
+  discordUser?: string;
 }
 
 export enum AuthLevel {
@@ -28,10 +32,14 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  phone_number?: string;
+  phoneNumber?: string;
   misc?: string;
   grade: number;
   authLevel: AuthLevel;
+  hasDiscord: boolean;
+  hasSignal: boolean;
+  hasWhatsapp: boolean;
+  discordUser?: string;
   offers: TutoringOffer[];
   createdAt: Date;
 }
