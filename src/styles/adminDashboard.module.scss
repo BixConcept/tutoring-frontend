@@ -267,6 +267,16 @@
 }
 */
 
+#ipTable {
+  width: 100%;
+  thead {
+    font-weight: bold;
+  }
+  p {
+    margin: 0 auto;
+  }
+}
+
 @media screen and (max-width: 1400px) {
   #firstCharts {
     flex-direction: column !important;

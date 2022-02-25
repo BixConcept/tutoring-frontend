@@ -1,6 +1,17 @@
-import css from "../styles/adminDashboard.module.scss";
-import { ResponsivePie } from "@nivo/pie";
+import {
+  faSort,
+  faSortDown,
+  faSortUp,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ResponsiveLine } from "@nivo/line";
+import { ResponsivePie } from "@nivo/pie";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { API_HOST } from "..";
+import Alert from "../Components/Alert";
+import LoadingScreen from "../Components/LoadingScreen";
+import { Rank } from "../Components/Rank";
 import {
   ApiRequest,
   AuthLevel,
@@ -8,13 +19,8 @@ import {
   TutoringOffer,
   User,
 } from "../Models";
-import { useContext, useEffect, useState } from "react";
-import Alert from "../Components/Alert";
 import { OurContext } from "../OurContext";
-import { API_HOST } from "..";
-import LoadingScreen from "../Components/LoadingScreen";
-import { useNavigate } from "react-router";
-import { Rank } from "../Components/Rank";
+import css from "../styles/adminDashboard.module.scss";
 
 const SubjectPie = (props: { subjects: any; requestState: RequestState }) => {
   const [data, setData] = useState<any[]>([]);
@@ -119,7 +125,8 @@ const ActivityGraph = (props: {
         ),
       },
     ]);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div id={css.requestsChart}>
       {RequestState.Success === props.requestState ? (
@@ -168,7 +175,7 @@ const ActivityGraph = (props: {
           }}
         />
       ) : null}
-      {props.requestState !== RequestState.Loading ? (
+      {props.requestState === RequestState.Loading ? (
         <LoadingScreen loaded={false} />
       ) : null}
     </div>
@@ -193,7 +200,7 @@ function Statistic(props: { text: string; value: any }) {
 function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
   return (
     <div id={css.growthChart}>
-      {props.users.length > 0 ? (
+      {props.requestState === RequestState.Success ? (
         <ResponsiveLine
           data={[
             {
@@ -250,9 +257,141 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
           }}
         />
       ) : (
-        <LoadingScreen loaded={props.users.length > 0} />
+        <LoadingScreen loaded={props.requestState !== RequestState.Loading} />
       )}
     </div>
+  );
+}
+
+function IPAddressLeaderboard(props: {
+  apiRequests: ApiRequest[];
+  requestState: RequestState;
+}): JSX.Element {
+  const [ips, setIPs] = useState<any[]>([]);
+  const [sortColumn, setSortColumn] = useState<string>("numRequests");
+  const [sortDirection, setSortDirection] = useState<string>("down");
+  const [maxItems, setMaxItems] = useState<number>(10);
+  useEffect(() => {
+    const listOfIPs: string[] = props.apiRequests.reduce(
+      (last: string[], r: ApiRequest) => {
+        if (last.indexOf(r.ip) === -1) {
+          return [...last, r.ip];
+        } else {
+          return last;
+        }
+      },
+      []
+    );
+    const numberRequestsPerIP: { [key: string]: number } = listOfIPs.reduce(
+      (last, ip: string) => ({
+        ...last,
+        ...{ [ip]: props.apiRequests.filter((r) => r.ip === ip).length },
+      }),
+      {}
+    );
+    const lastRequestPerIP: { [key: string]: number } = listOfIPs.reduce(
+      (last, ip: string) => ({
+        ...last,
+        ...{
+          [ip]: props.apiRequests
+            .filter((r) => r.ip === ip)
+            .reduce(
+              (lastDate: Date, r: ApiRequest) =>
+                new Date(r.time).getTime() >= lastDate.getTime()
+                  ? new Date(r.time)
+                  : lastDate,
+              new Date(0)
+            ),
+        },
+      }),
+      {}
+    );
+    setIPs(
+      listOfIPs.map((ip) => ({
+        ip,
+        numRequests: numberRequestsPerIP[ip],
+        lastRequest: lastRequestPerIP[ip],
+      }))
+    );
+  }, [props.apiRequests]);
+  return (
+    <table id={css.ipTable}>
+      <thead>
+        <tr>
+          <td>Adresse</td>
+          <td
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              if (sortColumn === "numRequests") {
+                setSortDirection(sortDirection === "up" ? "down" : "up");
+              } else {
+                setSortColumn("numRequests");
+              }
+            }}
+          >
+            # Requests{" "}
+            {sortColumn === "numRequests" ? (
+              <FontAwesomeIcon
+                icon={sortDirection === "up" ? faSortUp : faSortDown}
+              />
+            ) : (
+              <FontAwesomeIcon icon={faSort} />
+            )}
+          </td>
+          <td
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              if (sortColumn === "lastRequest") {
+                setSortDirection(sortDirection === "up" ? "down" : "up");
+              } else {
+                setSortColumn("lastRequest");
+              }
+            }}
+          >
+            Letzter Request{" "}
+            {sortColumn === "lastRequest" ? (
+              <FontAwesomeIcon
+                icon={sortDirection === "up" ? faSortUp : faSortDown}
+              />
+            ) : (
+              <FontAwesomeIcon icon={faSort} />
+            )}
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        {ips
+          .sort((a, b) =>
+            sortDirection === "up"
+              ? a[sortColumn] - b[sortColumn]
+              : b[sortColumn] - a[sortColumn]
+          )
+          .slice(0, maxItems)
+          .map((ip) => (
+            <tr>
+              <td>{ip.ip}</td>
+              <td>{ip.numRequests}</td>
+              <td>
+                {ip.lastRequest
+                  .toISOString()
+                  .replace("T", " ")
+                  .replace("Z", "")
+                  .slice(0, -4)}
+              </td>
+            </tr>
+          ))}
+      </tbody>
+      <p
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          setMaxItems(maxItems >= ips.length ? 10 : ips.length);
+        }}
+      >
+        {ips.length - maxItems > 0
+          ? `${ips.length - maxItems} weitere`
+          : "einklappen"}
+      </p>
+    </table>
   );
 }
 
@@ -260,18 +399,28 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
   const context = useContext(OurContext);
   const [stats, setStats] = useState<any>({});
-  const [requestStates, setRequestStates] = useState<{
-    [key: string]: RequestState;
-  }>({
-    offers: RequestState.Loading,
-    requests: RequestState.Loading,
-    apiRequests: RequestState.Loading,
-    userGrowth: RequestState.Loading,
+
+  // The point of this is that we can update the state for a single request
+  // in a single state variable instead of updating the data and request
+  // state seperately. That lead to weird behavior where the data was only set sometimes
+  interface RequestWithState<T> {
+    state: RequestState;
+    data: T;
+  }
+
+  const [usersRequest, setUsersRequest] = useState<RequestWithState<User[]>>({
+    state: RequestState.Loading,
+    data: [],
   });
-  const [users, setUsers] = useState<User[]>([]);
-  const [apiRequests, setApiRequests] = useState<ApiRequest[]>([]);
-  const [offers, setOffers] = useState<TutoringOffer[]>([]);
-  const [requests, setRequests] = useState<Request[]>([]);
+  const [apiRequestsRequest, setApiRequestsRequest] = useState<
+    RequestWithState<ApiRequest[]>
+  >({ state: RequestState.Loading, data: [] });
+  const [offersRequest, setOffersRequest] = useState<
+    RequestWithState<TutoringOffer[]>
+  >({ state: RequestState.Loading, data: [] });
+  const [requestsRequest, setRequestsRequest] = useState<
+    RequestWithState<Request[]>
+  >({ state: RequestState.Loading, data: [] });
 
   useEffect(() => {
     // check if the user is authenticated
@@ -293,7 +442,7 @@ export default function AdminDashboard() {
           });
         }
       })
-      .catch((e) => {
+      .catch(() => {
         // go to home page if there is some error with the request
         navigate("/");
       });
@@ -303,11 +452,7 @@ export default function AdminDashboard() {
     fetch(`${API_HOST}/users`, { credentials: "include" })
       .then((res) => res.json())
       .then((body) => {
-        setUsers(body.content);
-        setRequestStates({
-          ...requestStates,
-          ...{ users: RequestState.Success },
-        });
+        setUsersRequest({ state: RequestState.Success, data: body.content });
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -316,16 +461,13 @@ export default function AdminDashboard() {
       .then((res) => {
         res.json().then((body) => {
           if (!res.ok) {
-            setRequestStates({
-              ...requestStates,
-              ...{ offers: RequestState.Failure },
-            });
+            setOffersRequest({ state: RequestState.Failure, data: [] });
             Alert(body.msg, "error", context.theme);
           } else {
-            setOffers(body.content);
-            setRequestStates({
-              ...requestStates,
-              ...{ users: RequestState.Success },
+            console.log(body.content);
+            setOffersRequest({
+              state: RequestState.Success,
+              data: body.content,
             });
           }
         });
@@ -341,13 +483,13 @@ export default function AdminDashboard() {
       .then((res) => {
         res.json().then((body) => {
           if (!res.ok) {
-            setRequestStates({
-              ...requestStates,
-              ...{ offers: RequestState.Failure },
-            });
+            setRequestsRequest({ state: RequestState.Failure, data: [] });
             Alert(body.msg, "error", context.theme);
           } else {
-            setRequests(body.content);
+            setRequestsRequest({
+              state: RequestState.Success,
+              data: body.content,
+            });
           }
         });
       })
@@ -360,14 +502,13 @@ export default function AdminDashboard() {
   useEffect(() => {
     fetch(`${API_HOST}/apiRequests`, { credentials: "include" }).then((res) => {
       res.json().then((body) => {
-        setRequestStates({
-          ...requestStates,
-          ...{ apiRequests: RequestState.Success },
+        setApiRequestsRequest({
+          state: RequestState.Success,
+          data: body.content,
         });
-        setApiRequests(body.content);
       });
     });
-  });
+  }, []);
 
   return (
     <div className={css.dashboard}>
@@ -380,13 +521,16 @@ export default function AdminDashboard() {
         <div id={css.firstCharts}>
           <div>
             <h2>Angebote nach Fach</h2>
-            <SubjectPie subjects={offers} requestState={requestStates.offers} />
+            <SubjectPie
+              subjects={offersRequest.data}
+              requestState={offersRequest.state}
+            />
           </div>
           <div>
             <h2>Anfragen nach Fach</h2>
             <SubjectPie
-              subjects={requests}
-              requestState={requestStates.offers}
+              subjects={requestsRequest.data}
+              requestState={requestsRequest.state}
             />
           </div>
         </div>
@@ -399,21 +543,21 @@ export default function AdminDashboard() {
         <div id={css.requestChartContainer}>
           <h2>Requests pro Stunde</h2>
           <ActivityGraph
-            requests={apiRequests}
-            requestState={requestStates.activity}
+            requests={apiRequestsRequest.data}
+            requestState={apiRequestsRequest.state}
           />
         </div>
         <div id={css.growthChartContainer}>
           <h2>User-Wachstum</h2>
           <UserGrowthChart
-            users={users}
-            requestState={requestStates.userGrowth}
+            users={usersRequest.data}
+            requestState={usersRequest.state}
           />
         </div>
         <div id={css.userListContainer}>
           <h2>User</h2>
           <div id={css.userList}>
-            {users.map((user) => (
+            {usersRequest.data.map((user) => (
               <div key={user.id} className={css.userListItem}>
                 <div>
                   <h1>
@@ -425,7 +569,7 @@ export default function AdminDashboard() {
                   {user.misc ? <p>Misc: {user.misc}</p> : null}
                 </div>
                 <button
-                  onClick={(e) => {
+                  onClick={() => {
                     fetch(`${API_HOST}/user/${user.id}`, {
                       method: "DELETE",
                       credentials: "include",
@@ -441,9 +585,16 @@ export default function AdminDashboard() {
                           context.theme
                         );
 
-                        setUsers(users.filter((x) => x.id !== user.id));
+                        setUsersRequest({
+                          ...usersRequest,
+                          ...{
+                            data: usersRequest.data.filter(
+                              (x) => x.id !== user.id
+                            ),
+                          },
+                        });
                       })
-                      .catch((e) => {
+                      .catch(() => {
                         Alert(
                           "Irgendwas ist schiefgegangen 😟",
                           "error",
@@ -458,6 +609,13 @@ export default function AdminDashboard() {
               </div>
             ))}
           </div>
+        </div>
+        <div>
+          <h2>IP-Adressen</h2>
+          <IPAddressLeaderboard
+            apiRequests={apiRequestsRequest.data}
+            requestState={apiRequestsRequest.state}
+          />
         </div>
       </div>
     </div>
