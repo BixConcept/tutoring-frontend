@@ -204,13 +204,16 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
           data={[
             {
               id: "growth_graph",
-              data: props.users.reduce(
-                (previousValue: any[], user: User) => [
-                  ...previousValue,
-                  { x: user.createdAt, y: previousValue.length + 1 },
-                ],
-                []
-              ),
+              data: [
+                ...props.users.reduce(
+                  (previousValue: any[], user: User) => [
+                    ...previousValue,
+                    { x: user.createdAt, y: previousValue.length + 1 },
+                  ],
+                  []
+                ),
+                { x: new Date(), y: props.users.length },
+              ],
             },
           ]}
           enablePointLabel={false}
@@ -243,7 +246,7 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
             fontSize: 14,
             crosshair: { line: { stroke: "var(--text_color)" } },
           }}
-          curve="monotoneX"
+          curve="step"
           sliceTooltip={({ slice }) => {
             return (
               <div id={css.tooltip}>
