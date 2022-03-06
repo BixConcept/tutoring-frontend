@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  padding: 1rem;
+  justify-content: center;
+
+  .content {
+    background-color: var(--contrast_bg_color);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    color: var(--text_color);
+    min-width: 60vw;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    * {
+      margin: 0;
+    }
+
+    #offers {
+      .offer {
+        border-radius: 0.5rem;
+        padding: 0.7rem;
+        background-color: var(--contrasterer_bg_color);
+
+        h1 {
+          font-weight: normal;
+          font-size: 1.2rem;
+        }
+      }
+    }
+
+    h2 {
+      margin: 0;
+      font-weight: normal;
+      line-height: 1.5;
+
+      span {
+        color: var(--disabled_color);
+      }
+    }
+
+    h3 {
+      font-weight: normal;
+      font-size: 1.2rem;
+    }
+  }
+}

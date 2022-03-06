@@ -18,6 +18,7 @@ import { API_HOST } from "./index";
 import Verify from "./pages/Verify";
 import { ToastContainer } from "react-toastify";
 import AdminDashboard from "./pages/AdminDashboard";
+import { UserPage } from "./pages/UserPage";
 
 const App = (): JSX.Element => {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -73,6 +74,7 @@ const App = (): JSX.Element => {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/dashboard/admin" element={<AdminDashboard />} />
               <Route path="/verify/:code" element={<Verify />} />
+              <Route path="/user/:id" element={<UserPage />} />
               <Route path="*" element={<FourOFourPage />} />
             </Routes>
           </div>

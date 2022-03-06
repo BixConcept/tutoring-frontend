@@ -8,6 +8,7 @@ import Alert from "../Components/Alert";
 import { API_HOST, checkEmail } from "../index";
 import LoadingScreen from "../Components/LoadingScreen";
 import { RequestState } from "../Models";
+import { Link } from "react-router-dom";
 
 function RequestForm(props: {
   subject: number;
@@ -250,7 +251,8 @@ const Find = (): JSX.Element => {
             {results.map((result, index) => (
               <div className={css.result} key={index}>
                 <h2>
-                  {result.name}, Stufe/Klasse {result.grade}
+                  <Link to={`/user/${result.userId}`}>{result.name}</Link>,
+                  Stufe/Klasse {result.grade}
                 </h2>
                 <p>{result.misc}</p>
                 <p className={css.email}>
