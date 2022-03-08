@@ -9,7 +9,7 @@ interface IOurContext {
 }
 
 export const OurContext = createContext<IOurContext>({
-  theme: "dark",
+  theme: "light",
   setTheme: (_: string) => {},
   user: null,
   setUser: (_: User | null) => {},
