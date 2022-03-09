@@ -6,7 +6,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ResponsiveLine } from "@nivo/line";
 import { ResponsivePie } from "@nivo/pie";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, Fragment } from "react";
 import { useNavigate } from "react-router";
 import { API_HOST } from "..";
 import Alert from "../Components/Alert";
@@ -434,7 +434,7 @@ export default function AdminDashboard() {
         } else {
           res.json().then(async (body) => {
             context.setUser(body.content);
-            if (body.content.authLevel !== AuthLevel.Admin) {
+            if (body.content.authLevel < AuthLevel.Verified) {
               // go to home page if the user is authenticated but not an admin
               navigate("/");
             }
@@ -515,11 +515,19 @@ export default function AdminDashboard() {
   return (
     <div className={css.dashboard}>
       <div className={css["dashboard-content"]}>
-        <h1>Admin-Panel</h1>
-        <p>
-          Wenn du hier bist, bist du entweder wichtig, oder unser Code ist
-          kaputt.
-        </p>
+        <h1>
+          {context.user
+            ? context.user.authLevel === AuthLevel.Admin
+              ? "Admin-Panel"
+              : "Statistiken"
+            : ""}
+        </h1>
+        {context.user?.authLevel === AuthLevel.Admin ? (
+          <p>
+            Wenn du hier bist, bist du entweder wichtig, oder unser Code ist
+            kaputt.
+          </p>
+        ) : null}
         <div id={css.firstCharts}>
           <div>
             <h2>Angebote nach Fach</h2>
@@ -556,69 +564,73 @@ export default function AdminDashboard() {
             requestState={usersRequest.state}
           />
         </div>
-        <div id={css.userListContainer}>
-          <h2>User</h2>
-          <div id={css.userList}>
-            {usersRequest.data.map((user) => (
-              <div key={user.id} className={css.userListItem}>
-                <div>
-                  <h1>
-                    <span className={css.itemId}>#{user.id}:</span> {user.name}{" "}
-                    <Rank authLevel={user.authLevel} />
-                  </h1>
-                  <p>{user.email}</p>
-                  <p>Stufe {user.grade}</p>
-                  {user.misc ? <p>Misc: {user.misc}</p> : null}
-                </div>
-                <button
-                  onClick={() => {
-                    fetch(`${API_HOST}/user/${user.id}`, {
-                      method: "DELETE",
-                      credentials: "include",
-                    })
-                      .then((res) => {
-                        if (!res.ok) {
-                          throw new Error("");
-                        }
+        {context.user?.authLevel === AuthLevel.Admin ? (
+          <Fragment>
+            <div id={css.userListContainer}>
+              <h2>User</h2>
+              <div id={css.userList}>
+                {usersRequest.data.map((user) => (
+                  <div key={user.id} className={css.userListItem}>
+                    <div>
+                      <h1>
+                        <span className={css.itemId}>#{user.id}:</span>{" "}
+                        {user.name} <Rank authLevel={user.authLevel} />
+                      </h1>
+                      <p>{user.email}</p>
+                      <p>Stufe {user.grade}</p>
+                      {user.misc ? <p>Misc: {user.misc}</p> : null}
+                    </div>
+                    <button
+                      onClick={() => {
+                        fetch(`${API_HOST}/user/${user.id}`, {
+                          method: "DELETE",
+                          credentials: "include",
+                        })
+                          .then((res) => {
+                            if (!res.ok) {
+                              throw new Error("");
+                            }
 
-                        Alert(
-                          "Erfolgreich gelöscht!",
-                          "success",
-                          context.theme
-                        );
+                            Alert(
+                              "Erfolgreich gelöscht!",
+                              "success",
+                              context.theme
+                            );
 
-                        setUsersRequest({
-                          ...usersRequest,
-                          ...{
-                            data: usersRequest.data.filter(
-                              (x) => x.id !== user.id
-                            ),
-                          },
-                        });
-                      })
-                      .catch(() => {
-                        Alert(
-                          "Irgendwas ist schiefgegangen 😟",
-                          "error",
-                          context.theme
-                        );
-                      });
-                  }}
-                  disabled={user.id === context.user?.id}
-                >
-                  Löschen
-                </button>
+                            setUsersRequest({
+                              ...usersRequest,
+                              ...{
+                                data: usersRequest.data.filter(
+                                  (x) => x.id !== user.id
+                                ),
+                              },
+                            });
+                          })
+                          .catch(() => {
+                            Alert(
+                              "Irgendwas ist schiefgegangen 😟",
+                              "error",
+                              context.theme
+                            );
+                          });
+                      }}
+                      disabled={user.id === context.user?.id}
+                    >
+                      Löschen
+                    </button>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h2>IP-Adressen</h2>
-          <IPAddressLeaderboard
-            apiRequests={apiRequestsRequest.data}
-            requestState={apiRequestsRequest.state}
-          />
-        </div>
+            </div>
+            <div>
+              <h2>IP-Adressen</h2>
+              <IPAddressLeaderboard
+                apiRequests={apiRequestsRequest.data}
+                requestState={apiRequestsRequest.state}
+              />
+            </div>
+          </Fragment>
+        ) : null}
       </div>
     </div>
   );
