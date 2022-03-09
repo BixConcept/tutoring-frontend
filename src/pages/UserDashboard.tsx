@@ -15,7 +15,7 @@ const UserDashboard = (): JSX.Element => {
   const context = useContext(OurContext);
   const navigate = useNavigate();
 
-  const [modUser, setMutUser] = useState<User | null>(context.user);
+  const [modUser, setModUser] = useState<User | null>(context.user);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [emailModalVisible, setEmailModalVisible] = useState<boolean>(false);
   const [dname, setDname] = useState<string>("");
@@ -40,10 +40,11 @@ const UserDashboard = (): JSX.Element => {
         }
       })
       .then((body) => {
-        setMutUser(body.content);
+        setModUser(body.content);
         context.setUser(body.content);
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e);
         navigate("/login");
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -64,7 +65,7 @@ const UserDashboard = (): JSX.Element => {
       const body = await res.json();
       if (!res.ok) {
         Alert(
-          `Irgendetwaswas ist schief gegangen: ${body.msg}`,
+          `Irgendetwas ist schief gegangen: ${body.msg}`,
           "error",
           context.theme
         );
@@ -78,7 +79,7 @@ const UserDashboard = (): JSX.Element => {
     });
   }
 
-  if (modUser) {
+  if (modUser && modUser.offers) {
     return (
       <div className={css.dashboard}>
         <div className={css["dashboard-content"]}>
@@ -126,7 +127,7 @@ const UserDashboard = (): JSX.Element => {
                             "success",
                             context.theme
                           );
-                          setMutUser({
+                          setModUser({
                             ...modUser,
                             ...{
                               offers: modUser.offers.filter(
@@ -233,7 +234,7 @@ const UserDashboard = (): JSX.Element => {
                         }
                       } else {
                         res.json().then((body) => {
-                          setMutUser({
+                          setModUser({
                             ...modUser,
                             ...{ offers: [...modUser.offers, body.content] },
                           });
@@ -268,6 +269,7 @@ const UserDashboard = (): JSX.Element => {
               type="text"
               value={modUser?.email}
               className={general["input-field"]}
+              readOnly={true}
               name="email"
               onClick={() => {
                 if (emailButtonRef.current) {
@@ -281,7 +283,7 @@ const UserDashboard = (): JSX.Element => {
               value={modUser?.name}
               className={general["input-field"]}
               onChange={(e) =>
-                setMutUser({ ...modUser, ...{ name: e.target.value } })
+                setModUser({ ...modUser, ...{ name: e.target.value } })
               }
               name="name"
             />
@@ -292,7 +294,7 @@ const UserDashboard = (): JSX.Element => {
                 className={general.select}
                 value={modUser.grade}
                 onChange={(e) => {
-                  setMutUser({
+                  setModUser({
                     ...modUser,
                     ...{ grade: parseInt(e.target.value) },
                   });
@@ -310,7 +312,7 @@ const UserDashboard = (): JSX.Element => {
               defaultValue={modUser?.misc}
               name="misc"
               onChange={(e) => {
-                setMutUser({ ...modUser, ...{ misc: e.target.value } });
+                setModUser({ ...modUser, ...{ misc: e.target.value } });
               }}
             />
             <input
