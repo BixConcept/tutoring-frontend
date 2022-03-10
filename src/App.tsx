@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Footer from "./Components/Footer";
 import "./styles/App.scss";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import Privacy from "./pages/Privacy";
 import Imprint from "./pages/Imprint";
 import { OurContext } from "./OurContext";
@@ -59,7 +59,7 @@ const App = (): JSX.Element => {
           setUser: setUser,
         }}
       >
-        <BrowserRouter>
+        <HashRouter>
           <ScrollToTop />
           <Navbar />
           <div id="wrapper">
@@ -80,7 +80,7 @@ const App = (): JSX.Element => {
           </div>
           <Footer />
           <ToastContainer />
-        </BrowserRouter>
+        </HashRouter>
       </OurContext.Provider>
     </div>
   );
