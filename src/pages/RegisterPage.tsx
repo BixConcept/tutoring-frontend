@@ -215,7 +215,7 @@ const RegisterPage = (): JSX.Element => {
   if (step === 1) {
     return (
       <div id={css.loginContainer}>
-        <h1>Anmelden</h1>
+        <h1>Registrieren</h1>
         <div ref={login} id={css.loginAnimation}></div>
         <p>Gib die E-Mail-Adresse an, die du von der Schule bekommen hast.</p>
         <p>

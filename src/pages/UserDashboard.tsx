@@ -469,7 +469,7 @@ const UserDashboard = (): JSX.Element => {
                 >
                   <input
                     type="text"
-                    placeholder=""
+                    placeholder={context.user?.name}
                     value={dname}
                     onChange={(e) => {
                       setDname(e.target.value);
