@@ -18,14 +18,14 @@ const Home = (): JSX.Element => {
           <div className={css.informationText}>
             <p>
               Wenn du in einem Fach Nachhilfe geben möchtest, kannst du dich
-              ganz einfach mit deiner Schul-Email registrieren. Für alle die
-              Nachhilfe brauchen funktioniert der Zugang ohne Registrierung.{" "}
+              ganz einfach mit deiner Schul-Email registrieren. Für alle, die
+              Nachhilfe brauchen, funktioniert der Zugang ohne Registrierung.{" "}
             </p>
             <p>
               Durch die Nutzung dieser Seite erklärst du dich mit den{" "}
-              <a href="/privacy" className={css.link}>
+              <Link to="/privacy" className={css.link}>
                 Datenschutzbestimmungen einverstanden.
-              </a>
+              </Link>
             </p>
             <p>
               <a href="https://instagram.com/sv.gymhaan">Link zur SV</a>

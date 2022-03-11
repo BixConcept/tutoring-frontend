@@ -25,6 +25,7 @@ const App = (): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
+
     // Rainbow Giant Styled Text
     console.log(
       `%cCurrent commit: ${process.env.REACT_APP_GIT_SHA}!`,
