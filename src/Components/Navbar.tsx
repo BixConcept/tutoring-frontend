@@ -48,6 +48,7 @@ export default function Navbar() {
 
                   fetch(`${API_HOST}/user/logout`, {
                     credentials: "include",
+                    method: "POST",
                   }).then((res) => {
                     if (res.ok) {
                       context.setUser(null);
