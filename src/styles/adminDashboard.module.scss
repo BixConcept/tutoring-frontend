@@ -166,15 +166,16 @@
         border: none;
         font-size: inherit;
         white-space: nowrap;
-        cursor: pointer;
         border-radius: 5px;
 
         &:enabled {
           background-color: $error_color;
+          cursor: pointer;
         }
 
         &:disabled {
           background-color: var(--disabled_color);
+          cursor: not-allowed;
         }
       }
     }

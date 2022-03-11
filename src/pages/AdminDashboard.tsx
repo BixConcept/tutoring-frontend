@@ -8,6 +8,7 @@ import { ResponsiveLine } from "@nivo/line";
 import { ResponsivePie } from "@nivo/pie";
 import { useContext, useEffect, useState, Fragment } from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import { API_HOST } from "..";
 import Alert from "../Components/Alert";
 import LoadingScreen from "../Components/LoadingScreen";
@@ -205,6 +206,32 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
             {
               id: "growth_graph",
               data: [
+                {
+                  x:
+                    /* get the first user's creation date and subtract one day from it so the graph starts at 0, not at 1
+
+                    bitte lesen sie die packungsbeilage oder fragen sie ihren arzt oder apotheker
+                    */
+                    props.users.length > 0
+                      ? new Date(
+                          props.users
+                            // generate date objects from date strings
+                            .map((x) => ({
+                              ...x,
+                              ...{ createdAt: new Date(x.createdAt) },
+                            }))
+                            // sort to get the first one
+                            .sort(
+                              (a, b) =>
+                                a.createdAt.getTime() - b.createdAt.getTime()
+                            )[0]
+                            // subtract
+                            .createdAt.getTime() -
+                            1000 * 60 * 60 * 24
+                        )
+                      : new Date(),
+                  y: 0,
+                },
                 ...props.users.reduce(
                   (previousValue: any[], user: User) => [
                     ...previousValue,
@@ -572,10 +599,12 @@ export default function AdminDashboard() {
                 {usersRequest.data.map((user) => (
                   <div key={user.id} className={css.userListItem}>
                     <div>
-                      <h1>
-                        <span className={css.itemId}>#{user.id}:</span>{" "}
-                        {user.name} <Rank authLevel={user.authLevel} />
-                      </h1>
+                      <Link to={`/user/${user.id}`}>
+                        <h1>
+                          <span className={css.itemId}>#{user.id}:</span>{" "}
+                          {user.name} <Rank authLevel={user.authLevel} />
+                        </h1>
+                      </Link>
                       <p>{user.email}</p>
                       <p>Stufe {user.grade}</p>
                       {user.misc ? <p>Misc: {user.misc}</p> : null}
