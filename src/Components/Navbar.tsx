@@ -7,11 +7,13 @@ import { API_HOST } from "..";
 import Alert from "./Alert";
 import { AuthLevel } from "../Models";
 import DarkMode from "./DarkMode";
+import { NavigateFunction, useNavigate } from "react-router";
 
 export default function Navbar() {
   const context = useContext(OurContext);
   const [count, setCount] = useState<number>(0);
   const [lastClick, setLastClick] = useState<Date>(new Date());
+  const navigate: NavigateFunction = useNavigate();
 
   return (
     <nav>
@@ -52,6 +54,7 @@ export default function Navbar() {
                   }).then((res) => {
                     if (res.ok) {
                       context.setUser(null);
+                      navigate("/");
                     } else {
                       Alert("Fehler beim Ausloggen.", "error", context.theme);
                     }

@@ -20,7 +20,7 @@ export const UserPage = () => {
         setRequestState(RequestState.Success);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); //
+  }, []);
 
   return requestState !== RequestState.Loading ? (
     user ? (

@@ -28,7 +28,7 @@ const UserDashboard = (): JSX.Element => {
 
   const emailButtonRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const fetchUser = () => {
     fetch(`${API_HOST}/user`, {
       credentials: "include",
     })
@@ -47,6 +47,10 @@ const UserDashboard = (): JSX.Element => {
         console.log(e);
         navigate("/login");
       });
+  };
+
+  useEffect(() => {
+    fetchUser();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -76,6 +80,7 @@ const UserDashboard = (): JSX.Element => {
           context.theme
         );
       }
+      fetchUser();
     });
   }
 

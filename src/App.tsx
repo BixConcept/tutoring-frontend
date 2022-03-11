@@ -25,7 +25,6 @@ const App = (): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-
     // Rainbow Giant Styled Text
     console.log(
       `%cCurrent commit: ${process.env.REACT_APP_GIT_SHA}!`,
@@ -43,7 +42,6 @@ const App = (): JSX.Element => {
       .then((body) => {
         // if the server returns something, a cookie exists => the user has already consented before
         setUser(body.content);
-        console.log(body.content);
       })
       .catch((_) => {
         setUser(null);
