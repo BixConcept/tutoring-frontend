@@ -35,7 +35,7 @@ function RequestForm(props: {
           context.theme
         );
       } else {
-        Alert("Irgendwas ist schiefgelaufen.", "error", context.theme);
+        Alert("Irgendetwas ist schiefgelaufen.", "error", context.theme);
       }
     });
   }
@@ -57,7 +57,6 @@ function RequestForm(props: {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-
           request();
         }}
       >
@@ -85,7 +84,7 @@ function RequestForm(props: {
 const Find = (): JSX.Element => {
   document.title = "Nachhilfe finden";
 
-  const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
+  const grades = Array.from({ length: 9 }, (_: number, __: number) => __ - -5);
   const context = useContext(OurContext);
 
   const [grade, setGrade] = useState("");
@@ -115,7 +114,7 @@ const Find = (): JSX.Element => {
       })
       .catch(() => {
         setSubjectsRequestState(RequestState.Failure);
-        Alert("Irgendwas ist schiefgegangen", "error", context.theme);
+        Alert("Irgendetwas ist schiefgegangen", "error", context.theme);
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -141,7 +140,7 @@ const Find = (): JSX.Element => {
       .then(async (response) => {
         if (!response.ok) {
           setRequestState(RequestState.Failure);
-          Alert("Irgendwas ist schief gegangen.", "error", context.theme);
+          Alert("Irgendetwas ist schief gegangen.", "error", context.theme);
         }
         return response.json();
       })
