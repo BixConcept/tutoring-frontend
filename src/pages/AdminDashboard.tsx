@@ -634,6 +634,9 @@ export default function AdminDashboard() {
                                 ),
                               },
                             });
+
+                            context.setUser(null);
+                            navigate("/");
                           })
                           .catch(() => {
                             Alert(

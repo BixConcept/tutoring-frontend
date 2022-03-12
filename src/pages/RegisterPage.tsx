@@ -26,6 +26,7 @@ const RegisterPage = (): JSX.Element => {
   );
   const [clickCount, setClickCount] = useState<number>(0);
 
+  const [isDuplicate, setIsDuplicate] = useState<boolean>(false);
   const navigate = useNavigate();
   const { stepIndex } = useParams();
 
@@ -107,6 +108,7 @@ const RegisterPage = (): JSX.Element => {
   function register() {
     let tmp = chosen;
     Object.keys(chosen).map((key: any) => parseInt(chosen[key]));
+    setIsDuplicate(false);
 
     fetch(`${API_HOST}/user/register`, {
       method: "POST",
@@ -119,10 +121,20 @@ const RegisterPage = (): JSX.Element => {
       headers: {
         "Content-Type": "application/json",
       },
-    }).catch((error) => {
-      console.log(error);
-      Alert("Fehler beim Erstellen :((...", "error", context.theme);
-    });
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          // if duplicate
+          if (res.status === 409) {
+            setIsDuplicate(true);
+          }
+          throw new Error();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        Alert("Fehler beim Erstellen :((...", "error", context.theme);
+      });
   }
 
   const handleChange = (e: any, subject: number) => {
@@ -222,6 +234,9 @@ const RegisterPage = (): JSX.Element => {
           Das sollte dieselbe sein, die auch für Login bei Teams/Office 365
           benutzt wird.
         </p>
+        {isDuplicate ? (
+          <p style={{ color: "#e74c3c" }}>Diese E-Mail wird schon verwendet!</p>
+        ) : null}
         <div className={css["input-fields"]}>
           <form
             onSubmit={(e) => {
@@ -244,6 +259,25 @@ const RegisterPage = (): JSX.Element => {
                 required
                 onChange={(e) => {
                   setEmail(e.target.value);
+                  fetch(
+                    `${API_HOST}/user/email-available/${e.target.value}@gymhaan.de`
+                  ).then((res) => {
+                    switch (res.status) {
+                      case 200:
+                        setIsDuplicate(false);
+                        break;
+                      case 409:
+                        setIsDuplicate(true);
+                        Alert(
+                          "Diese E-Mail wird schon verwendet!",
+                          "error",
+                          context.theme
+                        );
+                        break;
+                      default:
+                        break;
+                    }
+                  });
                 }}
                 value={email.toLowerCase()}
               />
