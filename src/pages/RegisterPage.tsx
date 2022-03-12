@@ -283,7 +283,20 @@ const RegisterPage = (): JSX.Element => {
               />
               <p id={css.gymhaanPlacehodler}>@gymhaan.de</p>
             </div>
-            <input type="submit" value="weiter" className={css.submit} />
+            <input
+              type="submit"
+              value="weiter"
+              className={css.submit}
+              disabled={isDuplicate}
+              style={
+                isDuplicate
+                  ? {
+                      cursor: "not-allowed",
+                      backgroundColor: "var(--disabled_color)",
+                    }
+                  : undefined
+              }
+            />
           </form>
         </div>
         <p className={css.step}>
