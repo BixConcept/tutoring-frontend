@@ -121,6 +121,10 @@
   cursor: pointer;
   padding-left: 3rem;
   padding-right: 3rem;
+  &:disabled {
+    background-color: var(--disabled_color);
+    cursor: not-allowed;
+  }
 }
 
 .select_wrapper {

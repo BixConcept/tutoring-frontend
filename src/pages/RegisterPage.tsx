@@ -106,8 +106,13 @@ const RegisterPage = (): JSX.Element => {
   };
 
   function register() {
-    let tmp = chosen;
-    Object.keys(chosen).map((key: any) => parseInt(chosen[key]));
+    let tmp: { [key: string]: any } = chosen;
+    Object.keys(tmp).forEach((key: any) => {
+      tmp[key] = parseInt(chosen[key]);
+      if (isNaN(tmp[key])) {
+        delete tmp[key];
+      }
+    });
     setIsDuplicate(false);
 
     fetch(`${API_HOST}/user/register`, {
@@ -355,6 +360,11 @@ const RegisterPage = (): JSX.Element => {
                   type="submit"
                   value="Weiter"
                   className={css.next_button}
+                  disabled={
+                    Object.keys(chosen).filter(
+                      (x) => !isNaN(parseInt(chosen[parseInt(x)]))
+                    ).length === 0
+                  }
                   onClick={(e) => {
                     newStep(3);
                     e.preventDefault();
