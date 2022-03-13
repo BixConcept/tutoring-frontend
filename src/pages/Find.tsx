@@ -106,6 +106,8 @@ const Find = (): JSX.Element => {
     state: RequestState.Loading,
     data: null,
   });
+  const [email, setEmail] = useState<string>("");
+  const [userGradeS, setUserGradeS] = useState<string>("");
 
   useEffect(() => {
     setSubjectsRequestState(RequestState.Loading);
@@ -208,6 +210,8 @@ const Find = (): JSX.Element => {
         setResults(body.content);
       });
   };
+
+  const register = (): void => {};
 
   function subjectIdFromName(name: string): number {
     let matching = subjects.filter((x) => x.name === name);
@@ -314,6 +318,31 @@ const Find = (): JSX.Element => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
+                fetch(`${API_HOST}/user/register?simple`, {
+                  credentials: "include",
+                  headers: { "content-type": "application/json" },
+                  method: "POST",
+                }).then(async (res) => {
+                  let body;
+                  try {
+                    body = await res.json();
+                  } catch (e: any) {
+                    if (!res.ok) {
+                      Alert(
+                        `Irgendwas ist schiefgelaufen: ${res.status}`,
+                        "error",
+                        context.theme
+                      );
+                    }
+                  }
+                  if (!res.ok) {
+                    Alert(
+                      `Irgendwas ist schiefgelaufen (${res.status}): '${body.msg}'`,
+                      "error",
+                      context.theme
+                    );
+                  }
+                });
               }}
               id={css.registerForm}
             >
@@ -324,6 +353,8 @@ const Find = (): JSX.Element => {
                   name="email"
                   className={general["input-field"]}
                   placeholder="john.doe@gymhaan.de"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div>
@@ -335,6 +366,8 @@ const Find = (): JSX.Element => {
                   name="grade"
                   className={general["input-field"]}
                   placeholder="11"
+                  value={userGradeS}
+                  onChange={(e) => setUserGradeS(e.target.value)}
                 />
               </div>
               <div>
@@ -342,6 +375,12 @@ const Find = (): JSX.Element => {
                   type="submit"
                   value="Registrieren"
                   className={general.text_button}
+                  disabled={
+                    !email ||
+                    !userGradeS ||
+                    parseInt(userGradeS) < 5 ||
+                    parseInt(userGradeS) > 13
+                  }
                 />
               </div>
             </form>

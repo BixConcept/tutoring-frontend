@@ -88,6 +88,7 @@ $normal_font_size: 14pt;
   height: 2rem;
   padding-left: 0.7rem;
   padding-right: 0.3rem;
+  color: var(--text_color);
 
   > input {
     width: 80%;
@@ -96,7 +97,6 @@ $normal_font_size: 14pt;
     padding: 0;
     height: 100%;
     font-size: 14px;
-    color: var(--text_color);
     &:focus {
       outline-width: 0;
       outline: none;
