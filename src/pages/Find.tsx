@@ -3,12 +3,14 @@ import css from "../styles/findPage.module.scss";
 import general from "../styles/general.module.scss";
 import { OurContext } from "../OurContext";
 
-import { Subject, topSubjects, TutoringOffer } from "../Models";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Request, Subject, topSubjects, TutoringOffer, User } from "../Models";
 import Alert from "../Components/Alert";
 import { API_HOST, checkEmail } from "../index";
 import LoadingScreen from "../Components/LoadingScreen";
-import { RequestState } from "../Models";
+import { RequestState, Stats } from "../Models";
 import { Link } from "react-router-dom";
+import { Statistic } from "../Components/Statistic";
 
 function RequestForm(props: {
   subject: number;
@@ -27,6 +29,7 @@ function RequestForm(props: {
         subject: props.subject,
       }),
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
     }).then((res) => {
       if (res.ok) {
         Alert(
@@ -91,11 +94,18 @@ const Find = (): JSX.Element => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [subject, setSubject] = useState<number>(NaN);
   const [results, setResults] = useState<TutoringOffer[]>([]);
-  const [requestState, setRequestState] = useState<RequestState>(
+  const [offersRequestState, setOffersRequestState] = useState<RequestState>(
     RequestState.NotAsked
   );
   const [subjectsRequestState, setSubjectsRequestState] =
     useState<RequestState>(RequestState.Loading);
+  const [userRequestState, setUserRequestState] = useState<RequestState>(
+    RequestState.Loading
+  );
+  const [statsRequest, setStatsRequests] = useState<Request<Stats>>({
+    state: RequestState.Loading,
+    data: null,
+  });
 
   useEffect(() => {
     setSubjectsRequestState(RequestState.Loading);
@@ -118,6 +128,55 @@ const Find = (): JSX.Element => {
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    fetch(`${API_HOST}/user`, { credentials: "include" })
+      .then(async (res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error((await res.json()).msg);
+        }
+      })
+      .then((body) => {
+        // slow loading down so the loading screen is visible and not just flashing
+        // NOTE: this could be deleted and is just there for aesthetic purposes
+        setTimeout(() => {
+          setUserRequestState(RequestState.Success);
+        }, 300);
+        context.setUser(body.content || null);
+      })
+      .catch((e) => {
+        // slow loading down so the loading screen is visible and not just flashing
+        // NOTE: this could be deleted and is just there for aesthetic purposes
+        setTimeout(() => {
+          setUserRequestState(RequestState.Failure);
+        }, 300);
+        context.setUser(null);
+      });
+  }, [context]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        let res = await fetch(`${API_HOST}/stats`);
+        let body = await res.json();
+        if (!res.ok) {
+        } else {
+          setStatsRequests({ state: RequestState.Success, data: body.content });
+        }
+      } catch (e: any) {
+        setStatsRequests({ state: RequestState.Failure, data: null });
+        Alert(
+          "Irgendwas ist schief gegangen - das ist ein Server-Fehler",
+          "error",
+          context.theme
+        );
+      }
+    }
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const validate = (): boolean => {
     if (isNaN(subject)) {
       Alert("Du musst ein Fach auswählen", "error", context.theme);
@@ -131,7 +190,7 @@ const Find = (): JSX.Element => {
   };
 
   const search = (): void => {
-    setRequestState(RequestState.Loading);
+    setOffersRequestState(RequestState.Loading);
     fetch(`${API_HOST}/find`, {
       method: "POST",
       body: JSON.stringify({ subjectId: subject, grade: parseInt(grade) }),
@@ -139,13 +198,13 @@ const Find = (): JSX.Element => {
     })
       .then(async (response) => {
         if (!response.ok) {
-          setRequestState(RequestState.Failure);
+          setOffersRequestState(RequestState.Failure);
           Alert("Irgendetwas ist schief gegangen.", "error", context.theme);
         }
         return response.json();
       })
       .then((body) => {
-        setRequestState(RequestState.Success);
+        setOffersRequestState(RequestState.Success);
         setResults(body.content);
       });
   };
@@ -159,79 +218,138 @@ const Find = (): JSX.Element => {
   return (
     <div className={css.container}>
       <div className={css.formContainer}>
-        <h1>Nachhilfe finden</h1>
-        <div className={css.inputfields}>
-          <form
-            onSubmit={(e) => {
-              if (validate()) {
-                search();
-              }
-              e.preventDefault();
-            }}
-          >
-            <div id={css.inputRow}>
-              <div>
-                <label htmlFor="subject">Fach auswählen</label>
-                <div className={general.select_input_field}>
-                  <select
-                    name="subject"
-                    id=""
-                    className={general.select}
-                    onChange={(e) => {
-                      if (!isNaN(subjectIdFromName(e.target.value))) {
-                        setSubject(subjectIdFromName(e.target.value));
-                      }
-                    }}
-                  >
-                    <option value="">--- Fach wählen ---</option>
-                    <option value="" disabled>
-                      Beliebte Fächer
-                    </option>
-                    {subjects
-                      .filter((x) => topSubjects.indexOf(x.name) !== -1)
-                      .map((subject, index) => {
-                        return <option key={index}>{subject.name}</option>;
-                      })}
-                    <option value="" disabled>
-                      Weitere Fächer
-                    </option>
-                    {subjects
-                      .sort()
-                      .filter((x) => topSubjects.indexOf(x.name) === -1)
-                      .map((subject, index) => {
-                        return <option key={index}>{subject.name}</option>;
-                      })}
-                  </select>
+        {userRequestState === RequestState.Loading ? (
+          <LoadingScreen loaded={false} />
+        ) : context.user ? (
+          <Fragment>
+            <h1>Nachhilfe finden</h1>
+            <div className={css.inputfields}>
+              <form
+                onSubmit={(e) => {
+                  if (validate()) {
+                    search();
+                  }
+                  e.preventDefault();
+                }}
+              >
+                <div id={css.inputRow}>
+                  <div>
+                    <label htmlFor="subject">Fach auswählen</label>
+                    <div className={general.select_input_field}>
+                      <select
+                        name="subject"
+                        id=""
+                        className={general.select}
+                        onChange={(e) => {
+                          if (!isNaN(subjectIdFromName(e.target.value))) {
+                            setSubject(subjectIdFromName(e.target.value));
+                          }
+                        }}
+                      >
+                        <option value="">--- Fach wählen ---</option>
+                        <option value="" disabled>
+                          Beliebte Fächer
+                        </option>
+                        {subjects
+                          .filter((x) => topSubjects.indexOf(x.name) !== -1)
+                          .map((subject, index) => {
+                            return <option key={index}>{subject.name}</option>;
+                          })}
+                        <option value="" disabled>
+                          Weitere Fächer
+                        </option>
+                        {subjects
+                          .sort()
+                          .filter((x) => topSubjects.indexOf(x.name) === -1)
+                          .map((subject, index) => {
+                            return <option key={index}>{subject.name}</option>;
+                          })}
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="subject">Deine Stufe</label>
+                    <div className={general.select_input_field}>
+                      <select
+                        name=""
+                        id=""
+                        className={general.select}
+                        onChange={(e) => setGrade(e.target.value)}
+                      >
+                        <option value="">--- Stufe wählen ---</option>
+                        {grades.map((grade, index) => {
+                          return <option key={index}>{grade}</option>;
+                        })}
+                      </select>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <label htmlFor="subject">Deine Stufe</label>
-                <div className={general.select_input_field}>
-                  <select
-                    name=""
-                    id=""
-                    className={general.select}
-                    onChange={(e) => setGrade(e.target.value)}
-                  >
-                    <option value="">--- Stufe wählen ---</option>
-                    {grades.map((grade, index) => {
-                      return <option key={index}>{grade}</option>;
-                    })}
-                  </select>
-                </div>
-              </div>
+                <input
+                  type="submit"
+                  value="suchen 🚀"
+                  id={css.submit}
+                  disabled={!(grade && subject)}
+                />
+              </form>
             </div>
-            <input
-              type="submit"
-              value="suchen 🚀"
-              id={css.submit}
-              disabled={!(grade && subject)}
-            />
-          </form>
-        </div>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <h1>Registrieren</h1>
+            <p>
+              Um die Daten unserer Nutzer:innen zu schützen, müssen wir
+              verifizieren, dass du eine echte Person bist.
+            </p>
+            <p>
+              Gib dafür deine Schul-E-Mail-Adresse an, über die wir dir einen
+              Verifizierungscode zukommen lassen können.
+            </p>
+            <div id={css.stats}>
+              <Statistic
+                text="angebote"
+                value={(statsRequest.data || {}).offers}
+              />
+              <Statistic text="leute" value={(statsRequest.data || {}).users} />
+            </div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+              id={css.registerForm}
+            >
+              <div>
+                <label htmlFor="grade">E-Mail-Adresse</label>
+                <input
+                  type="email"
+                  name="email"
+                  className={general["input-field"]}
+                  placeholder="john.doe@gymhaan.de"
+                />
+              </div>
+              <div>
+                <label htmlFor="grade">Stufe</label>
+                <input
+                  type="number"
+                  min="5"
+                  max="13"
+                  name="grade"
+                  className={general["input-field"]}
+                  placeholder="11"
+                />
+              </div>
+              <div>
+                <input
+                  type="submit"
+                  value="Registrieren"
+                  className={general.text_button}
+                />
+              </div>
+            </form>
+          </Fragment>
+        )}
       </div>
       <div id={css.resultsContainer}>
-        {requestState === RequestState.Success ? (
+        {offersRequestState === RequestState.Success ? (
           <Fragment>
             <span id={css.numResults}>
               {results.length > 0
@@ -264,7 +382,7 @@ const Find = (): JSX.Element => {
             ))}
           </Fragment>
         ) : (
-          <LoadingScreen loaded={requestState !== RequestState.Loading} />
+          <LoadingScreen loaded={offersRequestState !== RequestState.Loading} />
         )}
         <LoadingScreen loaded={subjectsRequestState !== RequestState.Loading} />
       </div>

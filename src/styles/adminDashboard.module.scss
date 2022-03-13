@@ -80,41 +80,6 @@
   justify-content: space-evenly;
 
   margin: 2rem 0;
-
-  .stat {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    flex-direction: column;
-    width: 100%;
-
-    &:last-child {
-      border: none;
-    }
-
-    .statValue {
-      font-size: 2rem;
-      font-weight: bold;
-
-      &.loading {
-        background: var(--contrasterer_bg_color);
-        height: 1.3em;
-        width: 3em;
-        border-radius: 0.5rem;
-      }
-    }
-
-    .statText {
-      text-transform: uppercase;
-      color: var(--disabled_color);
-      font-weight: bold;
-      font-size: 0.9rem;
-    }
-
-    height: 7rem;
-    border-right: solid 1px var(--disabled_color);
-  }
 }
 
 #growthChartContainer {

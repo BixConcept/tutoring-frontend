@@ -17,6 +17,11 @@ export enum AuthLevel {
   Admin = 2,
 }
 
+// for checking if requests are done and what status lol
+export interface Request<T> {
+  state: RequestState;
+  data: T | null;
+}
 export enum RequestState {
   NotAsked,
   Loading,
@@ -56,4 +61,11 @@ export interface ApiRequest {
   path: string;
   ip: string;
   time: Date;
+}
+
+export interface Stats {
+  users: number;
+  apiRequests: number;
+  requests: number;
+  offers: number;
 }

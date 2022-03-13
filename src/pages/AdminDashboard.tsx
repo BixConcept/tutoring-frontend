@@ -22,6 +22,7 @@ import {
 } from "../Models";
 import { OurContext } from "../OurContext";
 import css from "../styles/adminDashboard.module.scss";
+import { Statistic } from "../Components/Statistic";
 
 const SubjectPie = (props: { subjects: any; requestState: RequestState }) => {
   const [data, setData] = useState<any[]>([]);
@@ -181,21 +182,6 @@ const ActivityGraph = (props: {
     </div>
   );
 };
-
-function Statistic(props: { text: string; value: any }) {
-  return (
-    <div className={css.stat}>
-      <div
-        className={`${css.statValue} ${
-          props.value !== undefined ? "" : css.loading
-        }`}
-      >
-        {props.value}
-      </div>
-      <div className={css.statText}>{props.text}</div>
-    </div>
-  );
-}
 
 function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
   return (

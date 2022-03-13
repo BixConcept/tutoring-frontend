@@ -10,7 +10,7 @@ import Alert from "../Components/Alert";
 import { API_HOST } from "../index";
 import LoadingScreen from "../Components/LoadingScreen";
 
-const RegisterPage = (): JSX.Element => {
+const RegisterTutorPage = (): JSX.Element => {
   document.title = "Registrieren";
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
@@ -474,4 +474,4 @@ const RegisterPage = (): JSX.Element => {
   } else return <></>;
 };
 
-export default RegisterPage;
+export default RegisterTutorPage;

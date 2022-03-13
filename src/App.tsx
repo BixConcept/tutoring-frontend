@@ -1,10 +1,10 @@
 import Home from "./pages/Home";
 import Navbar from "./Components/Navbar";
 import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import RegisterTutorPage from "./pages/RegisterTutorPage";
 import Footer from "./Components/Footer";
 import "./styles/App.scss";
-import { Routes, Route, HashRouter, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Privacy from "./pages/Privacy";
 import Imprint from "./pages/Imprint";
 import { OurContext } from "./OurContext";
@@ -65,8 +65,11 @@ const App = (): JSX.Element => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/register/:stepIndex" element={<RegisterPage />} />
+              <Route path="/register" element={<RegisterTutorPage />} />
+              <Route
+                path="/register/:stepIndex"
+                element={<RegisterTutorPage />}
+              />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/imprint" element={<Imprint />} />
               <Route path="/find" element={<Find />} />
