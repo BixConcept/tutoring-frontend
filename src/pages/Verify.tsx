@@ -6,6 +6,7 @@ import css from "../styles/verify.module.scss";
 import general from "../styles/general.module.scss";
 import lottie from "lottie-web";
 import { OurContext } from "../OurContext";
+import { useSearchParams } from "react-router-dom";
 
 const TimedRedirect = (props: { href: string; verified: boolean }) => {
   const { href, verified } = props;
@@ -18,7 +19,7 @@ const TimedRedirect = (props: { href: string; verified: boolean }) => {
     }
     const id = setInterval(() => setNum(num - 1), 1000);
     return () => clearInterval(id);
-  }, [num, href, navigate]);
+  }, [num]);
 
   return verified ? (
     <p>Du wirst in {num}s zum Dashboard weitergeleitet</p>
@@ -35,22 +36,29 @@ const Verify = () => {
   const successRef = useRef(null);
   const failureRef = useRef(null);
   const context = useContext(OurContext);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
+    const intent = Object.fromEntries([...searchParams])["intent"];
     fetch(`${API_HOST}/user/verify?code=${code}`, { credentials: "include" })
       .then(async (res) => {
         setLoaded(true);
         if (res.ok) {
           setVerified(true);
-          const res = await fetch(`${API_HOST}/user`, {
+
+          const userRes = await fetch(`${API_HOST}/user`, {
             credentials: "include",
           });
-          if (!res.ok) {
+          if (!userRes.ok) {
             setVerified(false);
           } else {
             try {
-              const json = await res.json();
+              const json = await userRes.json();
               context.setUser(json.content);
+              if (intent) {
+                navigate(intent);
+              }
             } catch (e) {
               console.error(e);
             }
@@ -61,7 +69,7 @@ const Verify = () => {
         setLoaded(true);
         setVerified(false);
       });
-  }, [code]);
+  }, []);
 
   useEffect(() => {
     lottie.destroy();
@@ -100,9 +108,7 @@ const Verify = () => {
             <Fragment>
               <h1>Verifizierung fehlgeschlagen!</h1>
               <p style={{ textAlign: "center" }}>
-                {" "}
-                Entweder ist dieser Account bereits verifiziert oder der
-                Verifizierungscode ist invalide.
+                Der Verifizierungscode ist ungültig.
               </p>
               <TimedRedirect href="/" verified={false} />
             </Fragment>

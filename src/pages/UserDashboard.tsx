@@ -379,6 +379,8 @@ const UserDashboard = (): JSX.Element => {
                         );
                       } else {
                         Alert("Account gelöscht.", "info", context.theme);
+                        navigate("/");
+                        context.setUser(null);
                         setModalVisible(false);
                       }
                     });

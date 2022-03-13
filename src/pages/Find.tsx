@@ -108,6 +108,10 @@ const Find = (): JSX.Element => {
   });
   const [email, setEmail] = useState<string>("");
   const [userGradeS, setUserGradeS] = useState<string>("");
+  const [emailIsDuplicate, setEmailIsDuplicate] = useState<boolean>(false);
+  const [registrationState, setRegistrationState] = useState<RequestState>(
+    RequestState.NotAsked
+  );
 
   useEffect(() => {
     setSubjectsRequestState(RequestState.Loading);
@@ -155,7 +159,7 @@ const Find = (): JSX.Element => {
         }, 300);
         context.setUser(null);
       });
-  }, [context]);
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -197,6 +201,7 @@ const Find = (): JSX.Element => {
       method: "POST",
       body: JSON.stringify({ subjectId: subject, grade: parseInt(grade) }),
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
     })
       .then(async (response) => {
         if (!response.ok) {
@@ -210,8 +215,6 @@ const Find = (): JSX.Element => {
         setResults(body.content);
       });
   };
-
-  const register = (): void => {};
 
   function subjectIdFromName(name: string): number {
     let matching = subjects.filter((x) => x.name === name);
@@ -297,7 +300,7 @@ const Find = (): JSX.Element => {
               </form>
             </div>
           </Fragment>
-        ) : (
+        ) : registrationState === RequestState.NotAsked ? (
           <Fragment>
             <h1>Registrieren</h1>
             <p>
@@ -315,13 +318,24 @@ const Find = (): JSX.Element => {
               />
               <Statistic text="leute" value={(statsRequest.data || {}).users} />
             </div>
+            {emailIsDuplicate ? (
+              <p style={{ color: "#e74c3c" }}>
+                Diese E-Mail wird schon verwendet!
+              </p>
+            ) : null}
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                fetch(`${API_HOST}/user/register?simple`, {
+                setRegistrationState(RequestState.Loading);
+                fetch(`${API_HOST}/user/register`, {
                   credentials: "include",
                   headers: { "content-type": "application/json" },
                   method: "POST",
+                  body: JSON.stringify({
+                    email,
+                    grade: parseInt(userGradeS),
+                    intent: "/find", // to redirect the user to /find instead of the dashboard
+                  }),
                 }).then(async (res) => {
                   let body;
                   try {
@@ -333,8 +347,12 @@ const Find = (): JSX.Element => {
                         "error",
                         context.theme
                       );
+                    } else {
                     }
                   }
+                  setRegistrationState(
+                    res.ok ? RequestState.Success : RequestState.Failure
+                  );
                   if (!res.ok) {
                     Alert(
                       `Irgendwas ist schiefgelaufen (${res.status}): '${body.msg}'`,
@@ -354,7 +372,43 @@ const Find = (): JSX.Element => {
                   className={general["input-field"]}
                   placeholder="john.doe@gymhaan.de"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    fetch(
+                      `${API_HOST}/user/email-available/${e.target.value}`
+                    ).then(async (res) => {
+                      let body;
+                      try {
+                        body = await res.json();
+                      } catch (e: any) {
+                        if (res.status !== 409 && res.status !== 404) {
+                          Alert(
+                            `Fehler: ${res.status} - ${res.statusText}`,
+                            "error",
+                            context.theme
+                          );
+                        }
+                      }
+
+                      switch (res.status) {
+                        case 409:
+                          setEmailIsDuplicate(true);
+                          break;
+
+                        case 200:
+                          setEmailIsDuplicate(false);
+                          break;
+
+                        // if no parameter is specified, the path is /user/email-available/ with no parameter, which doesn't exist
+                        case 404:
+                          setEmailIsDuplicate(false);
+                          break;
+
+                        default:
+                          break;
+                      }
+                    });
+                  }}
                 />
               </div>
               <div>
@@ -379,11 +433,30 @@ const Find = (): JSX.Element => {
                     !email ||
                     !userGradeS ||
                     parseInt(userGradeS) < 5 ||
-                    parseInt(userGradeS) > 13
+                    parseInt(userGradeS) > 13 ||
+                    emailIsDuplicate ||
+                    !email.endsWith("@gymhaan.de")
                   }
                 />
               </div>
             </form>
+          </Fragment>
+        ) : registrationState === RequestState.Success ? (
+          <Fragment>
+            <h1>Registrierung erfolgreich!</h1>
+            <p>
+              Wir haben dir eine E-Mail an deine Schul-Mailbox{" "}
+              <a href="https://outlook.office365.com/mail/">bei Outlook</a>{" "}
+              geschickt.
+            </p>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <h1>Fehler</h1>
+            <p>Bei der Registrierung ist etwas schiefgegangen</p>
+            <Link to={"/"} className={general.text_button}>
+              Zurück
+            </Link>
           </Fragment>
         )}
       </div>
