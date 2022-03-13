@@ -388,7 +388,9 @@ const RegisterTutorPage = (): JSX.Element => {
       <div id={css.loginContainer}>
         <h1>Deine Infos</h1>
         <div ref={login} id={css.loginAnimation}></div>
-        <p>In welche Klasse/Stufe gehst du?</p>
+        <p>
+          In welche Klasse/Stufe gehst du? <span>(erforderlich)</span>
+        </p>
         <div className={general.select_input_field}>
           <select
             name=""
@@ -421,6 +423,7 @@ const RegisterTutorPage = (): JSX.Element => {
         <div className={general.flexdiv}>
           <button
             className={general.text_button}
+            disabled={grade === ""}
             onClick={(e) => {
               if (isNaN(parseInt(grade))) {
                 Alert("Bitte wähle deine Stufe!", "error", context.theme);
