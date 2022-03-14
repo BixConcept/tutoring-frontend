@@ -70,6 +70,12 @@ const RegisterTutorPage = (): JSX.Element => {
     }
   }, [stepIndex, navigate]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (context.user) {
+      navigate("/dashboard");
+    }
+  }, [context.user]);
+
   const numChosen = (): number => {
     return Object.entries(chosen).reduce(
       (previous, [_, grade]) =>
