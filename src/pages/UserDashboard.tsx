@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import SignalBlack from "../assets/images/signal_black.svg";
+import Signal from "../assets/images/signal.svg";
 
 const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";
@@ -378,7 +379,12 @@ const UserDashboard = (): JSX.Element => {
                 }}
               />
               <label htmlFor="hasSignal">
-                <img src={SignalBlack} alt="Signal" /> Signal-Profil anzeigen
+                <img
+                  src={context.theme === "dark" ? Signal : SignalBlack}
+                  alt="Signal"
+                  id={css.signalIcon}
+                />{" "}
+                Signal-Profil anzeigen
               </label>
             </div>
             <div className={css.checkboxContainer}>
