@@ -173,6 +173,18 @@ h4 {
     display: block;
     margin: 0.2rem 0;
   }
+  .checkboxContainer {
+    label {
+      img {
+        display: inline;
+        height: 1.2em;
+      }
+      display: inline-flex;
+      align-items: center;
+      margin-left: 1rem;
+      gap: 1ex;
+    }
+  }
 
   :disabled {
     cursor: not-allowed;

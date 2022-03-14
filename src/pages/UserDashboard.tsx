@@ -9,6 +9,9 @@ import css from "../styles/userDashboard.module.scss";
 import { Subject, User } from "../Models";
 import { Rank } from "../Components/Rank";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDiscord, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import SignalBlack from "../assets/images/signal_black.svg";
 
 const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";
@@ -316,6 +319,86 @@ const UserDashboard = (): JSX.Element => {
                 })}
               </select>
             </div>
+
+            <label htmlFor="phoneNumber">Telefonnummer (Mobil)</label>
+            <input
+              type="text"
+              name="phoneNumber"
+              placeholder="+491701234567"
+              className={general["input-field"]}
+              value={modUser.phoneNumber}
+              onChange={(e) => {
+                setModUser({
+                  ...modUser,
+                  ...{
+                    phoneNumber: e.target.value.replaceAll(" ", ""),
+                  },
+                });
+              }}
+            />
+            <label htmlFor="discordUser">Discord-Benutzername</label>
+            <input
+              type="text"
+              name="discordUser"
+              placeholder="3nt3#5068"
+              className={general["input-field"]}
+              value={modUser.discordUser}
+              onChange={(e) => {
+                setModUser({ ...modUser, ...{ discordUser: e.target.value } });
+              }}
+            />
+            <div className={css.checkboxContainer}>
+              <input
+                type="checkbox"
+                name="hasDiscord"
+                disabled={!/^((.+?)#\d{4})/.test(modUser.discordUser)}
+                checked={modUser.hasDiscord}
+                onChange={(e) => {
+                  setModUser({
+                    ...modUser,
+                    ...{ hasDiscord: e.target.checked },
+                  });
+                }}
+              />
+              <label htmlFor="hasDiscord">
+                <FontAwesomeIcon icon={faDiscord} /> Discord-Profil anzeigen
+              </label>
+            </div>
+            <div className={css.checkboxContainer}>
+              <input
+                type="checkbox"
+                name="hasSignal"
+                disabled={!/\+[0-9]{5,15}$/.test(modUser.phoneNumber || "")}
+                checked={modUser.hasSignal}
+                onChange={(e) => {
+                  setModUser({
+                    ...modUser,
+                    ...{ hasSignal: e.target.checked },
+                  });
+                }}
+              />
+              <label htmlFor="hasSignal">
+                <img src={SignalBlack} alt="Signal" /> Signal-Profil anzeigen
+              </label>
+            </div>
+            <div className={css.checkboxContainer}>
+              <input
+                type="checkbox"
+                name="hasWhatsapp"
+                checked={modUser.hasWhatsapp}
+                disabled={!/\+[0-9]{5,15}$/.test(modUser.phoneNumber || "")}
+                onChange={(e) => {
+                  setModUser({
+                    ...modUser,
+                    ...{ hasWhatsapp: e.target.checked },
+                  });
+                }}
+              />
+              <label htmlFor="hasDiscord">
+                <FontAwesomeIcon icon={faWhatsapp} /> WhatsApp-Profil anzeigen
+              </label>
+            </div>
+
             <label htmlFor="misc">Sonstiges</label>
             <textarea
               className={general["select_input_field"]}
