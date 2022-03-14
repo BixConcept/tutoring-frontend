@@ -1,0 +1,27 @@
+.button {
+  height: 2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 0 1rem;
+  color: white !important;
+
+  img {
+    height: 1.3em;
+    display: inline;
+  }
+}
+
+#discord {
+  background-color: #5865f2; // from discord's branding guidelines (https://discord.com/branding)
+}
+
+#signal {
+  background-color: #3a76f0;
+}
+
+#whatsapp {
+  background-color: #128c7e;
+}

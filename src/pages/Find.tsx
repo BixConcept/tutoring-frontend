@@ -11,6 +11,7 @@ import LoadingScreen from "../Components/LoadingScreen";
 import { RequestState, Stats } from "../Models";
 import { Link } from "react-router-dom";
 import { Statistic } from "../Components/Statistic";
+import { MessengerInfo } from "../Components/MessengerInfo";
 
 function RequestForm(props: {
   subject: number;
@@ -485,11 +486,20 @@ const Find = (): JSX.Element => {
                 </h2>
                 <p>{result.misc}</p>
                 <p className={css.email}>
-                  <a href={`mailto:${result.email}`}>{result.email}</a>
+                  <a href={`mailto:${result.email}`}>E-Mail: {result.email}</a>
                 </p>
                 <p>
                   {result.subjectName} bis Stufe/Klasse {result.maxGrade}
                 </p>
+                <div className={css.messengers}>
+                  <MessengerInfo
+                    hasDiscord={result.hasDiscord}
+                    discordUser={result.discordUser}
+                    hasSignal={result.hasSignal}
+                    hasWhatsapp={result.hasWhatsapp}
+                    phoneNumber={result.phoneNumber}
+                  />
+                </div>
               </div>
             ))}
           </Fragment>

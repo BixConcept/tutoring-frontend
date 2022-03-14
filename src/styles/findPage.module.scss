@@ -202,6 +202,12 @@
   }
 }
 
+.messengers {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 @media screen and (max-width: 600px) {
   #inputRow {
     flex-direction: column !important;
