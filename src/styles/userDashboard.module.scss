@@ -16,6 +16,10 @@
 
     h1 {
       margin: 0;
+      span {
+        font-weight: normal;
+        color: var(--disabled_color);
+      }
     }
 
     .name {

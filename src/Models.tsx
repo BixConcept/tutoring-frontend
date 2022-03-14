@@ -37,12 +37,16 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  phone_number?: string;
+  phoneNumber?: string;
   misc?: string;
   grade: number;
   authLevel: AuthLevel;
   offers: TutoringOffer[];
   createdAt: Date;
+  hasDiscord: boolean;
+  discordUser: string;
+  hasWhatsapp: boolean;
+  hasSignal: boolean;
 }
 
 export const topSubjects: string[] = [

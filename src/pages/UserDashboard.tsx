@@ -8,6 +8,7 @@ import general from "../styles/general.module.scss";
 import css from "../styles/userDashboard.module.scss";
 import { Subject, User } from "../Models";
 import { Rank } from "../Components/Rank";
+import { Link } from "react-router-dom";
 
 const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";
@@ -89,7 +90,11 @@ const UserDashboard = (): JSX.Element => {
       <div className={css.dashboard}>
         <div className={css["dashboard-content"]}>
           <h1>
-            Hey 👋, {context.user?.name.split(" ")[0]}{" "}
+            Hey 👋,{" "}
+            <Link to={"/user/" + context.user?.id}>
+              {context.user?.name.split(" ")[0]}
+              <span>#{context.user?.id}</span>
+            </Link>{" "}
             <Rank authLevel={context.user?.authLevel} />
           </h1>
           <h4>Meine Fächer</h4>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { API_HOST } from "..";
 import LoadingScreen from "../Components/LoadingScreen";
+import { MessengerInfo } from "../Components/MessengerInfo";
 import { Rank } from "../Components/Rank";
 import { RequestState, User } from "../Models";
 import css from "../styles/userPage.module.scss";
@@ -32,6 +33,15 @@ export const UserPage = () => {
           </h2>
           <h3>Klasse/Stufe {user.grade}</h3>
           <h3>E-Mail: {user.email}</h3>
+          <div id={css.messengers}>
+            <MessengerInfo
+              hasDiscord={user.hasDiscord}
+              discordUser={user.discordUser}
+              hasSignal={user.hasSignal}
+              hasWhatsapp={user.hasWhatsapp}
+              phoneNumber={user.phoneNumber || null}
+            />
+          </div>
           <div id={css.offers}>
             {user.offers.map((offer) => (
               <div key={offer.id} className={css.offer}>

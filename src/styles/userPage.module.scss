@@ -31,6 +31,12 @@
       }
     }
 
+    #messengers {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
     h2 {
       margin: 0;
       font-weight: normal;
