@@ -92,12 +92,17 @@
     flex: 1;
     height: 25rem;
     min-width: 100%;
+    margin-bottom: 1rem;
 
     #tooltip {
       background: var(--contrasterer_bg_color);
       color: var(--text_color);
       padding: 0.5rem;
       border-radius: 0.3rem;
+
+      p {
+        margin: 0;
+      }
     }
   }
 }

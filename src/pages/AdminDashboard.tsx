@@ -4,7 +4,7 @@ import {
   faSortUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ResponsiveLine } from "@nivo/line";
+import { Point, ResponsiveLine } from "@nivo/line";
 import { ResponsivePie } from "@nivo/pie";
 import { useContext, useEffect, useState, Fragment } from "react";
 import { useNavigate } from "react-router";
@@ -186,99 +186,179 @@ const ActivityGraph = (props: {
 };
 
 function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
+  const [showVerified, setShowVerified] = useState<boolean>(false);
   return (
     <div id={css.growthChart}>
       {props.requestState === RequestState.Success ? (
-        <ResponsiveLine
-          data={[
-            {
-              id: "growth_graph",
-              data: [
-                {
-                  x:
-                    /* get the first user's creation date and subtract one day from it so the graph starts at 0, not at 1
+        <Fragment>
+          <form>
+            <input
+              type="checkbox"
+              checked={showVerified}
+              onChange={(e) => setShowVerified(e.target.checked)}
+              name="asdf"
+            />
+            <label htmlFor="asdf">Nur verifizierte anzeigen</label>
+          </form>
+          <ResponsiveLine
+            data={
+              !showVerified
+                ? [
+                    {
+                      id: "growth_graph",
+                      data: [
+                        {
+                          x:
+                            /* get the first user's creation date and subtract one day from it so the graph starts at 0, not at 1
 
                     bitte lesen sie die packungsbeilage oder fragen sie ihren arzt oder apotheker
                     */
-                    props.users.length > 0
-                      ? new Date(
-                          props.users
-                            // generate date objects from date strings
-                            .map((x) => ({
-                              ...x,
-                              ...{ createdAt: new Date(x.createdAt) },
-                            }))
-                            // sort to get the first one
-                            .sort(
-                              (a, b) =>
-                                a.createdAt.getTime() - b.createdAt.getTime()
-                            )[0]
-                            // subtract
-                            .createdAt.getTime() -
-                            1000 * 60 * 60 * 24
-                        )
-                      : new Date(),
-                  y: 0,
-                },
-                ...props.users.reduce(
-                  (previousValue: any[], user: User) => [
-                    ...previousValue,
-                    { x: user.createdAt, y: previousValue.length + 1 },
-                  ],
-                  []
-                ),
-                { x: new Date(), y: props.users.length },
-              ],
-            },
-          ]}
-          enablePointLabel={false}
-          margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
-          xScale={{
-            type: "time",
-            format: "%Y-%m-%dT%H:%M:%S.%LZ",
-            precision: "second",
-          }}
-          axisLeft={{
-            tickValues: 5,
-          }}
-          gridXValues={10}
-          enableGridX={false}
-          lineWidth={3}
-          enableGridY={false}
-          xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
-          axisBottom={{
-            format: "%Y-%m-%d %H:00",
-            tickSize: 10,
-            tickPadding: 0,
-            tickRotation: 0,
-            legendPosition: "middle",
-            tickValues: 8,
-          }}
-          enableSlices={"x"}
-          colors={{ scheme: "category10" }}
-          theme={{
-            textColor: "var(--text_color)",
-            fontSize: 14,
-            crosshair: { line: { stroke: "var(--text_color)" } },
-          }}
-          curve="step"
-          sliceTooltip={({ slice }) => {
-            let users = props.users.filter(
-              (x) =>
-                new Date(x.createdAt).getTime() ===
-                slice.points[0].data.x.valueOf()
-            );
-            return (
-              <div id={css.tooltip}>
-                {slice.points[0].data.x.toLocaleString()}:{" "}
-                <span style={{ fontWeight: "bold" }}>
-                  {slice.points[0].data.y}{" "}
-                  {users.length > 0 ? `(${users[0].name}#${users[0].id})` : ""}
-                </span>
-              </div>
-            );
-          }}
-        />
+                            props.users.length > 0
+                              ? new Date(
+                                  props.users
+                                    // generate date objects from date strings
+                                    .map((x) => ({
+                                      ...x,
+                                      ...{ createdAt: new Date(x.createdAt) },
+                                    }))
+                                    // sort to get the first one
+                                    .sort(
+                                      (a, b) =>
+                                        a.createdAt.getTime() -
+                                        b.createdAt.getTime()
+                                    )[0]
+                                    // subtract
+                                    .createdAt.getTime() -
+                                    1000 * 60 * 60 * 24
+                                )
+                              : new Date(),
+                          y: 0,
+                        },
+                        ...props.users.reduce(
+                          (previousValue: any[], user: User) => [
+                            ...previousValue,
+                            { x: user.createdAt, y: previousValue.length + 1 },
+                          ],
+                          []
+                        ),
+                        { x: new Date(), y: props.users.length },
+                      ],
+                    },
+                  ]
+                : [
+                    {
+                      id: "growth_graph_verified",
+                      data: [
+                        {
+                          x:
+                            /* get the first user's creation date and subtract one day from it so the graph starts at 0, not at 1
+
+                    bitte lesen sie die packungsbeilage oder fragen sie ihren arzt oder apotheker
+                    */
+                            props.users.length > 0
+                              ? new Date(
+                                  props.users
+                                    // generate date objects from date strings
+                                    .map((x) => ({
+                                      ...x,
+                                      ...{
+                                        createdAt: new Date(x.createdAt),
+                                      },
+                                    }))
+                                    // sort to get the first one
+                                    .sort(
+                                      (a, b) =>
+                                        a.createdAt.getTime() -
+                                        b.createdAt.getTime()
+                                    )[0]
+                                    // subtract
+                                    .createdAt.getTime() -
+                                    1000 * 60 * 60 * 24
+                                )
+                              : new Date(),
+                          y: 0,
+                        },
+                        ...props.users
+                          .filter((x) => x.authLevel >= AuthLevel.Verified)
+                          .reduce(
+                            (previousValue: any[], user: User) => [
+                              ...previousValue,
+                              {
+                                x: user.createdAt,
+                                y: previousValue.length + 1,
+                              },
+                            ],
+                            []
+                          ),
+                        {
+                          x: new Date(),
+                          y: props.users.filter(
+                            (x) => x.authLevel >= AuthLevel.Verified
+                          ).length,
+                        },
+                      ],
+                    },
+                  ]
+            }
+            enablePointLabel={false}
+            margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
+            xScale={{
+              type: "time",
+              format: "%Y-%m-%dT%H:%M:%S.%LZ",
+              precision: "second",
+            }}
+            axisLeft={{
+              tickValues: 5,
+            }}
+            gridXValues={10}
+            enableGridX={false}
+            lineWidth={3}
+            enableGridY={false}
+            xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
+            axisBottom={{
+              format: "%Y-%m-%d %H:00",
+              tickSize: 10,
+              tickPadding: 0,
+              tickRotation: 0,
+              legendPosition: "middle",
+              tickValues: 8,
+            }}
+            enableSlices={"x"}
+            colors={{ scheme: "category10" }}
+            theme={{
+              textColor: "var(--text_color)",
+              fontSize: 14,
+              crosshair: { line: { stroke: "var(--text_color)" } },
+            }}
+            curve="step"
+            sliceTooltip={({ slice }) => {
+              let users = props.users.filter(
+                (x) =>
+                  new Date(x.createdAt).getTime() ===
+                  slice.points[0].data.x.valueOf()
+              );
+
+              if (users.length > 0) {
+                return (
+                  <div id={css.tooltip}>
+                    <p>
+                      {slice.points[0].data.x.toLocaleString()}:{" "}
+                      <span style={{ fontWeight: "bold" }}>
+                        {slice.points[0].data.y}{" "}
+                        {users.length > 0
+                          ? `(${users[0].name}#${users[0].id})`
+                          : ""}
+                        <Rank authLevel={users[0].authLevel} />
+                      </span>
+                    </p>
+                  </div>
+                );
+              } else {
+                return <span></span>;
+              }
+            }}
+          />
+        </Fragment>
       ) : (
         <LoadingScreen loaded={props.requestState !== RequestState.Loading} />
       )}
