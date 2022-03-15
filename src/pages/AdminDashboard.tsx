@@ -261,11 +261,17 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
           }}
           curve="step"
           sliceTooltip={({ slice }) => {
+            let users = props.users.filter(
+              (x) =>
+                new Date(x.createdAt).getTime() ===
+                slice.points[0].data.x.valueOf()
+            );
             return (
               <div id={css.tooltip}>
                 {slice.points[0].data.x.toLocaleString()}:{" "}
                 <span style={{ fontWeight: "bold" }}>
-                  {slice.points[0].data.y}
+                  {slice.points[0].data.y}{" "}
+                  {users.length > 0 ? `(${users[0].name}#${users[0].id})` : ""}
                 </span>
               </div>
             );
