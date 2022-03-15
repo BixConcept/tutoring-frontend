@@ -38,9 +38,11 @@ const SubjectPie = (props: { subjects: any; requestState: RequestState }) => {
       {}
     );
     setData(
-      Object.keys(dataObject).map((x) => {
-        return { id: x, label: "ASDF", value: dataObject[x] };
-      })
+      Object.keys(dataObject)
+        .map((x) => {
+          return { id: x, label: "ASDF", value: dataObject[x] };
+        })
+        .sort((a, b) => b.value - a.value)
     );
   }, [props.subjects]);
   return (
@@ -59,7 +61,7 @@ const SubjectPie = (props: { subjects: any; requestState: RequestState }) => {
           arcLinkLabelsColor={{ from: "color" }}
           innerRadius={0.5}
           padAngle={2}
-          cornerRadius={8}
+          cornerRadius={6}
           theme={{
             fontSize: 14,
             textColor: "white",
