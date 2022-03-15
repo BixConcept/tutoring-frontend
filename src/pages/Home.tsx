@@ -17,9 +17,8 @@ const Home = (): JSX.Element => {
         <div className={css.applyFlexContainer}>
           <div className={css.informationText}>
             <p>
-              Wenn du in einem Fach Nachhilfe geben möchtest, kannst du dich
-              ganz einfach mit deiner Schul-Email registrieren. Für alle, die
-              Nachhilfe brauchen, funktioniert der Zugang ohne Registrierung.{" "}
+              Für die Benutzung dieser Seite kannst du dich ganz einfach mit
+              deiner Schul-Email registrieren.
             </p>
             <p>
               Durch die Nutzung dieser Seite erklärst du dich mit den{" "}
