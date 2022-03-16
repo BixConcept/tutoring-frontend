@@ -23,6 +23,7 @@ import {
 import { OurContext } from "../OurContext";
 import css from "../styles/adminDashboard.module.scss";
 import { Statistic } from "../Components/Statistic";
+import { MessengerInfo } from "../Components/MessengerInfo";
 
 const SubjectPie = (props: { subjects: any; requestState: RequestState }) => {
   const [data, setData] = useState<any[]>([]);
@@ -201,105 +202,61 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
             <label htmlFor="asdf">Nur verifizierte anzeigen</label>
           </form>
           <ResponsiveLine
-            data={
-              !showVerified
-                ? [
-                    {
-                      id: "growth_graph",
-                      data: [
-                        {
-                          x:
-                            /* get the first user's creation date and subtract one day from it so the graph starts at 0, not at 1
+            data={[
+              {
+                id: "growth_graph" + (showVerified ? "_verified" : ""),
+                data: [
+                  {
+                    x:
+                      /* get the first user's creation date and subtract one day from it so the graph starts at 0, not at 1
 
                     bitte lesen sie die packungsbeilage oder fragen sie ihren arzt oder apotheker
                     */
-                            props.users.length > 0
-                              ? new Date(
-                                  props.users
-                                    // generate date objects from date strings
-                                    .map((x) => ({
-                                      ...x,
-                                      ...{ createdAt: new Date(x.createdAt) },
-                                    }))
-                                    // sort to get the first one
-                                    .sort(
-                                      (a, b) =>
-                                        a.createdAt.getTime() -
-                                        b.createdAt.getTime()
-                                    )[0]
-                                    // subtract
-                                    .createdAt.getTime() -
-                                    1000 * 60 * 60 * 24
-                                )
-                              : new Date(),
-                          y: 0,
-                        },
-                        ...props.users.reduce(
-                          (previousValue: any[], user: User) => [
-                            ...previousValue,
-                            { x: user.createdAt, y: previousValue.length + 1 },
-                          ],
-                          []
-                        ),
-                        { x: new Date(), y: props.users.length },
-                      ],
-                    },
-                  ]
-                : [
-                    {
-                      id: "growth_graph_verified",
-                      data: [
+                      props.users.length > 0
+                        ? new Date(
+                            props.users
+                              // generate date objects from date strings
+                              .map((x) => ({
+                                ...x,
+                                ...{ createdAt: new Date(x.createdAt) },
+                              }))
+                              // sort to get the first one
+                              .sort(
+                                (a, b) =>
+                                  a.createdAt.getTime() - b.createdAt.getTime()
+                              )[0]
+                              // subtract
+                              .createdAt.getTime() -
+                              1000 * 60 * 60 * 24
+                          )
+                        : new Date(),
+                    y: 0,
+                  },
+                  ...props.users
+                    .filter(
+                      (x) =>
+                        x.authLevel >= (showVerified ? AuthLevel.Verified : 0)
+                    )
+                    .reduce(
+                      (previousValue: any[], user: User) => [
+                        ...previousValue,
                         {
-                          x:
-                            /* get the first user's creation date and subtract one day from it so the graph starts at 0, not at 1
-
-                    bitte lesen sie die packungsbeilage oder fragen sie ihren arzt oder apotheker
-                    */
-                            props.users.length > 0
-                              ? new Date(
-                                  props.users
-                                    // generate date objects from date strings
-                                    .map((x) => ({
-                                      ...x,
-                                      ...{
-                                        createdAt: new Date(x.createdAt),
-                                      },
-                                    }))
-                                    // sort to get the first one
-                                    .sort(
-                                      (a, b) =>
-                                        a.createdAt.getTime() -
-                                        b.createdAt.getTime()
-                                    )[0]
-                                    // subtract
-                                    .createdAt.getTime() -
-                                    1000 * 60 * 60 * 24
-                                )
-                              : new Date(),
-                          y: 0,
-                        },
-                        ...props.users
-                          .filter((x) => x.authLevel >= AuthLevel.Verified)
-                          .reduce(
-                            (previousValue: any[], user: User) => [
-                              ...previousValue,
-                              {
-                                x: user.createdAt,
-                                y: previousValue.length + 1,
-                              },
-                            ],
-                            []
-                          ),
-                        {
-                          x: new Date(),
-                          y: props.users.filter(
-                            (x) => x.authLevel >= AuthLevel.Verified
-                          ).length,
+                          x: user.createdAt,
+                          y: previousValue.length + 1,
                         },
                       ],
-                    },
-                  ]
-            }
+                      []
+                    ),
+                  {
+                    x: new Date(),
+                    y: props.users.filter(
+                      (x) =>
+                        x.authLevel >= (showVerified ? AuthLevel.Verified : 0)
+                    ).length,
+                  },
+                ],
+              },
+            ]}
             enablePointLabel={false}
             margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
             xScale={{
@@ -323,28 +280,29 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
               legendPosition: "middle",
               tickValues: 8,
             }}
-            enableSlices={"x"}
+            enableCrosshair={true}
+            crosshairType="cross"
             colors={{ scheme: "category10" }}
             theme={{
               textColor: "var(--text_color)",
               fontSize: 14,
               crosshair: { line: { stroke: "var(--text_color)" } },
             }}
-            curve="step"
-            sliceTooltip={({ slice }) => {
+            curve="catmullRom"
+            useMesh={true}
+            tooltip={({ point }) => {
               let users = props.users.filter(
                 (x) =>
-                  new Date(x.createdAt).getTime() ===
-                  slice.points[0].data.x.valueOf()
+                  new Date(x.createdAt).getTime() === point.data.x.valueOf()
               );
 
               if (users.length > 0) {
                 return (
                   <div id={css.tooltip}>
                     <p>
-                      {slice.points[0].data.x.toLocaleString()}:{" "}
+                      {point.data.x.toLocaleString()}:{" "}
                       <span style={{ fontWeight: "bold" }}>
-                        {slice.points[0].data.y}{" "}
+                        {point.data.y}{" "}
                         {users.length > 0
                           ? `(${users[0].name}#${users[0].id})`
                           : ""}
@@ -567,7 +525,6 @@ export default function AdminDashboard() {
             setOffersRequest({ state: RequestState.Failure, data: [] });
             Alert(body.msg, "error", context.theme);
           } else {
-            console.log(body.content);
             setOffersRequest({
               state: RequestState.Success,
               data: body.content,
@@ -665,77 +622,101 @@ export default function AdminDashboard() {
             requestState={usersRequest.state}
           />
         </div>
-        {context.user?.authLevel === AuthLevel.Admin ? (
-          <Fragment>
-            <div id={css.userListContainer}>
-              <h2>User</h2>
-              <div id={css.userList}>
-                {usersRequest.data.map((user) => (
-                  <div key={user.id} className={css.userListItem}>
-                    <div>
-                      <Link to={`/user/${user.id}`}>
-                        <h1>
-                          <span className={css.itemId}>#{user.id}:</span>{" "}
-                          {user.name} <Rank authLevel={user.authLevel} />
-                        </h1>
-                      </Link>
-                      <p>{user.email}</p>
-                      <p>Stufe {user.grade}</p>
-                      {user.misc ? <p>Misc: {user.misc}</p> : null}
-                    </div>
-                    <button
-                      onClick={() => {
-                        fetch(`${API_HOST}/user/${user.id}`, {
-                          method: "DELETE",
-                          credentials: "include",
-                        })
-                          .then((res) => {
-                            if (!res.ok) {
-                              throw new Error("");
-                            }
+        <div id={css.userListContainer}>
+          <h2>User</h2>
+          <p>
+            {usersRequest.data.length} Benutzer:innen, davon sind{" "}
+            {(usersRequest.data.filter((x) => x.authLevel >= AuthLevel.Verified)
+              .length /
+              usersRequest.data.length) *
+              100}
+            % (
+            {
+              usersRequest.data.filter((x) => x.authLevel >= AuthLevel.Verified)
+                .length
+            }
+            ) verifiziert
+          </p>
+          <div id={css.userList}>
+            {usersRequest.data.map((user) => (
+              <div key={user.id} className={css.userListItem}>
+                <div>
+                  <h1>
+                    <Link to={`/user/${user.id}`}>
+                      <span className={css.itemId}>#{user.id}:</span>{" "}
+                      {user.name} <Rank authLevel={user.authLevel} />
+                      <div className={css.messengerIcons}>
+                        <MessengerInfo
+                          hasDiscord={user.hasDiscord}
+                          discordUser={user.discordUser}
+                          hasWhatsapp={user.hasWhatsapp}
+                          hasSignal={user.hasSignal}
+                          phoneNumber={user.phoneNumber || null}
+                          iconsOnly={true}
+                        />
+                      </div>
+                    </Link>
+                  </h1>
+                  <p>{user.email}</p>
+                  <p>Stufe {user.grade}</p>
+                  {user.phoneNumber ? <p>{user.phoneNumber}</p> : null}
+                  {user.misc ? <p>Misc: {user.misc}</p> : null}
+                </div>
+                {context.user?.authLevel === AuthLevel.Admin ? (
+                  <button
+                    onClick={() => {
+                      fetch(`${API_HOST}/user/${user.id}`, {
+                        method: "DELETE",
+                        credentials: "include",
+                      })
+                        .then((res) => {
+                          if (!res.ok) {
+                            throw new Error("");
+                          }
 
-                            Alert(
-                              "Erfolgreich gelöscht!",
-                              "success",
-                              context.theme
-                            );
+                          Alert(
+                            "Erfolgreich gelöscht!",
+                            "success",
+                            context.theme
+                          );
 
-                            setUsersRequest({
-                              ...usersRequest,
-                              ...{
-                                data: usersRequest.data.filter(
-                                  (x) => x.id !== user.id
-                                ),
-                              },
-                            });
-
-                            context.setUser(null);
-                            navigate("/");
-                          })
-                          .catch(() => {
-                            Alert(
-                              "Irgendwas ist schiefgegangen 😟",
-                              "error",
-                              context.theme
-                            );
+                          setUsersRequest({
+                            ...usersRequest,
+                            ...{
+                              data: usersRequest.data.filter(
+                                (x) => x.id !== user.id
+                              ),
+                            },
                           });
-                      }}
-                      disabled={user.id === context.user?.id}
-                    >
-                      Löschen
-                    </button>
-                  </div>
-                ))}
+
+                          context.setUser(null);
+                          navigate("/");
+                        })
+                        .catch(() => {
+                          Alert(
+                            "Irgendwas ist schiefgegangen 😟",
+                            "error",
+                            context.theme
+                          );
+                        });
+                    }}
+                    disabled={user.id === context.user?.id}
+                  >
+                    Löschen
+                  </button>
+                ) : null}
               </div>
-            </div>
-            <div>
-              <h2>IP-Adressen</h2>
-              <IPAddressLeaderboard
-                apiRequests={apiRequestsRequest.data}
-                requestState={apiRequestsRequest.state}
-              />
-            </div>
-          </Fragment>
+            ))}
+          </div>
+        </div>
+        {context.user?.authLevel === AuthLevel.Admin ? (
+          <div>
+            <h2>IP-Adressen</h2>
+            <IPAddressLeaderboard
+              apiRequests={apiRequestsRequest.data}
+              requestState={apiRequestsRequest.state}
+            />
+          </div>
         ) : null}
       </div>
     </div>

@@ -1,8 +1,10 @@
 import { faDiscord, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import css from "../styles/messengerInfo.module.scss";
 import Signal from "../assets/images/signal.svg";
+import SignalBlack from "../assets/images/signal_black.svg";
+import { OurContext } from "../OurContext";
 
 export function MessengerInfo(props: {
   hasDiscord: boolean;
@@ -10,8 +12,10 @@ export function MessengerInfo(props: {
   hasSignal: boolean;
   discordUser: string;
   phoneNumber: string | null;
+  iconsOnly?: boolean;
 }) {
-  return (
+  const context = useContext(OurContext);
+  return !props.iconsOnly ? (
     <Fragment>
       {props.hasDiscord ? (
         <p id={css.discord} className={css.button}>
@@ -32,7 +36,7 @@ export function MessengerInfo(props: {
                 props.phoneNumber
               )}`}
             >
-              <img src={Signal} alt="Signal" />
+              <img src={Signal} className={css.icon} alt="Signal" />
               Signal
             </a>
           ) : null}
@@ -49,6 +53,17 @@ export function MessengerInfo(props: {
             </a>
           ) : null}
         </Fragment>
+      ) : null}
+    </Fragment>
+  ) : (
+    <Fragment>
+      {props.hasDiscord ? <FontAwesomeIcon icon={faDiscord} /> : null}
+      {props.hasWhatsapp ? <FontAwesomeIcon icon={faWhatsapp} /> : null}
+      {props.hasSignal ? (
+        <img
+          className={css.icon}
+          src={context.theme === "dark" ? Signal : SignalBlack}
+        />
       ) : null}
     </Fragment>
   );
