@@ -255,6 +255,16 @@
   }
 }
 
+#authLevelContainer {
+  border: solid 1px var(--disabled_color);
+  border-radius: 0.5rem;
+  color: black;
+  #authLevelChart {
+    height: 30rem;
+    min-width: 100%;
+  }
+}
+
 @media screen and (max-width: 1400px) {
   #firstCharts {
     flex-direction: column !important;

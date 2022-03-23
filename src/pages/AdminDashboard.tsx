@@ -456,6 +456,58 @@ function IPAddressLeaderboard(props: {
   );
 }
 
+function AuthLevelChart(props: { users: User[] | null }) {
+  const { users } = props;
+
+  const [data, setData] = useState<any[]>([]);
+  useEffect(() => {
+    const labels = ["Unverizifiert", "Verifiziert", "Administrator"];
+
+    if (users) {
+      setData(
+        Object.entries(
+          users.reduce(
+            (prev: { [key: string]: number }, current) => ({
+              ...prev,
+              ...{
+                [labels[current.authLevel]]:
+                  (prev[labels[current.authLevel]] || 0) + 1,
+              },
+            }),
+            {}
+          )
+        ).map((x) => ({ id: x[0], value: x[1], label: "penis" }))
+      );
+    }
+  }, [users]);
+
+  if (users === null) {
+    return <LoadingScreen loaded={false} />;
+  } else {
+    return (
+      <div id={css.authLevelChart}>
+        <ResponsivePie
+          data={data}
+          colors={{ scheme: "set1" }}
+          arcLabel="formattedValue"
+          arcLinkLabelsTextColor="var(--text_color)"
+          arcLinkLabelsThickness={2}
+          arcLinkLabelsColor={{ from: "color" }}
+          innerRadius={0.5}
+          padAngle={2}
+          cornerRadius={6}
+          sortByValue={true}
+          theme={{
+            fontSize: 14,
+            textColor: "white",
+          }}
+          margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
+        />
+      </div>
+    );
+  }
+}
+
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const context = useContext(OurContext);
@@ -604,23 +656,26 @@ export default function AdminDashboard() {
         </div>
         <div id={css.stats}>
           <Statistic text="api requests" value={stats.apiRequests} />
-          <Statistic text="offers" value={stats.offers} />
-          <Statistic text="notification requests" value={stats.requests} />
-          <Statistic text="user" value={stats.users} />
+          <Statistic text="angebote" value={stats.offers} />
+          <Statistic text="notification-anfragen" value={stats.requests} />
+          <Statistic text="benutzer:innen" value={stats.users} />
         </div>
         <div id={css.requestChartContainer}>
-          <h2>Requests pro Stunde</h2>
+          <h2>API-Aktivität [Requests/h]</h2>
           <ActivityGraph
             requests={apiRequestsRequest.data}
             requestState={apiRequestsRequest.state}
           />
         </div>
         <div id={css.growthChartContainer}>
-          <h2>User-Wachstum</h2>
+          <h2>Benutzer:innen-Wachstum</h2>
           <UserGrowthChart
             users={usersRequest.data}
             requestState={usersRequest.state}
           />
+        </div>
+        <div id={css.authLevelContainer}>
+          <AuthLevelChart users={usersRequest.data} />
         </div>
         <div id={css.userListContainer}>
           <h2>User</h2>
