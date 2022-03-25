@@ -4,26 +4,27 @@ import {
   faSortUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Point, ResponsiveLine } from "@nivo/line";
+import { ResponsiveLine } from "@nivo/line";
 import { ResponsivePie } from "@nivo/pie";
-import { useContext, useEffect, useState, Fragment } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { API_HOST } from "..";
 import Alert from "../Components/Alert";
 import LoadingScreen from "../Components/LoadingScreen";
+import { MessengerInfo } from "../Components/MessengerInfo";
 import { Rank } from "../Components/Rank";
+import { Statistic } from "../Components/Statistic";
 import {
   ApiRequest,
   AuthLevel,
+  NotificationRequest,
   RequestState,
   TutoringOffer,
   User,
 } from "../Models";
 import { OurContext } from "../OurContext";
 import css from "../styles/adminDashboard.module.scss";
-import { Statistic } from "../Components/Statistic";
-import { MessengerInfo } from "../Components/MessengerInfo";
 
 const SubjectPie = (props: { subjects: any; requestState: RequestState }) => {
   const [data, setData] = useState<any[]>([]);
@@ -78,53 +79,20 @@ const SubjectPie = (props: { subjects: any; requestState: RequestState }) => {
 };
 
 const ActivityGraph = (props: {
-  requests: ApiRequest[];
+  data: ApiRequest[];
   requestState: RequestState;
 }): JSX.Element => {
-  const { requests } = props;
+  const { data: requests } = props;
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
-    // time of the first request
-    const min = requests.reduce(
-      (previousValue, currentValue) =>
-        new Date(currentValue.time) < previousValue
-          ? new Date(currentValue.time)
-          : previousValue,
-      new Date()
-    );
-
-    // time of the last request
-    const max = requests.reduce(
-      (previousValue: Date, currentValue) =>
-        new Date(currentValue.time) > previousValue
-          ? new Date(currentValue.time)
-          : previousValue,
-      new Date()
-    );
-
-    // number of hours between the first and last request's time
-    let hoursCount = Math.abs(max.getTime() - min.getTime()) / (60 * 60 * 1000);
-
-    //array of whole hours as Date
-    let hours: Date[] = [];
-    for (let i = 0; i < hoursCount; i++) {
-      hours.push(new Date(min.getTime() + i * 60 * 60 * 1000));
-    }
-
     setData([
       {
         id: "request_graph",
-        data: hours.map(
-          (value: Date) => ({
-            x: value.toISOString(),
-            y: requests.filter((x) => {
-              let date = new Date(x.time);
-              return (
-                date > value &&
-                date < new Date(value.getTime() + 1000 * 60 * 60)
-              );
-            }).length,
+        data: props.data.map(
+          (value: any) => ({
+            x: new Date(value.time).toISOString(),
+            y: value.value,
           }),
           []
         ),
@@ -526,13 +494,13 @@ export default function AdminDashboard() {
     data: [],
   });
   const [apiRequestsRequest, setApiRequestsRequest] = useState<
-    RequestWithState<ApiRequest[]>
+    RequestWithState<any[]>
   >({ state: RequestState.Loading, data: [] });
   const [offersRequest, setOffersRequest] = useState<
     RequestWithState<TutoringOffer[]>
   >({ state: RequestState.Loading, data: [] });
   const [requestsRequest, setRequestsRequest] = useState<
-    RequestWithState<Request[]>
+    RequestWithState<NotificationRequest[]>
   >({ state: RequestState.Loading, data: [] });
 
   useEffect(() => {
@@ -612,7 +580,9 @@ export default function AdminDashboard() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    fetch(`${API_HOST}/apiRequests`, { credentials: "include" }).then((res) => {
+    fetch(`${API_HOST}/apiRequests?aggregate=86400`, {
+      credentials: "include",
+    }).then((res) => {
       res.json().then((body) => {
         setApiRequestsRequest({
           state: RequestState.Success,
@@ -661,9 +631,9 @@ export default function AdminDashboard() {
           <Statistic text="benutzer:innen" value={stats.users} />
         </div>
         <div id={css.requestChartContainer}>
-          <h2>API-Aktivität [Requests/h]</h2>
+          <h2>API-Aktivität [Requests/Tag]</h2>
           <ActivityGraph
-            requests={apiRequestsRequest.data}
+            data={apiRequestsRequest.data}
             requestState={apiRequestsRequest.state}
           />
         </div>
@@ -743,9 +713,6 @@ export default function AdminDashboard() {
                               ),
                             },
                           });
-
-                          context.setUser(null);
-                          navigate("/");
                         })
                         .catch(() => {
                           Alert(

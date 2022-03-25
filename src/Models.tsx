@@ -77,3 +77,9 @@ export interface Stats {
   requests: number;
   offers: number;
 }
+
+export interface NotificationRequest {
+  id: number;
+  subjectId: number;
+  // other too
+}
