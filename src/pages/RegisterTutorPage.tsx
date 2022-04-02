@@ -251,7 +251,7 @@ const RegisterTutorPage = (): JSX.Element => {
         <div className={css["input-fields"]}>
           <form
             onSubmit={(e) => {
-              const schoolMailRegex = /(.*)\.(.*)(@gymhaan\.de)?/; // this allows too much, but I am not sure how they are generated exactly so '729asdf=9@.23aa~~3F@gymhaan.de' is valid for now
+              const schoolMailRegex = /(.*)(@gymhaan\.de)?/; // this allows too much, but I am not sure how they are generated exactly so '729asdf=9@.23aa~~3F@gymhaan.de' is valid for now
               if (email.match(schoolMailRegex)) {
                 newStep(2);
                 lottie.destroy();
@@ -269,9 +269,13 @@ const RegisterTutorPage = (): JSX.Element => {
                 type="text"
                 required
                 onChange={(e) => {
-                  setEmail(e.target.value);
+                  let foo = e.target.value.trim();
+                  setEmail(foo);
                   fetch(
-                    `${API_HOST}/user/email-available/${e.target.value}@gymhaan.de`
+                    `${API_HOST}/user/email-available/${foo.replace(
+                      "@gymhaan.de",
+                      ""
+                    )}@gymhaan.de`
                   ).then((res) => {
                     switch (res.status) {
                       case 200:
