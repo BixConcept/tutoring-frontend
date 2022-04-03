@@ -314,6 +314,11 @@
 
 @media screen and (max-width: 1000px) {
   #userList {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+  }
+
+  #stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 }

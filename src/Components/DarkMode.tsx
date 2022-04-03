@@ -41,10 +41,16 @@ const DarkMode = () => {
       }}
       style={{ cursor: "pointer" }}
     >
-      <FontAwesomeIcon
-        type="checkbox"
-        icon={localStorage.getItem("theme") === "dark" ? faSun : faMoon}
-      />
+      {context.width > 600 ? (
+        <FontAwesomeIcon
+          type="checkbox"
+          icon={localStorage.getItem("theme") === "dark" ? faSun : faMoon}
+        />
+      ) : localStorage.getItem("theme") === "dark" ? (
+        "Light mode"
+      ) : (
+        "Dark mode"
+      )}
     </button>
   );
 };

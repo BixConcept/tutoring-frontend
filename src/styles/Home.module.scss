@@ -38,7 +38,7 @@
       h1 {
         margin: 0;
         /*font-size: 100pt;*/
-        font-size: 4rem;
+        font-size: clamp(2rem, 5vw, 4rem);
         font-weight: bold;
         color: #f1f2f6;
         hyphens: auto;

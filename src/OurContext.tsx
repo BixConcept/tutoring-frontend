@@ -6,6 +6,7 @@ interface IOurContext {
   setTheme: (newTheme: "light" | "dark") => void;
   user: User | null;
   setUser: (newUser: User | null) => void;
+  width: number;
 }
 
 export const OurContext = createContext<IOurContext>({
@@ -13,4 +14,5 @@ export const OurContext = createContext<IOurContext>({
   setTheme: (_: string) => {},
   user: null,
   setUser: (_: User | null) => {},
+  width: 0,
 });

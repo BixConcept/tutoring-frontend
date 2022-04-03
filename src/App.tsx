@@ -23,6 +23,12 @@ import { UserPage } from "./pages/UserPage";
 const App = (): JSX.Element => {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [user, setUser] = useState<User | null>(null);
+  const [width, setWidth] = useState(1920);
+
+  const updateDimensions = () => {
+    const _width = window.innerWidth;
+    setWidth(_width);
+  };
 
   useEffect(() => {
     // Rainbow Giant Styled Text
@@ -46,6 +52,9 @@ const App = (): JSX.Element => {
       .catch((_) => {
         setUser(null);
       });
+
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -56,6 +65,7 @@ const App = (): JSX.Element => {
           setTheme: setTheme,
           user: user,
           setUser: setUser,
+          width: width,
         }}
       >
         <BrowserRouter>
