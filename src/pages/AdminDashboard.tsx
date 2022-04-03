@@ -98,7 +98,7 @@ const ActivityGraph = (props: {
         ),
       },
     ]);
-  }, [requests]);
+  }, [requests]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div id={css.requestsChart}>
       {RequestState.Success === props.requestState ? (
@@ -503,6 +503,8 @@ export default function AdminDashboard() {
     RequestWithState<NotificationRequest[]>
   >({ state: RequestState.Loading, data: [] });
 
+  const [olderThan, setOlderThan] = useState<string>("");
+
   useEffect(() => {
     // check if the user is authenticated
     fetch(`${API_HOST}/user`, { credentials: "include" })
@@ -592,6 +594,18 @@ export default function AdminDashboard() {
     });
   }, []);
 
+  function usersOlderThan(): number {
+    const minDate = new Date().getTime() - parseInt(olderThan) * 1000;
+    console.log(minDate, new Date(minDate));
+    return usersRequest.data.filter((x) => {
+      console.log(x.createdAt);
+      return (
+        new Date(x.createdAt).getTime() < minDate &&
+        x.authLevel === AuthLevel.Unverified
+      );
+    }).length;
+  }
+
   return (
     <div className={css.dashboard}>
       <div className={css["dashboard-content"]}>
@@ -649,19 +663,46 @@ export default function AdminDashboard() {
         </div>
         <div id={css.userListContainer}>
           <h2>User</h2>
-          <p>
-            {usersRequest.data.length} Benutzer:innen, davon sind{" "}
-            {(usersRequest.data.filter((x) => x.authLevel >= AuthLevel.Verified)
-              .length /
-              usersRequest.data.length) *
-              100}
-            % (
-            {
-              usersRequest.data.filter((x) => x.authLevel >= AuthLevel.Verified)
-                .length
-            }
-            ) verifiziert
-          </p>
+          <div id={css.userInfo}>
+            <p>
+              {usersRequest.data.length} Benutzer:innen, davon sind{" "}
+              {(usersRequest.data.filter(
+                (x) => x.authLevel >= AuthLevel.Verified
+              ).length /
+                usersRequest.data.length) *
+                100}
+              % (
+              {
+                usersRequest.data.filter(
+                  (x) => x.authLevel >= AuthLevel.Verified
+                ).length
+              }
+              ) verifiziert
+            </p>
+            <div id={css.deleteUnverifiedContainer}>
+              <p>
+                Benutzer:innen, die innerhalb einer bestimmten Zeit nicht ihre
+                E-Mail-Adresse verifizert haben, können hier gelöscht werden.
+              </p>
+              <select
+                onChange={(e) => {
+                  setOlderThan(e.target.value);
+                }}
+              >
+                <option value="">---</option>
+                <option value="0">Alle</option>
+                <option value="86400">Älter als 1 Tag</option>
+                <option value="604800">Älter als 7 Tage</option>
+                <option value="2592000">Älter als 30 Tage</option>
+              </select>
+              <button
+                className={css.deleteUnverifiedButton}
+                disabled={usersOlderThan() === 0}
+              >
+                {usersOlderThan()} unverifizierte löschen
+              </button>
+            </div>
+          </div>
           <div id={css.userList}>
             {usersRequest.data.map((user) => (
               <div key={user.id} className={css.userListItem}>
@@ -686,7 +727,7 @@ export default function AdminDashboard() {
                   <p>Stufe {user.grade}</p>
                   {user.phoneNumber ? <p>{user.phoneNumber}</p> : null}
                   {user.misc ? <p>Misc: {user.misc}</p> : null}
-                </div>
+                </div>{" "}
                 {context.user?.authLevel === AuthLevel.Admin ? (
                   <button
                     onClick={() => {
@@ -731,7 +772,8 @@ export default function AdminDashboard() {
             ))}
           </div>
         </div>
-        {context.user?.authLevel === AuthLevel.Admin ? (
+        {/* looks too bad to ship */}
+        {/* context.user?.authLevel === AuthLevel.Admin ? (
           <div>
             <h2>IP-Adressen</h2>
             <IPAddressLeaderboard
@@ -739,7 +781,7 @@ export default function AdminDashboard() {
               requestState={apiRequestsRequest.state}
             />
           </div>
-        ) : null}
+        ) : null} */}
       </div>
     </div>
   );

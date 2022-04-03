@@ -108,6 +108,40 @@
 }
 
 #userListContainer {
+  #userInfo {
+    margin-bottom: 2rem;
+    #deleteUnverifiedContainer {
+      select {
+        height: 2rem;
+        margin-right: 1rem;
+        font-size: inherit;
+        white-space: nowrap;
+        background-color: var(--contrast_bg_color);
+        color: var(--text_color);
+        border-radius: 5px;
+      }
+      button {
+        height: 2rem;
+        padding: 0 1rem;
+        color: white;
+        border: none;
+        font-size: inherit;
+        white-space: nowrap;
+        border-radius: 5px;
+
+        &:enabled {
+          background-color: $error_color;
+          cursor: pointer;
+        }
+
+        &:disabled {
+          background-color: var(--disabled_color);
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
   #userList {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -238,7 +272,7 @@
       }
     }
   }
-}
+} 
 
 .close-button {
   cursor: pointer;
@@ -260,7 +294,7 @@
   border-radius: 0.5rem;
   color: black;
   #authLevelChart {
-    height: 30rem;
+    height: 20rem;
     min-width: 100%;
   }
 }
