@@ -698,6 +698,31 @@ export default function AdminDashboard() {
               <button
                 className={css.deleteUnverifiedButton}
                 disabled={usersOlderThan() === 0}
+                onClick={async () => {
+                  try {
+                    const res = await fetch(
+                      `${API_HOST}/user/unverified?olderThan=${olderThan}`,
+                      { method: "DELETE", credentials: "include" }
+                    );
+                    if (res.ok) {
+                      Alert("Erfolgreich gelöscht!", "success", context.theme);
+                    }
+                    fetch(`${API_HOST}/users`, { credentials: "include" })
+                      .then((res) => res.json())
+                      .then((body) => {
+                        setUsersRequest({
+                          state: RequestState.Success,
+                          data: body.content,
+                        });
+                      });
+                  } catch (e) {
+                    Alert(
+                      "Irgendwas ist schiefgegangen: " + e,
+                      "error",
+                      context.theme
+                    );
+                  }
+                }}
               >
                 {usersOlderThan()} unverifizierte löschen
               </button>
