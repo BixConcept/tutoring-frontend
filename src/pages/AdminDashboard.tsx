@@ -84,6 +84,8 @@ const ActivityGraph = (props: {
 }): JSX.Element => {
   const { data: requests } = props;
   const [data, setData] = useState<any[]>([]);
+  const context = useContext(OurContext);
+  console.log(context.width);
 
   useEffect(() => {
     setData([
@@ -125,7 +127,7 @@ const ActivityGraph = (props: {
             tickPadding: 0,
             tickRotation: 0,
             legendPosition: "middle",
-            tickValues: 10,
+            tickValues: context.width > 800 ? 10 : 0,
           }}
           enableSlices={"x"}
           colors={{ scheme: "category10" }}
@@ -155,24 +157,41 @@ const ActivityGraph = (props: {
 };
 
 function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
-  const [showVerified, setShowVerified] = useState<boolean>(false);
+  const [onlyVerified, setOnlyVerified] = useState<boolean>(false);
+  const [onlyTeachers, setOnlyTeachers] = useState<boolean>(false);
+  const context = useContext(OurContext);
+
   return (
     <div id={css.growthChart}>
       {props.requestState === RequestState.Success ? (
         <Fragment>
           <form>
-            <input
-              type="checkbox"
-              checked={showVerified}
-              onChange={(e) => setShowVerified(e.target.checked)}
-              name="asdf"
-            />
-            <label htmlFor="asdf">Nur verifizierte anzeigen</label>
+            <div>
+              <input
+                type="checkbox"
+                checked={onlyVerified}
+                onChange={(e) => setOnlyVerified(e.target.checked)}
+                name="asdf"
+              />
+              <label htmlFor="asdf">Nur verifizierte anzeigen</label>
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                checked={onlyTeachers}
+                onChange={(e) => setOnlyTeachers(e.target.checked)}
+                name="teachers"
+              />
+              <label htmlFor="teachers">Nur Lehrer:innen anzeigen</label>
+            </div>
           </form>
           <ResponsiveLine
             data={[
               {
-                id: "growth_graph" + (showVerified ? "_verified" : ""),
+                id:
+                  "growth_graph" +
+                  (onlyVerified ? "_verified" : "") +
+                  (onlyTeachers ? "_teachers" : ""),
                 data: [
                   {
                     x:
@@ -203,7 +222,9 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
                   ...props.users
                     .filter(
                       (x) =>
-                        x.authLevel >= (showVerified ? AuthLevel.Verified : 0)
+                        x.authLevel >=
+                          (onlyVerified ? AuthLevel.Verified : 0) &&
+                        (onlyTeachers ? x.offers.length > 0 : true)
                     )
                     .reduce(
                       (previousValue: any[], user: User) => [
@@ -219,7 +240,7 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
                     x: new Date(),
                     y: props.users.filter(
                       (x) =>
-                        x.authLevel >= (showVerified ? AuthLevel.Verified : 0)
+                        x.authLevel >= (onlyVerified ? AuthLevel.Verified : 0)
                     ).length,
                   },
                 ],
@@ -246,7 +267,7 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
               tickPadding: 0,
               tickRotation: 0,
               legendPosition: "middle",
-              tickValues: 8,
+              tickValues: context.width > 800 ? 5 : 0,
             }}
             enableCrosshair={true}
             crosshairType="cross"
@@ -666,11 +687,13 @@ export default function AdminDashboard() {
           <div id={css.userInfo}>
             <p>
               {usersRequest.data.length} Benutzer:innen, davon sind{" "}
-              {(usersRequest.data.filter(
-                (x) => x.authLevel >= AuthLevel.Verified
-              ).length /
-                usersRequest.data.length) *
-                100}
+              {(
+                (usersRequest.data.filter(
+                  (x) => x.authLevel >= AuthLevel.Verified
+                ).length /
+                  usersRequest.data.length) *
+                100
+              ).toFixed(2)}
               % (
               {
                 usersRequest.data.filter(
@@ -679,54 +702,73 @@ export default function AdminDashboard() {
               }
               ) verifiziert
             </p>
-            <div id={css.deleteUnverifiedContainer}>
-              <p>
-                Benutzer:innen, die innerhalb einer bestimmten Zeit nicht ihre
-                E-Mail-Adresse verifizert haben, können hier gelöscht werden.
-              </p>
-              <select
-                onChange={(e) => {
-                  setOlderThan(e.target.value);
-                }}
-              >
-                <option value="">---</option>
-                <option value="0">Alle</option>
-                <option value="86400">Älter als 1 Tag</option>
-                <option value="604800">Älter als 7 Tage</option>
-                <option value="2592000">Älter als 30 Tage</option>
-              </select>
-              <button
-                className={css.deleteUnverifiedButton}
-                disabled={usersOlderThan() === 0}
-                onClick={async () => {
-                  try {
-                    const res = await fetch(
-                      `${API_HOST}/user/unverified?olderThan=${olderThan}`,
-                      { method: "DELETE", credentials: "include" }
-                    );
-                    if (res.ok) {
-                      Alert("Erfolgreich gelöscht!", "success", context.theme);
-                    }
-                    fetch(`${API_HOST}/users`, { credentials: "include" })
-                      .then((res) => res.json())
-                      .then((body) => {
-                        setUsersRequest({
-                          state: RequestState.Success,
-                          data: body.content,
+            {context.user?.authLevel === AuthLevel.Admin ? (
+              <div id={css.deleteUnverifiedContainer}>
+                <p>
+                  Benutzer:innen, die innerhalb einer bestimmten Zeit nicht ihre
+                  E-Mail-Adresse verifizert haben, können hier gelöscht werden.
+                </p>
+                <select
+                  onChange={(e) => {
+                    setOlderThan(e.target.value);
+                  }}
+                >
+                  <option value="">---</option>
+                  <option value="0">Alle</option>
+                  <option value="86400">Älter als 1 Tag</option>
+                  <option value="604800">Älter als 7 Tage</option>
+                  <option value="2592000">Älter als 30 Tage</option>
+                </select>
+                <button
+                  className={css.deleteUnverifiedButton}
+                  disabled={usersOlderThan() === 0}
+                  onClick={async () => {
+                    try {
+                      const res = await fetch(
+                        `${API_HOST}/user/unverified?olderThan=${olderThan}`,
+                        { method: "DELETE", credentials: "include" }
+                      );
+
+                      if (res.ok) {
+                        Alert(
+                          "Erfolgreich gelöscht!",
+                          "success",
+                          context.theme
+                        );
+                      } else {
+                        try {
+                          const body = await res.json();
+                          Alert(body.msg, "error", context.theme);
+                        } catch (e) {
+                          console.error(e);
+                          Alert(
+                            "Irgendwas ist schiefgegangen",
+                            "error",
+                            context.theme
+                          );
+                        }
+                      }
+                      fetch(`${API_HOST}/users`, { credentials: "include" })
+                        .then((res) => res.json())
+                        .then((body) => {
+                          setUsersRequest({
+                            state: RequestState.Success,
+                            data: body.content,
+                          });
                         });
-                      });
-                  } catch (e) {
-                    Alert(
-                      "Irgendwas ist schiefgegangen: " + e,
-                      "error",
-                      context.theme
-                    );
-                  }
-                }}
-              >
-                {usersOlderThan()} unverifizierte löschen
-              </button>
-            </div>
+                    } catch (e) {
+                      Alert(
+                        "Irgendwas ist schiefgegangen: " + e,
+                        "error",
+                        context.theme
+                      );
+                    }
+                  }}
+                >
+                  {usersOlderThan()} unverifizierte löschen
+                </button>
+              </div>
+            ) : null}
           </div>
           <div id={css.userList}>
             {usersRequest.data.map((user) => (

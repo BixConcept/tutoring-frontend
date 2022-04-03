@@ -94,7 +94,6 @@ nav {
     }
 
     ul {
-      margin-left: 2rem;
       flex-direction: column;
       align-items: center;
       gap: 2rem;
@@ -109,6 +108,7 @@ nav {
         li {
           display: flex;
           justify-content: center;
+          height: 2.5rem;
 
           padding-top: 0.5rem;
           border-top: solid var(--disabled_color) 1px;

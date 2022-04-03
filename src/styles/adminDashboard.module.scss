@@ -90,6 +90,12 @@
   border: solid 1px var(--disabled_color);
   border-radius: 0.5rem;
 
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
   #growthChart {
     flex: 1;
     height: 25rem;

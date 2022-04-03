@@ -42,8 +42,8 @@ export default function Navbar() {
           >
             <DarkMode />
           </li>
-          <li>
-            {context.user !== null ? (
+          {context.user !== null ? (
+            <li>
               <button
                 onClick={(e) => {
                   e.preventDefault();
@@ -64,8 +64,8 @@ export default function Navbar() {
               >
                 Abmelden
               </button>
-            ) : null}
-          </li>
+            </li>
+          ) : null}
           <li>
             {context.user === null ? (
               <Link to="/login">Login</Link>
