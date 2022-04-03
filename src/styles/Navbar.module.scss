@@ -52,6 +52,7 @@ nav {
       display: flex;
       align-items: center;
       font-family: Inter;
+      cursor: pointer;
 
       text-decoration: none;
 
@@ -80,7 +81,7 @@ nav {
     padding: 0 2rem;
   }
 }
- 
+
 @media screen and (max-width: 600px) {
   nav {
     padding: 1rem 5vw;
@@ -99,7 +100,6 @@ nav {
         flex-direction: column;
         gap: 0.5rem !important;
       }
-    } 
-  } 
-  
+    }
+  }
 }
