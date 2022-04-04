@@ -9,6 +9,7 @@ import { ResponsivePie } from "@nivo/pie";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { visitFunctionBody } from "typescript";
 import { API_HOST } from "..";
 import Alert from "../Components/Alert";
 import LoadingScreen from "../Components/LoadingScreen";
@@ -497,6 +498,56 @@ function AuthLevelChart(props: { users: User[] | null }) {
   }
 }
 
+function PathChart(props: {
+  paths: { [key: string]: number };
+  requestState: RequestState;
+}): JSX.Element {
+  const [data, setData] = useState<any>({});
+  useEffect(() => {
+    let total = Object.keys(props.paths).reduce(
+      (prev, x) => prev + props.paths[x],
+      0
+    );
+    setData(
+      Object.keys(props.paths)
+        .map((x) => {
+          return { id: x, label: "ASDF", value: props.paths[x] };
+        })
+        .sort((a, b) => b.value - a.value)
+        .filter((x) => x.value >= 0.01 * total) // at least one percent
+    );
+    console.log(data);
+  }, [props.paths]);
+  return (
+    <div id={css.pathChart}>
+      {props.paths.length === 0 ? (
+        <span style={{ color: "var(--text_color)" }}>Keine Daten verfübar</span>
+      ) : null}
+      {props.requestState === RequestState.Success && props.paths ? (
+        <ResponsivePie
+          data={data}
+          colors={{ scheme: "set1" }}
+          arcLabel="formattedValue"
+          arcLinkLabelsTextColor="var(--text_color)"
+          arcLinkLabelsThickness={2}
+          arcLinkLabelsColor={{ from: "color" }}
+          innerRadius={0.5}
+          padAngle={2}
+          cornerRadius={6}
+          theme={{
+            fontSize: 14,
+            textColor: "white",
+          }}
+          margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
+        />
+      ) : null}
+      {props.requestState === RequestState.Loading ? (
+        <LoadingScreen loaded={false} />
+      ) : null}
+    </div>
+  );
+}
+
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const context = useContext(OurContext);
@@ -523,6 +574,9 @@ export default function AdminDashboard() {
   const [requestsRequest, setRequestsRequest] = useState<
     RequestWithState<NotificationRequest[]>
   >({ state: RequestState.Loading, data: [] });
+  const [pathsRequest, setPathsRequest] = useState<
+    RequestWithState<{ [key: string]: number }>
+  >({ state: RequestState.Loading, data: {} });
 
   const [olderThan, setOlderThan] = useState<string>("");
 
@@ -615,6 +669,18 @@ export default function AdminDashboard() {
     });
   }, []);
 
+  useEffect(() => {
+    fetch(`${API_HOST}/apiRequests/paths`, { credentials: "include" }).then(
+      (res) =>
+        res.json().then((body) =>
+          setPathsRequest({
+            state: res.ok ? RequestState.Success : RequestState.Failure,
+            data: body.content,
+          })
+        )
+    );
+  }, []);
+
   function usersOlderThan(): number {
     const minDate = new Date().getTime() - parseInt(olderThan) * 1000;
     console.log(minDate, new Date(minDate));
@@ -672,15 +738,25 @@ export default function AdminDashboard() {
             requestState={apiRequestsRequest.state}
           />
         </div>
+        <div id={css.moreCharts}>
+          <div id={css.pathChartContainer}>
+            <h2>API-Requests pro Pfad</h2>
+            <PathChart
+              paths={pathsRequest.data}
+              requestState={pathsRequest.state}
+            />
+          </div>
+          <div id={css.authLevelContainer}>
+            <h2>User-Levels</h2>
+            <AuthLevelChart users={usersRequest.data} />
+          </div>
+        </div>
         <div id={css.growthChartContainer}>
           <h2>Benutzer:innen-Wachstum</h2>
           <UserGrowthChart
             users={usersRequest.data}
             requestState={usersRequest.state}
           />
-        </div>
-        <div id={css.authLevelContainer}>
-          <AuthLevelChart users={usersRequest.data} />
         </div>
         <div id={css.userListContainer}>
           <h2>User</h2>

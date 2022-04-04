@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { API_HOST } from "..";
 import LoadingScreen from "../Components/LoadingScreen";
@@ -7,6 +7,7 @@ import { Rank } from "../Components/Rank";
 import { RequestState, User } from "../Models";
 import css from "../styles/userPage.module.scss";
 import FourOFourPage from "./404";
+import UserDashboard from "./UserDashboard";
 
 export const UserPage = () => {
   const userId = useParams()["id"];
@@ -42,7 +43,19 @@ export const UserPage = () => {
               phoneNumber={user.phoneNumber || null}
             />
           </div>
+          {user.misc ? (
+            <p id={css.miscSection}>
+              {user.misc.split("\n").length > 1
+                ? user.misc.split("\n").map((x) => (
+                    <Fragment>
+                      {x} <br />
+                    </Fragment>
+                  ))
+                : user.misc}
+            </p>
+          ) : null}
           <div id={css.offers}>
+            <h3>Fächer</h3>
             {user.offers.map((offer) => (
               <div key={offer.id} className={css.offer}>
                 <h1>

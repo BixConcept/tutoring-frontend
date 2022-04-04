@@ -70,6 +70,35 @@
   }
 }
 
+#moreCharts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 1rem;
+
+  #pathChartContainer {
+    #pathChart {
+      height: 20rem;
+
+      color: black;
+    }
+    width: 100%;
+    padding: 0 1rem;
+    border: solid 1px var(--disabled_color);
+    border-radius: 0.5rem;
+  }
+  #authLevelContainer {
+    width: 100%;
+    border: solid 1px var(--disabled_color);
+    border-radius: 0.5rem;
+    padding: 0 1rem;
+    #authLevelChart {
+      color: black;
+      height: 20rem;
+    }
+  }
+}
+
 #requestChartContainer {
   margin: 1rem 0;
   padding: 0 1rem;
@@ -297,16 +326,6 @@
   }
 }
 
-#authLevelContainer {
-  border: solid 1px var(--disabled_color);
-  border-radius: 0.5rem;
-  color: black;
-  #authLevelChart {
-    height: 20rem;
-    min-width: 100%;
-  }
-}
-
 @media screen and (max-width: 1400px) {
   #firstCharts {
     flex-direction: column !important;
@@ -326,5 +345,9 @@
   #stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
+  }
+
+  #moreCharts {
+    display: block;
   }
 }

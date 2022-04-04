@@ -374,41 +374,42 @@ const Find = (): JSX.Element => {
                   placeholder="john.doe@gymhaan.de"
                   value={email}
                   onChange={(e) => {
-                    setEmail(e.target.value);
-                    fetch(
-                      `${API_HOST}/user/email-available/${e.target.value}`
-                    ).then(async (res) => {
-                      let body;
-                      try {
-                        body = await res.json();
-                      } catch (e: any) {
-                        if (res.status !== 409 && res.status !== 404) {
-                          Alert(
-                            `Fehler: ${res.status} - ${res.statusText}`,
-                            "error",
-                            context.theme
-                          );
+                    let trimmed = e.target.value.trim();
+                    setEmail(trimmed);
+                    fetch(`${API_HOST}/user/email-available/${trimmed}`).then(
+                      async (res) => {
+                        let body;
+                        try {
+                          body = await res.json();
+                        } catch (e: any) {
+                          if (res.status !== 409 && res.status !== 404) {
+                            Alert(
+                              `Fehler: ${res.status} - ${res.statusText}`,
+                              "error",
+                              context.theme
+                            );
+                          }
+                        }
+
+                        switch (res.status) {
+                          case 409:
+                            setEmailIsDuplicate(true);
+                            break;
+
+                          case 200:
+                            setEmailIsDuplicate(false);
+                            break;
+
+                          // if no parameter is specified, the path is /user/email-available/ with no parameter, which doesn't exist
+                          case 404:
+                            setEmailIsDuplicate(false);
+                            break;
+
+                          default:
+                            break;
                         }
                       }
-
-                      switch (res.status) {
-                        case 409:
-                          setEmailIsDuplicate(true);
-                          break;
-
-                        case 200:
-                          setEmailIsDuplicate(false);
-                          break;
-
-                        // if no parameter is specified, the path is /user/email-available/ with no parameter, which doesn't exist
-                        case 404:
-                          setEmailIsDuplicate(false);
-                          break;
-
-                        default:
-                          break;
-                      }
-                    });
+                    );
                   }}
                 />
               </div>
