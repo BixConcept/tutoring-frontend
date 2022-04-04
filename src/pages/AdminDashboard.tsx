@@ -498,32 +498,33 @@ function AuthLevelChart(props: { users: User[] | null }) {
   }
 }
 
-function PathChart(props: {
-  paths: { [key: string]: number };
+function GenericPieChart(props: {
+  data: { [key: string]: number };
   requestState: RequestState;
+  id: string;
 }): JSX.Element {
   const [data, setData] = useState<any>({});
   useEffect(() => {
-    let total = Object.keys(props.paths).reduce(
-      (prev, x) => prev + props.paths[x],
+    let total = Object.keys(props.data).reduce(
+      (prev, x) => prev + props.data[x],
       0
     );
     setData(
-      Object.keys(props.paths)
+      Object.keys(props.data)
         .map((x) => {
-          return { id: x, label: "ASDF", value: props.paths[x] };
+          return { id: x, label: "ASDF", value: props.data[x] };
         })
         .sort((a, b) => b.value - a.value)
         .filter((x) => x.value >= 0.01 * total) // at least one percent
     );
     console.log(data);
-  }, [props.paths]);
+  }, [props.data]);
   return (
-    <div id={css.pathChart}>
-      {props.paths.length === 0 ? (
+    <div id={props.id}>
+      {props.data.length === 0 ? (
         <span style={{ color: "var(--text_color)" }}>Keine Daten verfübar</span>
       ) : null}
-      {props.requestState === RequestState.Success && props.paths ? (
+      {props.requestState === RequestState.Success && props.data ? (
         <ResponsivePie
           data={data}
           colors={{ scheme: "set1" }}
@@ -575,6 +576,12 @@ export default function AdminDashboard() {
     RequestWithState<NotificationRequest[]>
   >({ state: RequestState.Loading, data: [] });
   const [pathsRequest, setPathsRequest] = useState<
+    RequestWithState<{ [key: string]: number }>
+  >({ state: RequestState.Loading, data: {} });
+  const [browsersRequest, setBrowsersRequest] = useState<
+    RequestWithState<{ [key: string]: number }>
+  >({ state: RequestState.Loading, data: {} });
+  const [osRequest, setOsRequest] = useState<
     RequestWithState<{ [key: string]: number }>
   >({ state: RequestState.Loading, data: {} });
 
@@ -681,6 +688,32 @@ export default function AdminDashboard() {
     );
   }, []);
 
+  useEffect(() => {
+    fetch(`${API_HOST}/apiRequests/platforms?browser=true`, {
+      credentials: "include",
+    }).then((res) =>
+      res.json().then((body) =>
+        setBrowsersRequest({
+          state: res.ok ? RequestState.Success : RequestState.Failure,
+          data: body.content,
+        })
+      )
+    );
+  }, []);
+
+  useEffect(() => {
+    fetch(`${API_HOST}/apiRequests/platforms?os=true`, {
+      credentials: "include",
+    }).then((res) =>
+      res.json().then((body) =>
+        setOsRequest({
+          state: res.ok ? RequestState.Success : RequestState.Failure,
+          data: body.content,
+        })
+      )
+    );
+  }, []);
+
   function usersOlderThan(): number {
     const minDate = new Date().getTime() - parseInt(olderThan) * 1000;
     console.log(minDate, new Date(minDate));
@@ -741,14 +774,31 @@ export default function AdminDashboard() {
         <div id={css.moreCharts}>
           <div id={css.pathChartContainer}>
             <h2>API-Requests pro Pfad</h2>
-            <PathChart
-              paths={pathsRequest.data}
+            <GenericPieChart
+              id={css.pathChart}
+              data={pathsRequest.data}
               requestState={pathsRequest.state}
             />
           </div>
           <div id={css.authLevelContainer}>
             <h2>User-Levels</h2>
             <AuthLevelChart users={usersRequest.data} />
+          </div>
+          <div id={css.browserChartContainer}>
+            <h2>Browser</h2>
+            <GenericPieChart
+              id={css.browserChart}
+              data={browsersRequest.data}
+              requestState={browsersRequest.state}
+            />
+          </div>
+          <div id={css.osChartContainer}>
+            <h2>OS</h2>
+            <GenericPieChart
+              id={css.osChart}
+              data={osRequest.data}
+              requestState={osRequest.state}
+            />
           </div>
         </div>
         <div id={css.growthChartContainer}>

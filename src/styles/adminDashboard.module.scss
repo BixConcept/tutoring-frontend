@@ -97,6 +97,27 @@
       height: 20rem;
     }
   }
+
+  #browserChartContainer {
+    width: 100%;
+    border: solid 1px var(--disabled_color);
+    border-radius: 0.5rem;
+    padding: 0 1rem;
+    #browserChart {
+      color: black;
+      height: 20rem;
+    }
+  }
+  #osChartContainer {
+    width: 100%;
+    border: solid 1px var(--disabled_color);
+    border-radius: 0.5rem;
+    padding: 0 1rem;
+    #osChart {
+      color: black;
+      height: 20rem;
+    }
+  }
 }
 
 #requestChartContainer {
@@ -348,6 +369,7 @@
   }
 
   #moreCharts {
-    display: block;
+    display: grid;
+    grid-template-columns: 100%;
   }
 }
