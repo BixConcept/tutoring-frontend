@@ -26,7 +26,10 @@ const LoginPage = (): JSX.Element => {
     fetch(`${API_HOST}/user/otp`, {
       method: "POST",
       body: JSON.stringify({ email: otpEmail }),
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "X-Frontend-Path": document.location.pathname,
+      },
     }).then((res) => {
       if (res.ok) {
         Alert("E-Mail geschickt!", "success", context.theme);

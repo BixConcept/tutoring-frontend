@@ -36,6 +36,9 @@ const UserDashboard = (): JSX.Element => {
   const fetchUser = () => {
     fetch(`${API_HOST}/user`, {
       credentials: "include",
+      headers: {
+        "X-Frontend-Path": document.location.pathname,
+      },
     })
       .then((res) => {
         if (res.ok) {
@@ -59,7 +62,11 @@ const UserDashboard = (): JSX.Element => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    fetch(`${API_HOST}/subjects`)
+    fetch(`${API_HOST}/subjects`, {
+      headers: {
+        "X-Frontend-Path": document.location.pathname,
+      },
+    })
       .then((res) => res.json())
       .then((body) => setSubjects(body.content));
   }, []);
@@ -69,7 +76,10 @@ const UserDashboard = (): JSX.Element => {
       method: "PUT",
       credentials: "include",
       body: JSON.stringify(modUser),
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+        "X-Frontend-Path": document.location.pathname,
+      },
     }).then(async (res) => {
       const body = await res.json();
       if (!res.ok) {
@@ -114,6 +124,9 @@ const UserDashboard = (): JSX.Element => {
                     fetch(`${API_HOST}/offer/${offer.id}`, {
                       method: "DELETE",
                       credentials: "include",
+                      headers: {
+                        "X-Frontend-Path": document.location.pathname,
+                      },
                     })
                       .then((res) => {
                         if (!res.ok) {
@@ -221,7 +234,10 @@ const UserDashboard = (): JSX.Element => {
                   fetch(`${API_HOST}/offer`, {
                     method: "POST",
                     credentials: "include",
-                    headers: { "content-type": "application/json" },
+                    headers: {
+                      "content-type": "application/json",
+                      "X-Frontend-Path": document.location.pathname,
+                    },
                     body: JSON.stringify({
                       subjectId: selectedSubject,
                       maxGrade: targetGrade,
@@ -464,6 +480,10 @@ const UserDashboard = (): JSX.Element => {
                     fetch(`${API_HOST}/user`, {
                       method: "DELETE",
                       credentials: "include",
+                      headers: {
+                        "content-type": "application/json",
+                        "X-Frontend-Path": document.location.pathname,
+                      },
                     }).then((res) => {
                       if (!res.ok) {
                         Alert(
@@ -547,7 +567,10 @@ const UserDashboard = (): JSX.Element => {
                       method: "PUT",
                       credentials: "include",
                       body: JSON.stringify({ email }),
-                      headers: { "content-type": "application/json" },
+                      headers: {
+                        "content-type": "application/json",
+                        "X-Frontend-Path": document.location.pathname,
+                      },
                     }).then(async (res) => {
                       const body = await res.json();
                       if (!res.ok) {

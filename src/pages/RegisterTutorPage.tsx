@@ -50,7 +50,9 @@ const RegisterTutorPage = (): JSX.Element => {
       } else {
         setStep(parsedIndex);
 
-        fetch(`${API_HOST}/subjects`)
+        fetch(`${API_HOST}/subjects`, {
+          headers: { "X-Frontend-Path": document.location.pathname },
+        })
           .then((res) => {
             if (!res.ok) {
               throw new Error();
@@ -131,6 +133,7 @@ const RegisterTutorPage = (): JSX.Element => {
       }),
       headers: {
         "Content-Type": "application/json",
+        "X-Frontend-Path": document.location.pathname,
       },
     })
       .then(async (res) => {
@@ -275,7 +278,12 @@ const RegisterTutorPage = (): JSX.Element => {
                     `${API_HOST}/user/email-available/${foo.replace(
                       "@gymhaan.de",
                       ""
-                    )}@gymhaan.de`
+                    )}@gymhaan.de`,
+                    {
+                      headers: {
+                        "X-Frontend-Path": document.location.pathname,
+                      },
+                    }
                   ).then((res) => {
                     switch (res.status) {
                       case 200:

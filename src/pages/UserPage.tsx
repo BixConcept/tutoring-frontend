@@ -15,7 +15,12 @@ export const UserPage = () => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    fetch(`${API_HOST}/user/${userId}`)
+    fetch(`${API_HOST}/user/${userId}`, {
+      headers: {
+        "content-type": "application/json",
+        "X-Frontend-Path": document.location.pathname,
+      },
+    })
       .then((res) => res.json())
       .then((body) => {
         setUser(body.content);

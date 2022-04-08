@@ -29,7 +29,11 @@ function RequestForm(props: {
         grade: props.grade,
         subject: props.subject,
       }),
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+
+        "X-Frontend-Path": document.location.pathname,
+      },
       credentials: "include",
     }).then((res) => {
       if (res.ok) {
@@ -116,7 +120,9 @@ const Find = (): JSX.Element => {
 
   useEffect(() => {
     setSubjectsRequestState(RequestState.Loading);
-    fetch(`${API_HOST}/subjects`)
+    fetch(`${API_HOST}/subjects`, {
+      headers: { "X-Frontend-Path": document.location.pathname },
+    })
       .then((res: Response) => {
         if (!res.ok) {
           throw new Error();
@@ -136,7 +142,10 @@ const Find = (): JSX.Element => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    fetch(`${API_HOST}/user`, { credentials: "include" })
+    fetch(`${API_HOST}/user`, {
+      credentials: "include",
+      headers: { "X-Frontend-Path": document.location.pathname },
+    })
       .then(async (res) => {
         if (res.ok) {
           return res.json();
@@ -165,7 +174,9 @@ const Find = (): JSX.Element => {
   useEffect(() => {
     async function fetchData() {
       try {
-        let res = await fetch(`${API_HOST}/stats`);
+        let res = await fetch(`${API_HOST}/stats`, {
+          headers: { "X-Frontend-Path": document.location.pathname },
+        });
         let body = await res.json();
         if (!res.ok) {
         } else {
@@ -201,7 +212,10 @@ const Find = (): JSX.Element => {
     fetch(`${API_HOST}/find`, {
       method: "POST",
       body: JSON.stringify({ subjectId: subject, grade: parseInt(grade) }),
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "X-Frontend-Path": document.location.pathname,
+      },
       credentials: "include",
     })
       .then(async (response) => {
@@ -330,7 +344,10 @@ const Find = (): JSX.Element => {
                 setRegistrationState(RequestState.Loading);
                 fetch(`${API_HOST}/user/register`, {
                   credentials: "include",
-                  headers: { "content-type": "application/json" },
+                  headers: {
+                    "content-type": "application/json",
+                    "X-Frontend-Path": document.location.pathname,
+                  },
                   method: "POST",
                   body: JSON.stringify({
                     email,
@@ -376,40 +393,42 @@ const Find = (): JSX.Element => {
                   onChange={(e) => {
                     let trimmed = e.target.value.trim();
                     setEmail(trimmed);
-                    fetch(`${API_HOST}/user/email-available/${trimmed}`).then(
-                      async (res) => {
-                        let body;
-                        try {
-                          body = await res.json();
-                        } catch (e: any) {
-                          if (res.status !== 409 && res.status !== 404) {
-                            Alert(
-                              `Fehler: ${res.status} - ${res.statusText}`,
-                              "error",
-                              context.theme
-                            );
-                          }
-                        }
-
-                        switch (res.status) {
-                          case 409:
-                            setEmailIsDuplicate(true);
-                            break;
-
-                          case 200:
-                            setEmailIsDuplicate(false);
-                            break;
-
-                          // if no parameter is specified, the path is /user/email-available/ with no parameter, which doesn't exist
-                          case 404:
-                            setEmailIsDuplicate(false);
-                            break;
-
-                          default:
-                            break;
+                    fetch(`${API_HOST}/user/email-available/${trimmed}`, {
+                      headers: {
+                        "X-Frontend-Path": document.location.pathname,
+                      },
+                    }).then(async (res) => {
+                      let body;
+                      try {
+                        body = await res.json();
+                      } catch (e: any) {
+                        if (res.status !== 409 && res.status !== 404) {
+                          Alert(
+                            `Fehler: ${res.status} - ${res.statusText}`,
+                            "error",
+                            context.theme
+                          );
                         }
                       }
-                    );
+
+                      switch (res.status) {
+                        case 409:
+                          setEmailIsDuplicate(true);
+                          break;
+
+                        case 200:
+                          setEmailIsDuplicate(false);
+                          break;
+
+                        // if no parameter is specified, the path is /user/email-available/ with no parameter, which doesn't exist
+                        case 404:
+                          setEmailIsDuplicate(false);
+                          break;
+
+                        default:
+                          break;
+                      }
+                    });
                   }}
                 />
               </div>
@@ -479,30 +498,34 @@ const Find = (): JSX.Element => {
                 subjects={subjects}
               />
             ) : null}
-            {results.map((result, index) => (
-              <div className={css.result} key={index}>
-                <h2>
-                  <Link to={`/user/${result.userId}`}>{result.name}</Link>,
-                  Stufe/Klasse {result.grade}
-                </h2>
-                <p>{result.misc}</p>
-                <p className={css.email}>
-                  <a href={`mailto:${result.email}`}>E-Mail: {result.email}</a>
-                </p>
-                <p>
-                  {result.subjectName} bis Stufe/Klasse {result.maxGrade}
-                </p>
-                <div className={css.messengers}>
-                  <MessengerInfo
-                    hasDiscord={result.hasDiscord}
-                    discordUser={result.discordUser}
-                    hasSignal={result.hasSignal}
-                    hasWhatsapp={result.hasWhatsapp}
-                    phoneNumber={result.phoneNumber}
-                  />
+            {results
+              .sort(() => Math.random())
+              .map((result, index) => (
+                <div className={css.result} key={index}>
+                  <h2>
+                    <Link to={`/user/${result.userId}`}>{result.name}</Link>,
+                    Stufe/Klasse {result.grade}
+                  </h2>
+                  <p>{result.misc}</p>
+                  <p className={css.email}>
+                    <a href={`mailto:${result.email}`}>
+                      E-Mail: {result.email}
+                    </a>
+                  </p>
+                  <p>
+                    {result.subjectName} bis Stufe/Klasse {result.maxGrade}
+                  </p>
+                  <div className={css.messengers}>
+                    <MessengerInfo
+                      hasDiscord={result.hasDiscord}
+                      discordUser={result.discordUser}
+                      hasSignal={result.hasSignal}
+                      hasWhatsapp={result.hasWhatsapp}
+                      phoneNumber={result.phoneNumber}
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </Fragment>
         ) : (
           <LoadingScreen loaded={offersRequestState !== RequestState.Loading} />

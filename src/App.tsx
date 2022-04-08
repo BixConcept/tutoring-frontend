@@ -40,6 +40,7 @@ const App = (): JSX.Element => {
     // test validity of token
     fetch(`${API_HOST}/user`, {
       credentials: "include",
+      headers: { "X-Frontend-Path": document.location.pathname },
     })
       .then((res) => {
         if (res.ok) return res.json();

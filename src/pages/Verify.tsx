@@ -41,7 +41,13 @@ const Verify = () => {
 
   useEffect(() => {
     const intent = Object.fromEntries([...searchParams])["intent"];
-    fetch(`${API_HOST}/user/verify?code=${code}`, { credentials: "include" })
+    fetch(`${API_HOST}/user/verify?code=${code}`, {
+      credentials: "include",
+      headers: {
+        "content-type": "application/json",
+        "X-Frontend-Path": document.location.pathname,
+      },
+    })
       .then(async (res) => {
         setLoaded(true);
         if (res.ok) {
@@ -49,6 +55,10 @@ const Verify = () => {
 
           const userRes = await fetch(`${API_HOST}/user`, {
             credentials: "include",
+            headers: {
+              "content-type": "application/json",
+              "X-Frontend-Path": document.location.pathname,
+            },
           });
           if (!userRes.ok) {
             setVerified(false);

@@ -174,7 +174,12 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
                 onChange={(e) => setOnlyVerified(e.target.checked)}
                 name="asdf"
               />
-              <label htmlFor="asdf">Nur verifizierte anzeigen</label>
+              <label
+                htmlFor="asdf"
+                onClick={(e) => setOnlyVerified(!onlyVerified)}
+              >
+                Nur verifizierte anzeigen
+              </label>
             </div>
             <div>
               <input
@@ -183,7 +188,12 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
                 onChange={(e) => setOnlyTeachers(e.target.checked)}
                 name="teachers"
               />
-              <label htmlFor="teachers">Nur Lehrer:innen anzeigen</label>
+              <label
+                htmlFor="teachers"
+                onClick={(e) => setOnlyTeachers(!onlyTeachers)}
+              >
+                Nur Lehrer:innen anzeigen
+              </label>
             </div>
           </form>
           <ResponsiveLine
@@ -589,7 +599,10 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     // check if the user is authenticated
-    fetch(`${API_HOST}/user`, { credentials: "include" })
+    fetch(`${API_HOST}/user`, {
+      credentials: "include",
+      headers: { "X-Frontend-Path": document.location.pathname },
+    })
       .then((res) => {
         if (!res.ok) {
           // go to home page if the user is not authenticated at all
@@ -602,7 +615,9 @@ export default function AdminDashboard() {
               navigate("/");
             }
 
-            let res = await fetch(`${API_HOST}/stats`);
+            let res = await fetch(`${API_HOST}/stats`, {
+              headers: { "X-Frontend-Path": document.location.pathname },
+            });
             setStats((await res.json()).content);
           });
         }
@@ -614,7 +629,10 @@ export default function AdminDashboard() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    fetch(`${API_HOST}/users`, { credentials: "include" })
+    fetch(`${API_HOST}/users`, {
+      credentials: "include",
+      headers: { "X-Frontend-Path": document.location.pathname },
+    })
       .then((res) => res.json())
       .then((body) => {
         setUsersRequest({ state: RequestState.Success, data: body.content });
@@ -622,7 +640,10 @@ export default function AdminDashboard() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    fetch(`${API_HOST}/offers`, { credentials: "include" })
+    fetch(`${API_HOST}/offers`, {
+      credentials: "include",
+      headers: { "X-Frontend-Path": document.location.pathname },
+    })
       .then((res) => {
         res.json().then((body) => {
           if (!res.ok) {
@@ -643,7 +664,10 @@ export default function AdminDashboard() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    fetch(`${API_HOST}/requests`, { credentials: "include" })
+    fetch(`${API_HOST}/requests`, {
+      credentials: "include",
+      headers: { "X-Frontend-Path": document.location.pathname },
+    })
       .then((res) => {
         res.json().then((body) => {
           if (!res.ok) {
@@ -666,6 +690,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     fetch(`${API_HOST}/apiRequests?aggregate=86400`, {
       credentials: "include",
+      headers: { "X-Frontend-Path": document.location.pathname },
     }).then((res) => {
       res.json().then((body) => {
         setApiRequestsRequest({
@@ -677,20 +702,23 @@ export default function AdminDashboard() {
   }, []);
 
   useEffect(() => {
-    fetch(`${API_HOST}/apiRequests/paths`, { credentials: "include" }).then(
-      (res) =>
-        res.json().then((body) =>
-          setPathsRequest({
-            state: res.ok ? RequestState.Success : RequestState.Failure,
-            data: body.content,
-          })
-        )
+    fetch(`${API_HOST}/apiRequests/paths`, {
+      credentials: "include",
+      headers: { "X-Frontend-Path": document.location.pathname },
+    }).then((res) =>
+      res.json().then((body) =>
+        setPathsRequest({
+          state: res.ok ? RequestState.Success : RequestState.Failure,
+          data: body.content,
+        })
+      )
     );
   }, []);
 
   useEffect(() => {
     fetch(`${API_HOST}/apiRequests/platforms?browser=true`, {
       credentials: "include",
+      headers: { "X-Frontend-Path": document.location.pathname },
     }).then((res) =>
       res.json().then((body) =>
         setBrowsersRequest({
@@ -704,6 +732,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     fetch(`${API_HOST}/apiRequests/platforms?os=true`, {
       credentials: "include",
+      headers: { "X-Frontend-Path": document.location.pathname },
     }).then((res) =>
       res.json().then((body) =>
         setOsRequest({
@@ -852,7 +881,13 @@ export default function AdminDashboard() {
                     try {
                       const res = await fetch(
                         `${API_HOST}/user/unverified?olderThan=${olderThan}`,
-                        { method: "DELETE", credentials: "include" }
+                        {
+                          method: "DELETE",
+                          credentials: "include",
+                          headers: {
+                            "X-Frontend-Path": document.location.pathname,
+                          },
+                        }
                       );
 
                       if (res.ok) {
@@ -874,7 +909,12 @@ export default function AdminDashboard() {
                           );
                         }
                       }
-                      fetch(`${API_HOST}/users`, { credentials: "include" })
+                      fetch(`${API_HOST}/users`, {
+                        credentials: "include",
+                        headers: {
+                          "X-Frontend-Path": document.location.pathname,
+                        },
+                      })
                         .then((res) => res.json())
                         .then((body) => {
                           setUsersRequest({
@@ -927,6 +967,9 @@ export default function AdminDashboard() {
                       fetch(`${API_HOST}/user/${user.id}`, {
                         method: "DELETE",
                         credentials: "include",
+                        headers: {
+                          "X-Frontend-Path": document.location.pathname,
+                        },
                       })
                         .then((res) => {
                           if (!res.ok) {
