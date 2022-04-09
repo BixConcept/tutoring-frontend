@@ -702,7 +702,7 @@ export default function AdminDashboard() {
   }, []);
 
   useEffect(() => {
-    fetch(`${API_HOST}/apiRequests/paths`, {
+    fetch(`${API_HOST}/apiRequests/paths?frontendPaths=true`, {
       credentials: "include",
       headers: { "X-Frontend-Path": document.location.pathname },
     }).then((res) =>
@@ -802,7 +802,7 @@ export default function AdminDashboard() {
         </div>
         <div id={css.moreCharts}>
           <div id={css.pathChartContainer}>
-            <h2>API-Requests pro Pfad</h2>
+            <h2>API-Requests pro Pfad (Frontend)</h2>
             <GenericPieChart
               id={css.pathChart}
               data={pathsRequest.data}
