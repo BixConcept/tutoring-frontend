@@ -504,7 +504,7 @@ const Find = (): JSX.Element => {
                 <div className={css.result} key={index}>
                   <h2>
                     <Link to={`/user/${result.userId}`}>{result.name}</Link>,
-                    Stufe/Klasse {result.grade}
+                    Stufe {result.grade}
                   </h2>
                   <p>{result.misc}</p>
                   <p className={css.email}>
@@ -513,7 +513,7 @@ const Find = (): JSX.Element => {
                     </a>
                   </p>
                   <p>
-                    {result.subjectName} bis Stufe/Klasse {result.maxGrade}
+                    {result.subjectName} bis Stufe {result.maxGrade}
                   </p>
                   <div className={css.messengers}>
                     <MessengerInfo

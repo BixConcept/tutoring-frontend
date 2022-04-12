@@ -4,7 +4,6 @@ import App from "./App";
 
 export const API_HOST =
   process.env.REACT_APP_API_HOST || "https://nachhilfe.gymhaan.de/api";
-// export const API_HOST = "http://localhost:5001";
 
 export const checkEmail = (mail: string): boolean => {
   // eslint-disable-next-line no-control-regex

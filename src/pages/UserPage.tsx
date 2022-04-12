@@ -7,7 +7,6 @@ import { Rank } from "../Components/Rank";
 import { RequestState, User } from "../Models";
 import css from "../styles/userPage.module.scss";
 import FourOFourPage from "./404";
-import UserDashboard from "./UserDashboard";
 
 export const UserPage = () => {
   const userId = useParams()["id"];
@@ -37,8 +36,10 @@ export const UserPage = () => {
             {user.name}
             <span>#{user.id}</span> <Rank authLevel={user.authLevel} />
           </h2>
-          <h3>Klasse/Stufe {user.grade}</h3>
-          <h3>E-Mail: {user.email}</h3>
+          <h3>Stufe {user.grade}</h3>
+          <h3>
+            E-Mail: <a href={`mailto:${user.email}`}>{user.email}</a>
+          </h3>
           <div id={css.messengers}>
             <MessengerInfo
               hasDiscord={user.hasDiscord}

@@ -280,7 +280,7 @@ const UserDashboard = (): JSX.Element => {
               </button>
             </div>
           </div>
-          <h4>Dein Profil</h4>
+          <h4>Mein Profil</h4>
           <form
             id={css.profileForm}
             onKeyDown={(e) => {
@@ -306,6 +306,7 @@ const UserDashboard = (): JSX.Element => {
                   emailButtonRef.current.scrollIntoView();
                 }
               }}
+              style={{ cursor: "default" }}
             />
             <label htmlFor="name">Name</label>
             <input
@@ -329,6 +330,7 @@ const UserDashboard = (): JSX.Element => {
                     ...{ grade: parseInt(e.target.value) },
                   });
                 }}
+                style={{ cursor: "pointer" }}
               >
                 <option value="">--- Stufe wählen ---</option>
                 {[...Array(13 - 4).keys()].map((grade, index) => {

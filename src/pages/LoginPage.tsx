@@ -8,6 +8,8 @@ import lottie from "lottie-web";
 
 import { API_HOST, checkEmail } from "../index";
 import Alert from "../Components/Alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Required = (): JSX.Element => {
   return <span className={css.required}></span>;
@@ -68,12 +70,10 @@ const LoginPage = (): JSX.Element => {
       {displayAnimation ? (
         <div id={css.animationContainer} ref={animationRef} />
       ) : null}
-      <h3>Anmelden mit Link per E-Mail</h3>
       <p>
-        Wenn du dich so anmeldest, kriegt du einen Link per E-Mail (deine
-        Schul-E-Mail-Adresse) zugeschickt womit du dich für 30 Tage auf einem
+        Du kriegst einen Link per E-Mail (an deine hinterlegte E-Mail-Adresse) zugeschickt, mit dem du dich 30 Tage lang auf einem
         Gerät authentifizieren kannst.{" "}
-        <a href="https://outlook.office365.com/mail/">Link zu Outlook</a>
+        <a href="https://outlook.office365.com/mail/">Link zu Outlook <FontAwesomeIcon icon={faExternalLinkAlt}/></a>
       </p>
       <div className={css["inputFields"]}>
         <form
@@ -98,7 +98,7 @@ const LoginPage = (): JSX.Element => {
           </div>
           <input
             type="submit"
-            value="Login (ohne Passwort)"
+            value="Login"
             className={general["text_button"]}
             disabled={!checkEmail(otpEmail)}
           />

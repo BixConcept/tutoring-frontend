@@ -1,5 +1,6 @@
 import css from "../styles/Home.module.scss";
 import { Link } from "react-router-dom";
+import ExternalLink from "../Components/ExternalLink";
 
 const Home = (): JSX.Element => {
   document.title = "Nachhilfe GymHaan";
@@ -23,25 +24,27 @@ const Home = (): JSX.Element => {
             <p>
               Durch die Nutzung dieser Seite erklärst du dich mit den{" "}
               <Link to="/privacy" className={css.link}>
-                Datenschutzbestimmungen einverstanden.
-              </Link>
+                Datenschutzbestimmungen
+              </Link>{" "}
+              einverstanden.
             </p>
             <p>
-              <a href="https://instagram.com/sv.gymhaan">Link zur SV</a>
+              <a href="https://instagram.com/sv.gymhaan">
+                Link zur SV <ExternalLink />
+              </a>
             </p>
           </div>
           <div id={css.choices}>
             <div className={css.choice}>
               <Link to="/find">
                 <h1>
-                  Ich <span className={css.backdrop}>brauche Nachhilfe</span>
+                  <span className={css.backdrop}>Nachhilfe finden</span>
                 </h1>
               </Link>
             </div>
             <div className={css.choice}>
               <Link to="/register">
                 <h1>
-                  Ich möchte{" "}
                   <span className={css.backdrop}>Nachhilfe geben</span>
                 </h1>
               </Link>
