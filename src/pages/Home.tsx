@@ -1,7 +1,6 @@
 import css from "../styles/Home.module.scss";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import ExternalLink from "../Components/ExternalLink";
 
 const Home = (): JSX.Element => {
   document.title = "Nachhilfe GymHaan";
@@ -31,7 +30,7 @@ const Home = (): JSX.Element => {
             </p>
             <p>
               <a href="https://instagram.com/sv.gymhaan">
-                Link zur SV <FontAwesomeIcon icon={faExternalLinkAlt} />
+                Link zur SV <ExternalLink />
               </a>
             </p>
           </div>

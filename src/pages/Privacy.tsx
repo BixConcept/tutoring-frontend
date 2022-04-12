@@ -730,14 +730,6 @@ const Privacy = () => {
           Löschen.{" "}
         </li>
       </ul>
-      <p className="seal">
-        <a
-          href="https://datenschutz-generator.de/"
-          title="Rechtstext von Dr. Schwenke - für weitere Informationen bitte anklicken."
-          target="_blank"
-          rel="noopener noreferrer nofollow"
-        ></a>
-      </p>
     </Page>
   );
 };

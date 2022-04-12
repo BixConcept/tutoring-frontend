@@ -70,10 +70,8 @@ const LoginPage = (): JSX.Element => {
       {displayAnimation ? (
         <div id={css.animationContainer} ref={animationRef} />
       ) : null}
-      <h3>Anmelden mit Link per E-Mail</h3>
       <p>
-        Wenn du dich so anmeldest, kriegt du einen Link per E-Mail (an deine
-        Schul-E-Mail-Adresse) zugeschickt, womit du dich für 30 Tage auf einem
+        Du kriegst einen Link per E-Mail (an deine hinterlegte E-Mail-Adresse) zugeschickt, mit dem du dich 30 Tage lang auf einem
         Gerät authentifizieren kannst.{" "}
         <a href="https://outlook.office365.com/mail/">Link zu Outlook <FontAwesomeIcon icon={faExternalLinkAlt}/></a>
       </p>
@@ -100,7 +98,7 @@ const LoginPage = (): JSX.Element => {
           </div>
           <input
             type="submit"
-            value="Login (ohne Passwort)"
+            value="Login"
             className={general["text_button"]}
             disabled={!checkEmail(otpEmail)}
           />
