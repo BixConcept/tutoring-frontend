@@ -1,12 +1,13 @@
 import { Fragment, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { RequestState, User } from "../Models";
+
 import { API_HOST } from "..";
+import FourOFourPage from "./404";
 import LoadingScreen from "../Components/LoadingScreen";
 import { MessengerInfo } from "../Components/MessengerInfo";
 import { Rank } from "../Components/Rank";
-import { RequestState, User } from "../Models";
 import css from "../styles/userPage.module.scss";
-import FourOFourPage from "./404";
+import { useParams } from "react-router";
 
 export const UserPage = () => {
   const userId = useParams()["id"];

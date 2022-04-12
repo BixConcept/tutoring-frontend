@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+
 import { Link } from "react-router-dom";
 import css from "../styles/404.module.scss";
 import lottie from "lottie-web";

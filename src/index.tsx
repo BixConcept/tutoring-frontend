@@ -1,6 +1,6 @@
+import App from "./App";
 import { StrictMode } from "react";
 import { render } from "react-dom";
-import App from "./App";
 
 export const API_HOST =
   process.env.REACT_APP_API_HOST || "https://nachhilfe.gymhaan.de/api";

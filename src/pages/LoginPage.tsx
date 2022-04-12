@@ -1,15 +1,16 @@
-import css from "../styles/loginPage.module.scss";
-import general from "../styles/general.module.scss";
-import { useState, useRef, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import { OurContext } from "../OurContext";
-import { useContext } from "react";
-import lottie from "lottie-web";
 
 import { API_HOST, checkEmail } from "../index";
+import { useEffect, useRef, useState } from "react";
+
 import Alert from "../Components/Alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { OurContext } from "../OurContext";
+import css from "../styles/loginPage.module.scss";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import general from "../styles/general.module.scss";
+import lottie from "lottie-web";
+import { useContext } from "react";
 
 const Required = (): JSX.Element => {
   return <span className={css.required}></span>;
@@ -71,9 +72,12 @@ const LoginPage = (): JSX.Element => {
         <div id={css.animationContainer} ref={animationRef} />
       ) : null}
       <p>
-        Du kriegst einen Link per E-Mail (an deine hinterlegte E-Mail-Adresse) zugeschickt, mit dem du dich 30 Tage lang auf einem
-        Gerät authentifizieren kannst.{" "}
-        <a href="https://outlook.office365.com/mail/">Link zu Outlook <FontAwesomeIcon icon={faExternalLinkAlt}/></a>
+        Du kriegst einen Link per E-Mail (an deine hinterlegte E-Mail-Adresse)
+        zugeschickt, mit dem du dich 30 Tage lang auf einem Gerät
+        authentifizieren kannst.{" "}
+        <a href="https://outlook.office365.com/mail/">
+          Link zu Outlook <FontAwesomeIcon icon={faExternalLinkAlt} />
+        </a>
       </p>
       <div className={css["inputFields"]}>
         <form

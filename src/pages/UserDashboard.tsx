@@ -1,18 +1,19 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router";
 import { API_HOST, checkEmail } from "..";
+import { Subject, User } from "../Models";
+import { faDiscord, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { useContext, useEffect, useRef, useState } from "react";
+
 import Alert from "../Components/Alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import LoadingScreen from "../Components/LoadingScreen";
 import { OurContext } from "../OurContext";
-import general from "../styles/general.module.scss";
-import css from "../styles/userDashboard.module.scss";
-import { Subject, User } from "../Models";
 import { Rank } from "../Components/Rank";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDiscord, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
-import SignalBlack from "../assets/images/signal_black.svg";
 import Signal from "../assets/images/signal.svg";
+import SignalBlack from "../assets/images/signal_black.svg";
+import css from "../styles/userDashboard.module.scss";
+import general from "../styles/general.module.scss";
+import { useNavigate } from "react-router";
 
 const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";

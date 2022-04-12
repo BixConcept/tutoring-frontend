@@ -1,11 +1,12 @@
 import { Fragment, useContext, useEffect, useRef, useState } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
+
 import { API_HOST } from "../index";
 import LoadingScreen from "../Components/LoadingScreen";
+import { OurContext } from "../OurContext";
 import css from "../styles/verify.module.scss";
 import general from "../styles/general.module.scss";
 import lottie from "lottie-web";
-import { OurContext } from "../OurContext";
 import { useSearchParams } from "react-router-dom";
 
 const TimedRedirect = (props: { href: string; verified: boolean }) => {

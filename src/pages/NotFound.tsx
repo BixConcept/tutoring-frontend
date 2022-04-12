@@ -1,6 +1,7 @@
+import { useEffect, useRef } from "react";
+
 import css from "../styles/NotFound.module.scss";
 import lottie from "lottie-web";
-import { useEffect, useRef } from "react";
 
 const NotFound = () => {
   const container = useRef(null);

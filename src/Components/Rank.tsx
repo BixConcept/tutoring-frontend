@@ -1,6 +1,7 @@
+import { faCheckCircle, faStar } from "@fortawesome/free-solid-svg-icons";
+
 import { AuthLevel } from "../Models";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle, faStar } from "@fortawesome/free-solid-svg-icons";
 import general from "../styles/general.module.scss";
 
 export function Rank(props: { authLevel?: AuthLevel }) {
