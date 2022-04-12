@@ -1,10 +1,11 @@
-import { faDiscord, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Fragment, useContext } from "react";
-import css from "../styles/messengerInfo.module.scss";
+import { faDiscord, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { OurContext } from "../OurContext";
 import Signal from "../assets/images/signal.svg";
 import SignalBlack from "../assets/images/signal_black.svg";
-import { OurContext } from "../OurContext";
+import css from "../styles/messengerInfo.module.scss";
 
 export function MessengerInfo(props: {
   hasDiscord: boolean;

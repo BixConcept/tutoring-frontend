@@ -1,6 +1,6 @@
-import css from "../styles/Home.module.scss";
-import { Link } from "react-router-dom";
 import ExternalLink from "../Components/ExternalLink";
+import { Link } from "react-router-dom";
+import css from "../styles/Home.module.scss";
 
 const Home = (): JSX.Element => {
   document.title = "Nachhilfe GymHaan";

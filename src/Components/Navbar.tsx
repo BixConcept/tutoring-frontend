@@ -1,13 +1,14 @@
-import css from "../styles/Navbar.module.scss";
-import { Link } from "react-router-dom";
-import logo from "../assets/images/logo.svg";
+import { NavigateFunction, useNavigate } from "react-router";
 import { useContext, useState } from "react";
-import { OurContext } from "../OurContext";
+
 import { API_HOST } from "..";
 import Alert from "./Alert";
 import { AuthLevel } from "../Models";
 import DarkMode from "./DarkMode";
-import { NavigateFunction, useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import { OurContext } from "../OurContext";
+import css from "../styles/Navbar.module.scss";
+import logo from "../assets/images/logo.svg";
 
 export default function Navbar() {
   const context = useContext(OurContext);
@@ -51,7 +52,7 @@ export default function Navbar() {
                   fetch(`${API_HOST}/user/logout`, {
                     credentials: "include",
                     method: "POST",
-      headers: { "X-Frontend-Path": document.location.pathname },
+                    headers: { "X-Frontend-Path": document.location.pathname },
                   }).then((res) => {
                     if (res.ok) {
                       context.setUser(null);

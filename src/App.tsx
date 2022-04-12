@@ -1,24 +1,26 @@
-import Home from "./pages/Home";
-import Navbar from "./Components/Navbar";
-import LoginPage from "./pages/LoginPage";
-import RegisterTutorPage from "./pages/RegisterTutorPage";
-import Footer from "./Components/Footer";
 import "./styles/App.scss";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Privacy from "./pages/Privacy";
-import Imprint from "./pages/Imprint";
-import { OurContext } from "./OurContext";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
-import FourOFourPage from "./pages/404";
-import Find from "./pages/Find";
-import Dashboard from "./pages/UserDashboard";
-import ScrollToTop from "./Components/ScrollToTop";
-import { User } from "./Models";
+
 import { API_HOST } from "./index";
-import Verify from "./pages/Verify";
-import { ToastContainer } from "react-toastify";
 import AdminDashboard from "./pages/AdminDashboard";
+import Dashboard from "./pages/UserDashboard";
+import Find from "./pages/Find";
+import Footer from "./Components/Footer";
+import FourOFourPage from "./pages/404";
+import Home from "./pages/Home";
+import Imprint from "./pages/Imprint";
+import LoginPage from "./pages/LoginPage";
+import Navbar from "./Components/Navbar";
+import { OurContext } from "./OurContext";
+import Privacy from "./pages/Privacy";
+import RegisterTutorPage from "./pages/RegisterTutorPage";
+import ScrollToTop from "./Components/ScrollToTop";
+import { ToastContainer } from "react-toastify";
+import { User } from "./Models";
 import { UserPage } from "./pages/UserPage";
+import Verify from "./pages/Verify";
 
 const App = (): JSX.Element => {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -56,7 +58,7 @@ const App = (): JSX.Element => {
 
     window.addEventListener("resize", updateDimensions);
     return () => window.removeEventListener("resize", updateDimensions);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="App">

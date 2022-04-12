@@ -1,5 +1,6 @@
+import { useEffect, useRef, useState } from "react";
+
 import css from "../styles/LoadingScreen.module.scss";
-import { useRef, useEffect, useState } from "react";
 import lottie from "lottie-web";
 
 const LoadingScreen = (props: { loaded: boolean }): JSX.Element => {

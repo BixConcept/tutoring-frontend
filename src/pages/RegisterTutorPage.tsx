@@ -1,14 +1,16 @@
-import { useState, useContext, useRef, useEffect, Fragment } from "react";
+import "react-toastify/dist/ReactToastify.css";
+
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
+import { RequestState, Subject, topSubjects } from "../Models";
+import { useLocation, useNavigate, useParams } from "react-router";
+
+import { API_HOST } from "../index";
+import Alert from "../Components/Alert";
+import LoadingScreen from "../Components/LoadingScreen";
 import { OurContext } from "../OurContext";
-import lottie from "lottie-web";
 import css from "../styles/registerPage.module.scss";
 import general from "../styles/general.module.scss";
-import "react-toastify/dist/ReactToastify.css";
-import { useLocation, useNavigate, useParams } from "react-router";
-import { RequestState, Subject, topSubjects } from "../Models";
-import Alert from "../Components/Alert";
-import { API_HOST } from "../index";
-import LoadingScreen from "../Components/LoadingScreen";
+import lottie from "lottie-web";
 
 const RegisterTutorPage = (): JSX.Element => {
   document.title = "Registrieren";
