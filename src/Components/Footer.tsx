@@ -12,15 +12,15 @@ const Footer = (): JSX.Element => {
             Source Code <FontAwesomeIcon icon={faGithub} />
           </a>
         </li>
-        <li className={css.hochlinie}>
+        <li className={css.topLine}>
           <a href="https://github.com/BixConcept/tutoring-frontend/blob/main/LICENSE">
             Lizenz
           </a>
         </li>
-        <li className={css.hochlinie}>
+        <li className={css.topLine}>
           <Link to="/privacy">Datenschutz</Link>{" "}
         </li>
-        <li className={css.hochlinie}>
+        <li className={css.topLine}>
           <Link to="/imprint">Impressum</Link>
         </li>
       </ul>
