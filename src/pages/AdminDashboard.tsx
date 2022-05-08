@@ -25,7 +25,7 @@ import { ResponsiveLine } from "@nivo/line";
 import { ResponsivePie } from "@nivo/pie";
 import { Statistic } from "../Components/Statistic";
 import css from "../styles/adminDashboard.module.scss";
-import { useNavigate } from "react-router";
+import { useNavigate, useResolvedPath } from "react-router";
 
 const SubjectPie = (props: { subjects: any; requestState: RequestState }) => {
   const [data, setData] = useState<any[]>([]);
@@ -86,69 +86,96 @@ const ActivityGraph = (props: {
   const { data: requests } = props;
   const [data, setData] = useState<any[]>([]);
   const context = useContext(OurContext);
-  console.log(context.width);
+  const [days, setDays] = useState<number>(props.data.length);
 
   useEffect(() => {
     setData([
       {
         id: "request_graph",
-        data: props.data.map(
-          (value: any) => ({
-            x: new Date(value.time).toISOString(),
-            y: value.value,
-          }),
-          []
-        ),
+        data: props.data
+          .filter(
+            (x) =>
+              new Date(x.time).getTime() >=
+              new Date().getTime() - (1000 * 60 * 60 * 24 * Math.max((days), 3)+1)
+          )
+          .map(
+            (value: any) => ({
+              x: new Date(value.time).toISOString(),
+              y: value.value,
+            }),
+            []
+          ),
       },
     ]);
-  }, [requests]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [requests, days]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    setDays(props.data.length);
+  }, [requests])
+
   return (
     <div id={css.requestsChart}>
       {RequestState.Success === props.requestState ? (
-        <ResponsiveLine
-          data={data}
-          enablePointLabel={false}
-          margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
-          xScale={{
-            type: "time",
-            format: "%Y-%m-%dT%H:%M:%S.%LZ",
-            precision: "hour",
-          }}
-          axisLeft={{
-            tickValues: 5,
-          }}
-          gridXValues={10}
-          enableGridX={false}
-          lineWidth={3}
-          enableGridY={false}
-          xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
-          axisBottom={{
-            format: "%Y-%m-%d",
-            tickSize: 10,
-            tickPadding: 0,
-            tickRotation: 0,
-            legendPosition: "middle",
-            tickValues: context.width > 800 ? 10 : 0,
-          }}
-          enableSlices={"x"}
-          colors={{ scheme: "category10" }}
-          theme={{
-            textColor: "var(--text_color)",
-            fontSize: 14,
-            crosshair: { line: { stroke: "var(--text_color)" } },
-          }}
-          curve="monotoneX"
-          sliceTooltip={({ slice }) => {
-            return (
-              <div id={css.tooltip}>
-                {slice.points[0].data.x.toLocaleString()}:{" "}
-                <span style={{ fontWeight: "bold" }}>
-                  {slice.points[0].data.y}
-                </span>
-              </div>
-            );
-          }}
-        />
+        <>
+          <form onSubmit={(e) => e.preventDefault()}>
+            <div>
+              <span>Letzte</span>{" "}
+              <input
+                type="number"
+                id={css.lastNDays}
+                onChange={(e) => { setDays(e.target.valueAsNumber)}}
+                value={days}
+                name="asdf"
+                aria-label="letzte n tage"
+              />{" "}
+              <span>Tage</span>
+            </div>
+          </form>
+          <ResponsiveLine
+            data={data}
+            enablePointLabel={false}
+            margin={{ top: 50, right: 50, left: 50, bottom: 50 }}
+            xScale={{
+              type: "time",
+              format: "%Y-%m-%dT%H:%M:%S.%LZ",
+              precision: "hour",
+            }}
+            axisLeft={{
+              tickValues: 5,
+            }}
+            gridXValues={10}
+            enableGridX={false}
+            lineWidth={3}
+            enableGridY={false}
+            xFormat="time:%Y-%m-%dT%H:%M:%S.%LZ"
+            axisBottom={{
+              format: "%Y-%m-%d",
+              tickSize: 10,
+              tickPadding: 0,
+              tickRotation: 0,
+              legendPosition: "middle",
+              tickValues: context.width > 800 ? 10 : 0,
+            }}
+            enableSlices={"x"}
+            colors={{ scheme: "category10" }}
+            theme={{
+              textColor: "var(--text_color)",
+              fontSize: 14,
+              crosshair: { line: { stroke: "var(--text_color)" } },
+            }}
+            curve="monotoneX"
+            sliceTooltip={({ slice }) => {
+              return (
+                <div id={css.tooltip}>
+                  {slice.points[0].data.x.toLocaleString()}:{" "}
+                  <span style={{ fontWeight: "bold" }}>
+                    {slice.points[0].data.y}
+                  </span>
+                </div>
+              );
+            }}
+          />{" "}
+        </>
       ) : null}
       {props.requestState === RequestState.Loading ? (
         <LoadingScreen loaded={false} />
@@ -251,7 +278,9 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
                     x: new Date(),
                     y: props.users.filter(
                       (x) =>
-                        x.authLevel >= (onlyVerified ? AuthLevel.Verified : 0)
+                        x.authLevel >=
+                          (onlyVerified ? AuthLevel.Verified : 0) &&
+                        x.offers.length >= (onlyTeachers ? 1 : 0)
                     ).length,
                   },
                 ],
@@ -302,17 +331,20 @@ function UserGrowthChart(props: { users: User[]; requestState: RequestState }) {
                     <p>
                       {point.data.x.toLocaleString()}:{" "}
                       <span style={{ fontWeight: "bold" }}>
-                        {point.data.y}{" "}
-                        {users.length > 0
-                          ? `(${users[0].name}#${users[0].id})`
-                          : ""}
+                        {point.data.y} {`(${users[0].name}#${users[0].id})`}
                         <Rank authLevel={users[0].authLevel} />
                       </span>
                     </p>
                   </div>
                 );
               } else {
-                return <span></span>;
+                return (
+                  <div id={css.tooltip}>
+                    <p>
+                      {point.data.x.toLocaleString()}: {point.data.y}
+                    </p>
+                  </div>
+                );
               }
             }}
           />
@@ -527,7 +559,6 @@ function GenericPieChart(props: {
         .sort((a, b) => b.value - a.value)
         .filter((x) => x.value >= 0.01 * total) // at least one percent
     );
-    console.log(data);
   }, [props.data]);
   return (
     <div id={props.id}>
@@ -745,9 +776,7 @@ export default function AdminDashboard() {
 
   function usersOlderThan(): number {
     const minDate = new Date().getTime() - parseInt(olderThan) * 1000;
-    console.log(minDate, new Date(minDate));
     return usersRequest.data.filter((x) => {
-      console.log(x.createdAt);
       return (
         new Date(x.createdAt).getTime() < minDate &&
         x.authLevel === AuthLevel.Unverified

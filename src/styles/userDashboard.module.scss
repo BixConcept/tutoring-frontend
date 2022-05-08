@@ -277,6 +277,11 @@ h4 {
   }
 }
 
+#wantsStats {
+  display: flex;
+  gap: 1rem;
+}
+
 @media screen and (max-width: 600px) {
   .danger-item {
     flex-direction: column;

@@ -34,6 +34,10 @@ const UserDashboard = (): JSX.Element => {
 
   const emailButtonRef = useRef<HTMLDivElement>(null);
 
+  const [wantsStats, setWantsStats] = useState<boolean>(
+    localStorage.getItem("wantsStatsBaby") !== null
+  );
+
   const fetchUser = () => {
     fetch(`${API_HOST}/user`, {
       credentials: "include",
@@ -433,6 +437,23 @@ const UserDashboard = (): JSX.Element => {
                 setModUser({ ...modUser, ...{ misc: e.target.value } });
               }}
             />
+            <div id={css.wantsStats}>
+              <input
+                type="checkbox"
+                name="wantsStats"
+                id={css.wantsStatsCheckBox}
+                onChange={(e) => {
+                  if (localStorage.getItem("wantsStatsBaby") !== null) {
+                    localStorage.removeItem("wantsStatsBaby");
+                  } else {
+                    localStorage.setItem("wantsStatsBaby", "YASSS");
+                  }
+                  setWantsStats(!wantsStats);
+                }}
+                checked={localStorage.getItem("wantsStatsBaby") !== null}
+              />
+              <span >Ich will Developer-Stats sehen</span>
+            </div>
             <input
               type="submit"
               className={general.text_button}
@@ -561,7 +582,6 @@ const UserDashboard = (): JSX.Element => {
                   <span className={css.name}>{context.user?.name}</span>ein.
                 </p>
 
-                {/* this form is there so the user can submit via pressing enter or the key on their mobile keyboard */}
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
