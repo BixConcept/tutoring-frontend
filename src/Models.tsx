@@ -9,6 +9,10 @@ export interface TutoringOffer {
   subjectName: string;
   misc: string | null;
   grade: number;
+  hasDiscord: boolean;
+  discordUser: string;
+  hasWhatsapp: boolean;
+  hasSignal: boolean;
 }
 
 export enum AuthLevel {
@@ -17,6 +21,11 @@ export enum AuthLevel {
   Admin = 2,
 }
 
+// for checking if requests are done and what status lol
+export interface Request<T> {
+  state: RequestState;
+  data: T | null;
+}
 export enum RequestState {
   NotAsked,
   Loading,
@@ -28,12 +37,16 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  phone_number?: string;
+  phoneNumber?: string;
   misc?: string;
   grade: number;
   authLevel: AuthLevel;
   offers: TutoringOffer[];
   createdAt: Date;
+  hasDiscord: boolean;
+  discordUser: string;
+  hasWhatsapp: boolean;
+  hasSignal: boolean;
 }
 
 export const topSubjects: string[] = [
@@ -56,4 +69,17 @@ export interface ApiRequest {
   path: string;
   ip: string;
   time: Date;
+}
+
+export interface Stats {
+  users: number;
+  apiRequests: number;
+  requests: number;
+  offers: number;
+}
+
+export interface NotificationRequest {
+  id: number;
+  subjectId: number;
+  // other too
 }

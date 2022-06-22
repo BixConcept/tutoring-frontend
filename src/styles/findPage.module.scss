@@ -175,6 +175,39 @@
   }
 }
 
+#stats {
+  display: flex;
+  justify-content: space-evenly;
+
+  margin: 2rem 0;
+
+  > * {
+    height: 4rem;
+  }
+}
+
+#registerForm {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+  > div {
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    input {
+      width: 100%;
+    }
+  }
+}
+
+.messengers {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 @media screen and (max-width: 600px) {
   #inputRow {
     flex-direction: column !important;

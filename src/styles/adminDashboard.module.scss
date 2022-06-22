@@ -16,6 +16,7 @@
 
     h1 {
       margin: 0;
+      font-size: 2rem;
     }
 
     .name {
@@ -29,6 +30,7 @@
     h2 {
       font-weight: normal;
       margin-bottom: 0.5rem;
+      font-size: 1.7rem;
     }
 
     #firstCharts {
@@ -60,11 +62,83 @@
   height: 25rem;
   min-width: 100%;
 
+  #lastNDays {
+    background-color: var(--contrasterer_bg_color);
+    border: none;
+    border-radius: 0.2rem;
+    width: 3rem;
+    color: var(--text_color);
+    font-size: 12pt;
+    text-align: center;
+  }
+
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
   #tooltip {
     background: var(--contrasterer_bg_color);
     color: var(--text_color);
     padding: 0.5rem;
     border-radius: 0.3rem;
+  }
+}
+
+#moreCharts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 1rem;
+
+  #pathChartContainer {
+    #pathChart {
+      height: 20rem;
+
+      color: black;
+    }
+    width: 100%;
+    padding: 0 1rem;
+    border: solid 1px var(--disabled_color);
+    border-radius: 0.5rem;
+  }
+  #authLevelContainer {
+    width: 100%;
+    border: solid 1px var(--disabled_color);
+    border-radius: 0.5rem;
+    padding: 0 1rem;
+    #authLevelChart {
+      color: black;
+      height: 20rem;
+    }
+  }
+
+  #browserChartContainer {
+    width: 100%;
+    border: solid 1px var(--disabled_color);
+    border-radius: 0.5rem;
+    padding: 0 1rem;
+    #browserChart {
+      color: black;
+      height: 20rem;
+    }
+  }
+  #osChartContainer {
+    width: 100%;
+    border: solid 1px var(--disabled_color);
+    border-radius: 0.5rem;
+    padding: 0 1rem;
+    #osChart {
+      color: black;
+      height: 20rem;
+    }
   }
 }
 
@@ -80,67 +154,77 @@
   justify-content: space-evenly;
 
   margin: 2rem 0;
-
-  .stat {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    flex-direction: column;
-    width: 100%;
-
-    &:last-child {
-      border: none;
-    }
-
-    .statValue {
-      font-size: 2rem;
-      font-weight: bold;
-
-      &.loading {
-        background: var(--contrasterer_bg_color);
-        height: 1.3em;
-        width: 3em;
-        border-radius: 0.5rem;
-      }
-    }
-
-    .statText {
-      text-transform: uppercase;
-      color: var(--disabled_color);
-      font-weight: bold;
-      font-size: 0.9rem;
-    }
-
-    height: 7rem;
-    border-right: solid 1px var(--disabled_color);
-  }
 }
 
 #growthChartContainer {
   margin: 1rem 0;
-  padding: 0 1rem;
+  padding: 1rem 1rem;
   border: solid 1px var(--disabled_color);
   border-radius: 0.5rem;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 
   #growthChart {
     flex: 1;
     height: 25rem;
     min-width: 100%;
+    margin-bottom: 1rem;
 
     #tooltip {
       background: var(--contrasterer_bg_color);
       color: var(--text_color);
       padding: 0.5rem;
       border-radius: 0.3rem;
+
+      p {
+        margin: 0;
+      }
     }
   }
 }
 
 #userListContainer {
+  #userInfo {
+    margin-bottom: 2rem;
+    #deleteUnverifiedContainer {
+      select {
+        height: 2rem;
+        margin-right: 1rem;
+        font-size: inherit;
+        white-space: nowrap;
+        background-color: var(--contrast_bg_color);
+        color: var(--text_color);
+        border-radius: 5px;
+      }
+      button {
+        height: 2rem;
+        padding: 0 1rem;
+        color: white;
+        border: none;
+        font-size: inherit;
+        white-space: nowrap;
+        border-radius: 5px;
+
+        &:enabled {
+          background-color: $error_color;
+          cursor: pointer;
+        }
+
+        &:disabled {
+          background-color: var(--disabled_color);
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
   #userList {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 50% 50%;
     gap: 1rem;
     border-radius: 0.5rem;
     .userListItem {
@@ -149,6 +233,11 @@
       padding: 1rem;
       border-radius: 0.5rem;
       background-color: var(--contrasterer_bg_color);
+
+      * {
+        word-break: break-word;
+        text-overflow: ellipsis;
+      }
 
       h1 {
         font-size: 1.4rem;
@@ -159,6 +248,13 @@
         margin: 0.3rem 0;
       }
 
+      .messengerIcons {
+        margin-left: 0.3rem;
+        display: inline-flex;
+        vertical-align: middle;
+        gap: 0.3rem;
+      }
+
       button {
         height: 2rem;
         padding: 0 1rem;
@@ -166,15 +262,16 @@
         border: none;
         font-size: inherit;
         white-space: nowrap;
-        cursor: pointer;
         border-radius: 5px;
 
         &:enabled {
           background-color: $error_color;
+          cursor: pointer;
         }
 
         &:disabled {
           background-color: var(--disabled_color);
+          cursor: not-allowed;
         }
       }
     }
@@ -260,12 +357,22 @@
       }
     }
   }
-}
+} 
 
 .close-button {
   cursor: pointer;
 }
 */
+
+#ipTable {
+  width: 100%;
+  thead {
+    font-weight: bold;
+  }
+  p {
+    margin: 0 auto;
+  }
+}
 
 @media screen and (max-width: 1400px) {
   #firstCharts {
@@ -280,6 +387,16 @@
 
 @media screen and (max-width: 1000px) {
   #userList {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+  }
+
+  #stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #moreCharts {
+    display: grid;
+    grid-template-columns: 100%;
   }
 }

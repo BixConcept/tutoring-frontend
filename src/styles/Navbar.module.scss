@@ -33,11 +33,14 @@ nav {
         }
       }
 
-      display: flex;
-      gap: 1rem;
-      max-width: 10rem;
-      align-items: center;
-      color: var(--disabled_color);
+      * {
+        text-align: left;
+        display: flex;
+        gap: 1rem;
+        max-width: 10rem;
+        align-items: center;
+        color: var(--disabled_color);
+      }
     }
 
     a,
@@ -49,6 +52,7 @@ nav {
       display: flex;
       align-items: center;
       font-family: Inter;
+      cursor: pointer;
 
       text-decoration: none;
 
@@ -83,18 +87,33 @@ nav {
     padding: 1rem 5vw;
     height: auto !important;
     display: flex;
+    align-items: center;
+    width: 100%;
+    a {
+      text-align: center !important;
+    }
+
     ul {
-      margin-left: 2rem;
       flex-direction: column;
-      align-items: start;
+      align-items: center;
       gap: 2rem;
       padding: 0;
       width: 100%;
-      text-align: left;
 
       #links {
-        flex-direction: column;
+        flex-direction: column-reverse;
         gap: 0.5rem !important;
+        width: 100%;
+
+        li {
+          display: flex;
+          justify-content: center;
+          height: 2.5rem;
+
+          padding-top: 0.5rem;
+          border-top: solid var(--disabled_color) 1px;
+          width: 100%;
+        }
       }
     }
   }

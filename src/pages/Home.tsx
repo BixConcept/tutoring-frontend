@@ -1,5 +1,6 @@
-import css from "../styles/Home.module.scss";
+import ExternalLink from "../Components/ExternalLink";
 import { Link } from "react-router-dom";
+import css from "../styles/Home.module.scss";
 
 const Home = (): JSX.Element => {
   document.title = "Nachhilfe GymHaan";
@@ -17,32 +18,33 @@ const Home = (): JSX.Element => {
         <div className={css.applyFlexContainer}>
           <div className={css.informationText}>
             <p>
-              Wenn du in einem Fach Nachhilfe geben möchtest, kannst du dich
-              ganz einfach mit deiner Schul-Email registrieren. Für alle die
-              Nachhilfe brauchen funktioniert der Zugang ohne Registrierung.{" "}
+              Für die Benutzung dieser Seite kannst du dich ganz einfach mit
+              deiner Schul-Email registrieren.
             </p>
             <p>
               Durch die Nutzung dieser Seite erklärst du dich mit den{" "}
-              <a href="/privacy" className={css.link}>
-                Datenschutzbestimmungen einverstanden.
-              </a>
+              <Link to="/privacy" className={css.link}>
+                Datenschutzbestimmungen
+              </Link>{" "}
+              einverstanden.
             </p>
             <p>
-              Irgendwas hat{" "}
-              <a href="https://instagram.com/gymhaan.sv">die SV</a> mit dieser
-              Seite auch zu tun sagen sie.
+              <a href="https://instagram.com/sv.gymhaan">
+                Link zur SV <ExternalLink />
+              </a>
             </p>
           </div>
           <div id={css.choices}>
             <div className={css.choice}>
               <Link to="/find">
-                <h1>Ich brauche Nachhilfe</h1>
+                <h1>
+                  <span className={css.backdrop}>Nachhilfe finden</span>
+                </h1>
               </Link>
             </div>
             <div className={css.choice}>
               <Link to="/register">
                 <h1>
-                  Ich möchte{" "}
                   <span className={css.backdrop}>Nachhilfe geben</span>
                 </h1>
               </Link>

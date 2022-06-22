@@ -41,7 +41,7 @@ $normal_font_size: 14pt;
   border-radius: 0.3rem;
   border-style: none;
   background-color: $primary_color;
-  color: white;
+  color: $primary_text_color;
   font-weight: bold;
   font-size: 1rem;
   cursor: pointer;
@@ -88,6 +88,7 @@ $normal_font_size: 14pt;
   height: 2rem;
   padding-left: 0.7rem;
   padding-right: 0.3rem;
+  color: var(--text_color);
 
   > input {
     width: 80%;
@@ -96,7 +97,6 @@ $normal_font_size: 14pt;
     padding: 0;
     height: 100%;
     font-size: 14px;
-    color: var(--text_color);
     &:focus {
       outline-width: 0;
       outline: none;
@@ -139,10 +139,8 @@ $normal_font_size: 14pt;
   width: 100%;
   display: flex;
   flex-direction: row;
-
   border-radius: 0.3rem;
   box-shadow: 0 0 0 2px var(--text_color);
-
   background-color: var(--contrast_bg_color);
 }
 

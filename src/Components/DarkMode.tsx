@@ -1,36 +1,35 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
+import { useContext, useEffect } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { OurContext } from "../OurContext";
 
 const DarkMode = () => {
   const body = document.body;
-  const [theme, setTheme] = useState("dark");
+  const context = useContext(OurContext);
 
   useEffect(() => {
     if (localStorage) {
       let value = localStorage.getItem("theme");
       if (value === "light" || value === "dark") {
         body.classList.add(value);
-        setTheme(value);
+        context.setTheme(value);
       } else {
         body.classList.add("dark");
         localStorage.setItem("theme", "dark");
-        setTheme("dark");
+        context.setTheme("dark");
       }
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleDarkMode = (callback: (newTheme: "dark" | "light") => void) => {
-    if (theme === "dark") {
+    if (context.theme === "dark") {
       body.classList.replace("dark", "light");
       localStorage.setItem("theme", "light");
-      setTheme("light");
       callback("light");
     } else {
       body.classList.replace("light", "dark");
       localStorage.setItem("theme", "dark");
-      setTheme("dark");
       callback("dark");
     }
   };
@@ -38,15 +37,21 @@ const DarkMode = () => {
   return (
     <button
       onClick={(e) => {
-        toggleDarkMode(setTheme);
+        toggleDarkMode(context.setTheme);
         e.preventDefault();
       }}
       style={{ cursor: "pointer" }}
     >
-      <FontAwesomeIcon
-        type="checkbox"
-        icon={localStorage.getItem("theme") === "dark" ? faSun : faMoon}
-      />
+      {context.width > 600 ? (
+        <FontAwesomeIcon
+          type="checkbox"
+          icon={localStorage.getItem("theme") === "dark" ? faSun : faMoon}
+        />
+      ) : localStorage.getItem("theme") === "dark" ? (
+        "Light mode"
+      ) : (
+        "Dark mode"
+      )}
     </button>
   );
 };

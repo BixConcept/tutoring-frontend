@@ -1,16 +1,18 @@
-import { useState, useContext, useRef, useEffect, Fragment } from "react";
+import "react-toastify/dist/ReactToastify.css";
+
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
+import { RequestState, Subject, topSubjects } from "../Models";
+import { useLocation, useNavigate, useParams } from "react-router";
+
+import { API_HOST } from "../index";
+import Alert from "../Components/Alert";
+import LoadingScreen from "../Components/LoadingScreen";
 import { OurContext } from "../OurContext";
-import lottie from "lottie-web";
 import css from "../styles/registerPage.module.scss";
 import general from "../styles/general.module.scss";
-import "react-toastify/dist/ReactToastify.css";
-import { useLocation, useNavigate, useParams } from "react-router";
-import { RequestState, Subject, topSubjects } from "../Models";
-import Alert from "../Components/Alert";
-import { API_HOST } from "../index";
-import LoadingScreen from "../Components/LoadingScreen";
+import lottie from "lottie-web";
 
-const RegisterPage = (): JSX.Element => {
+const RegisterTutorPage = (): JSX.Element => {
   document.title = "Registrieren";
   const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
 
@@ -26,6 +28,7 @@ const RegisterPage = (): JSX.Element => {
   );
   const [clickCount, setClickCount] = useState<number>(0);
 
+  const [isDuplicate, setIsDuplicate] = useState<boolean>(false);
   const navigate = useNavigate();
   const { stepIndex } = useParams();
 
@@ -49,7 +52,9 @@ const RegisterPage = (): JSX.Element => {
       } else {
         setStep(parsedIndex);
 
-        fetch(`${API_HOST}/subjects`)
+        fetch(`${API_HOST}/subjects`, {
+          headers: { "X-Frontend-Path": document.location.pathname },
+        })
           .then((res) => {
             if (!res.ok) {
               throw new Error();
@@ -68,6 +73,12 @@ const RegisterPage = (): JSX.Element => {
       }
     }
   }, [stepIndex, navigate]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (context.user) {
+      navigate("/dashboard");
+    }
+  }, [context.user]);
 
   const numChosen = (): number => {
     return Object.entries(chosen).reduce(
@@ -105,8 +116,14 @@ const RegisterPage = (): JSX.Element => {
   };
 
   function register() {
-    let tmp = chosen;
-    Object.keys(chosen).map((key: any) => parseInt(chosen[key]));
+    let tmp: { [key: string]: any } = chosen;
+    Object.keys(tmp).forEach((key: any) => {
+      tmp[key] = parseInt(chosen[key]);
+      if (isNaN(tmp[key])) {
+        delete tmp[key];
+      }
+    });
+    setIsDuplicate(false);
 
     fetch(`${API_HOST}/user/register`, {
       method: "POST",
@@ -118,11 +135,22 @@ const RegisterPage = (): JSX.Element => {
       }),
       headers: {
         "Content-Type": "application/json",
+        "X-Frontend-Path": document.location.pathname,
       },
-    }).catch((error) => {
-      console.log(error);
-      Alert("Fehler beim Erstellen :((...", "error", context.theme);
-    });
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          // if duplicate
+          if (res.status === 409) {
+            setIsDuplicate(true);
+          }
+          throw new Error();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        Alert("Fehler beim Erstellen :((...", "error", context.theme);
+      });
   }
 
   const handleChange = (e: any, subject: number) => {
@@ -215,17 +243,20 @@ const RegisterPage = (): JSX.Element => {
   if (step === 1) {
     return (
       <div id={css.loginContainer}>
-        <h1>Anmelden</h1>
+        <h1>Registrieren</h1>
         <div ref={login} id={css.loginAnimation}></div>
         <p>Gib die E-Mail-Adresse an, die du von der Schule bekommen hast.</p>
         <p>
           Das sollte dieselbe sein, die auch für Login bei Teams/Office 365
           benutzt wird.
         </p>
+        {isDuplicate ? (
+          <p style={{ color: "#e74c3c" }}>Diese E-Mail wird schon verwendet!</p>
+        ) : null}
         <div className={css["input-fields"]}>
           <form
             onSubmit={(e) => {
-              const schoolMailRegex = /(.*)\.(.*)(@gymhaan\.de)?/; // this allows too much, but I am not sure how they are generated exactly so '729asdf=9@.23aa~~3F@gymhaan.de' is valid for now
+              const schoolMailRegex = /(.*)(@gymhaan\.de)?/; // this allows too much, but I am not sure how they are generated exactly so '729asdf=9@.23aa~~3F@gymhaan.de' is valid for now
               if (email.match(schoolMailRegex)) {
                 newStep(2);
                 lottie.destroy();
@@ -243,13 +274,54 @@ const RegisterPage = (): JSX.Element => {
                 type="text"
                 required
                 onChange={(e) => {
-                  setEmail(e.target.value);
+                  let foo = e.target.value.trim();
+                  setEmail(foo);
+                  fetch(
+                    `${API_HOST}/user/email-available/${foo.replace(
+                      "@gymhaan.de",
+                      ""
+                    )}@gymhaan.de`,
+                    {
+                      headers: {
+                        "X-Frontend-Path": document.location.pathname,
+                      },
+                    }
+                  ).then((res) => {
+                    switch (res.status) {
+                      case 200:
+                        setIsDuplicate(false);
+                        break;
+                      case 409:
+                        setIsDuplicate(true);
+                        Alert(
+                          "Diese E-Mail wird schon verwendet!",
+                          "error",
+                          context.theme
+                        );
+                        break;
+                      default:
+                        break;
+                    }
+                  });
                 }}
                 value={email.toLowerCase()}
               />
               <p id={css.gymhaanPlacehodler}>@gymhaan.de</p>
             </div>
-            <input type="submit" value="weiter" className={css.submit} />
+            <input
+              type="submit"
+              value="weiter"
+              className={css.submit}
+              disabled={isDuplicate}
+              style={
+                isDuplicate
+                  ? {
+                      cursor: "not-allowed",
+                      backgroundColor: "var(--disabled_color)",
+                    }
+                  : undefined
+              }
+            />
           </form>
         </div>
         <p className={css.step}>
@@ -308,6 +380,11 @@ const RegisterPage = (): JSX.Element => {
                   type="submit"
                   value="Weiter"
                   className={css.next_button}
+                  disabled={
+                    Object.keys(chosen).filter(
+                      (x) => !isNaN(parseInt(chosen[parseInt(x)]))
+                    ).length === 0
+                  }
                   onClick={(e) => {
                     newStep(3);
                     e.preventDefault();
@@ -331,7 +408,9 @@ const RegisterPage = (): JSX.Element => {
       <div id={css.loginContainer}>
         <h1>Deine Infos</h1>
         <div ref={login} id={css.loginAnimation}></div>
-        <p>In welche Klasse/Stufe gehst du?</p>
+        <p>
+          In welche Klasse/Stufe gehst du? <span>(erforderlich)</span>
+        </p>
         <div className={general.select_input_field}>
           <select
             name=""
@@ -364,6 +443,7 @@ const RegisterPage = (): JSX.Element => {
         <div className={general.flexdiv}>
           <button
             className={general.text_button}
+            disabled={grade === ""}
             onClick={(e) => {
               if (isNaN(parseInt(grade))) {
                 Alert("Bitte wähle deine Stufe!", "error", context.theme);
@@ -417,4 +497,4 @@ const RegisterPage = (): JSX.Element => {
   } else return <></>;
 };
 
-export default RegisterPage;
+export default RegisterTutorPage;

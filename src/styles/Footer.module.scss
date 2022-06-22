@@ -46,6 +46,19 @@
       padding: 0.5rem 0;
     }
   }
+
+  .footer ul {
+    flex-direction: column;
+    gap: 0.5rem;
+
+    li {
+      width: 100%;
+    }
+    .topLine {
+      padding-top: 0.5rem;
+      border-top: solid var(--disabled_color) 1px;
+    }
+  }
 }
 
 @media screen and (min-width: 2101px) {
@@ -59,18 +72,5 @@
 @media screen and (max-width: 800px) {
   .footer ul {
     padding: 0 2rem;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .footer ul {
-    flex-direction: column;
-    gap: 0.5rem;
-
-    li {
-      padding-top: 0.5rem;
-      border-top: solid var(--disabled_color) 1px;
-      width: 100%;
-    }
   }
 }

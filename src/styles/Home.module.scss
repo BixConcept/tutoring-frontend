@@ -10,6 +10,7 @@
 
   p {
     font-size: 1.2rem;
+    margin: 0.3rem 0;
   }
 
   a {
@@ -37,7 +38,7 @@
       h1 {
         margin: 0;
         /*font-size: 100pt;*/
-        font-size: 4rem;
+        font-size: clamp(2rem, 5vw, 4rem);
         font-weight: bold;
         color: #f1f2f6;
         hyphens: auto;
@@ -123,14 +124,14 @@
     flex-direction: column;
     align-items: stretch;
 
-    * {
-      flex: 1; // to make the icon reach the bottom
+    h1 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 1rem 0;
     }
 
-    i {
-      text-align: center;
-      width: 100%;
-      font-size: 6rem;
+    * {
+      flex: 1; // to make the icon reach the bottom
     }
 
     a {

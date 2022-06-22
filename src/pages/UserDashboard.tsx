@@ -1,13 +1,19 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router";
 import { API_HOST, checkEmail } from "..";
+import { Subject, User } from "../Models";
+import { faDiscord, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { useContext, useEffect, useRef, useState } from "react";
+
 import Alert from "../Components/Alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import LoadingScreen from "../Components/LoadingScreen";
 import { OurContext } from "../OurContext";
-import general from "../styles/general.module.scss";
-import css from "../styles/userDashboard.module.scss";
-import { Subject, User } from "../Models";
 import { Rank } from "../Components/Rank";
+import Signal from "../assets/images/signal.svg";
+import SignalBlack from "../assets/images/signal_black.svg";
+import css from "../styles/userDashboard.module.scss";
+import general from "../styles/general.module.scss";
+import { useNavigate } from "react-router";
 
 const UserDashboard = (): JSX.Element => {
   document.title = "Dashboard";
@@ -15,7 +21,7 @@ const UserDashboard = (): JSX.Element => {
   const context = useContext(OurContext);
   const navigate = useNavigate();
 
-  const [modUser, setMutUser] = useState<User | null>(context.user);
+  const [modUser, setModUser] = useState<User | null>(context.user);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [emailModalVisible, setEmailModalVisible] = useState<boolean>(false);
   const [dname, setDname] = useState<string>("");
@@ -28,9 +34,16 @@ const UserDashboard = (): JSX.Element => {
 
   const emailButtonRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const [wantsStats, setWantsStats] = useState<boolean>(
+    localStorage.getItem("wantsStatsBaby") !== null
+  );
+
+  const fetchUser = () => {
     fetch(`${API_HOST}/user`, {
       credentials: "include",
+      headers: {
+        "X-Frontend-Path": document.location.pathname,
+      },
     })
       .then((res) => {
         if (res.ok) {
@@ -40,16 +53,25 @@ const UserDashboard = (): JSX.Element => {
         }
       })
       .then((body) => {
-        setMutUser(body.content);
+        setModUser(body.content);
         context.setUser(body.content);
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e);
         navigate("/login");
       });
+  };
+
+  useEffect(() => {
+    fetchUser();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    fetch(`${API_HOST}/subjects`)
+    fetch(`${API_HOST}/subjects`, {
+      headers: {
+        "X-Frontend-Path": document.location.pathname,
+      },
+    })
       .then((res) => res.json())
       .then((body) => setSubjects(body.content));
   }, []);
@@ -59,12 +81,15 @@ const UserDashboard = (): JSX.Element => {
       method: "PUT",
       credentials: "include",
       body: JSON.stringify(modUser),
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+        "X-Frontend-Path": document.location.pathname,
+      },
     }).then(async (res) => {
       const body = await res.json();
       if (!res.ok) {
         Alert(
-          `Irgendetwaswas ist schief gegangen: ${body.msg}`,
+          `Irgendetwas ist schief gegangen: ${body.msg}`,
           "error",
           context.theme
         );
@@ -75,15 +100,20 @@ const UserDashboard = (): JSX.Element => {
           context.theme
         );
       }
+      fetchUser();
     });
   }
 
-  if (modUser) {
+  if (modUser && modUser.offers) {
     return (
       <div className={css.dashboard}>
         <div className={css["dashboard-content"]}>
           <h1>
-            Hey 👋, {context.user?.name.split(" ")[0]}{" "}
+            Hey 👋,{" "}
+            <Link to={"/user/" + context.user?.id}>
+              {context.user?.name.split(" ")[0]}
+              <span>#{context.user?.id}</span>
+            </Link>{" "}
             <Rank authLevel={context.user?.authLevel} />
           </h1>
           <h4>Meine Fächer</h4>
@@ -99,6 +129,9 @@ const UserDashboard = (): JSX.Element => {
                     fetch(`${API_HOST}/offer/${offer.id}`, {
                       method: "DELETE",
                       credentials: "include",
+                      headers: {
+                        "X-Frontend-Path": document.location.pathname,
+                      },
                     })
                       .then((res) => {
                         if (!res.ok) {
@@ -126,7 +159,7 @@ const UserDashboard = (): JSX.Element => {
                             "success",
                             context.theme
                           );
-                          setMutUser({
+                          setModUser({
                             ...modUser,
                             ...{
                               offers: modUser.offers.filter(
@@ -206,7 +239,10 @@ const UserDashboard = (): JSX.Element => {
                   fetch(`${API_HOST}/offer`, {
                     method: "POST",
                     credentials: "include",
-                    headers: { "content-type": "application/json" },
+                    headers: {
+                      "content-type": "application/json",
+                      "X-Frontend-Path": document.location.pathname,
+                    },
                     body: JSON.stringify({
                       subjectId: selectedSubject,
                       maxGrade: targetGrade,
@@ -233,7 +269,7 @@ const UserDashboard = (): JSX.Element => {
                         }
                       } else {
                         res.json().then((body) => {
-                          setMutUser({
+                          setModUser({
                             ...modUser,
                             ...{ offers: [...modUser.offers, body.content] },
                           });
@@ -249,7 +285,7 @@ const UserDashboard = (): JSX.Element => {
               </button>
             </div>
           </div>
-          <h4>Dein Profil</h4>
+          <h4>Mein Profil</h4>
           <form
             id={css.profileForm}
             onKeyDown={(e) => {
@@ -268,12 +304,14 @@ const UserDashboard = (): JSX.Element => {
               type="text"
               value={modUser?.email}
               className={general["input-field"]}
+              readOnly={true}
               name="email"
               onClick={() => {
                 if (emailButtonRef.current) {
                   emailButtonRef.current.scrollIntoView();
                 }
               }}
+              style={{ cursor: "default" }}
             />
             <label htmlFor="name">Name</label>
             <input
@@ -281,7 +319,7 @@ const UserDashboard = (): JSX.Element => {
               value={modUser?.name}
               className={general["input-field"]}
               onChange={(e) =>
-                setMutUser({ ...modUser, ...{ name: e.target.value } })
+                setModUser({ ...modUser, ...{ name: e.target.value } })
               }
               name="name"
             />
@@ -292,11 +330,12 @@ const UserDashboard = (): JSX.Element => {
                 className={general.select}
                 value={modUser.grade}
                 onChange={(e) => {
-                  setMutUser({
+                  setModUser({
                     ...modUser,
                     ...{ grade: parseInt(e.target.value) },
                   });
                 }}
+                style={{ cursor: "pointer" }}
               >
                 <option value="">--- Stufe wählen ---</option>
                 {[...Array(13 - 4).keys()].map((grade, index) => {
@@ -304,15 +343,117 @@ const UserDashboard = (): JSX.Element => {
                 })}
               </select>
             </div>
+
+            <label htmlFor="phoneNumber">Telefonnummer (Mobil)</label>
+            <input
+              type="text"
+              name="phoneNumber"
+              placeholder="+491701234567"
+              className={general["input-field"]}
+              value={modUser.phoneNumber}
+              onChange={(e) => {
+                setModUser({
+                  ...modUser,
+                  ...{
+                    phoneNumber: e.target.value.replaceAll(" ", ""),
+                  },
+                });
+              }}
+            />
+            <label htmlFor="discordUser">Discord-Benutzername</label>
+            <input
+              type="text"
+              name="discordUser"
+              placeholder="3nt3#5068"
+              className={general["input-field"]}
+              value={modUser.discordUser}
+              onChange={(e) => {
+                setModUser({ ...modUser, ...{ discordUser: e.target.value } });
+              }}
+            />
+            <div className={css.checkboxContainer}>
+              <input
+                type="checkbox"
+                name="hasDiscord"
+                disabled={!/^((.+?)#\d{4})/.test(modUser.discordUser)}
+                checked={modUser.hasDiscord}
+                onChange={(e) => {
+                  setModUser({
+                    ...modUser,
+                    ...{ hasDiscord: e.target.checked },
+                  });
+                }}
+              />
+              <label htmlFor="hasDiscord">
+                <FontAwesomeIcon icon={faDiscord} /> Discord-Profil anzeigen
+              </label>
+            </div>
+            <div className={css.checkboxContainer}>
+              <input
+                type="checkbox"
+                name="hasSignal"
+                disabled={!/\+[0-9]{5,15}$/.test(modUser.phoneNumber || "")}
+                checked={modUser.hasSignal}
+                onChange={(e) => {
+                  setModUser({
+                    ...modUser,
+                    ...{ hasSignal: e.target.checked },
+                  });
+                }}
+              />
+              <label htmlFor="hasSignal">
+                <img
+                  src={context.theme === "dark" ? Signal : SignalBlack}
+                  alt="Signal"
+                  id={css.signalIcon}
+                />{" "}
+                Signal-Profil anzeigen
+              </label>
+            </div>
+            <div className={css.checkboxContainer}>
+              <input
+                type="checkbox"
+                name="hasWhatsapp"
+                checked={modUser.hasWhatsapp}
+                disabled={!/\+[0-9]{5,15}$/.test(modUser.phoneNumber || "")}
+                onChange={(e) => {
+                  setModUser({
+                    ...modUser,
+                    ...{ hasWhatsapp: e.target.checked },
+                  });
+                }}
+              />
+              <label htmlFor="hasDiscord">
+                <FontAwesomeIcon icon={faWhatsapp} /> WhatsApp-Profil anzeigen
+              </label>
+            </div>
+
             <label htmlFor="misc">Sonstiges</label>
             <textarea
               className={general["select_input_field"]}
               defaultValue={modUser?.misc}
               name="misc"
               onChange={(e) => {
-                setMutUser({ ...modUser, ...{ misc: e.target.value } });
+                setModUser({ ...modUser, ...{ misc: e.target.value } });
               }}
             />
+            <div id={css.wantsStats}>
+              <input
+                type="checkbox"
+                name="wantsStats"
+                id={css.wantsStatsCheckBox}
+                onChange={(e) => {
+                  if (localStorage.getItem("wantsStatsBaby") !== null) {
+                    localStorage.removeItem("wantsStatsBaby");
+                  } else {
+                    localStorage.setItem("wantsStatsBaby", "YASSS");
+                  }
+                  setWantsStats(!wantsStats);
+                }}
+                checked={localStorage.getItem("wantsStatsBaby") !== null}
+              />
+              <span >Ich will Developer-Stats sehen</span>
+            </div>
             <input
               type="submit"
               className={general.text_button}
@@ -363,6 +504,10 @@ const UserDashboard = (): JSX.Element => {
                     fetch(`${API_HOST}/user`, {
                       method: "DELETE",
                       credentials: "include",
+                      headers: {
+                        "content-type": "application/json",
+                        "X-Frontend-Path": document.location.pathname,
+                      },
                     }).then((res) => {
                       if (!res.ok) {
                         Alert(
@@ -372,6 +517,8 @@ const UserDashboard = (): JSX.Element => {
                         );
                       } else {
                         Alert("Account gelöscht.", "info", context.theme);
+                        navigate("/");
+                        context.setUser(null);
                         setModalVisible(false);
                       }
                     });
@@ -435,7 +582,6 @@ const UserDashboard = (): JSX.Element => {
                   <span className={css.name}>{context.user?.name}</span>ein.
                 </p>
 
-                {/* this form is there so the user can submit via pressing enter or the key on their mobile keyboard */}
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -444,7 +590,10 @@ const UserDashboard = (): JSX.Element => {
                       method: "PUT",
                       credentials: "include",
                       body: JSON.stringify({ email }),
-                      headers: { "content-type": "application/json" },
+                      headers: {
+                        "content-type": "application/json",
+                        "X-Frontend-Path": document.location.pathname,
+                      },
                     }).then(async (res) => {
                       const body = await res.json();
                       if (!res.ok) {
@@ -462,7 +611,7 @@ const UserDashboard = (): JSX.Element => {
                 >
                   <input
                     type="text"
-                    placeholder=""
+                    placeholder={context.user?.name}
                     value={dname}
                     onChange={(e) => {
                       setDname(e.target.value);

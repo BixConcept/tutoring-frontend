@@ -10,11 +10,14 @@
 
   h1 {
     margin: 0;
+    font-size: 2rem;
+    font-weight: bold;
   }
 
   h3 {
     font-size: 14pt;
     margin: 1rem 0 0;
+    font-weight: bold;
   }
 
   #animationContainer {
@@ -24,6 +27,7 @@
 
   p {
     margin: 0.5rem 0;
+    line-height: normal;
   }
 
   color: var(--text_color);

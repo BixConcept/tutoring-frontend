@@ -1,13 +1,17 @@
-import { useContext, useState, Fragment, useEffect } from "react";
+import { API_HOST, checkEmail } from "../index";
+import { Fragment, useContext, useEffect, useState } from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Request, Subject, TutoringOffer, User, topSubjects } from "../Models";
+import { RequestState, Stats } from "../Models";
+
+import Alert from "../Components/Alert";
+import { Link } from "react-router-dom";
+import LoadingScreen from "../Components/LoadingScreen";
+import { MessengerInfo } from "../Components/MessengerInfo";
+import { OurContext } from "../OurContext";
+import { Statistic } from "../Components/Statistic";
 import css from "../styles/findPage.module.scss";
 import general from "../styles/general.module.scss";
-import { OurContext } from "../OurContext";
-
-import { Subject, topSubjects, TutoringOffer } from "../Models";
-import Alert from "../Components/Alert";
-import { API_HOST, checkEmail } from "../index";
-import LoadingScreen from "../Components/LoadingScreen";
-import { RequestState } from "../Models";
 
 function RequestForm(props: {
   subject: number;
@@ -25,7 +29,12 @@ function RequestForm(props: {
         grade: props.grade,
         subject: props.subject,
       }),
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+
+        "X-Frontend-Path": document.location.pathname,
+      },
+      credentials: "include",
     }).then((res) => {
       if (res.ok) {
         Alert(
@@ -34,7 +43,7 @@ function RequestForm(props: {
           context.theme
         );
       } else {
-        Alert("Irgendwas ist schiefgelaufen.", "error", context.theme);
+        Alert("Irgendetwas ist schiefgelaufen.", "error", context.theme);
       }
     });
   }
@@ -56,7 +65,6 @@ function RequestForm(props: {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-
           request();
         }}
       >
@@ -84,22 +92,37 @@ function RequestForm(props: {
 const Find = (): JSX.Element => {
   document.title = "Nachhilfe finden";
 
-  const grades = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
+  const grades = Array.from({ length: 9 }, (_: number, __: number) => __ - -5);
   const context = useContext(OurContext);
 
   const [grade, setGrade] = useState("");
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [subject, setSubject] = useState<number>(NaN);
   const [results, setResults] = useState<TutoringOffer[]>([]);
-  const [requestState, setRequestState] = useState<RequestState>(
+  const [offersRequestState, setOffersRequestState] = useState<RequestState>(
     RequestState.NotAsked
   );
   const [subjectsRequestState, setSubjectsRequestState] =
     useState<RequestState>(RequestState.Loading);
+  const [userRequestState, setUserRequestState] = useState<RequestState>(
+    RequestState.Loading
+  );
+  const [statsRequest, setStatsRequests] = useState<Request<Stats>>({
+    state: RequestState.Loading,
+    data: null,
+  });
+  const [email, setEmail] = useState<string>("");
+  const [userGradeS, setUserGradeS] = useState<string>("");
+  const [emailIsDuplicate, setEmailIsDuplicate] = useState<boolean>(false);
+  const [registrationState, setRegistrationState] = useState<RequestState>(
+    RequestState.NotAsked
+  );
 
   useEffect(() => {
     setSubjectsRequestState(RequestState.Loading);
-    fetch(`${API_HOST}/subjects`)
+    fetch(`${API_HOST}/subjects`, {
+      headers: { "X-Frontend-Path": document.location.pathname },
+    })
       .then((res: Response) => {
         if (!res.ok) {
           throw new Error();
@@ -114,9 +137,63 @@ const Find = (): JSX.Element => {
       })
       .catch(() => {
         setSubjectsRequestState(RequestState.Failure);
-        Alert("Irgendwas ist schiefgegangen", "error", context.theme);
+        Alert("Irgendetwas ist schiefgegangen", "error", context.theme);
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    fetch(`${API_HOST}/user`, {
+      credentials: "include",
+      headers: { "X-Frontend-Path": document.location.pathname },
+    })
+      .then(async (res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error((await res.json()).msg);
+        }
+      })
+      .then((body) => {
+        // slow loading down so the loading screen is visible and not just flashing
+        // NOTE: this could be deleted and is just there for aesthetic purposes
+        setTimeout(() => {
+          setUserRequestState(RequestState.Success);
+        }, 300);
+        context.setUser(body.content || null);
+      })
+      .catch((e) => {
+        // slow loading down so the loading screen is visible and not just flashing
+        // NOTE: this could be deleted and is just there for aesthetic purposes
+        setTimeout(() => {
+          setUserRequestState(RequestState.Failure);
+        }, 300);
+        context.setUser(null);
+      });
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        let res = await fetch(`${API_HOST}/stats`, {
+          headers: { "X-Frontend-Path": document.location.pathname },
+        });
+        let body = await res.json();
+        if (!res.ok) {
+        } else {
+          setStatsRequests({ state: RequestState.Success, data: body.content });
+        }
+      } catch (e: any) {
+        setStatsRequests({ state: RequestState.Failure, data: null });
+        Alert(
+          "Irgendwas ist schief gegangen - das ist ein Server-Fehler",
+          "error",
+          context.theme
+        );
+      }
+    }
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const validate = (): boolean => {
     if (isNaN(subject)) {
@@ -131,21 +208,25 @@ const Find = (): JSX.Element => {
   };
 
   const search = (): void => {
-    setRequestState(RequestState.Loading);
+    setOffersRequestState(RequestState.Loading);
     fetch(`${API_HOST}/find`, {
       method: "POST",
       body: JSON.stringify({ subjectId: subject, grade: parseInt(grade) }),
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "X-Frontend-Path": document.location.pathname,
+      },
+      credentials: "include",
     })
       .then(async (response) => {
         if (!response.ok) {
-          setRequestState(RequestState.Failure);
-          Alert("Irgendwas ist schief gegangen.", "error", context.theme);
+          setOffersRequestState(RequestState.Failure);
+          Alert("Irgendetwas ist schief gegangen.", "error", context.theme);
         }
         return response.json();
       })
       .then((body) => {
-        setRequestState(RequestState.Success);
+        setOffersRequestState(RequestState.Success);
         setResults(body.content);
       });
   };
@@ -159,79 +240,249 @@ const Find = (): JSX.Element => {
   return (
     <div className={css.container}>
       <div className={css.formContainer}>
-        <h1>Nachhilfe finden</h1>
-        <div className={css.inputfields}>
-          <form
-            onSubmit={(e) => {
-              if (validate()) {
-                search();
-              }
-              e.preventDefault();
-            }}
-          >
-            <div id={css.inputRow}>
-              <div>
-                <label htmlFor="subject">Fach auswählen</label>
-                <div className={general.select_input_field}>
-                  <select
-                    name="subject"
-                    id=""
-                    className={general.select}
-                    onChange={(e) => {
-                      if (!isNaN(subjectIdFromName(e.target.value))) {
-                        setSubject(subjectIdFromName(e.target.value));
-                      }
-                    }}
-                  >
-                    <option value="">--- Fach wählen ---</option>
-                    <option value="" disabled>
-                      Beliebte Fächer
-                    </option>
-                    {subjects
-                      .filter((x) => topSubjects.indexOf(x.name) !== -1)
-                      .map((subject, index) => {
-                        return <option key={index}>{subject.name}</option>;
-                      })}
-                    <option value="" disabled>
-                      Weitere Fächer
-                    </option>
-                    {subjects
-                      .sort()
-                      .filter((x) => topSubjects.indexOf(x.name) === -1)
-                      .map((subject, index) => {
-                        return <option key={index}>{subject.name}</option>;
-                      })}
-                  </select>
+        {userRequestState === RequestState.Loading ? (
+          <LoadingScreen loaded={false} />
+        ) : context.user ? (
+          <Fragment>
+            <h1>Nachhilfe finden</h1>
+            <div className={css.inputfields}>
+              <form
+                onSubmit={(e) => {
+                  if (validate()) {
+                    search();
+                  }
+                  e.preventDefault();
+                }}
+              >
+                <div id={css.inputRow}>
+                  <div>
+                    <label htmlFor="subject">Fach auswählen</label>
+                    <div className={general.select_input_field}>
+                      <select
+                        name="subject"
+                        id=""
+                        className={general.select}
+                        onChange={(e) => {
+                          if (!isNaN(subjectIdFromName(e.target.value))) {
+                            setSubject(subjectIdFromName(e.target.value));
+                          }
+                        }}
+                      >
+                        <option value="">--- Fach wählen ---</option>
+                        <option value="" disabled>
+                          Beliebte Fächer
+                        </option>
+                        {subjects
+                          .filter((x) => topSubjects.indexOf(x.name) !== -1)
+                          .map((subject, index) => {
+                            return <option key={index}>{subject.name}</option>;
+                          })}
+                        <option value="" disabled>
+                          Weitere Fächer
+                        </option>
+                        {subjects
+                          .sort()
+                          .filter((x) => topSubjects.indexOf(x.name) === -1)
+                          .map((subject, index) => {
+                            return <option key={index}>{subject.name}</option>;
+                          })}
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="subject">Deine Stufe</label>
+                    <div className={general.select_input_field}>
+                      <select
+                        name=""
+                        id=""
+                        className={general.select}
+                        onChange={(e) => setGrade(e.target.value)}
+                      >
+                        <option value="">--- Stufe wählen ---</option>
+                        {grades.map((grade, index) => {
+                          return <option key={index}>{grade}</option>;
+                        })}
+                      </select>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <label htmlFor="subject">Deine Stufe</label>
-                <div className={general.select_input_field}>
-                  <select
-                    name=""
-                    id=""
-                    className={general.select}
-                    onChange={(e) => setGrade(e.target.value)}
-                  >
-                    <option value="">--- Stufe wählen ---</option>
-                    {grades.map((grade, index) => {
-                      return <option key={index}>{grade}</option>;
-                    })}
-                  </select>
-                </div>
-              </div>
+                <input
+                  type="submit"
+                  value="suchen 🚀"
+                  id={css.submit}
+                  disabled={!(grade && subject)}
+                />
+              </form>
             </div>
-            <input
-              type="submit"
-              value="suchen 🚀"
-              id={css.submit}
-              disabled={!(grade && subject)}
-            />
-          </form>
-        </div>
+          </Fragment>
+        ) : registrationState === RequestState.NotAsked ? (
+          <Fragment>
+            <h1>Registrieren</h1>
+            <p>
+              Um die Daten unserer Nutzer:innen zu schützen, müssen wir
+              verifizieren, dass du eine echte Person bist.
+            </p>
+            <p>
+              Gib dafür deine Schul-E-Mail-Adresse an, über die wir dir einen
+              Verifizierungscode zukommen lassen können.
+            </p>
+            <div id={css.stats}>
+              <Statistic
+                text="angebote"
+                value={(statsRequest.data || {}).offers}
+              />
+              <Statistic text="leute" value={(statsRequest.data || {}).users} />
+            </div>
+            {emailIsDuplicate ? (
+              <p style={{ color: "#e74c3c" }}>
+                Diese E-Mail wird schon verwendet!
+              </p>
+            ) : null}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setRegistrationState(RequestState.Loading);
+                fetch(`${API_HOST}/user/register`, {
+                  credentials: "include",
+                  headers: {
+                    "content-type": "application/json",
+                    "X-Frontend-Path": document.location.pathname,
+                  },
+                  method: "POST",
+                  body: JSON.stringify({
+                    email,
+                    grade: parseInt(userGradeS),
+                    intent: "/find", // to redirect the user to /find instead of the dashboard
+                  }),
+                }).then(async (res) => {
+                  let body;
+                  try {
+                    body = await res.json();
+                  } catch (e: any) {
+                    if (!res.ok) {
+                      Alert(
+                        `Irgendwas ist schiefgelaufen: ${res.status}`,
+                        "error",
+                        context.theme
+                      );
+                    } else {
+                    }
+                  }
+                  setRegistrationState(
+                    res.ok ? RequestState.Success : RequestState.Failure
+                  );
+                  if (!res.ok) {
+                    Alert(
+                      `Irgendwas ist schiefgelaufen (${res.status}): '${body.msg}'`,
+                      "error",
+                      context.theme
+                    );
+                  }
+                });
+              }}
+              id={css.registerForm}
+            >
+              <div>
+                <label htmlFor="grade">E-Mail-Adresse</label>
+                <input
+                  type="email"
+                  name="email"
+                  className={general["input-field"]}
+                  placeholder="john.doe@gymhaan.de"
+                  value={email}
+                  onChange={(e) => {
+                    let trimmed = e.target.value.trim();
+                    setEmail(trimmed);
+                    fetch(`${API_HOST}/user/email-available/${trimmed}`, {
+                      headers: {
+                        "X-Frontend-Path": document.location.pathname,
+                      },
+                    }).then(async (res) => {
+                      let body;
+                      try {
+                        body = await res.json();
+                      } catch (e: any) {
+                        if (res.status !== 409 && res.status !== 404) {
+                          Alert(
+                            `Fehler: ${res.status} - ${res.statusText}`,
+                            "error",
+                            context.theme
+                          );
+                        }
+                      }
+
+                      switch (res.status) {
+                        case 409:
+                          setEmailIsDuplicate(true);
+                          break;
+
+                        case 200:
+                          setEmailIsDuplicate(false);
+                          break;
+
+                        // if no parameter is specified, the path is /user/email-available/ with no parameter, which doesn't exist
+                        case 404:
+                          setEmailIsDuplicate(false);
+                          break;
+
+                        default:
+                          break;
+                      }
+                    });
+                  }}
+                />
+              </div>
+              <div>
+                <label htmlFor="grade">Stufe</label>
+                <input
+                  type="number"
+                  min="5"
+                  max="13"
+                  name="grade"
+                  className={general["input-field"]}
+                  placeholder="11"
+                  value={userGradeS}
+                  onChange={(e) => setUserGradeS(e.target.value)}
+                />
+              </div>
+              <div>
+                <input
+                  type="submit"
+                  value="Registrieren"
+                  className={general.text_button}
+                  disabled={
+                    !email ||
+                    !userGradeS ||
+                    parseInt(userGradeS) < 5 ||
+                    parseInt(userGradeS) > 13 ||
+                    emailIsDuplicate ||
+                    !email.endsWith("@gymhaan.de")
+                  }
+                />
+              </div>
+            </form>
+          </Fragment>
+        ) : registrationState === RequestState.Success ? (
+          <Fragment>
+            <h1>Registrierung erfolgreich!</h1>
+            <p>
+              Wir haben dir eine E-Mail an deine Schul-Mailbox{" "}
+              <a href="https://outlook.office365.com/mail/">bei Outlook</a>{" "}
+              geschickt.
+            </p>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <h1>Fehler</h1>
+            <p>Bei der Registrierung ist etwas schiefgegangen</p>
+            <Link to={"/"} className={general.text_button}>
+              Zurück
+            </Link>
+          </Fragment>
+        )}
       </div>
       <div id={css.resultsContainer}>
-        {requestState === RequestState.Success ? (
+        {offersRequestState === RequestState.Success ? (
           <Fragment>
             <span id={css.numResults}>
               {results.length > 0
@@ -247,23 +498,37 @@ const Find = (): JSX.Element => {
                 subjects={subjects}
               />
             ) : null}
-            {results.map((result, index) => (
-              <div className={css.result} key={index}>
-                <h2>
-                  {result.name}, Stufe/Klasse {result.grade}
-                </h2>
-                <p>{result.misc}</p>
-                <p className={css.email}>
-                  <a href={`mailto:${result.email}`}>{result.email}</a>
-                </p>
-                <p>
-                  {result.subjectName} bis Stufe/Klasse {result.maxGrade}
-                </p>
-              </div>
-            ))}
+            {results
+              .sort(() => Math.random())
+              .map((result, index) => (
+                <div className={css.result} key={index}>
+                  <h2>
+                    <Link to={`/user/${result.userId}`}>{result.name}</Link>,
+                    Stufe {result.grade}
+                  </h2>
+                  <p>{result.misc}</p>
+                  <p className={css.email}>
+                    <a href={`mailto:${result.email}`}>
+                      E-Mail: {result.email}
+                    </a>
+                  </p>
+                  <p>
+                    {result.subjectName} bis Stufe {result.maxGrade}
+                  </p>
+                  <div className={css.messengers}>
+                    <MessengerInfo
+                      hasDiscord={result.hasDiscord}
+                      discordUser={result.discordUser}
+                      hasSignal={result.hasSignal}
+                      hasWhatsapp={result.hasWhatsapp}
+                      phoneNumber={result.phoneNumber}
+                    />
+                  </div>
+                </div>
+              ))}
           </Fragment>
         ) : (
-          <LoadingScreen loaded={requestState !== RequestState.Loading} />
+          <LoadingScreen loaded={offersRequestState !== RequestState.Loading} />
         )}
         <LoadingScreen loaded={subjectsRequestState !== RequestState.Loading} />
       </div>
