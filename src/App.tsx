@@ -21,16 +21,26 @@ import { ToastContainer } from "react-toastify";
 import { User } from "./Models";
 import { UserPage } from "./pages/UserPage";
 import Verify from "./pages/Verify";
+import ApiDown from "./Components/ApiDown";
 
 const App = (): JSX.Element => {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [user, setUser] = useState<User | null>(null);
   const [width, setWidth] = useState(1920);
+  const [apiDown, setApiDown] = useState(false);
 
   const updateDimensions = () => {
     const _width = window.innerWidth;
     setWidth(_width);
   };
+
+  useEffect(() => {
+    fetch(`${API_HOST}/stats`)
+      .then((res) => {
+        setApiDown(!res.ok);
+      })
+      .catch(() => setApiDown(true));
+  }, []);
 
   useEffect(() => {
     // Rainbow Giant Styled Text
@@ -71,31 +81,35 @@ const App = (): JSX.Element => {
           width: width,
         }}
       >
-        <BrowserRouter>
-          <ScrollToTop />
-          <Navbar />
-          <div id="wrapper">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterTutorPage />} />
-              <Route
-                path="/register/:stepIndex"
-                element={<RegisterTutorPage />}
-              />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/imprint" element={<Imprint />} />
-              <Route path="/find" element={<Find />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/dashboard/admin" element={<AdminDashboard />} />
-              <Route path="/verify/:code" element={<Verify />} />
-              <Route path="/user/:id" element={<UserPage />} />
-              <Route path="*" element={<FourOFourPage />} />
-            </Routes>
-          </div>
-          <Footer />
-          <ToastContainer />
-        </BrowserRouter>
+        {!apiDown ? (
+          <BrowserRouter>
+            <ScrollToTop />
+            <Navbar />
+            <div id="wrapper">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterTutorPage />} />
+                <Route
+                  path="/register/:stepIndex"
+                  element={<RegisterTutorPage />}
+                />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/imprint" element={<Imprint />} />
+                <Route path="/find" element={<Find />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/dashboard/admin" element={<AdminDashboard />} />
+                <Route path="/verify/:code" element={<Verify />} />
+                <Route path="/user/:id" element={<UserPage />} />
+                <Route path="*" element={<FourOFourPage />} />
+              </Routes>
+            </div>
+            <Footer />
+            <ToastContainer />
+          </BrowserRouter>
+        ) : (
+          <ApiDown />
+        )}
       </OurContext.Provider>
     </div>
   );
