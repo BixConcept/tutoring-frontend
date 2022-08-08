@@ -75,9 +75,15 @@ export default function Navbar() {
               <Link to="/dashboard">Mein Account</Link>
             )}
           </li>
-          {context.user?.authLevel === AuthLevel.Admin || localStorage.getItem("wantsStatsBaby") ? (
+          {context.user !== null &&
+          (context.user?.authLevel === AuthLevel.Admin ||
+            localStorage.getItem("wantsStatsBaby")) ? (
             <li>
-              <Link to="/dashboard/admin">{context.user?.authLevel === AuthLevel.Admin ? "Admin" : "Statistiken"}</Link>
+              <Link to="/dashboard/admin">
+                {context.user?.authLevel === AuthLevel.Admin
+                  ? "Admin"
+                  : "Statistiken"}
+              </Link>
             </li>
           ) : null}
         </div>
