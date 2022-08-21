@@ -127,9 +127,22 @@
     }
   }
 
-  #numResults {
-    font-weight: bold;
-    font-size: 16pt;
+  #textAndSort {
+    display: flex;
+    width: 35rem;
+    justify-content: space-between;
+    align-items: center;
+
+    #numResults {
+      font-weight: bold;
+      font-size: 16pt;
+    }
+
+    #sortMethod {
+      div {
+        width: 10rem;
+      }
+    }
   }
 }
 

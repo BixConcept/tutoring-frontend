@@ -89,6 +89,14 @@ function RequestForm(props: {
   );
 }
 
+type SortMethod =
+  | "random"
+  | "registrationdateAsc"
+  | "registrationdateDesc"
+  | "proficiencyDesc"
+  | "ageDesc"
+  | "ageAsc";
+
 const Find = (): JSX.Element => {
   document.title = "Nachhilfe finden";
 
@@ -102,6 +110,8 @@ const Find = (): JSX.Element => {
   const [offersRequestState, setOffersRequestState] = useState<RequestState>(
     RequestState.NotAsked
   );
+
+  const [offerSortMethod, setOfferSortMethod] = useState<SortMethod>("random");
   const [subjectsRequestState, setSubjectsRequestState] =
     useState<RequestState>(RequestState.Loading);
   const [userRequestState, setUserRequestState] = useState<RequestState>(
@@ -265,6 +275,7 @@ const Find = (): JSX.Element => {
                         onChange={(e) => {
                           if (!isNaN(subjectIdFromName(e.target.value))) {
                             setSubject(subjectIdFromName(e.target.value));
+                            setOffersRequestState(RequestState.NotAsked); // so it doesn't show that there are no offers before actually loading them
                           }
                         }}
                       >
@@ -296,7 +307,10 @@ const Find = (): JSX.Element => {
                         name=""
                         id=""
                         className={general.select}
-                        onChange={(e) => setGrade(e.target.value)}
+                        onChange={(e) => {
+                          setGrade(e.target.value);
+                          setOffersRequestState(RequestState.NotAsked); // so it doesn't show that there are no offers before actually loading them
+                        }}
                       >
                         <option value="">--- Stufe wählen ---</option>
                         {grades.map((grade, index) => {
@@ -484,13 +498,32 @@ const Find = (): JSX.Element => {
       <div id={css.resultsContainer}>
         {offersRequestState === RequestState.Success ? (
           <Fragment>
-            <span id={css.numResults}>
-              {results.length > 0
-                ? `🎉 Es gibt ${results.length} ${
-                    results.length > 1 ? "Ergebnisse" : "Ergebnis"
-                  } 🎉`
-                : `Leider gibt es keine Ergebnisse 😔`}
-            </span>
+            <div id={css.textAndSort}>
+              <span id={css.numResults}>
+                {results.length > 0
+                  ? `🎉 Es gibt ${results.length} ${
+                      results.length > 1 ? "Ergebnisse" : "Ergebnis"
+                    } 🎉`
+                  : `Leider gibt es keine Ergebnisse 😔`}
+              </span>
+              <div id={css.sortMethod}>
+                <div className={general.select_input_field}>
+                  <select
+                    className={general.select}
+                    onChange={(e) =>
+                      setOfferSortMethod(e.target.value as SortMethod)
+                    }
+                  >
+                    <option value="random">Zufällig sortieren</option>
+                    <option value="proficiencyDesc">
+                      Erfahrung (absteigend)
+                    </option>
+                    <option value="ageAsc">Alter (aufsteigend)</option>
+                    <option value="ageDesc">Alter (absteigend)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
             {results.length === 0 ? (
               <RequestForm
                 grade={parseInt(grade)}
@@ -498,34 +531,47 @@ const Find = (): JSX.Element => {
                 subjects={subjects}
               />
             ) : null}
-            {results
-              .sort(() => Math.random())
-              .map((result, index) => (
-                <div className={css.result} key={index}>
-                  <h2>
-                    <Link to={`/user/${result.userId}`}>{result.name}</Link>,
-                    Stufe {result.grade}
-                  </h2>
-                  <p>{result.misc}</p>
-                  <p className={css.email}>
-                    <a href={`mailto:${result.email}`}>
-                      E-Mail: {result.email}
-                    </a>
-                  </p>
-                  <p>
-                    {result.subjectName} bis Stufe {result.maxGrade}
-                  </p>
-                  <div className={css.messengers}>
-                    <MessengerInfo
-                      hasDiscord={result.hasDiscord}
-                      discordUser={result.discordUser}
-                      hasSignal={result.hasSignal}
-                      hasWhatsapp={result.hasWhatsapp}
-                      phoneNumber={result.phoneNumber}
-                    />
+            <Fragment>
+              {results
+                .sort((a: TutoringOffer, b: TutoringOffer): number => {
+                  switch (offerSortMethod) {
+                    case "ageDesc":
+                      return b.grade - a.grade;
+                    case "ageAsc":
+                      return a.grade - b.grade;
+                    case "proficiencyDesc":
+                      return b.maxGrade - a.maxGrade;
+                    default:
+                      return Math.random() - 0.5;
+                  }
+                })
+                .map((result, index) => (
+                  <div className={css.result} key={index}>
+                    <h2>
+                      <Link to={`/user/${result.userId}`}>{result.name}</Link>,
+                      Stufe {result.grade}
+                    </h2>
+                    <p>{result.misc}</p>
+                    <p className={css.email}>
+                      <a href={`mailto:${result.email}`}>
+                        E-Mail: {result.email}
+                      </a>
+                    </p>
+                    <p>
+                      {result.subjectName} bis Stufe {result.maxGrade}
+                    </p>
+                    <div className={css.messengers}>
+                      <MessengerInfo
+                        hasDiscord={result.hasDiscord}
+                        discordUser={result.discordUser}
+                        hasSignal={result.hasSignal}
+                        hasWhatsapp={result.hasWhatsapp}
+                        phoneNumber={result.phoneNumber}
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+            </Fragment>
           </Fragment>
         ) : (
           <LoadingScreen loaded={offersRequestState !== RequestState.Loading} />
