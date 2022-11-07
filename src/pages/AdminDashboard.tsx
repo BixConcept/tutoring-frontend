@@ -86,7 +86,7 @@ const ActivityGraph = (props: {
   const { data: requests } = props;
   const [data, setData] = useState<any[]>([]);
   const context = useContext(OurContext);
-  const [days, setDays] = useState<number>(props.data.length);
+  const [days, setDays] = useState<number>(props.data.length+1);
 
   useEffect(() => {
     setData([
@@ -110,7 +110,7 @@ const ActivityGraph = (props: {
   }, [requests, days]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    setDays(props.data.length);
+    setDays(props.data.length+1);
   }, [requests])
 
   return (
