@@ -544,6 +544,7 @@ function GenericPieChart(props: {
   data: { [key: string]: number };
   requestState: RequestState;
   id: string;
+  ignoreNull?: boolean;
 }): JSX.Element {
   const [data, setData] = useState<any>({});
   useEffect(() => {
@@ -552,9 +553,16 @@ function GenericPieChart(props: {
       0
     );
     setData(
-      Object.keys(props.data)
+      Object.keys(props.data).filter((x) => {
+        // ignores null values
+        if (props.ignoreNull && x === "null") {
+          return false
+        } else {
+          return true
+        }
+      })
         .map((x) => {
-          return { id: x, label: "ASDF", value: props.data[x] };
+          return {id: x, label: "ASDF", value: props.data[x]};
         })
         .sort((a, b) => b.value - a.value)
         .filter((x) => x.value >= 0.01 * total) // at least one percent
@@ -835,6 +843,7 @@ export default function AdminDashboard() {
             <GenericPieChart
               id={css.pathChart}
               data={pathsRequest.data}
+              ignoreNull={true}
               requestState={pathsRequest.state}
             />
           </div>
