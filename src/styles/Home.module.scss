@@ -24,9 +24,9 @@
     background-image: url("../assets/images/background.webp");
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: 10%;
+    background-position: center 10%;
 
-    min-height: 25rem;
+    min-height: calc(100vh - 5rem);
     width: 100%;
 
     color: white;
@@ -144,10 +144,6 @@
 @media screen and (min-width: 2101px) {
   #applySection {
     padding: 5rem 20rem;
-
-    .applyFlexContainer {
-      align-items: space-between;
-    }
   }
 
   #choices {
@@ -242,5 +238,10 @@
 @media screen and (max-width: 800px) {
   #applySection {
     padding: 2rem;
+  }
+}
+@media screen and (max-width: 600px) {
+  #mainThingy {
+    min-height: 30rem !important;
   }
 }
