@@ -83,3 +83,80 @@
     margin-top: 2rem;
   }
 }
+
+#contributeSection {
+  background-color: var(--background_color);
+  padding: 6rem 20rem;
+
+  display: grid;
+  grid-template-columns: 30% 70%;
+
+  color: white;
+
+  font-size: 16pt;
+
+  #contributeIcon {
+    display: flex;
+    justify-content: center;
+    padding-top: 5rem;
+
+    svg {
+      width: 7rem;
+      height: 7rem;
+    }
+  }
+
+  #contributeContent {
+    h2 {
+      font-size: 32pt;
+    }
+
+    p {
+      margin-top: 2rem;
+    }
+
+    #contributeMoreInfo {
+      background-color: var(--contrast_bg_color);
+      width: 15rem;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-left: auto;
+      margin-top: 2rem;
+
+      svg {
+        margin-left: 5px;
+      }
+    }
+
+    h3 {
+      font-size: 24pt;
+    }
+
+    #contributors {
+      margin-top: 1rem;
+      display: inline-grid;
+      grid-template-columns: repeat(5, 1fr);
+
+      gap: 1rem;
+
+      flex-shrink: 1;
+
+      .contributor {
+        width: 4rem;
+        height: 4rem;
+
+        border-radius: 4rem;
+      }
+
+      #contributorYou {
+        background-color: var(--contrast_bg_color);
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+
+        font-size: 12pt;
+      }
+    }
+  }
+}
