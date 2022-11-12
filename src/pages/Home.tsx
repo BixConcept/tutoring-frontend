@@ -17,6 +17,7 @@ const Home = (): JSX.Element => {
     avatar_url: string;
     url: string;
     contributions: number;
+    type: "User" | "Bot";
   }
 
   const [contributorsLoading, setContributorsLoading] = useState(true);
@@ -37,15 +38,17 @@ const Home = (): JSX.Element => {
         )
       ).json();
 
-      let merged = [...frontendRes, ...backendRes].reduce((prev, current) => {
-        if (
-          prev.filter((x: Contributor) => x.login === current.login).length ===
-          0
-        ) {
-          return [...prev, current];
-        }
-        return prev;
-      }, []);
+      let merged = [...frontendRes, ...backendRes]
+        .filter((contributor) => contributor.type === "User")
+        .reduce((prev, current) => {
+          if (
+            prev.filter((x: Contributor) => x.login === current.login)
+              .length === 0
+          ) {
+            return [...prev, current];
+          }
+          return prev;
+        }, []);
 
       setContributors(merged);
     } catch (e) {
