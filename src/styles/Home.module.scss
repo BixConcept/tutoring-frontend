@@ -26,3 +26,33 @@
     color: white;
   }
 }
+
+#applySection {
+  background-color: var(--background_color);
+  padding: 6rem 30rem;
+
+  .applyFlexContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 2rem;
+
+    .choice {
+      background-color: var(--contrast_bg_color);
+      height: 10rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 1rem;
+
+      a {
+        text-decoration: none;
+
+        h1 {
+          font-size: 24pt;
+        }
+      }
+    }
+  }
+}
