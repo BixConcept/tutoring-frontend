@@ -1,6 +1,8 @@
 import ExternalLink from "../Components/ExternalLink";
 import { Link } from "react-router-dom";
 import css from "../styles/Home.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWrench, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Home = (): JSX.Element => {
   document.title = "Nachhilfe GymHaan";
@@ -31,7 +33,24 @@ const Home = (): JSX.Element => {
           </div>
         </div>
       </section>
-      <section id={css.infoSection}></section>
+      <section id={css.infoSection}>
+        <div id={css.infoText}>
+          <p>
+            Für die Benutzung dieser Seite kannst du dich ganz einfach mit
+            deiner Schul-Email registrieren.
+          </p>
+          <p>
+            Durch die Nutzung dieser Seite erklärst du dich mit den
+            Datenschutzbestimmungen einverstanden.
+          </p>
+          <p>
+            <a href="https://instagram.com/sv.gymhaan">Link zur SV</a>
+          </p>
+        </div>
+        <div id={css.infoIcon}>
+          <FontAwesomeIcon icon={faInfoCircle} />
+        </div>
+      </section>
       <section id={css.contributeSection}></section>
     </main>
   );

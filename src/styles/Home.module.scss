@@ -56,3 +56,30 @@
     }
   }
 }
+
+#infoSection {
+  background-color: var(--contrast_bg_color);
+  padding: 6rem 20rem;
+
+  display: grid;
+  grid-template-columns: 70% 30%;
+
+  color: white;
+
+  font-size: 16pt;
+
+  #infoIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      width: 7rem;
+      height: 7rem;
+    }
+  }
+
+  p {
+    margin-top: 2rem;
+  }
+}
