@@ -39,16 +39,30 @@ const Home = (): JSX.Element => {
       ).json();
 
       let merged = [...frontendRes, ...backendRes]
+
+        // only human contributors
         .filter((contributor) => contributor.type === "User")
+        // remove duplicates (people who worked on both )
         .reduce((prev, current) => {
-          if (
-            prev.filter((x: Contributor) => x.login === current.login)
-              .length === 0
-          ) {
+          let index = 0;
+          const filtered = prev.filter((x: Contributor, i: number) => {
+            if (x.login === current.login) {
+              index = i;
+            }
+            return x.login === current.login;
+          });
+          if (filtered.length === 0) {
             return [...prev, current];
+          } else {
+            // add contributions from both projects
+            const copy = prev;
+            prev[index].contributions += current.contributions;
+            return copy;
           }
-          return prev;
-        }, []);
+        }, [])
+        .sort(
+          (a: Contributor, b: Contributor) => b.contributions - a.contributions
+        );
 
       setContributors(merged);
     } catch (e) {
@@ -128,18 +142,21 @@ const Home = (): JSX.Element => {
           </Link>
 
           <h3>Contributors 🧑‍🚀</h3>
-          <p>Danke an alle, die hieran irgendwie mitgeholfen haben &lt;3</p>
+          <p>Danke an alle, die hieran mitgeholfen haben &lt;3</p>
           <div id={css.contributors}>
             {contributorsLoading ? (
               <span>Loading</span>
             ) : (
               <>
                 {contributors.map((contributor) => (
-                  <a href={contributor.url}>
+                  <a
+                    href={contributor.url}
+                    title={`${contributor.login} (${contributor.contributions} contributions)`}
+                  >
                     <img
                       className={css.contributor}
                       src={contributor.avatar_url}
-                      alt={contributor.login}
+                      alt={`${contributor.login} (${contributor.contributions} contributions)`}
                     ></img>
                   </a>
                 ))}
