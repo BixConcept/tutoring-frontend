@@ -7,51 +7,32 @@ const Home = (): JSX.Element => {
 
   return (
     <main id={css.main}>
-      <section id={css.mainThingy}>
+      <section id={css.header}>
         <div id={css.title}>
           <h1>
-            <span className={css.backdrop}>sv nachhilfeplattform</span>
+            <span className={css.backdrop}>Nachhilfeplattform</span>
           </h1>
         </div>
+        <div id={css.scrollDown}>SCROLL</div>
       </section>
       <section id={css.applySection}>
         <div className={css.applyFlexContainer}>
-          <div className={css.informationText}>
-            <p>
-              Für die Benutzung dieser Seite kannst du dich ganz einfach mit
-              deiner Schul-Email registrieren.
-            </p>
-            <p>
-              Durch die Nutzung dieser Seite erklärst du dich mit den{" "}
-              <Link to="/privacy" className={css.link}>
-                Datenschutzbestimmungen
-              </Link>{" "}
-              einverstanden.
-            </p>
-            <p>
-              <a href="https://instagram.com/sv.gymhaan">
-                Link zur SV <ExternalLink />
-              </a>
-            </p>
+          <div className={css.choice}>
+            <Link to="/find">
+              <h1>Nachhilfe finden</h1>
+            </Link>
           </div>
-          <div id={css.choices}>
-            <div className={css.choice}>
-              <Link to="/find">
-                <h1>
-                  <span className={css.backdrop}>Nachhilfe finden</span>
-                </h1>
-              </Link>
-            </div>
-            <div className={css.choice}>
-              <Link to="/register">
-                <h1>
-                  <span className={css.backdrop}>Nachhilfe geben</span>
-                </h1>
-              </Link>
-            </div>
+          <div className={css.choice}>
+            <Link to="/register">
+              <h1>
+                <span className={css.backdrop}>Nachhilfe geben</span>
+              </h1>
+            </Link>
           </div>
         </div>
       </section>
+      <section id={css.infoSection}></section>
+      <section id={css.contributeSection}></section>
     </main>
   );
 };

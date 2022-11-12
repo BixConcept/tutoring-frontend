@@ -1,247 +1,28 @@
 @import "general.module.scss";
 
-#main {
-  width: 100%;
-  min-height: 60vh;
+#header {
+  background-image: url("../assets/images/background.webp");
+  height: calc(100vh - 5rem);
+  background-size: cover;
 
   display: flex;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
 
-  p {
-    font-size: 1.2rem;
-    margin: 0.3rem 0;
+  #title {
+    h1 {
+      color: white;
+      font-size: 64pt;
+
+      background-color: $primary_color;
+      padding: 1rem;
+    }
   }
 
-  a {
-    text-decoration: underline;
-  }
-
-  a:visited {
-    color: var(--text_color);
-  }
-  #mainThingy {
-    background-image: url("../assets/images/background.webp");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center 10%;
-
-    min-height: calc(100vh - 5rem);
-    width: 100%;
-
+  #scrollDown {
+    position: absolute;
+    bottom: 30px;
     color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    #title {
-      h1 {
-        margin: 0;
-        /*font-size: 100pt;*/
-        font-size: clamp(2rem, 5vw, 4rem);
-        font-weight: bold;
-        color: #f1f2f6;
-        hyphens: auto;
-        text-align: center;
-      }
-    }
-  }
-}
-
-.link {
-  text-decoration: underline;
-}
-
-#applySection {
-  background-color: var(--background_color);
-  color: var(--text_color);
-}
-
-#issue-link {
-  text-decoration: underline;
-}
-
-#applySection {
-  background-color: var(--background_color);
-  color: var(--text_color);
-}
-
-.applyFlexContainer {
-  display: flex;
-  flex-direction: row;
-}
-
-.informationText {
-  flex: 3;
-  display: flex;
-
-  flex-direction: column;
-
-  p {
-    color: var(--text_color);
-    line-height: 2rem;
-  }
-}
-
-.backdrop {
-  /*replace px*/
-  padding: 0 5px;
-  background: linear-gradient(
-      transparent,
-      transparent 42%,
-      $primary_color 0,
-      $primary_color 90%,
-      transparent 0
-    )
-    no-repeat;
-}
-
-#choices {
-  flex: 2;
-
-  display: flex;
-  flex-direction: column;
-
-  .choice {
-    cursor: pointer;
-    background-color: var(--contrast_bg_color);
-    border-radius: 0.5rem;
-    -moz-box-shadow: inset 0 0 2px #c9c9c9;
-    -webkit-box-shadow: inset 0 0 2px #c9c9c9;
-    box-shadow: inset 0 0 2px #c9c9c9;
-
-    text-align: center;
-
-    margin: 1rem;
-    padding: 1rem;
-
-    margin-left: 3rem;
-    margin-right: 0;
-
-    flex: 1;
-
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-
-    h1 {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin: 1rem 0;
-    }
-
-    * {
-      flex: 1; // to make the icon reach the bottom
-    }
-
-    a {
-      text-decoration: none;
-      color: var(--text_color);
-    }
-  }
-}
-
-@media screen and (min-width: 2101px) {
-  #applySection {
-    padding: 5rem 20rem;
-  }
-
-  #choices {
-    flex-direction: row;
-    a {
-      display: flex;
-      align-items: center;
-    }
-    h1 {
-      text-align: center;
-    }
-  }
-}
-
-@media screen and (max-width: 2100px) and (min-width: 1801px) {
-  #choices {
-    flex-direction: column;
-    a {
-      display: flex;
-      align-items: center;
-    }
-    h1 {
-      text-align: center;
-    }
-  }
-
-  #applySection {
-    padding: 5rem 10rem;
-  }
-}
-
-@media screen and (max-width: 1800px) and (min-width: 1301px) {
-  #mainThingy {
-    flex-direction: column;
-    padding: 3rem;
-    #title h1 {
-      font-size: 70pt;
-    }
-  }
-
-  #choices {
-    flex-direction: column;
-
-    a {
-      display: flex;
-      align-items: center;
-    }
-    h1 {
-      text-align: center;
-    }
-  }
-
-  #applySection {
-    padding: 5rem 10rem;
-  }
-}
-
-@media screen and (max-width: 1300px) {
-  #mainThingy {
-    flex-direction: column;
-    padding: 2rem;
-    #title h1 {
-      font-size: 50pt;
-    }
-  }
-  .applyFlexContainer {
-    flex-direction: column-reverse;
-  }
-
-  #choices {
-    flex: 1;
-    margin: 0;
-
-    padding: 0;
-
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    row-gap: 1rem;
-
-    .choice {
-      margin: 0;
-      width: 100%;
-    }
-
-    flex-direction: row;
-  }
-  #applySection {
-    padding: 5rem 2rem;
-  }
-}
-
-@media screen and (max-width: 800px) {
-  #applySection {
-    padding: 2rem;
-  }
-}
-@media screen and (max-width: 600px) {
-  #mainThingy {
-    min-height: 30rem !important;
   }
 }
