@@ -80,7 +80,9 @@ const Home = (): JSX.Element => {
       <section id={css.header}>
         <div id={css.title}>
           <h1>
-            <span className={css.backdrop}>Nachhilfeplattform</span>
+            <span className={css.backdrop}>
+              Nach&shy;hil&shy;fe&shy;plat&shy;tform
+            </span>
           </h1>
         </div>
         <div id={css.scrollDown}>SCROLL</div>
@@ -102,71 +104,75 @@ const Home = (): JSX.Element => {
         </div>
       </section>
       <section id={css.infoSection}>
-        <div id={css.infoText}>
-          <p>
-            Für die Benutzung dieser Seite kannst du dich ganz einfach mit
-            deiner Schul-Email registrieren.
-          </p>
-          <p>
-            Durch die Nutzung dieser Seite erklärst du dich mit den
-            Datenschutzbestimmungen einverstanden.
-          </p>
-          <p>
-            <a href="https://instagram.com/sv.gymhaan">Link zur SV</a>
-          </p>
-        </div>
-        <div id={css.infoIcon}>
-          <FontAwesomeIcon icon={faInfoCircle} />
+        <div id={css.infoContent}>
+          <div id={css.infoText}>
+            <p>
+              Für die Benutzung dieser Seite kannst du dich ganz einfach mit
+              deiner Schul-Email registrieren.
+            </p>
+            <p>
+              Durch die Nutzung dieser Seite erklärst du dich mit den
+              Datenschutzbestimmungen einverstanden.
+            </p>
+            <p>
+              <a href="https://instagram.com/sv.gymhaan">Link zur SV</a>
+            </p>
+          </div>
+          <div id={css.infoIcon}>
+            <FontAwesomeIcon icon={faInfoCircle} />
+          </div>
         </div>
       </section>
       <section id={css.contributeSection}>
-        <div id={css.contributeIcon}>
-          <FontAwesomeIcon icon={faWrench} />
-        </div>
-        <div id={css.contributeContent}>
-          <h2>Mitmachen</h2>
-          <p>
-            Dieses Projekt wird von Schüler:innen geleitet. Wenn du Interesse an
-            Full-Stack-Entwicklung mit einem React+Typescript Frontend- und/oder
-            einem Express.js+TypeScript Backend-Stack hast, kannst du einfach
-            ein Issue finden und einen PR einreichen.
-          </p>
-          <p>
-            Auch Features-Requests, Bug-Reports oder sonstiges Feedback sind
-            immer erwünscht.
-          </p>
-          <Link to="/contribute">
-            <div id={css.contributeMoreInfo}>
-              Mehr Infos <FontAwesomeIcon icon={faLongArrowAltRight} />
-            </div>
-          </Link>
+        <div id={css.contributeContainer}>
+          <div id={css.contributeIcon}>
+            <FontAwesomeIcon icon={faWrench} />
+          </div>
+          <div id={css.contributeContent}>
+            <h2>Mitmachen</h2>
+            <p>
+              Dieses Projekt wird von Schüler:innen geleitet. Wenn du Interesse
+              an Full-Stack-Entwicklung mit einem React+Typescript Frontend-
+              und/oder einem Express.js+TypeScript Backend-Stack hast, kannst du
+              einfach ein Issue finden und einen PR einreichen.
+            </p>
+            <p>
+              Auch Features-Requests, Bug-Reports oder sonstiges Feedback sind
+              immer erwünscht.
+            </p>
+            <Link to="/contribute">
+              <div id={css.contributeMoreInfo}>
+                Mehr Infos <FontAwesomeIcon icon={faLongArrowAltRight} />
+              </div>
+            </Link>
 
-          <h3>Contributors 🧑‍🚀</h3>
-          <p>Danke an alle, die hieran mitgeholfen haben &lt;3</p>
-          <div id={css.contributors}>
-            {contributorsLoading ? (
-              <span>Loading</span>
-            ) : (
-              <>
-                {contributors.map((contributor) => (
-                  <a
-                    href={contributor.url}
-                    title={`${contributor.login} (${contributor.contributions} contributions)`}
-                  >
-                    <img
-                      className={css.contributor}
-                      src={contributor.avatar_url}
-                      alt={`${contributor.login} (${contributor.contributions} contributions)`}
-                    ></img>
-                  </a>
-                ))}
-                <Link to="/contribute">
-                  <div id={css.contributorYou} className={css.contributor}>
-                    du?
-                  </div>
-                </Link>
-              </>
-            )}
+            <h3>Contributors 🧑‍🚀</h3>
+            <p>Danke an alle, die hieran mitgeholfen haben &lt;3</p>
+            <div id={css.contributors}>
+              {contributorsLoading ? (
+                <span>Loading</span>
+              ) : (
+                <>
+                  {contributors.map((contributor) => (
+                    <a
+                      href={contributor.url}
+                      title={`${contributor.login} (${contributor.contributions} contributions)`}
+                    >
+                      <img
+                        className={css.contributor}
+                        src={contributor.avatar_url}
+                        alt={`${contributor.login} (${contributor.contributions} contributions)`}
+                      ></img>
+                    </a>
+                  ))}
+                  <Link to="/contribute">
+                    <div id={css.contributorYou} className={css.contributor}>
+                      du?
+                    </div>
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </section>
