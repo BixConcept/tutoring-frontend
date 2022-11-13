@@ -17,8 +17,8 @@ nav {
 
     font-weight: bold;
 
-    padding: 0 20rem;
-    margin: 0;
+    margin: 0 auto;
+    width: min(90%, 1000px);
 
     #logo {
       color: var(--disabled_color);

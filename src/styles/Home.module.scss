@@ -11,12 +11,22 @@
   flex-direction: column;
 
   #title {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     h1 {
       color: white;
       font-size: 64pt;
 
       background-color: $primary_color;
       padding: 1rem;
+    }
+
+    h2 {
+      color: white;
+      font-weight: 300;
+      font-size: 32pt;
+      margin: 0 auto;
     }
   }
 
@@ -186,6 +196,12 @@
       h1 {
         font-size: clamp(24px, 5vw, 44px);
         text-align: left;
+      }
+
+      h2 {
+        text-align: left;
+        font-size: clamp(18px, 3vw, 32px);
+        margin: 0;
       }
     }
   }

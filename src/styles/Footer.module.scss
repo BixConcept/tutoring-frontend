@@ -6,9 +6,9 @@
   ul {
     display: flex;
 
-    padding: 0 10rem;
+    margin: 0 auto;
     height: 100%;
-    margin: 0;
+    width: min(1000px, 90%);
 
     justify-content: space-between;
     align-items: center;
@@ -58,19 +58,5 @@
       padding-top: 0.5rem;
       border-top: solid var(--disabled_color) 1px;
     }
-  }
-}
-
-@media screen and (min-width: 2101px) {
-  .footer {
-    ul {
-      padding: 0 20rem;
-    }
-  }
-}
-
-@media screen and (max-width: 800px) {
-  .footer ul {
-    padding: 0 2rem;
   }
 }
