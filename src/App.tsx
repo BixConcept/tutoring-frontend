@@ -23,12 +23,17 @@ import { UserPage } from "./pages/UserPage";
 import Verify from "./pages/Verify";
 import ApiDown from "./Components/ApiDown";
 import Contribute from "./pages/Contribute";
+import { useMediaPredicate } from "react-media-hook";
 
 const App = (): JSX.Element => {
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [user, setUser] = useState<User | null>(null);
   const [width, setWidth] = useState(1920);
   const [apiDown, setApiDown] = useState(false);
+  const preferredTheme = useMediaPredicate("(prefers-color-scheme: dark)")
+    ? "dark"
+    : "light";
+  console.log(preferredTheme);
+  const [theme, setTheme] = useState<"dark" | "light">(preferredTheme);
 
   const updateDimensions = () => {
     const _width = window.innerWidth;

@@ -7,11 +7,7 @@ const Footer = (): JSX.Element => {
   return (
     <footer className={css.footer}>
       <ul>
-        <li>
-          <a href="https://github.com/BixConcept/tutoring-frontend">
-            Source Code <FontAwesomeIcon icon={faGithub} />
-          </a>
-        </li>
+        <li></li>
         <li className={css.topLine}>
           <Link to="/contribute">Mitmachen</Link>{" "}
         </li>

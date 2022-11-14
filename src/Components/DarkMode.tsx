@@ -3,10 +3,14 @@ import { useContext, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { OurContext } from "../OurContext";
+import { useMediaPredicate } from "react-media-hook";
 
 const DarkMode = () => {
   const body = document.body;
   const context = useContext(OurContext);
+  const preferredTheme = useMediaPredicate("(prefers-color-scheme: dark)")
+    ? "dark"
+    : "light";
 
   useEffect(() => {
     if (localStorage) {
@@ -15,9 +19,9 @@ const DarkMode = () => {
         body.classList.add(value);
         context.setTheme(value);
       } else {
-        body.classList.add("dark");
-        localStorage.setItem("theme", "dark");
-        context.setTheme("dark");
+        body.classList.add(preferredTheme);
+        localStorage.setItem("theme", preferredTheme);
+        context.setTheme(preferredTheme);
       }
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
