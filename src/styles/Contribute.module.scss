@@ -62,6 +62,17 @@
       p {
         margin-left: 4rem;
       }
+
+      .contributorName {
+        font-weight: bold;
+        width: 40%;
+        text-align: left;
+      }
+      .contributorCommitCount {
+        width: 30%;
+        text-align: left;
+        font-weight: 200;
+      }
     }
     a {
       text-decoration: none;
@@ -84,6 +95,23 @@
 
     .repo {
       flex: auto;
+    }
+  }
+
+  #contributors {
+    .contributor {
+      flex-direction: column;
+      padding: 2rem 1rem !important;
+      justify-content: center;
+      img {
+        margin-bottom: 1rem;
+      }
+
+      p {
+        margin: 0 !important;
+        text-align: center !important;
+        width: 100% !important;
+      }
     }
   }
 }

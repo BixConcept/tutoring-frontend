@@ -131,11 +131,12 @@ const Contribute = (): JSX.Element => {
                     src={contributor.avatar_url}
                     alt={`${contributor.login}s profilbild'`}
                   />
-                  <div className={css.gap} />
                   <p className={css.contributorName}>
                     {(usernameToRealName[contributor.login] as string) ||
                       contributor.login}{" "}
-                    ({contributor.contributions} commits)
+                  </p>
+                  <p className={css.contributorCommitCount}>
+                    {contributor.contributions} commits
                   </p>
                 </div>
               </a>
