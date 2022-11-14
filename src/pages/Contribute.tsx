@@ -12,12 +12,6 @@ import { useEffect, useState } from "react";
 import Page from "../Components/Page";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
-// add your username here if you'd like to have your name on the page
-const usernameToRealName: { [key: string]: string } = {
-  "3nt3": "Nia Schlegel, Q2",
-  durek1337: "Hr. Höltgen",
-} as const;
-
 const Contribute = (): JSX.Element => {
   document.title = "Nachhilfe GymHaan";
 
@@ -31,6 +25,9 @@ const Contribute = (): JSX.Element => {
 
   const [contributorsLoading, setContributorsLoading] = useState(true);
   const [contributors, setContributors] = useState<Contributor[]>([]);
+
+  const [realNamesLoading, setRealNamesLoading] = useState(true);
+  const [realNames, setRealNames] = useState<{ [key: string]: string }>({});
 
   async function fetchContributors() {
     setContributorsLoading(true);
@@ -80,8 +77,25 @@ const Contribute = (): JSX.Element => {
     setContributorsLoading(false);
   }
 
+  async function fetchRealNames() {
+    setRealNamesLoading(true);
+    try {
+      setRealNames(
+        await (
+          await fetch(
+            "https://raw.githubusercontent.com/BixConcept/tutoring-frontend/main/src/pages/real_names.json"
+          )
+        ).json()
+      );
+    } catch (e) {
+      setRealNames({});
+    }
+    setRealNamesLoading(true);
+  }
+
   useEffect(() => {
     fetchContributors();
+    fetchRealNames();
   }, []);
 
   return (
@@ -132,7 +146,7 @@ const Contribute = (): JSX.Element => {
                     alt={`${contributor.login}s profilbild'`}
                   />
                   <p className={css.contributorName}>
-                    {(usernameToRealName[contributor.login] as string) ||
+                    {(realNames[contributor.login] as string) ||
                       contributor.login}{" "}
                   </p>
                   <p className={css.contributorCommitCount}>
