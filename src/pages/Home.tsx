@@ -15,7 +15,7 @@ const Home = (): JSX.Element => {
   interface Contributor {
     login: string;
     avatar_url: string;
-    url: string;
+    html_url: string;
     contributions: number;
     type: "User" | "Bot";
   }
@@ -156,7 +156,7 @@ const Home = (): JSX.Element => {
                 <>
                   {contributors.map((contributor) => (
                     <a
-                      href={contributor.url}
+                      href={contributor.html_url}
                       title={`${contributor.login} (${contributor.contributions} contributions)`}
                     >
                       <img
