@@ -13,6 +13,9 @@ const Footer = (): JSX.Element => {
           </a>
         </li>
         <li className={css.topLine}>
+          <Link to="/contribute">Mitmachen</Link>{" "}
+        </li>
+        <li className={css.topLine}>
           <a href="https://github.com/BixConcept/tutoring-frontend/blob/main/LICENSE">
             Lizenz
           </a>

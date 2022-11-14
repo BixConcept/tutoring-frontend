@@ -19,32 +19,10 @@
   #content {
     color: var(--text_color);
     font-size: 1.2rem;
-  }
 
-  #content.nocenter {
-    width: 100%;
-  }
-}
+    width: min(90%, 1000px);
+    margin: 0 auto;
 
-@media screen and (min-width: 2101px) {
-  #content {
-    padding: 2rem 20rem;
-  }
-}
-
-@media screen and (max-width: 2100px) and (min-width: 1001px) {
-  #content {
-    padding: 2rem 10rem;
-  }
-}
-@media screen and (max-width: 1000px) and (min-width: 601px) {
-  #content {
-    padding: 2rem 5rem;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  #content {
-    padding: 2rem 2rem;
+    padding: 2rem 0;
   }
 }

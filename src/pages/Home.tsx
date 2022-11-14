@@ -84,7 +84,7 @@ const Home = (): JSX.Element => {
               Nach&shy;hil&shy;fe&shy;plat&shy;tform
             </span>
           </h1>
-          <h2>[Am Gymnasium Haan]</h2>
+          <h2>[SV am Gymnasium Haan]</h2>
         </div>
         <div id={css.scrollDown}>SCROLL</div>
       </section>

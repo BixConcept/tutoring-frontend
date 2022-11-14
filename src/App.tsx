@@ -22,6 +22,7 @@ import { User } from "./Models";
 import { UserPage } from "./pages/UserPage";
 import Verify from "./pages/Verify";
 import ApiDown from "./Components/ApiDown";
+import Contribute from "./pages/Contribute";
 
 const App = (): JSX.Element => {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -88,6 +89,7 @@ const App = (): JSX.Element => {
             <div id="wrapper">
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/contribute" element={<Contribute />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterTutorPage />} />
                 <Route
