@@ -1,14 +1,28 @@
-# tutoring frontend
+# Tutoring frontend
 
-Frontend für die Nachhilfe
+Frontend for a tutoring platform
 
-### building
+## Intergrations:
+
+-   Discord
+-   Whatsapp
+-   Signal
+
+## Install:
+
+Download [latest release](https://github.com/BixConcept/tutoring-frontend/releases/latest)
+
+### Building
+
+Move into the downloaded directory and run:
 
 ```
 npm install && npm run build
 ```
 
-### updating automatically
+### Updating automatically
+
+When there is a new version download it and execute:
 
 ```
 ./update.sh
@@ -16,12 +30,12 @@ npm install && npm run build
 
 now you have a built version in `./build`
 
-### mirrors
+### Mirrors (mainly outdated)
 
 Tor: http://bi7rjhrwcp6kdmshbd7zlq7ic2gin4mcyerqg5bpb2vfzli6ncs7l4yd.onion/
 
 Clearnet:
 
-- https://nachhilfe.gymhaan.de
-- https://nachhilfe.3nt3.de
-- https://nachhilfe.sanberk.xyz (outdated)
+-   https://nachhilfe.gymhaan.de
+-   https://nachhilfe.3nt3.de
+-   https://nachhilfe.sanberk.xyz
