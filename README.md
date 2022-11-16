@@ -22,7 +22,7 @@ npm install && npm run build
 
 ### Updating automatically
 
-When there is a new version download it and execute:
+Whenever there is a new version download it and execute:
 
 ```
 ./update.sh
