@@ -129,7 +129,8 @@ const Contribute = (): JSX.Element => {
       {/* TODO: add more info about tech and things people can do */}
       <p className={css.highlight}>
         Wenn du also jünger und an diesem Projekt interessiert bist, melde dich
-        vielleicht bei uns ✨
+        vielleicht bei uns (<a href="https://discord.gg/ubg4QMQZ2V">Discord</a>)
+        ✨
       </p>
       <h2>Contributors 🧑‍🚀</h2>
       <p>
