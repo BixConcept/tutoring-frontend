@@ -221,7 +221,16 @@ const Find = (): JSX.Element => {
     const urlGrade = urlParams.grade || "";
     const urlSubject = parseInt(urlParams.subject || "");
 
-    if (!(parseInt(urlGrade) && urlSubject >= 5 && urlSubject <= 13)) {
+    if (!subjects || subjects.length === 0) return;
+
+    if (
+      !(
+        parseInt(urlGrade) &&
+        parseInt(urlGrade) >= 5 &&
+        parseInt(urlGrade) <= 13 &&
+        subjectNameFromId(urlSubject) !== null
+      )
+    ) {
       setGrade("");
       setSubject(NaN);
       navigate("/find");
@@ -569,7 +578,7 @@ const Find = (): JSX.Element => {
                 </div>
               </div>
             </div>
-            {results.length === 0 ? (
+            {results.length === 0 && subjectNameFromId(subject) !== null ? (
               <RequestForm
                 grade={parseInt(grade)}
                 subject={subject}
