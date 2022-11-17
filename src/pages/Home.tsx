@@ -138,7 +138,7 @@ const Home = (): JSX.Element => {
               einfach ein Issue finden und einen PR einreichen.
             </p>
             <p>
-              Auch Features-Requests, Bug-Reports oder sonstiges Feedback sind
+              Auch Feature-Requests, Bug-Reports oder sonstiges Feedback sind
               immer erwünscht.
             </p>
             <Link to="/contribute">
