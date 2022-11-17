@@ -98,7 +98,8 @@ const App = (): JSX.Element => {
                 />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/imprint" element={<Imprint />} />
-                <Route path="/find" element={<Find />} />
+                <Route path="/find/" element={<Find />} />
+                <Route path="/find/:subject/:grade" element={<Find />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/dashboard/admin" element={<AdminDashboard />} />
                 <Route path="/verify/:code" element={<Verify />} />

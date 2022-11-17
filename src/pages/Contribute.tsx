@@ -18,7 +18,7 @@ const Contribute = (): JSX.Element => {
   interface Contributor {
     login: string;
     avatar_url: string;
-    url: string;
+    html_url: string;
     contributions: number;
     type: "User" | "Bot";
   }
@@ -140,7 +140,7 @@ const Contribute = (): JSX.Element => {
         {contributorsLoading
           ? "Yo es lädt immer noch"
           : contributors.map((contributor) => (
-              <a href={contributor.url}>
+              <a href={contributor.html_url}>
                 <div className={css.contributor}>
                   <img
                     src={contributor.avatar_url}
@@ -157,12 +157,21 @@ const Contribute = (): JSX.Element => {
               </a>
             ))}
       </div>
-      <a
-        href="https://github.com/BixConcept/tutoring-frontend/contributors"
-        id={css.contributorsExternalLink}
-      >
-        Diese Liste auf Github
-      </a>
+      <p>
+        Diese Liste auf Github:{" "}
+        <a
+          href="https://github.com/BixConcept/tutoring-frontend/contributors"
+          id={css.contributorsExternalLink}
+        >
+          Frontend
+        </a>{" "}
+        <a
+          href="https://github.com/BixConcept/tutoring-backend-express/contributors"
+          id={css.contributorsExternalLink}
+        >
+          Backend
+        </a>
+      </p>
     </Page>
   );
 };

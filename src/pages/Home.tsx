@@ -15,7 +15,7 @@ const Home = (): JSX.Element => {
   interface Contributor {
     login: string;
     avatar_url: string;
-    url: string;
+    html_url: string;
     contributions: number;
     type: "User" | "Bot";
   }
@@ -138,7 +138,7 @@ const Home = (): JSX.Element => {
               einfach ein Issue finden und einen PR einreichen.
             </p>
             <p>
-              Auch Features-Requests, Bug-Reports oder sonstiges Feedback sind
+              Auch Feature-Requests, Bug-Reports oder sonstiges Feedback sind
               immer erwünscht.
             </p>
             <Link to="/contribute">
@@ -156,7 +156,7 @@ const Home = (): JSX.Element => {
                 <>
                   {contributors.map((contributor) => (
                     <a
-                      href={contributor.url}
+                      href={contributor.html_url}
                       title={`${contributor.login} (${contributor.contributions} contributions)`}
                     >
                       <img

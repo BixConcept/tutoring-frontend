@@ -5,7 +5,7 @@ import { Request, Subject, TutoringOffer, User, topSubjects } from "../Models";
 import { RequestState, Stats } from "../Models";
 
 import Alert from "../Components/Alert";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingScreen from "../Components/LoadingScreen";
 import { MessengerInfo } from "../Components/MessengerInfo";
 import { OurContext } from "../OurContext";
@@ -100,12 +100,16 @@ type SortMethod =
 const Find = (): JSX.Element => {
   document.title = "Nachhilfe finden";
 
+  const urlParams = useParams();
+
   const grades = Array.from({ length: 9 }, (_: number, __: number) => __ - -5);
   const context = useContext(OurContext);
 
-  const [grade, setGrade] = useState("");
+  const [grade, setGrade] = useState(urlParams.grade || "");
   const [subjects, setSubjects] = useState<Subject[]>([]);
-  const [subject, setSubject] = useState<number>(NaN);
+  const [subject, setSubject] = useState<number>(
+    parseInt(urlParams.subject || "")
+  );
   const [results, setResults] = useState<TutoringOffer[]>([]);
   const [offersRequestState, setOffersRequestState] = useState<RequestState>(
     RequestState.NotAsked
@@ -205,6 +209,30 @@ const Find = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (subject && grade) {
+      navigate(`/find/${subject}/${grade}`);
+    }
+  }, [grade, subject]);
+
+  useEffect(() => {
+    const urlGrade = urlParams.grade || "";
+    const urlSubject = parseInt(urlParams.subject || "");
+
+    if (!(parseInt(urlGrade) && urlSubject >= 5 && urlSubject <= 13)) {
+      setGrade("");
+      setSubject(NaN);
+      navigate("/find");
+      return;
+    }
+
+    setGrade(urlGrade);
+    setSubject(urlSubject);
+    search();
+  }, [subjects]);
+
   const validate = (): boolean => {
     if (isNaN(subject)) {
       Alert("Du musst ein Fach auswählen", "error", context.theme);
@@ -247,6 +275,12 @@ const Find = (): JSX.Element => {
     return matching[0].id;
   }
 
+  function subjectNameFromId(id: number): string | null {
+    let matching = subjects.filter((x) => x.id === id);
+    if (matching.length === 0) return null;
+    return matching[0].name;
+  }
+
   return (
     <div className={css.container}>
       <div className={css.formContainer}>
@@ -271,8 +305,14 @@ const Find = (): JSX.Element => {
                       <select
                         name="subject"
                         id=""
+                        value={subjectNameFromId(subject) || undefined}
                         className={general.select}
                         onChange={(e) => {
+                          console.log(e.target.value);
+                          console.log(
+                            subjectIdFromName(e.target.value),
+                            subjects[subjectIdFromName(e.target.value)]
+                          );
                           if (!isNaN(subjectIdFromName(e.target.value))) {
                             setSubject(subjectIdFromName(e.target.value));
                             setOffersRequestState(RequestState.NotAsked); // so it doesn't show that there are no offers before actually loading them
@@ -286,7 +326,9 @@ const Find = (): JSX.Element => {
                         {subjects
                           .filter((x) => topSubjects.indexOf(x.name) !== -1)
                           .map((subject, index) => {
-                            return <option key={index}>{subject.name}</option>;
+                            return (
+                              <option key={subject.id}>{subject.name}</option>
+                            );
                           })}
                         <option value="" disabled>
                           Weitere Fächer
@@ -295,7 +337,9 @@ const Find = (): JSX.Element => {
                           .sort()
                           .filter((x) => topSubjects.indexOf(x.name) === -1)
                           .map((subject, index) => {
-                            return <option key={index}>{subject.name}</option>;
+                            return (
+                              <option key={subject.id}>{subject.name}</option>
+                            );
                           })}
                       </select>
                     </div>
@@ -304,6 +348,7 @@ const Find = (): JSX.Element => {
                     <label htmlFor="subject">Deine Stufe</label>
                     <div className={general.select_input_field}>
                       <select
+                        value={grade}
                         name=""
                         id=""
                         className={general.select}
