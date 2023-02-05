@@ -555,9 +555,8 @@ const Find = (): JSX.Element => {
             <div id={css.textAndSort}>
               <span id={css.numResults}>
                 {results.length > 0
-                  ? `🎉 Es gibt ${results.length} ${
-                      results.length > 1 ? "Ergebnisse" : "Ergebnis"
-                    } 🎉`
+                  ? `🎉 Es gibt ${results.length} ${results.length > 1 ? "Ergebnisse" : "Ergebnis"
+                  } 🎉`
                   : `Leider gibt es keine Ergebnisse 😔`}
               </span>
               <div id={css.sortMethod}>
@@ -600,28 +599,33 @@ const Find = (): JSX.Element => {
                   }
                 })
                 .map((result, index) => (
-                  <div className={css.result} key={index}>
-                    <h2>
-                      <Link to={`/user/${result.userId}`}>{result.name}</Link>,
-                      Stufe {result.grade}
-                    </h2>
-                    <p>{result.misc}</p>
-                    <p className={css.email}>
-                      <a href={`mailto:${result.email}`}>
-                        E-Mail: {result.email}
-                      </a>
-                    </p>
-                    <p>
-                      {result.subjectName} bis Stufe {result.maxGrade}
-                    </p>
-                    <div className={css.messengers}>
-                      <MessengerInfo
-                        hasDiscord={result.hasDiscord}
-                        discordUser={result.discordUser}
-                        hasSignal={result.hasSignal}
-                        hasWhatsapp={result.hasWhatsapp}
-                        phoneNumber={result.phoneNumber}
-                      />
+                  <div className="bg-contrast-bg-light dark:bg-contrast-bg-dark max-w-[35rem] w-full flex p-4 rounded-xl gap-4 text-gray-700 dark:text-gray-100" key={index}>
+                    <div className="flex-shrink-0 flex">
+                      <img className="rounded-full w-12 h-12" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.pexels.com%2Fphotos%2F2412696%2Fpexels-photo-2412696.jpeg%3Fcs%3Dsrgb%26dl%3Dgreen-spider-plant-2412696.jpg%26fm%3Djpg&f=1&nofb=1&ipt=6545e2aeb7c7522b36c484a6e091a171d67ad013170e7145b684d1f94fc36983&ipo=images" />
+                    </div>
+                    <div className="flex flex-col justify-start text-left gap-2">
+                      <div className="text-gray-700 dark:text-gray-200 uppercase font-bold text-sm">
+                        <Link to={`/user/${result.userId}`}>{result.name}</Link>,
+                        Stufe {result.grade}
+                      </div>
+                      <p className="">
+                        {result.subjectName} bis Stufe {result.maxGrade}
+                      </p>
+                      <p className="text-sm text-gray-700 dark:text-gray-200">{result.misc}</p>
+                      <p className="text-sm text-gray-700 dark:text-gray-200">
+                        <a href={`mailto:${result.email}`}>
+                          E-Mail: {result.email}
+                        </a>
+                      </p>
+                      <div className={css.messengers}>
+                        <MessengerInfo
+                          hasDiscord={result.hasDiscord}
+                          discordUser={result.discordUser}
+                          hasSignal={result.hasSignal}
+                          hasWhatsapp={result.hasWhatsapp}
+                          phoneNumber={result.phoneNumber}
+                        />
+                      </div>
                     </div>
                   </div>
                 ))}
